@@ -42,6 +42,8 @@ def evaluate(
     exact = 0
     for predicted, reference in zip(predictions, examples):
         exact += predicted.strip() == reference["code"].strip()
+        if not predicted.strip():
+            continue
         try:
             tree = ast.parse(predicted)
         except SyntaxError:
