@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import csv
 import time
 from pathlib import Path
@@ -58,6 +59,44 @@ def generate_predictions(
             decoded = tokenizer.batch_decode(generated, skip_special_tokens=True)
             for index, answer in zip(indices, decoded):
                 answers[index] = answer.strip()
+
+        # Give malformed answers a second chance. The fallback only changes
+        # programs that already fail Python parsing, so valid greedy outputs
+        # keep their original decoding.
+        invalid = []
+        for index, answer in enumerate(answers):
+            try:
+                if not answer:
+                    raise SyntaxError("empty program")
+                ast.parse(answer)
+            except SyntaxError:
+                invalid.append(index)
+        repaired = 0
+        for offset in range(0, len(invalid), batch_size):
+            indices = invalid[offset:offset + batch_size]
+            batch = tokenizer(
+                [questions[index] for index in indices],
+                padding=True, truncation=True, max_length=128,
+                return_tensors="pt", return_token_type_ids=False,
+            ).to(device)
+            generated = model.generate(
+                **batch, max_new_tokens=max_new_tokens,
+                num_beams=4, num_return_sequences=4, do_sample=False,
+                use_cache=True,
+            )
+            candidates = tokenizer.batch_decode(generated, skip_special_tokens=True)
+            for position, index in enumerate(indices):
+                for candidate in candidates[position * 4:(position + 1) * 4]:
+                    candidate = candidate.strip()
+                    if not candidate:
+                        continue
+                    try:
+                        ast.parse(candidate)
+                    except SyntaxError:
+                        continue
+                    answers[index] = candidate
+                    repaired += 1
+                    break
     if device.type == "cuda":
         torch.cuda.synchronize()
     output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -68,7 +107,10 @@ def generate_predictions(
     elapsed = time.monotonic() - started
     if not all(answers):
         raise RuntimeError("the model returned an empty answer for at least one question")
-    print(f"generated={len(answers)} seconds={elapsed:.2f} device={device}")
+    print(
+        f"generated={len(answers)} seconds={elapsed:.2f} device={device} "
+        f"invalid_before_retry={len(invalid)} repaired={repaired}"
+    )
     return len(answers), elapsed
 
 

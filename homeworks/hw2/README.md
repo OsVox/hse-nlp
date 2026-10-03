@@ -17,8 +17,9 @@ No pretrained weights, outside examples, or extra target programs are used.
 - `evaluate.py` measures syntax validity, presence of `solve`, and exact code
   match on held-out rows 256–511, which are separate from the 256 rows used to
   select checkpoints. These diagnostics are not pass@1.
-- `inference.py` generates answers for the 1,919 test questions, preserves test
-  order, writes one `code` column, and times the generation loop.
+- `inference.py` generates answers for the 1,919 test questions, retries only
+  syntactically invalid programs with four beams, preserves test order, writes
+  one `code` column, and times the full generation loop.
 - `hw2_train_colab.ipynb` and `hw2_inference_colab.ipynb` run those scripts on a
   T4. The inference notebook checks the 180-second limit.
 - `metrics.json` and `report.pdf` record results once the runs finish.
