@@ -113,6 +113,7 @@ def main() -> None:
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--accumulation", type=int, default=4)
     parser.add_argument("--max-shards", type=int, default=SHARDS)
+    parser.add_argument("--batches-per-shard", type=int, default=None)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--learning-rate", type=float, default=3e-4)
     parser.add_argument("--warmup", type=int, default=500)
@@ -123,6 +124,8 @@ def main() -> None:
     args = parser.parse_args()
     if min(args.steps, args.batch_size, args.accumulation, args.max_shards) < 1:
         parser.error("steps, batch size, accumulation and max shards must be positive")
+    if args.batches_per_shard is not None and args.batches_per_shard < 1:
+        parser.error("batches per shard must be positive")
 
     torch.manual_seed(args.seed)
     device = torch.device(
@@ -163,7 +166,7 @@ def main() -> None:
     # Its optimizer state continues; it does not claim exact batch replay.
     batches = training_batches(
         args.cache_dir, args.batch_size, seed=args.seed + start_step,
-        max_shards=args.max_shards,
+        max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,
     )
     validation = validation_examples(args.cache_dir)[:256]
     start_time = time.monotonic()

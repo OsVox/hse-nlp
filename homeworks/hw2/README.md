@@ -35,6 +35,11 @@ The training script can also be run from the repository root:
 python -m homeworks.hw2.train --steps 20000 --batch-size 16 --accumulation 4
 ```
 
+The baseline consumes each shuffled shard before moving to the next. For an
+otherwise identical run that samples across more shards, add
+`--batches-per-shard 1000` and use a separate output directory. This is an
+experimental option; compare its held-out loss before choosing a final model.
+
 The course brief says submission details for its Telegram bot will be
 published later. The CSV packaging may need adjustment to those instructions.
 No leaderboard score is claimed until the bot verifies a submission.

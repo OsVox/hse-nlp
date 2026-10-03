@@ -88,11 +88,18 @@ def train_tokenizer(cache_dir: Path, output_dir: Path, vocab_size: int = 8_192) 
 
 def training_batches(
     cache_dir: Path, batch_size: int, *, seed: int = 42,
-    max_shards: int = SHARDS,
+    max_shards: int = SHARDS, batches_per_shard: int | None = None,
 ) -> Iterator[list[dict[str, str]]]:
-    """Yield deterministic, shuffled batches and never include validation rows."""
+    """Yield shuffled batches, optionally rotating shards before exhaustion.
+
+    A short run otherwise consumes just the first few shuffled shards. Limiting
+    batches per shard spreads the same update budget across more of the supplied
+    training split without adding data or reusing validation rows.
+    """
     if batch_size < 1 or not 1 <= max_shards <= SHARDS:
         raise ValueError("invalid batch size or shard count")
+    if batches_per_shard is not None and batches_per_shard < 1:
+        raise ValueError("batches_per_shard must be positive")
     epoch = 0
     while True:
         shard_order = list(range(max_shards))
@@ -104,6 +111,8 @@ def training_batches(
             rows = table.slice(VALIDATION_ROWS if shard_index == 0 else 0).to_pylist()
             order = list(range(len(rows)))
             random.Random(seed + epoch * SHARDS + shard_index).shuffle(order)
-            for start in range(0, len(order), batch_size):
+            for batch_number, start in enumerate(range(0, len(order), batch_size)):
+                if batches_per_shard is not None and batch_number >= batches_per_shard:
+                    break
                 yield [rows[index] for index in order[start:start + batch_size]]
         epoch += 1
