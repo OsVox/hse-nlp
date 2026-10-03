@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import csv
+import re
 import time
 from pathlib import Path
 
@@ -97,6 +98,25 @@ def generate_predictions(
                     answers[index] = candidate
                     repaired += 1
                     break
+        syntax_repaired = 0
+        for index in invalid:
+            try:
+                ast.parse(answers[index])
+                continue
+            except SyntaxError:
+                pass
+            # The byte-level tokenizer can split an identifier after an
+            # underscore (for example, `total_ degrees`). Join only that
+            # pattern and keep the change only if Python accepts the result.
+            candidate = re.sub(r"(?<=\w)_[ \t]+(?=[A-Za-z])", "_", answers[index])
+            if not candidate.strip():
+                continue
+            try:
+                ast.parse(candidate)
+            except SyntaxError:
+                continue
+            answers[index] = candidate
+            syntax_repaired += 1
     if device.type == "cuda":
         torch.cuda.synchronize()
     output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -109,7 +129,8 @@ def generate_predictions(
         raise RuntimeError("the model returned an empty answer for at least one question")
     print(
         f"generated={len(answers)} seconds={elapsed:.2f} device={device} "
-        f"invalid_before_retry={len(invalid)} repaired={repaired}"
+        f"invalid_before_retry={len(invalid)} beam_repaired={repaired} "
+        f"syntax_repaired={syntax_repaired}"
     )
     return len(answers), elapsed
 
