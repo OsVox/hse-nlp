@@ -107,6 +107,19 @@ def save_checkpoint(
     (directory / "step.json").write_text(json.dumps({"step": step}))
 
 
+def save_best_model(
+    model: T5ForConditionalGeneration, tokenizer: PreTrainedTokenizerFast,
+    step: int, token_loss: float, directory: Path,
+) -> None:
+    """Keep the best model on the held-out selection rows without optimizer state."""
+    directory.mkdir(parents=True, exist_ok=True)
+    model.save_pretrained(directory, safe_serialization=True)
+    tokenizer.save_pretrained(directory)
+    (directory / "validation.json").write_text(
+        json.dumps({"step": step, "token_loss": token_loss})
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--steps", type=int, default=30_000)
@@ -135,6 +148,9 @@ def main() -> None:
     print(f"device={device}", flush=True)
     tokenizer = PreTrainedTokenizerFast.from_pretrained("homeworks/hw2/tokenizer")
     checkpoint = args.output_dir / "latest"
+    best_directory = args.output_dir / "best"
+    best_record = best_directory / "validation.json"
+    best_loss = json.loads(best_record.read_text())["token_loss"] if best_record.exists() else float("inf")
     if (checkpoint / "config.json").exists():
         model = T5ForConditionalGeneration.from_pretrained(checkpoint)
     else:
@@ -191,6 +207,10 @@ def main() -> None:
         if step % args.eval_every == 0:
             score = validation_loss(model, validation, tokenizer, device, args.batch_size)
             print(f"step={step} val_token_loss={score:.4f}", flush=True)
+            if score < best_loss:
+                best_loss = score
+                save_best_model(model, tokenizer, step, score, best_directory)
+                print(f"best_step={step} best_val_token_loss={score:.4f}", flush=True)
         if step % args.save_every == 0 or step == args.steps:
             save_checkpoint(model, optimizer, scheduler, scaler, step, tokenizer, checkpoint)
     print(f"finished_steps={args.steps}", flush=True)

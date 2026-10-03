@@ -12,7 +12,8 @@ No pretrained weights, outside examples, or extra target programs are used.
 - `tokenizer/` is an 8,192-token byte-level BPE tokenizer fitted only on the
   supplied training split, excluding those validation rows.
 - `train.py` trains a 9.97-million-parameter T5-style model with four encoder
-  and four decoder layers. It saves model and optimizer checkpoints.
+  and four decoder layers. It saves resumable `latest/` checkpoints and the
+  lowest-loss model on the 256 selection rows in `best/`.
 - `evaluate.py` measures held-out syntax validity, presence of `solve`, and
   exact code match. These diagnostics are not pass@1.
 - `inference.py` generates answers for the 1,919 test questions, preserves test
