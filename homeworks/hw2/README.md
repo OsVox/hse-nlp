@@ -14,8 +14,9 @@ No pretrained weights, outside examples, or extra target programs are used.
 - `train.py` trains a 9.97-million-parameter T5-style model with four encoder
   and four decoder layers. It saves resumable `latest/` checkpoints and the
   lowest-loss model on the 256 selection rows in `best/`.
-- `evaluate.py` measures held-out syntax validity, presence of `solve`, and
-  exact code match. These diagnostics are not pass@1.
+- `evaluate.py` measures syntax validity, presence of `solve`, and exact code
+  match on held-out rows 256–511, which are separate from the 256 rows used to
+  select checkpoints. These diagnostics are not pass@1.
 - `inference.py` generates answers for the 1,919 test questions, preserves test
   order, writes one `code` column, and times the generation loop.
 - `hw2_train_colab.ipynb` and `hw2_inference_colab.ipynb` run those scripts on a

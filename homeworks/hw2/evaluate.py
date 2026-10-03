@@ -13,8 +13,16 @@ from transformers import PreTrainedTokenizerFast, T5ForConditionalGeneration
 from .data import validation_examples
 
 
-def evaluate(model_dir: Path, cache_dir: Path, rows: int = 128, batch_size: int = 32) -> dict:
-    examples = validation_examples(cache_dir)[:rows]
+def evaluate(
+    model_dir: Path, cache_dir: Path, rows: int = 256,
+    batch_size: int = 32, offset: int = 256,
+) -> dict:
+    """Evaluate on held-out rows separate from checkpoint-selection rows 0:256."""
+    if rows < 1 or batch_size < 1 or offset < 0:
+        raise ValueError("rows and batch_size must be positive; offset must be nonnegative")
+    examples = validation_examples(cache_dir)[offset:offset + rows]
+    if len(examples) != rows:
+        raise ValueError("requested evaluation rows exceed the held-out split")
     tokenizer = PreTrainedTokenizerFast.from_pretrained(model_dir)
     model = T5ForConditionalGeneration.from_pretrained(model_dir)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -45,6 +53,7 @@ def evaluate(model_dir: Path, cache_dir: Path, rows: int = 128, batch_size: int 
         )
     result = {
         "validation_rows": len(examples),
+        "validation_offset": offset,
         "syntax_valid_fraction": parsed / len(examples),
         "solve_defined_fraction": solve_defined / len(examples),
         "exact_match_fraction": exact / len(examples),
@@ -58,7 +67,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-dir", type=Path, default=Path("homeworks/hw2/model"))
     parser.add_argument("--cache-dir", type=Path, default=Path("homeworks/hw2/cache"))
-    parser.add_argument("--rows", type=int, default=128)
+    parser.add_argument("--rows", type=int, default=256)
     parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--offset", type=int, default=256)
     args = parser.parse_args()
-    evaluate(args.model_dir, args.cache_dir, args.rows, args.batch_size)
+    evaluate(args.model_dir, args.cache_dir, args.rows, args.batch_size, args.offset)
