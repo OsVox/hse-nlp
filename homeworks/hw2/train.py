@@ -1,6 +1,6 @@
 """Train a randomly initialized encoder-decoder Transformer on course data.
 
-Example on a T4:
+Example on a CUDA GPU:
   python -m homeworks.hw2.train --steps 30000 --batch-size 16 --accumulation 4
 
 The reference programs are used exactly as supplied. No outside training

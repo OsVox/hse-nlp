@@ -23,10 +23,11 @@ No pretrained weights, outside examples, or extra target programs are used.
 
 ## Reproduce
 
-Select **T4 GPU** in Colab and run `hw2_train_colab.ipynb`. Download the final
+Select an available GPU in Colab and run `hw2_train_colab.ipynb`. Download the final
 `latest/` directory before the Colab runtime ends. Copy the model files into
 `homeworks/hw2/model/` in this repository; `training_state.pt` is only needed
-to resume training. Then run `hw2_inference_colab.ipynb` on a T4.
+to resume training. Then run `hw2_inference_colab.ipynb` on a T4 to verify the
+course's 180-second generation limit.
 
 The training script can also be run from the repository root:
 
