@@ -34,12 +34,12 @@ def generate_predictions(
     questions = pq.read_table(test_path, columns=["question"])["question"].to_pylist()
     answers = [""] * len(questions)
 
-    # Similar-length questions share batches to spend less time on padding.
-    lengths = [len(ids) for ids in tokenizer(questions, add_special_tokens=True)["input_ids"]]
-    order = sorted(range(len(questions)), key=lambda index: lengths[index])
     if device.type == "cuda":
         torch.cuda.synchronize()
     started = time.monotonic()
+    # Include sorting, tokenization, generation, and CSV writing in the timing.
+    lengths = [len(ids) for ids in tokenizer(questions, add_special_tokens=True)["input_ids"]]
+    order = sorted(range(len(questions)), key=lambda index: lengths[index])
     with torch.inference_mode():
         for offset in range(0, len(order), batch_size):
             indices = order[offset:offset + batch_size]
@@ -60,12 +60,12 @@ def generate_predictions(
                 answers[index] = answer.strip()
     if device.type == "cuda":
         torch.cuda.synchronize()
-    elapsed = time.monotonic() - started
     output_file.parent.mkdir(parents=True, exist_ok=True)
     with output_file.open("w", newline="", encoding="utf-8") as output:
         writer = csv.DictWriter(output, fieldnames=["code"])
         writer.writeheader()
         writer.writerows({"code": answer} for answer in answers)
+    elapsed = time.monotonic() - started
     if not all(answers):
         raise RuntimeError("the model returned an empty answer for at least one question")
     print(f"generated={len(answers)} seconds={elapsed:.2f} device={device}")
