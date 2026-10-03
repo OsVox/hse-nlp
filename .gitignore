@@ -1,3 +1,6 @@
 homeworks/emails.csv
 __pycache__/
 .ipynb_checkpoints/
+homeworks/hw2/cache/
+homeworks/hw2/checkpoints/
+homeworks/hw2/*.parquet
