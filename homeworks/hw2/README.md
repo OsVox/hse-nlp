@@ -48,8 +48,7 @@ experimental option; compare its held-out loss before choosing a final model.
 The bot accepts only JSONL with 1,919 exact model outputs. The inference notebook
 converts the CSV without changing any program and verifies token provenance.
 The last historical score is 18.85%; it included one handwritten identifier
-repair that has now been removed. Direct comparison with pass1_questions.jsonl
-remains pending. See quality_experiments.md for the current controlled runs and
+repair that has now been removed. The user confirmed that official test.parquet row order is required. See quality_experiments.md for the current controlled runs and
 validation-copy caveat; the report is a progress report until final checks pass.
 
 ## Оптимизации по материалам курса
@@ -57,3 +56,11 @@ validation-copy caveat; the report is a progress report until final checks pass.
 См. [разбор приёмов, проверки и команды сравнения](optimizations.md).
 Новые настройки обучения: `--group-window` и `--precision`; в инференсе
 доступен `--precision` (по умолчанию `fp32`).
+
+CPU-first Drive workflow: run `prepare_colab.prepare` before selecting a GPU.
+It saves all 60 original training shards, official test questions, source code
+and the historical baseline to Drive with hashes. Export the probe from Drive
+and verify it locally. The GPU notebook restores those bundles even after a
+fresh runtime; each 2,000-update checkpoint saves weights, optimizer state,
+validation loss and exact model-generated JSONL in its own Drive folder.
+Bot receipts are recorded beside each evaluated JSONL; pending is not a score.

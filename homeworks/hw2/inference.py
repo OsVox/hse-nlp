@@ -132,8 +132,11 @@ def generate_predictions(
     assert answers == tokenizer.batch_decode(
         selected_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=False,
     )
+    bundled_commit = Path('source_commit.txt')
+    source_commit = (bundled_commit.read_text().strip() if bundled_commit.exists() else
+                     subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip())
     provenance = {
-        "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+        "source_commit": source_commit,
         "model_sha256": hashlib.sha256((model_dir / "model.safetensors").read_bytes()).hexdigest(),
         "output_sha256": hashlib.sha256(output_file.read_bytes()).hexdigest(),
         "questions_sha256": hashlib.sha256(json.dumps(questions, ensure_ascii=False).encode()).hexdigest(),
