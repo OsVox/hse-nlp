@@ -1,0 +1,9 @@
+{
+  "status": "drive_mount_failed_after_browser_refresh",
+  "gpu_allocated": false,
+  "error": "ValueError: mount failed",
+  "drivefs_diagnostic": "Account context authorization failed; metadata_server_credential.cc could not obtain credentials from Colab internal metadata service",
+  "secrets_included": false,
+  "inference_started": false,
+  "action": "Keep GPU off; retain the verified Drive inputs and benchmark code. Do not repeat GPU attempts until CPU connection is repaired."
+}

@@ -385,3 +385,14 @@ The planned T4 probe now uses the final 180k checkpoint (model SHA-256
 0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7),
 with the same predeclared decoder and batch-size comparison. This also gives
 an actual T4 timing gate for the final trained checkpoint. No T4 result yet.
+
+CPU preparation passed for the 180k checkpoint: model loading and a short
+generation check succeeded, and the hashed input bundle plus benchmark notebook
+were saved and verified on Drive. The first T4 attempt failed at `drive.mount`
+before generation. After releasing the GPU, a browser refresh and CPU-only
+retry failed again. DriveFS reported that its internal credential request failed;
+the browser also reported output-JavaScript and proxy-frame loading errors.
+This does not establish a missing Drive permission or an inference-code fault.
+The GPU remains off. No T4 timing, batch-size winner, or speedup can be reported.
+Evidence is in `experiments/inference-speed-180k-t4-v1/`; the latest failure
+records and report are preserved locally and in Git, pending Drive recovery.

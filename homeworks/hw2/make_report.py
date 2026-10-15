@@ -61,6 +61,8 @@ def build():
     gain = 100*(speeds[selection['chosen']]/speeds['legacy']-1)
     completion_path = extended_root/'execution.complete.json'
     completion = json.loads(completion_path.read_text()) if completion_path.exists() else None
+    t4_path = ROOT/'experiments/inference-speed-180k-t4-v1/results.json'
+    t4 = json.loads(t4_path.read_text()) if t4_path.exists() else None
     story = [p('Code generation from scratch','Title'),
         p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 15 October 2026','SmallText'),
         p('Current result','Head'),
@@ -123,7 +125,7 @@ def build():
         p('Longer continuation: 60k to 180k','Head'),
         p('The run resumes our own verified 60,000-step checkpoint and schedules 120,000 additional updates (15,360,000 example presentations). It keeps the mixed sampler, batch 128 and BF16 training. Source commit: ca26869455692cb570b94cb4a633be7701221f9e. Weights and exact predictions are saved to Drive every 20,000 updates before export and bot evaluation.'),
         table([['Step','Validation token loss','Public correct / 960','Public score']] + [[f"{x['step']:,}",f"{x['validation_token_loss']:.4f}",x['correct'],f"{x['public_percent']:.2f}%"] for x in extended],[35*mm,50*mm,45*mm,40*mm]),
-        p('Completion has not yet been verified for this continuation; later scheduled checkpoints and GPU release remain pending.' if completion is None else f"The saved completion record reports return code {completion['returncode']} and {completion['checkpoints']} checkpoints. Runtime release must be verified separately in Colab."),
+        p('Completion has not yet been verified for this continuation; later scheduled checkpoints and GPU release remain pending.' if completion is None else f"The saved completion record reports return code {completion['returncode']} and {completion['checkpoints']} checkpoints. All six were scored. The last 20,000 updates added one public correct answer (516 to 517). Training was stopped at its planned endpoint, GPU release was verified, and subsequent file work ran on CPU."),
         p('Each export is checked against its Drive manifest, source commit, checkpoint hash, official question-order hash and exact decoded selected token IDs. Bot receipts are written and read back on Drive. The current-generation measurements use Blackwell and do not establish T4 compliance.'),
         PageBreak(),
         p('Generation and speed','Title'),
@@ -138,7 +140,7 @@ def build():
         ],[95*mm,37*mm,38*mm]),
         p('Two repetitions used reversed variant order on the second pass. The approximately 1% FP32 difference has overlapping timing ranges; it is not convincing evidence of a speedup. Lower inference precision was slower and changed programs. FP32 remains the default. An 80-update continuation benchmark also found no clear speed or validation-loss improvement; it does not establish full retraining quality.'),
         p('T4 requirement','Head'),
-        p('The historical 39.09-second T4 measurement belongs to an older run. Blackwell timings cannot establish the T4 requirement for the current candidate. The inference notebook now checks the actual GPU name and rejects a non-T4 speed verification. The final checkpoint and decoding configuration require a fresh complete T4 measurement before compliance is claimed.'),
+        p('The historical 39.09-second T4 measurement belongs to an older run. Blackwell timings cannot establish the T4 requirement for the current candidate. A bounded final-checkpoint T4 experiment is reported separately below; only its measured configurations can establish compliance.'),
         p('Exact model output and submission','Head'),
         p('Generation sorts questions by token length and restores their original positions. Greedy decoding is followed by four-beam generation for syntactically invalid outputs; the first parseable model candidate is retained. No candidate is rewritten. Selected token IDs are saved, then decoded again to check equality with every output string. A sidecar records source commit, checkpoint hash, question-order hash, output hash, device and generation settings. JSONL conversion only wraps each exact string as a code field.'),
         p('The historical submission included one handwritten identifier repair, which does not meet the user\'s stricter model-only condition. That repair has been removed from all future inference. The old score is retained as historical evidence, not a score for a newly verified model-only candidate.'),
@@ -149,14 +151,44 @@ def build():
         p('Codex read the assignment and course weeks, wrote data access, training, inference and diagnostic code, controlled Colab through MCP, inspected GPU state, compared measurements, prepared Telegram file packaging and wrote this report. It identified incomplete validation exclusion, stale T4 claims and handwritten postprocessing. Those findings changed the data exclusion rules, provenance records and speed checks.'),
         p('Codex did not provide solution programs as training targets or replace model answers with its own solutions. No external model was used as a teacher. The submitted programs must come from the trained Transformer. Bot examples are not used to tune individual answers. The humanizer skill is used only to make report prose direct; it does not conceal agent involvement.'),
         p('What remains open','Head'),
-        p('The early pilot weights were lost when temporary runtime storage was released before export succeeded; their measurements remain saved. The revised workflow passed CPU save and restore checks and retained all ten initial and eight first-continuation checkpoints, exact predictions and bot receipts in Drive. Those two runs released their GPUs. The later 60k-to-180k run is reported separately above; its completion and release must not be inferred from the earlier runs.'),
-        p('Longer training exceeded the 33% public baseline, but the first-place objective remains unmet. The best candidate and all intermediate checkpoints have actual bot scores. Before final submission, compare held-out numeric results and run complete generation on one T4. A public first-place result would not establish private first place. No private result is claimed.'),
+        p('The early pilot weights were lost when temporary runtime storage was released before export succeeded; their measurements remain saved. The revised workflow passed CPU save and restore checks and retained all ten initial, eight first-continuation and six longer-continuation checkpoints, exact predictions and bot receipts in Drive. The training GPU was released. A child-process release request failed at the notebook disconnect step; the new inference notebook executes its final release from the notebook kernel and has a hard process timeout.'),
+        p('Longer training exceeded the 33% public baseline, but the first-place objective remains unmet. The best candidate and all intermediate checkpoints have actual bot scores. Changed decoding outputs require a new quality comparison; speed alone does not establish correctness. A public first-place result would not establish private first place. No private result is claimed.'),
         p('Reproduction files','Head'),
         p('Repository: <link href="https://github.com/OsVox/hse-nlp/tree/2026/homeworks/hw2">OsVox/hse-nlp, branch 2026, homeworks/hw2</link>. The directory contains train.py, data.py, numeric_eval.py, inference.py, tokenizer files, saved model weights, inference and training notebooks, experiment records and submission receipts. quality_experiments.md specifies the controlled pilot before its run. The raw logs and run configurations accompany the quality results.'),
         p('Use a fresh output directory for each experiment. Run training with the recorded settings and keep latest plus best checkpoints. Run numeric evaluation on reserved training rows only. Use hw2_inference_colab.ipynb on a T4 to generate and package the test outputs. Verify every checkpoint in Drive before releasing compute; export predictions and record bot receipts from Drive.'),
         p('Sources','Head'),
         p('<link href="https://github.com/ashaba1in/hse-nlp/blob/2026/homeworks/hw2_code_generation.md">Course assignment</link>; <link href="https://huggingface.co/datasets/SlavaYus/tinysms_qa_12m">allowed dataset and schema</link>; course week 2 (encoder-decoder attention and decoding), week 3 (training methods), week 4 (attention and caching). Local measurements: metrics.json, gpu_benchmark/*.json, quality_results.json when present, and submissions/2026-10-15-gpu-check.json.','SmallText'),
     ]
+    story += [PageBreak(),p('Alternatives to more updates','Title'),
+        p('Held-out decoding and checkpoint averaging','Head'),
+        p('Both experiments used reserved training questions, with no public answers or bot failure examples used for selection. The numeric runner executes supplied references and exact model outputs with time and resource limits; 245 of 256 references were usable. Agreement is a diagnostic, not the course bot score.'),
+        table([['Experiment','Numeric agreement','Generation seconds, CPU','Decision'],
+            ['120k greedy','120/245','10.512','Retain'],
+            ['120k four beams','125/245','57.190','5.44 times slower; not adopted'],
+            ['140k unchanged','122/245','10.160','Retain'],
+            ['Average of 120k + 140k','124/245','10.313','Mixed evidence; not adopted']],
+            [52*mm,34*mm,40*mm,44*mm]),
+        p('Averaging used identical architecture, tokenizer and training-run settings. Parent weights were verified and averaged in CPU float64, then cast back and reopened. It adds no training targets or extra inference model. Validation token loss worsened from 0.452825 to 0.459383, and execution failures rose from 16 to 22. The two-answer diagnostic gain does not justify replacing the parent.'),
+        p('Scaling-law estimate','Head'),
+        p('The existing train-only probe contains 15,358 rows, sampled about equally across the 60 shards. With our tokenizer and length limits, mean question length is 46.91 tokens and mean code length is 73.83. Extrapolation gives approximately 555 million source tokens and 874 million target tokens per corpus. The last shard is smaller, so these are rough, non-deduplicated estimates. About 0.15% of sampled questions and 1.94% of sampled programs exceed the length limits.'),
+        p('Chinchilla suggests about 20 training tokens per parameter as a rough compute-efficient guide. Dividing target tokens by 20 gives 44 million parameters; counting source plus target gives 71 million. These are two accounting proxies, not a confidence interval or a fitted optimum for encoder-decoder code generation. Encoder and decoder capacity have different scaling behavior, and lower token loss need not imply higher task accuracy.'),
+        p('Proposed first larger model: width 512, feed-forward width 1536, six encoder layers and four decoder layers, totaling 42,481,152 parameters. Keeping four decoder layers limits repeated work during generation. At unchanged efficiency and time proportional to parameter count, one corpus-sized amount of data would take roughly 3.8-4.4 hours on the measured training GPU. This is a planning estimate; a short throughput/quality pilot and actual T4 timing must precede long training.'),
+        p('<link href="https://arxiv.org/abs/2203.15556">Hoffmann et al., Training Compute-Optimal Large Language Models</link>; <link href="https://arxiv.org/abs/2109.07740">Ghorbani et al., Scaling Laws for Neural Machine Translation</link>. Reproduction: scaling_estimate.py and experiments/scaling-analysis/.','SmallText'),
+        PageBreak(),p('Final-checkpoint T4 inference','Title'),
+        p('Protocol','Head'),
+        p('Prepare and verify the final step-180000 model, tokenizer, official 1,919 questions and source on CPU. Save a hash-verified bundle to Drive, export and verify its ready record, then allocate one T4. Compare FP32 batch sizes 64, 128 and 256, twice with reversed order. Keep greedy generation, cached decoder state, length sorting, syntax-only beam retry and input/output limits 128/192 unchanged. Save every exact output, token provenance, hash and measurement to Drive. Use a separate profiling pass; exclude its synchronization overhead from the timing comparison.'),
+        p('Generation time includes tokenization, sorting, generation, retries, decoding and local CSV writing. Full-call time additionally covers test reading, model hashing, provenance writing and verification. Model load and a small warm-up are measured separately. Drive archival is outside the generation timer. The experiment has a 600-second soft budget and a bounded child-process timeout; the notebook requests GPU release in finally.'),
+    ]
+    if t4 and t4.get('completed'):
+        rows = [['Batch','Median generation, s','Slowest run, s','Same outputs as 64']]
+        for item in t4['summary']:
+            rows.append([item['batch_size'],f"{item['median_seconds']:.3f}",
+                         f"{item['max_seconds']:.3f}",item['all_outputs_equal_baseline']])
+        story += [table(rows,[30*mm,50*mm,45*mm,45*mm]),
+                  p(f"Device: {escape(t4['gpu'])}; PyTorch {escape(t4['torch'])}; Transformers {escape(t4['transformers'])}. Model loading took {t4['model_load_seconds']:.3f} seconds and warm-up took {t4['warmup_seconds']:.3f} seconds. Changed programs require separate quality evaluation; byte-identical outputs preserve the same predictions."),
+                  p('Full runs, per-call times, memory peaks, provenance and output hashes are retained in experiments/inference-speed-180k-t4-v1/results.json. Reproduce with hw2_inference_benchmark_colab.ipynb. The requirement applies to measured generation, not to an extrapolation from Blackwell.')]
+    else:
+        story.append(p('The first T4 attempt stopped before generation because drive.mount failed. Its notebook failure handler released the GPU. A refreshed CPU-only session reproduced the mount failure: DriveFS reported failure to obtain credentials from Colab\'s internal metadata service. Model and data preparation had already passed on CPU and remain saved in Drive. No T4 speedup or compliance is claimed, and further GPU allocation is deferred until this connection problem is resolved.'))
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

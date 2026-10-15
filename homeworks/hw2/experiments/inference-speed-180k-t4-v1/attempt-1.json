@@ -1,0 +1,19 @@
+{
+  "status": "drive_mount_failed_before_generation",
+  "gpu_selected_and_seen_in_ui": "T4",
+  "generation_started": false,
+  "timing_obtained": false,
+  "error": "ValueError: mount failed",
+  "failure_stage": "Outer notebook cell drive.mount before source bundle restoration",
+  "cpu_preflight_manifest_sha256": "dd3a620b475175b92cf15f545e329d67ff9e0cd875a5220a35766aa5f63ee855",
+  "notebook_sha256": "9913f0b6192d9f472b37a003777c49131d8d6b0cb580e7135c37a8858566b17d",
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "release_requested_from_notebook_kernel": true,
+  "disconnected_ui_verified": true,
+  "recovery": "Selected CPU; saved all notebook cells locally; refreshed browser and reconnected MCP; testing Drive access on CPU before another GPU allocation.",
+  "browser_errors": [
+    "Output JavaScript failed to load; browser suggested refreshing the session",
+    "Proxy iframe preload timed out",
+    "Cannot contact reCAPTCHA service"
+  ]
+}

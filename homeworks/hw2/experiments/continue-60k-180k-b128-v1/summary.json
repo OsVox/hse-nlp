@@ -1,0 +1,68 @@
+{
+  "status": "training_finished_all_six_scored",
+  "completion": {
+    "returncode": 0,
+    "checkpoints": 6,
+    "finished_utc": "2026-10-15T18:05:00.176606+00:00"
+  },
+  "steps": [
+    {
+      "step": 80000,
+      "public_percent": 43.13,
+      "correct": 414,
+      "rank": 12,
+      "model_sha256": "d3e8c621fd6699abd4d771227dedb2ce5fc787af63b659eea11ed8321a0c01dd",
+      "jsonl_sha256": "1052fa454259f6a9c8bb213868ffcfd4d7fdc18e02ec40bc67b5f3847e5f82d0",
+      "validation_token_loss": 0.5250032179230569
+    },
+    {
+      "step": 100000,
+      "public_percent": 47.4,
+      "correct": 455,
+      "rank": 11,
+      "model_sha256": "82165532fc8c8658daff6d93dd8834eaf2a483ad044b330bf2c5e2005181e7dc",
+      "jsonl_sha256": "66788bea2a27a2067c3d9d2245667673128482c74acb2de1dc8795d70c7cfcf0",
+      "validation_token_loss": 0.49089331839070277
+    },
+    {
+      "step": 120000,
+      "public_percent": 49.17,
+      "correct": 472,
+      "rank": 10,
+      "model_sha256": "7f802d63d3972d9071ace26b43935c9088ecbccc68ddd5973c6f641f84a6a5de",
+      "jsonl_sha256": "2e574783909d4981b4788b933713e78fb7bc19ff907a1cc6e4cf4371fe05ebc0",
+      "validation_token_loss": 0.47119206338736486
+    },
+    {
+      "step": 140000,
+      "public_percent": 50.73,
+      "correct": 487,
+      "rank": 10,
+      "model_sha256": "a5f55707eb24808e02cd1179efe50cf09a1b647f1fc3d8fc7f38e272a164bc23",
+      "jsonl_sha256": "ea52fcfef0cfc65604a25cc6b0ede0b4500fda48eb362a3fb5ca9d00f1baf739",
+      "validation_token_loss": 0.45282947089481435
+    },
+    {
+      "step": 160000,
+      "public_percent": 53.75,
+      "correct": 516,
+      "rank": 9,
+      "model_sha256": "5b9c70b5d9b46271821aaf72aacd144ef64f8cc29ecf73865ff058511155d92b",
+      "jsonl_sha256": "46677e6502d6f102b59a9105880217fbc00561d4e1c2d5fc47aa25079ae8ce59",
+      "validation_token_loss": 0.4419220093243715
+    },
+    {
+      "step": 180000,
+      "public_percent": 53.85,
+      "correct": 517,
+      "rank": 9,
+      "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+      "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+      "validation_token_loss": 0.4402061093499306
+    }
+  ],
+  "best_public_checkpoint": 180000,
+  "t4_timing_verified": false,
+  "next_experiment": "bounded final-checkpoint T4 inference batch-size comparison",
+  "gpu_release": "Notebook controls used; subsequent CPU runtime verified. Child runtime.unassign failed at notebook disconnect with NoneType kernel error."
+}
