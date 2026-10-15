@@ -26,6 +26,8 @@ def generate_predictions(
     batch_size: int = 64,
     max_new_tokens: int = 192,
     precision: str = "fp32",
+    model: T5ForConditionalGeneration | None = None,
+    tokenizer: PreTrainedTokenizerFast | None = None,
 ) -> tuple[int, float]:
     """Keep test order, save a CSV, and return (row count, generation seconds)."""
     if batch_size < 1 or max_new_tokens < 1:
@@ -33,9 +35,14 @@ def generate_predictions(
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if device.type != "cuda":
         print("Timing is not a T4 result: CUDA is unavailable")
-    tokenizer = PreTrainedTokenizerFast.from_pretrained(model_dir)
+    tokenizer = tokenizer or PreTrainedTokenizerFast.from_pretrained(model_dir)
     dtype = precision_dtype(precision, device)
-    model = T5ForConditionalGeneration.from_pretrained(model_dir, torch_dtype=dtype).to(device)
+    if model is None:
+        model = T5ForConditionalGeneration.from_pretrained(model_dir, torch_dtype=dtype).to(device)
+    elif next(model.parameters()).device.type != device.type or next(model.parameters()).dtype != dtype:
+        raise ValueError('The supplied model must already use the requested device and precision')
+    else:
+        device = next(model.parameters()).device
     model.eval()
     test_path = fetch_parquet("data/test/test.parquet", cache_dir)
     questions = pq.read_table(test_path, columns=["question"])["question"].to_pylist()

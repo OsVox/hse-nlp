@@ -101,3 +101,25 @@ other setting identical to the 6,000-update LR pilot. Total update budget is
 the variable; cosine decay is defined over that budget. Do not describe this
 as an exact continuation or as a comparison to the old 20,000-update run.
 Save latest and best every 500 updates and inspect validation progress.
+
+## Storage failure and revised workflow
+
+The three 6,000-update pilot weights and the 20,000-update run were stored only
+in temporary Colab runtime storage. The 221,498,788-byte archive was created
+(SHA256 65cfd26f0f0b537972d0d6e95af16e6d8621fafccb85a22c8539d9b181c1d080),
+but browser export failed with Colab output-JavaScript errors. The runtime
+ended before durable export; a subsequent runtime had no quality directory.
+Those pilot weights are not recovered. Their measured results remain in
+quality_results.json and the actual notebook snapshot. The longer run was
+last observed at update 10,400 (best logged selection loss 0.9437 at 10,000);
+it did not produce a retained final checkpoint or a bot score.
+
+The user requires CPU-only setup, a verified Drive save/export round trip
+before any GPU allocation, durable results for every checkpoint, and bot
+evaluation of checkpoint predictions. Future saves use immutable numbered
+Drive directories, file hashes checked after copying, and completion markers.
+The next 20,000-update run saves every 2,000 updates (ten checkpoints),
+generates predictions from the in-memory model to avoid reloading it, and
+queues every JSONL for the bot. Bot limits take precedence over the queue.
+The user confirmed official test.parquet order as the required task order;
+the separate pass1_questions.jsonl is no longer a prerequisite.

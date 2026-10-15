@@ -21,6 +21,7 @@ from transformers import PreTrainedTokenizerFast, T5Config, T5ForConditionalGene
 
 from .data import SHARDS, training_batches, validation_examples
 from .speed import group_batches, precision_dtype
+from .checkpoint_io import archive_checkpoint, drive_preflight, package_jsonl
 
 SOURCE_LENGTH = 128
 TARGET_LENGTH = 192
@@ -140,6 +141,10 @@ def main() -> None:
     parser.add_argument("--eval-every", type=int, default=500)
     parser.add_argument("--cache-dir", type=Path, default=Path("homeworks/hw2/cache"))
     parser.add_argument("--output-dir", type=Path, default=Path("homeworks/hw2/checkpoints"))
+    parser.add_argument("--drive-root", type=Path, default=None,
+                        help="Mounted Drive run directory; verify before allocating the model")
+    parser.add_argument("--predict-at-checkpoint", action="store_true",
+                        help="Save model-generated test JSONL for every archived checkpoint")
     args = parser.parse_args()
     if min(args.steps, args.batch_size, args.accumulation, args.max_shards) < 1:
         parser.error("steps, batch size, accumulation and max shards must be positive")
@@ -150,6 +155,10 @@ def main() -> None:
 
     if args.group_window < 1:
         parser.error("group window must be positive")
+    if args.predict_at_checkpoint and args.drive_root is None:
+        parser.error('--predict-at-checkpoint requires --drive-root')
+    if args.drive_root is not None:
+        drive_preflight(args.drive_root)
 
     torch.manual_seed(args.seed)
     device = torch.device(
@@ -210,6 +219,7 @@ def main() -> None:
     validation = validation_examples(args.cache_dir)[:256]
     start_time = time.monotonic()
     for step in range(start_step + 1, args.steps + 1):
+        score = None
         optimizer.zero_grad(set_to_none=True)
         # Не копируем loss на CPU после каждого микробатча: это ждёт GPU.
         running_loss = torch.zeros((), device=device)
@@ -237,6 +247,28 @@ def main() -> None:
                 print(f"best_step={step} best_val_token_loss={score:.4f}", flush=True)
         if step % args.save_every == 0 or step == args.steps:
             save_checkpoint(model, optimizer, scheduler, scaler, step, tokenizer, checkpoint)
+            if args.drive_root is not None:
+                if score is not None:
+                    (checkpoint / 'validation.json').write_text(json.dumps({'step': step, 'token_loss': score}))
+                else:
+                    (checkpoint / 'validation.json').unlink(missing_ok=True)
+                (checkpoint / 'run_config.json').write_text((args.output_dir / 'run_config.json').read_text())
+                archived = args.drive_root / f'step-{step:06d}'
+                archive_checkpoint(checkpoint, archived)
+                print(f'drive_checkpoint_verified={archived}', flush=True)
+                if args.predict_at_checkpoint:
+                    from .inference import generate_predictions
+                    output = archived / 'predictions.csv'
+                    generate_predictions(archived, output, args.cache_dir,
+                                         model=model, tokenizer=tokenizer, precision='fp32')
+                    digest = package_jsonl(output, archived / 'predictions.jsonl')
+                    (archived / 'results.complete.json').write_text(json.dumps({
+                        'step': step, 'jsonl_sha256': digest,
+                        'bot_status': 'pending', 'public_pass_at_1': None,
+                        'question_order': 'official data/test/test.parquet',
+                    }, indent=2))
+                    model.train()
+                    print(f'checkpoint_ready_for_bot={archived} jsonl_sha256={digest}', flush=True)
     print(f"finished_steps={args.steps}", flush=True)
 
 
