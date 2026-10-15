@@ -172,9 +172,9 @@
   "syntax_valid_fraction": 0.99609375,
   "solve_defined_fraction": 0.99609375,
   "exact_match_fraction": 0.0078125,
-  "t4_generation_seconds": 39.09,
+  "t4_generation_seconds": null,
   "test_predictions": 1919,
-  "public_pass_at_1": null,
+  "public_pass_at_1": 0.1885,
   "t4_pilot_update": 4000,
   "t4_pilot_validation_loss": 1.6469,
   "baseline_g4_final_loss": 1.1213,
@@ -526,5 +526,10 @@
   "test_syntax_valid_fraction": 1.0,
   "test_invalid_before_retry": 8,
   "test_beam_repaired": 7,
-  "test_syntax_repaired": 1
+  "test_syntax_repaired": 1,
+  "historical_t4_generation_seconds": 39.09,
+  "current_saved_model_t4_verified": false,
+  "public_score_scope": "Historical 2026-10-15 after_fp32.jsonl; includes one handwritten identifier repair removed from future inference.",
+  "validation_independence_caveat": "Held-out row positions excluded, but duplicate question text was not excluded in historical runs; 24 copies found later in shard0.",
+  "goal_status": "in_progress"
 }

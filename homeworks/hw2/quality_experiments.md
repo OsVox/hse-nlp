@@ -69,3 +69,35 @@ After the matched sampling pilots, test learning rate 0.001 against 0.0003
 with the mixed sampler, holding the 6,000-update budget and all other settings
 fixed. This tests whether the small model is learning too slowly. Do not submit
 a pilot just because token loss decreases; compare held-out numeric agreement.
+
+## Completed sampling pilot
+
+Control: best selection loss 1.6012 at update 4,000; held-out numeric agreement
+14/245 usable references (5.71%), 46 predicted execution failures. Mixed: best
+selection loss 1.4793 at update 6,000; numeric agreement 16/245 (6.53%),
+42 failures. Training loop times were 177.1 and 182.6 seconds on Blackwell.
+The 2-program difference is too small to establish a reliable quality gain.
+Both pilots are worse than the historical saved model's 50/245 diagnostic.
+No submission was sent. The learning-rate pilot is now running.
+
+## Sampled question-order evidence
+
+The three questions displayed by the bot after the historical submission match
+official test.parquet indices 0, 1 and 2. Executing our historical programs at
+those positions reproduces the values the bot attributed to our submission.
+Only our reported outputs were used for this check, not the bot's reference
+answers. This supports the first three positions, not the full 1,919-row order.
+No program was changed or tuned from these examples.
+
+## Completed learning-rate pilot and next budget test
+
+At the same 6,000-update budget, LR 0.001 gives best loss 1.1409 and numeric
+agreement 27/245 (11.02%), with 22 prediction execution failures. This is
+better than the matched LR 0.0003 pilot (16/245), but below the old saved
+model's 50/245. None of these pilots is ready for submission.
+
+Next experiment: a fresh 20,000-update mixed run with LR 0.001, keeping every
+other setting identical to the 6,000-update LR pilot. Total update budget is
+the variable; cosine decay is defined over that budget. Do not describe this
+as an exact continuation or as a comparison to the old 20,000-update run.
+Save latest and best every 500 updates and inspect validation progress.

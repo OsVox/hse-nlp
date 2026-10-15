@@ -1,0 +1,511 @@
+{
+  "date": "2026-10-15",
+  "training_source_commit": "b33fa54",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "runs": {
+    "control": {
+      "best_validation": {
+        "step": 4000,
+        "token_loss": 1.6011834497744253
+      },
+      "numeric": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 14,
+        "numeric_agreement_on_usable": 0.05714285714285714,
+        "prediction_failures": 46,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/quality/control/best",
+        "offset": 256,
+        "beams": 1
+      },
+      "run_config": {
+        "precision": "bf16",
+        "group_window": 32,
+        "steps": 6000,
+        "batch_size": 64,
+        "accumulation": 1,
+        "max_shards": 60,
+        "batches_per_shard": 1000,
+        "mixed_rows_per_shard": null,
+        "seed": 42,
+        "learning_rate": 0.0003,
+        "warmup": 500,
+        "save_every": 500,
+        "eval_every": 500,
+        "cache_dir": "/content/hw2_cache",
+        "output_dir": "/content/quality/control",
+        "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "model_config": {
+          "vocab_size": 8192,
+          "d_model": 256,
+          "d_kv": 64,
+          "d_ff": 768,
+          "num_layers": 4,
+          "num_decoder_layers": 4,
+          "num_heads": 4,
+          "relative_attention_num_buckets": 32,
+          "relative_attention_max_distance": 128,
+          "dropout_rate": 0.1,
+          "classifier_dropout": 0,
+          "layer_norm_epsilon": 0.000001,
+          "initializer_factor": 1,
+          "feed_forward_proj": "gated-gelu",
+          "use_cache": true,
+          "dense_act_fn": "gelu_new",
+          "is_gated_act": true,
+          "return_dict": true,
+          "output_hidden_states": false,
+          "torchscript": false,
+          "dtype": null,
+          "pruned_heads": {},
+          "tie_word_embeddings": true,
+          "chunk_size_feed_forward": 0,
+          "is_encoder_decoder": true,
+          "is_decoder": false,
+          "cross_attention_hidden_size": null,
+          "add_cross_attention": false,
+          "tie_encoder_decoder": false,
+          "architectures": null,
+          "finetuning_task": null,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "task_specific_params": null,
+          "problem_type": null,
+          "tokenizer_class": null,
+          "prefix": null,
+          "bos_token_id": null,
+          "pad_token_id": 0,
+          "eos_token_id": 1,
+          "sep_token_id": null,
+          "decoder_start_token_id": 0,
+          "max_length": 20,
+          "min_length": 0,
+          "do_sample": false,
+          "early_stopping": false,
+          "num_beams": 1,
+          "temperature": 1,
+          "top_k": 50,
+          "top_p": 1,
+          "typical_p": 1,
+          "repetition_penalty": 1,
+          "length_penalty": 1,
+          "no_repeat_ngram_size": 0,
+          "encoder_no_repeat_ngram_size": 0,
+          "bad_words_ids": null,
+          "num_return_sequences": 1,
+          "output_scores": false,
+          "return_dict_in_generate": false,
+          "forced_bos_token_id": null,
+          "forced_eos_token_id": null,
+          "remove_invalid_values": false,
+          "exponential_decay_length_penalty": null,
+          "suppress_tokens": null,
+          "begin_suppress_tokens": null,
+          "num_beam_groups": 1,
+          "diversity_penalty": 0,
+          "_name_or_path": "",
+          "transformers_version": "4.57.6",
+          "tf_legacy_loss": false,
+          "use_bfloat16": false,
+          "model_type": "t5",
+          "output_attentions": false
+        },
+        "heldout_exclusion": "question text across all shards"
+      },
+      "model_sha256": "338354fc3380599258295411496b5fddac49a81477e49e8d72f1497efa0f926e",
+      "validation_curve": [
+        {
+          "step": 500,
+          "token_loss": 3.9747
+        },
+        {
+          "step": 1000,
+          "token_loss": 3.423
+        },
+        {
+          "step": 1500,
+          "token_loss": 3.0455
+        },
+        {
+          "step": 2000,
+          "token_loss": 2.8233
+        },
+        {
+          "step": 2500,
+          "token_loss": 2.7443
+        },
+        {
+          "step": 3000,
+          "token_loss": 2.3095
+        },
+        {
+          "step": 3500,
+          "token_loss": 1.7333
+        },
+        {
+          "step": 4000,
+          "token_loss": 1.6012
+        },
+        {
+          "step": 4500,
+          "token_loss": 1.7117
+        },
+        {
+          "step": 5000,
+          "token_loss": 1.6992
+        },
+        {
+          "step": 5500,
+          "token_loss": 1.6847
+        },
+        {
+          "step": 6000,
+          "token_loss": 1.6726
+        }
+      ]
+    },
+    "mixed": {
+      "best_validation": {
+        "step": 6000,
+        "token_loss": 1.4793304510873722
+      },
+      "numeric": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 16,
+        "numeric_agreement_on_usable": 0.0653061224489796,
+        "prediction_failures": 42,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/quality/mixed/best",
+        "offset": 256,
+        "beams": 1
+      },
+      "run_config": {
+        "precision": "bf16",
+        "group_window": 32,
+        "steps": 6000,
+        "batch_size": 64,
+        "accumulation": 1,
+        "max_shards": 60,
+        "batches_per_shard": null,
+        "mixed_rows_per_shard": 4096,
+        "seed": 42,
+        "learning_rate": 0.0003,
+        "warmup": 500,
+        "save_every": 500,
+        "eval_every": 500,
+        "cache_dir": "/content/hw2_cache",
+        "output_dir": "/content/quality/mixed",
+        "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "model_config": {
+          "vocab_size": 8192,
+          "d_model": 256,
+          "d_kv": 64,
+          "d_ff": 768,
+          "num_layers": 4,
+          "num_decoder_layers": 4,
+          "num_heads": 4,
+          "relative_attention_num_buckets": 32,
+          "relative_attention_max_distance": 128,
+          "dropout_rate": 0.1,
+          "classifier_dropout": 0,
+          "layer_norm_epsilon": 0.000001,
+          "initializer_factor": 1,
+          "feed_forward_proj": "gated-gelu",
+          "use_cache": true,
+          "dense_act_fn": "gelu_new",
+          "is_gated_act": true,
+          "return_dict": true,
+          "output_hidden_states": false,
+          "torchscript": false,
+          "dtype": null,
+          "pruned_heads": {},
+          "tie_word_embeddings": true,
+          "chunk_size_feed_forward": 0,
+          "is_encoder_decoder": true,
+          "is_decoder": false,
+          "cross_attention_hidden_size": null,
+          "add_cross_attention": false,
+          "tie_encoder_decoder": false,
+          "architectures": null,
+          "finetuning_task": null,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "task_specific_params": null,
+          "problem_type": null,
+          "tokenizer_class": null,
+          "prefix": null,
+          "bos_token_id": null,
+          "pad_token_id": 0,
+          "eos_token_id": 1,
+          "sep_token_id": null,
+          "decoder_start_token_id": 0,
+          "max_length": 20,
+          "min_length": 0,
+          "do_sample": false,
+          "early_stopping": false,
+          "num_beams": 1,
+          "temperature": 1,
+          "top_k": 50,
+          "top_p": 1,
+          "typical_p": 1,
+          "repetition_penalty": 1,
+          "length_penalty": 1,
+          "no_repeat_ngram_size": 0,
+          "encoder_no_repeat_ngram_size": 0,
+          "bad_words_ids": null,
+          "num_return_sequences": 1,
+          "output_scores": false,
+          "return_dict_in_generate": false,
+          "forced_bos_token_id": null,
+          "forced_eos_token_id": null,
+          "remove_invalid_values": false,
+          "exponential_decay_length_penalty": null,
+          "suppress_tokens": null,
+          "begin_suppress_tokens": null,
+          "num_beam_groups": 1,
+          "diversity_penalty": 0,
+          "_name_or_path": "",
+          "transformers_version": "4.57.6",
+          "tf_legacy_loss": false,
+          "use_bfloat16": false,
+          "model_type": "t5",
+          "output_attentions": false
+        },
+        "heldout_exclusion": "question text across all shards"
+      },
+      "model_sha256": "c52ab66e1a58dffbc16e16ec2accde0af91876e234902b5938e7262cf651e148",
+      "validation_curve": [
+        {
+          "step": 500,
+          "token_loss": 3.618
+        },
+        {
+          "step": 1000,
+          "token_loss": 2.8571
+        },
+        {
+          "step": 1500,
+          "token_loss": 2.4152
+        },
+        {
+          "step": 2000,
+          "token_loss": 2.1483
+        },
+        {
+          "step": 2500,
+          "token_loss": 1.9518
+        },
+        {
+          "step": 3000,
+          "token_loss": 1.7993
+        },
+        {
+          "step": 3500,
+          "token_loss": 1.7013
+        },
+        {
+          "step": 4000,
+          "token_loss": 1.6066
+        },
+        {
+          "step": 4500,
+          "token_loss": 1.5489
+        },
+        {
+          "step": 5000,
+          "token_loss": 1.517
+        },
+        {
+          "step": 5500,
+          "token_loss": 1.4944
+        },
+        {
+          "step": 6000,
+          "token_loss": 1.4793
+        }
+      ]
+    },
+    "mixed_lr001": {
+      "best_validation": {
+        "step": 6000,
+        "token_loss": 1.1408941475905672
+      },
+      "numeric": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 27,
+        "numeric_agreement_on_usable": 0.11020408163265306,
+        "prediction_failures": 22,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/quality/mixed_lr001/best",
+        "offset": 256,
+        "beams": 1
+      },
+      "run_config": {
+        "precision": "bf16",
+        "group_window": 32,
+        "steps": 6000,
+        "batch_size": 64,
+        "accumulation": 1,
+        "max_shards": 60,
+        "batches_per_shard": null,
+        "mixed_rows_per_shard": 4096,
+        "seed": 42,
+        "learning_rate": 0.001,
+        "warmup": 500,
+        "save_every": 500,
+        "eval_every": 500,
+        "cache_dir": "/content/hw2_cache",
+        "output_dir": "/content/quality/mixed_lr001",
+        "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "model_config": {
+          "vocab_size": 8192,
+          "d_model": 256,
+          "d_kv": 64,
+          "d_ff": 768,
+          "num_layers": 4,
+          "num_decoder_layers": 4,
+          "num_heads": 4,
+          "relative_attention_num_buckets": 32,
+          "relative_attention_max_distance": 128,
+          "dropout_rate": 0.1,
+          "classifier_dropout": 0,
+          "layer_norm_epsilon": 0.000001,
+          "initializer_factor": 1,
+          "feed_forward_proj": "gated-gelu",
+          "use_cache": true,
+          "dense_act_fn": "gelu_new",
+          "is_gated_act": true,
+          "return_dict": true,
+          "output_hidden_states": false,
+          "torchscript": false,
+          "dtype": null,
+          "pruned_heads": {},
+          "tie_word_embeddings": true,
+          "chunk_size_feed_forward": 0,
+          "is_encoder_decoder": true,
+          "is_decoder": false,
+          "cross_attention_hidden_size": null,
+          "add_cross_attention": false,
+          "tie_encoder_decoder": false,
+          "architectures": null,
+          "finetuning_task": null,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "task_specific_params": null,
+          "problem_type": null,
+          "tokenizer_class": null,
+          "prefix": null,
+          "bos_token_id": null,
+          "pad_token_id": 0,
+          "eos_token_id": 1,
+          "sep_token_id": null,
+          "decoder_start_token_id": 0,
+          "max_length": 20,
+          "min_length": 0,
+          "do_sample": false,
+          "early_stopping": false,
+          "num_beams": 1,
+          "temperature": 1,
+          "top_k": 50,
+          "top_p": 1,
+          "typical_p": 1,
+          "repetition_penalty": 1,
+          "length_penalty": 1,
+          "no_repeat_ngram_size": 0,
+          "encoder_no_repeat_ngram_size": 0,
+          "bad_words_ids": null,
+          "num_return_sequences": 1,
+          "output_scores": false,
+          "return_dict_in_generate": false,
+          "forced_bos_token_id": null,
+          "forced_eos_token_id": null,
+          "remove_invalid_values": false,
+          "exponential_decay_length_penalty": null,
+          "suppress_tokens": null,
+          "begin_suppress_tokens": null,
+          "num_beam_groups": 1,
+          "diversity_penalty": 0,
+          "_name_or_path": "",
+          "transformers_version": "4.57.6",
+          "tf_legacy_loss": false,
+          "use_bfloat16": false,
+          "model_type": "t5",
+          "output_attentions": false
+        },
+        "heldout_exclusion": "question text across all shards"
+      },
+      "model_sha256": "afc3f6915e9053905283df348c7afec9daf6ddec762e7aeed7f9d3f87bf9d861",
+      "validation_curve": [
+        {
+          "step": 500,
+          "token_loss": 2.9931
+        },
+        {
+          "step": 1000,
+          "token_loss": 2.4261
+        },
+        {
+          "step": 1500,
+          "token_loss": 2.0606
+        },
+        {
+          "step": 2000,
+          "token_loss": 1.8084
+        },
+        {
+          "step": 2500,
+          "token_loss": 1.6273
+        },
+        {
+          "step": 3000,
+          "token_loss": 1.4635
+        },
+        {
+          "step": 3500,
+          "token_loss": 1.3422
+        },
+        {
+          "step": 4000,
+          "token_loss": 1.2454
+        },
+        {
+          "step": 4500,
+          "token_loss": 1.1984
+        },
+        {
+          "step": 5000,
+          "token_loss": 1.1693
+        },
+        {
+          "step": 5500,
+          "token_loss": 1.1444
+        },
+        {
+          "step": 6000,
+          "token_loss": 1.1409
+        }
+      ]
+    }
+  }
+}
