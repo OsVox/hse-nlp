@@ -291,7 +291,11 @@ def main() -> None:
         mixed_rows_per_shard=args.mixed_rows_per_shard,
     )
     if args.input_pipeline == 'encoded':
-        batches = encoded_batches(batches, tokenizer, args.batch_size, args.group_window)
+        # Fast tokenizers temporarily change padding/truncation settings per call.
+        # Keep the producer's instance separate from validation and prediction.
+        input_tokenizer = (PreTrainedTokenizerFast.from_pretrained(
+            args.resume_from or 'homeworks/hw2/tokenizer') if args.prefetch_batches else tokenizer)
+        batches = encoded_batches(batches, input_tokenizer, args.batch_size, args.group_window)
         batches = prefetch_batches(batches, args.prefetch_batches, pin_memory=device.type == 'cuda')
     else:
         batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
