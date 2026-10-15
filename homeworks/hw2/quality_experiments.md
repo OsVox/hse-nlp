@@ -256,3 +256,14 @@ See `experiments/continue-60k-180k-b128-v1/` for CPU equivalence, full probe
 records, selection, source hashes and the launch configuration exported from
 Drive. Training completion, all six bot scores and GPU release must be
 verified before reporting this continuation as complete.
+
+The first continuation checkpoint, step 80,000, achieved validation token loss
+0.525003 (previous 60k: 0.565194) and bot public pass@1 **43.13% (414/960)**,
+rank **12 of 15** at 20:00 +03:00 on 2026-10-15. This improves the previous
+best by 52 correct questions. All 1,919 outputs were saved to Drive first,
+exported with a verified archive hash, and checked against both the CSV and
+the exact decoded model token sequences before submission. Its receipt was
+written and read back in the Drive run folder, then exported to the repository.
+Generation took 9.585 seconds on Blackwell; actual T4 timing remains open.
+The same training process continued past step 84,200; later checkpoints and
+their bot scores are still pending. First place has not been achieved.
