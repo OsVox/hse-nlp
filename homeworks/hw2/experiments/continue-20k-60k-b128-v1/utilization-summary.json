@@ -1,0 +1,11 @@
+{
+  "samples": 1972,
+  "mean_gpu_percent": 60.38032454361055,
+  "median_gpu_percent": 78.0,
+  "zero_percent": 16.227180527383368,
+  "peak_memory_mib": 10397.0,
+  "gpu_release_verified": "Colab Active sessions UI: no active sessions, 2026-10-15 19:07 +03:00",
+  "finished_steps": 60000,
+  "extra_updates": 40000,
+  "extra_examples": 5120000
+}

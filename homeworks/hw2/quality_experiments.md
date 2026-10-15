@@ -156,7 +156,7 @@ and save them to Drive before allocating GPU. Every continuation checkpoint
 and its exact test outputs must again be saved to Drive and scored by the bot.
 
 
-## Batch throughput result and active continuation
+## Batch throughput result and completed continuation
 
 Both passes measured 16,384 identical examples (1,210,118 non-padding target
 tokens per pass). Median examples/second: batch 64 = 2,100.34; 128 = 2,278.92;
@@ -172,4 +172,29 @@ optimizer. It adds 40,000 updates at batch 128, peak LR 0.0005, 500-update
 warmup and cosine decay. Checkpoints and test outputs are saved every 5,000
 updates. Source a411a64f8afe61e3a2b337af338c0ea6c19c9c15 is pinned. The new
 notebook documents CPU preparation, GPU restore, benchmark and continuation.
-At this entry the run is active; no new bot score is claimed.
+The run completed all 60,000 updates in 1,957.2 seconds (32.6 minutes for the
+continuation, including periodic evaluation and saves). It presented another
+5,120,000 training examples. All eight new checkpoints were saved to Drive,
+exported from Drive, verified, and scored by the bot.
+
+| Step | Public correct / 960 | Score |
+| --- | --- | --- |
+| 25,000 | 194 | 20.21% |
+| 30,000 | 227 | 23.65% |
+| 35,000 | 231 | 24.06% |
+| 40,000 | 273 | 28.44% |
+| 45,000 | 314 | 32.71% |
+| 50,000 | 343 | 35.73% |
+| 55,000 | 353 | 36.77% |
+| 60,000 | 362 | 37.71% |
+
+The best result is 37.71% at step 60,000, rank 12 of 15 at 19:13 +03:00.
+The 33% baseline is exceeded; first place remains unmet. GPU telemetry
+contains 1,972 one-second samples: mean utilization 60.38%, median 78%,
+16.23% zero-utilization samples, and peak total used memory 10,397 MiB.
+This includes saving and generation, so it is not a training-only average.
+CPU preparation occupied about 41% of the matched batch-128 probe.
+Colab showed no active sessions after release at 19:07 +03:00.
+
+See the run summary, raw telemetry, launch settings, and eight receipts.
+Fresh full-generation T4 timing and held-out numeric evaluation remain open.

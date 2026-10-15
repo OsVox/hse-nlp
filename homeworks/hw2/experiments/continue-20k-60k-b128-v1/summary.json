@@ -1,0 +1,112 @@
+{
+  "run": "continue-20k-60k-b128-v1",
+  "status": "completed_all_checkpoints_scored",
+  "source_commit": "a411a64f8afe61e3a2b337af338c0ea6c19c9c15",
+  "drive_folder_url": "https://drive.google.com/drive/u/0/folders/1FL_9Rb4FXAgVz9pA-8iSuP6x1sUD9TcP",
+  "drive_path": "MyDrive/HSE_NLP_HW2/runs/continue-20k-60k-b128-v1",
+  "parent_step": 20000,
+  "final_step": 60000,
+  "batch_size": 128,
+  "extra_examples": 5120000,
+  "elapsed_seconds": 1957.2,
+  "checkpoints": [
+    {
+      "step": 25000,
+      "token_loss": 0.7646511113551395,
+      "public_pass_at_1_percent": 20.21,
+      "correct": 194,
+      "total": 960,
+      "jsonl_sha256": "5a6034e8fb6e4806c6ea78d207d3a63f84c4ff2b031c004da836a2c051909d01",
+      "generation_seconds_blackwell": 10.736513305999324,
+      "receipt": "submissions/2026-10-15-continue-b128-step-025000.json"
+    },
+    {
+      "step": 30000,
+      "token_loss": 0.7119783113357433,
+      "public_pass_at_1_percent": 23.65,
+      "correct": 227,
+      "total": 960,
+      "jsonl_sha256": "26fd2bb1ad1faaf0928dc691421e957da39c095de423438adf36e0293e8653f5",
+      "generation_seconds_blackwell": 10.617115547998765,
+      "receipt": "submissions/2026-10-15-continue-b128-step-030000.json"
+    },
+    {
+      "step": 35000,
+      "token_loss": 0.6817123616756495,
+      "public_pass_at_1_percent": 24.06,
+      "correct": 231,
+      "total": 960,
+      "jsonl_sha256": "b201879bca70019273f9616ee0dd151d75c736e7d739f5e45184f952b6c17296",
+      "generation_seconds_blackwell": 9.592368374000216,
+      "receipt": "submissions/2026-10-15-continue-b128-step-035000.json"
+    },
+    {
+      "step": 40000,
+      "token_loss": 0.6451446165940111,
+      "public_pass_at_1_percent": 28.44,
+      "correct": 273,
+      "total": 960,
+      "jsonl_sha256": "11977fea18c37b06e533d80b09e684352d9c689a047fe0d1b95d55fb37b35122",
+      "generation_seconds_blackwell": 10.312518881999495,
+      "receipt": "submissions/2026-10-15-continue-b128-step-040000.json"
+    },
+    {
+      "step": 45000,
+      "token_loss": 0.6057512065201921,
+      "public_pass_at_1_percent": 32.71,
+      "correct": 314,
+      "total": 960,
+      "jsonl_sha256": "01d61be34dc3c5b75764f63ee5f36c0450876054f9c56cb6570ae24408ef754a",
+      "generation_seconds_blackwell": 9.603862119000041,
+      "receipt": "submissions/2026-10-15-continue-b128-step-045000.json"
+    },
+    {
+      "step": 50000,
+      "token_loss": 0.5857331042441436,
+      "public_pass_at_1_percent": 35.73,
+      "correct": 343,
+      "total": 960,
+      "jsonl_sha256": "4ca1384291e787f6f08ef3a3acd39eb7caab41162f2a168499ab24b5e9443cb5",
+      "generation_seconds_blackwell": 9.392075902000215,
+      "receipt": "submissions/2026-10-15-continue-b128-step-050000.json"
+    },
+    {
+      "step": 55000,
+      "token_loss": 0.5700630480015165,
+      "public_pass_at_1_percent": 36.77,
+      "correct": 353,
+      "total": 960,
+      "jsonl_sha256": "a3ffb349fe907a0a6f65e7a10120ae7300b954511ad2dc8168ff1b7eedcb9a12",
+      "generation_seconds_blackwell": 9.686711137999737,
+      "receipt": "submissions/2026-10-15-continue-b128-step-055000.json"
+    },
+    {
+      "step": 60000,
+      "token_loss": 0.5651936642793571,
+      "public_pass_at_1_percent": 37.71,
+      "correct": 362,
+      "total": 960,
+      "jsonl_sha256": "842bdff7f73847449b814dc819de076b5ed4c091564698895e409bfb5763e059",
+      "generation_seconds_blackwell": 9.065979056998913,
+      "receipt": "submissions/2026-10-15-continue-b128-step-060000.json"
+    }
+  ],
+  "best_step": 60000,
+  "public_rank": 12,
+  "public_participants": 15,
+  "rank_observed_at": "2026-10-15T19:13:00+03:00",
+  "t4_timing_verified": false,
+  "question_order": "official data/test/test.parquet row order, confirmed by user",
+  "gpu_utilization": {
+    "samples": 1972,
+    "mean_gpu_percent": 60.38032454361055,
+    "median_gpu_percent": 78.0,
+    "zero_percent": 16.227180527383368,
+    "peak_memory_mib": 10397.0,
+    "gpu_release_verified": "Colab Active sessions UI: no active sessions, 2026-10-15 19:07 +03:00",
+    "finished_steps": 60000,
+    "extra_updates": 40000,
+    "extra_examples": 5120000
+  },
+  "note": "Original exported results.complete.json files record pending bot status at generation time; receipts and this summary contain subsequent scores."
+}

@@ -1,0 +1,82 @@
+{
+  "command": [
+    "python",
+    "-u",
+    "-m",
+    "homeworks.hw2.train",
+    "--resume-from",
+    "/content/parent-020000",
+    "--restart-schedule",
+    "--steps",
+    "60000",
+    "--batch-size",
+    "128",
+    "--accumulation",
+    "1",
+    "--precision",
+    "bf16",
+    "--group-window",
+    "32",
+    "--mixed-rows-per-shard",
+    "4096",
+    "--learning-rate",
+    "0.0005",
+    "--warmup",
+    "500",
+    "--save-every",
+    "5000",
+    "--eval-every",
+    "5000",
+    "--cache-dir",
+    "/content/hw2_cache",
+    "--output-dir",
+    "/content/continue-20k-60k-b128-v1",
+    "--drive-root",
+    "/content/drive/MyDrive/HSE_NLP_HW2/runs/continue-20k-60k-b128-v1",
+    "--predict-at-checkpoint"
+  ],
+  "source_commit": "a411a64f8afe61e3a2b337af338c0ea6c19c9c15",
+  "parent_model_sha256": "e6f632ec0edaa2969493d1d6f8543de2cb558316881d13cd34f5ef4fa6bda0d7",
+  "started_utc": "2026-10-15T15:32:50.662726+00:00",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "batch_selection": {
+    "summary": [
+      {
+        "batch_size": 64,
+        "examples_per_second": 2100.339779645933,
+        "peak_gib": 3.959768772125244,
+        "gpu_util_mean": 45.05813953488372,
+        "preparation_fraction": 0.36646703037601436
+      },
+      {
+        "batch_size": 128,
+        "examples_per_second": 2278.91584637048,
+        "peak_gib": 7.750128269195557,
+        "gpu_util_mean": 52.3974358974359,
+        "preparation_fraction": 0.41051330601408326
+      },
+      {
+        "batch_size": 256,
+        "examples_per_second": 2114.269251215449,
+        "peak_gib": 15.354040622711182,
+        "gpu_util_mean": 57.78409090909091,
+        "preparation_fraction": 0.38200849888661614
+      },
+      {
+        "batch_size": 512,
+        "examples_per_second": 1949.5231490766869,
+        "peak_gib": 30.56186532974243,
+        "gpu_util_mean": 60.372727272727275,
+        "preparation_fraction": 0.3616811432695365
+      }
+    ],
+    "chosen": {
+      "batch_size": 128,
+      "examples_per_second": 2278.91584637048,
+      "peak_gib": 7.750128269195557,
+      "gpu_util_mean": 52.3974358974359,
+      "preparation_fraction": 0.41051330601408326
+    },
+    "rule": "highest median examples/second from two rounds, peak memory below 70% of GPU capacity"
+  }
+}

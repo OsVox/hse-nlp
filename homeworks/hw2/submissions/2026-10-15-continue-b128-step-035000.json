@@ -1,0 +1,25 @@
+{
+  "submitted_at": "2026-10-15T18:49:00+03:00",
+  "bot": "hse_nlp_hw2_2026_bot",
+  "filename": "continue-b128-step-035000.jsonl",
+  "sha256": "b201879bca70019273f9616ee0dd151d75c736e7d739f5e45184f952b6c17296",
+  "source_commit": "a411a64f8afe61e3a2b337af338c0ea6c19c9c15",
+  "run": "continue-20k-60k-b128-v1",
+  "step": 35000,
+  "status": "scored",
+  "submission_id": null,
+  "telegram_message_ids": {
+    "outgoing": 788522,
+    "accepted": 788523,
+    "score": 788524,
+    "rank": 788525
+  },
+  "public_pass_at_1_percent": 24.06,
+  "correct": 231,
+  "total": 960,
+  "t4_timing_verified": false,
+  "question_order": "official data/test/test.parquet row order; confirmed by user",
+  "drive_export_archive": "step-035000-predictions.zip",
+  "public_rank": 13,
+  "public_participants": 15
+}
