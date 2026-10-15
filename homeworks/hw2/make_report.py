@@ -51,16 +51,25 @@ def build():
     quality = json.loads(quality_path.read_text()) if quality_path.exists() else {}
     current = json.loads((ROOT/'experiments/mixed-lr001-20k-drive-v1/summary.json').read_text())
     continuation = json.loads((ROOT/'experiments/continue-20k-60k-b128-v1/summary.json').read_text())
-    best = max(continuation['checkpoints'], key=lambda x: x['public_pass_at_1_percent'])
+    extended_root = ROOT/'experiments/continue-60k-180k-b128-v1'
+    extended = sorted([json.loads(path.read_text()) for path in
+                       (ROOT/'submissions').glob('2026-10-15-extend-b128-step-*.json')],
+                      key=lambda item: item['step'])
+    best = max(extended, key=lambda item: item['public_percent'])
+    selection = json.loads((extended_root/'selection.json').read_text())
+    speeds = selection['median_examples_per_second']
+    gain = 100*(speeds[selection['chosen']]/speeds['legacy']-1)
+    completion_path = extended_root/'execution.complete.json'
+    completion = json.loads(completion_path.read_text()) if completion_path.exists() else None
     story = [p('Code generation from scratch','Title'),
         p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 15 October 2026','SmallText'),
         p('Current result','Head'),
-        p(f"Training reached 60,000 updates. All ten initial checkpoints and eight continuation checkpoints were saved in Google Drive and scored by the course bot. The best model-only public result is <b>{best['public_pass_at_1_percent']:.2f}% ({best['correct']}/960)</b> at step {best['step']:,}, rank 12 of 15 at 19:13 +03:00 on 15 October. The 33% baseline is exceeded; first place remains unmet. No private result is available."),
+        p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best model-only public result is <b>{best['public_percent']:.2f}% ({best['correct']}/960)</b> at step {best['step']:,}, rank {best['rank']} of {best['participants']} at {best['time']}. The 33% baseline is exceeded; first place remains unmet. No private result is available."),
         p('Task and rules','Head'),
         p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
         p('Data and architecture','Head'),
         p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The saved model has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights.'),
-        p('Training uses AdamW, 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. The first 20,000 updates used batch 64 and peak learning rate 0.001. The continuation retained optimizer moments, used batch 128 and restarted the schedule at peak rate 0.0005. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model and optimizer states are saved regularly.'),
+        p('Training uses AdamW, 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. The first 20,000 updates used batch 64 and peak learning rate 0.001. The first continuation retained optimizer moments, used batch 128 and restarted the schedule at peak rate 0.0005. The 60k-to-180k continuation retains batch 128 and optimizer moments, with a new schedule peaking at 0.0003. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model and optimizer states are saved regularly.'),
         p('Validation correction','Head'),
         p('Earlier runs excluded the first 1,024 row positions but did not exclude copies of their questions. An audit found 24 later rows in shard 0 with the same question text. Historical validation was therefore not fully independent. Future streams exclude every reserved question text across all shards. Rows 0-255 select checkpoints; rows 256-511 provide separate diagnostics. The earlier tokenizer may have seen duplicate question text.'),
         PageBreak(),
@@ -106,6 +115,17 @@ def build():
         p('Across the continuation, 1,972 one-second GPU samples averaged 60.38% utilization, with median 78%, 16.23% zero samples and peak used memory 10,397 MiB. These include checkpoint saving and generation. CPU preparation occupied about 41% of the batch-128 probe, suggesting a remaining bottleneck. The GPU was released and Colab showed no active sessions at 19:07 +03:00.'),
         p('Drive location: MyDrive/HSE_NLP_HW2/runs/continue-20k-60k-b128-v1. Every checkpoint has exact 1,919-row outputs in official test order, provenance hashes and a bot receipt. The step-60,000 Blackwell generation took 9.07 seconds; its T4 timing remains unverified.'),
         PageBreak(),
+        p('Faster input preparation','Title'),
+        p('Matched CPU and GPU checks','Head'),
+        p('CPU preparation compared the original batch path, reuse of window tokenization, and a bounded two-batch preparation queue. All three produced identical input IDs, masks and labels for 32,768 examples and 2,419,826 target tokens. Preparation took 18.72, 6.38 and 5.98 seconds respectively. Eighteen local checks covered truncation, duplicates, partial windows, literal special tokens and producer failures. Synthetic fixtures stayed confined to tests.'),
+        table([['Input path','Median examples / second']] + [[name,f'{speed:,.2f}'] for name,speed in speeds.items()],[105*mm,65*mm]),
+        p(f'Two GPU rounds used reversed variant order, the same checkpoint, seed, examples, precision and batch size. The selected two-batch queue improved median throughput by {gain:.2f}% over the original path, with peak allocated tensor memory 7.75 GiB. The tokenizer used by the producer is separate from the validation tokenizer. This is a matched speed result; utilization alone does not measure useful throughput.'),
+        p('Longer continuation: 60k to 180k','Head'),
+        p('The run resumes our own verified 60,000-step checkpoint and schedules 120,000 additional updates (15,360,000 example presentations). It keeps the mixed sampler, batch 128 and BF16 training. Source commit: ca26869455692cb570b94cb4a633be7701221f9e. Weights and exact predictions are saved to Drive every 20,000 updates before export and bot evaluation.'),
+        table([['Step','Validation token loss','Public correct / 960','Public score']] + [[f"{x['step']:,}",f"{x['validation_token_loss']:.4f}",x['correct'],f"{x['public_percent']:.2f}%"] for x in extended],[35*mm,50*mm,45*mm,40*mm]),
+        p('Completion has not yet been verified for this continuation; later scheduled checkpoints and GPU release remain pending.' if completion is None else f"The saved completion record reports return code {completion['returncode']} and {completion['checkpoints']} checkpoints. Runtime release must be verified separately in Colab."),
+        p('Each export is checked against its Drive manifest, source commit, checkpoint hash, official question-order hash and exact decoded selected token IDs. Bot receipts are written and read back on Drive. The current-generation measurements use Blackwell and do not establish T4 compliance.'),
+        PageBreak(),
         p('Generation and speed','Title'),
         p('Measured optimization experiments','Head'),
         p('The course materials motivated length grouping, mixed precision, gradient accumulation, clipping and caching. The model already uses cached autoregressive generation. Training disables that cache. Loss accumulation stays on the GPU until logging. These choices were measured rather than assumed to make the full workload faster.'),
@@ -129,7 +149,7 @@ def build():
         p('Codex read the assignment and course weeks, wrote data access, training, inference and diagnostic code, controlled Colab through MCP, inspected GPU state, compared measurements, prepared Telegram file packaging and wrote this report. It identified incomplete validation exclusion, stale T4 claims and handwritten postprocessing. Those findings changed the data exclusion rules, provenance records and speed checks.'),
         p('Codex did not provide solution programs as training targets or replace model answers with its own solutions. No external model was used as a teacher. The submitted programs must come from the trained Transformer. Bot examples are not used to tune individual answers. The humanizer skill is used only to make report prose direct; it does not conceal agent involvement.'),
         p('What remains open','Head'),
-        p('The early pilot weights were lost when temporary runtime storage was released before export succeeded; their measurements remain saved. The revised workflow passed CPU save and restore checks, then completed a fresh run with all ten checkpoints and their exact predictions retained in Drive. Every checkpoint has a bot receipt. The GPU has been released.'),
+        p('The early pilot weights were lost when temporary runtime storage was released before export succeeded; their measurements remain saved. The revised workflow passed CPU save and restore checks and retained all ten initial and eight first-continuation checkpoints, exact predictions and bot receipts in Drive. Those two runs released their GPUs. The later 60k-to-180k run is reported separately above; its completion and release must not be inferred from the earlier runs.'),
         p('Longer training exceeded the 33% public baseline, but the first-place objective remains unmet. The best candidate and all intermediate checkpoints have actual bot scores. Before final submission, compare held-out numeric results and run complete generation on one T4. A public first-place result would not establish private first place. No private result is claimed.'),
         p('Reproduction files','Head'),
         p('Repository: <link href="https://github.com/OsVox/hse-nlp/tree/2026/homeworks/hw2">OsVox/hse-nlp, branch 2026, homeworks/hw2</link>. The directory contains train.py, data.py, numeric_eval.py, inference.py, tokenizer files, saved model weights, inference and training notebooks, experiment records and submission receipts. quality_experiments.md specifies the controlled pilot before its run. The raw logs and run configurations accompany the quality results.'),
