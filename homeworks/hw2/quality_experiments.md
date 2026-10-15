@@ -298,3 +298,14 @@ these CPU times only as relative diagnostic costs, never as T4 evidence.
 Do not use public-test answers or bot examples, modify programs, or create
 training targets. Keep the current submission decoder unless held-out
 evidence supports a change and the full T4 timing gate later passes.
+
+Result: greedy decoding matched 120/245 usable references (48.98%), while
+four beams matched 125/245 (51.02%). Prediction execution failures fell from
+19 to 15. Generation took 10.512 and 57.190 seconds respectively on the same
+local CPU with four threads (5.44 times as long). Both runs used the same
+model and question hashes; exact generated programs and evaluator hashes
+are retained in `experiments/decoding-120k/`. This small single-set gain is
+insufficient to change the submission decoder, especially while T4 timing
+for four beams remains unknown. Retain greedy decoding with the existing
+model-only retry for syntactically invalid outputs. These are held-out
+training diagnostics, not public scores or evidence of T4 compliance.

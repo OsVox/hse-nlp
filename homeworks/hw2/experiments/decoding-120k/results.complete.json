@@ -1,0 +1,11 @@
+{
+  "status": "local_diagnostic_verified",
+  "files": {
+    "beam4.json": "1d4680c3b0e3a8fdc465b767e07cb7f0216268601324069072a8cacfd7992a88",
+    "beam4.predictions.jsonl": "5c4c3749c249266cf6b836cbc7dd46fa4dfe37e27be0313a6f1962e9d87d59ce",
+    "greedy.json": "85ef8b6891bef4c838b98e790daedacfabc0282c6d81a44d21bc9cc454720804",
+    "greedy.predictions.jsonl": "5629ebc9ee95d402a62d6b1a92184219bf6037e138b9bcefb0d482b28c481cb8",
+    "protocol.json": "bc6bb7000046917eb8fb5116b608577c845fef26964b9ee23f8f63030208f981"
+  },
+  "decision": "retain existing submission decoder; no T4 claim"
+}

@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-15",
+  "evaluation_source_commit": "cf9adb77b809fa7841c61ffbf99cd0d761a65366",
+  "training_source_commit": "ca26869455692cb570b94cb4a633be7701221f9e",
+  "checkpoint": "continue-60k-180k-b128-v1/step-120000",
+  "model_archive_sha256": "2d6a2a89a8ab31e49af36836a2aaf9eb566ead5560b65c0c6e6031b5d2dc77c2",
+  "model_sha256": "7f802d63d3972d9071ace26b43935c9088ecbccc68ddd5973c6f641f84a6a5de",
+  "train_shard0_sha256": "91831d582faa12d73b1a6b3878e496446cd5df074f17ee4ffea8cc2887c708ec",
+  "training_data_hash_matches_colab": true,
+  "model_exported_from_verified_drive_copy": true,
+  "heldout_offset": 256,
+  "heldout_rows": 256,
+  "variants": [1, 4],
+  "device": "local CPU",
+  "cpu_threads": 4,
+  "precision": "float32",
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "training_targets_created": false,
+  "public_test_answers_used": false,
+  "t4_timing_verified": false
+}
