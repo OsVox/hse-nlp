@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-15",
+  "chat_display_time": "11:49",
+  "timezone": "Europe/Istanbul",
+  "bot": "hse_nlp_hw2_2026_bot",
+  "filename": "gpu_benchmark/after_fp32.jsonl",
+  "sha256": "661929273d93744c73ea64033fb6057722a9116cc8c9b5676ac0bf13db1e0ee6",
+  "source_commit": "93f1a5f",
+  "model_sha256": "987a9f2b0837a718430704887d1c05bda05c0479d86d8570df14d8275b7fbaa0",
+  "status": "scored",
+  "submission_id": null,
+  "telegram_message_ids": {
+    "file": 788363,
+    "score": 788365
+  },
+  "public_correct": 181,
+  "public_total": 960,
+  "public_pass_at_1": 0.1885,
+  "public_rank": 12,
+  "participants": 14,
+  "no_code_percent": 0,
+  "syntax_error_percent": 0,
+  "runtime_error_percent": 5.94,
+  "wrong_answer_percent": 75.21,
+  "baseline_identical_bytes": true,
+  "order_evidence": "Original official test.parquet order preserved; standalone pass1_questions.jsonl was unavailable for direct comparison. Bot accepted1919answers.",
+  "t4_current_run_verified": false
+}

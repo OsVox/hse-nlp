@@ -1,0 +1,33 @@
+{
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "runs": [
+    {
+      "variant": "before",
+      "updates": 80,
+      "warmup_updates": 8,
+      "timed_seconds": 5.72433942099542,
+      "updates_per_second": 12.577870511298181,
+      "validation_token_loss": 0.9151512504539332,
+      "last_train_loss": 1.1234943866729736
+    },
+    {
+      "variant": "after_fp16",
+      "updates": 80,
+      "warmup_updates": 8,
+      "timed_seconds": 5.779089166999256,
+      "updates_per_second": 12.458710692879896,
+      "validation_token_loss": 0.9152673313833171,
+      "last_train_loss": 1.4157063961029053
+    },
+    {
+      "variant": "after_bf16",
+      "updates": 80,
+      "warmup_updates": 8,
+      "timed_seconds": 5.713917413001582,
+      "updates_per_second": 12.600812156677224,
+      "validation_token_loss": 0.9152718785417481,
+      "last_train_loss": 1.4154893159866333
+    }
+  ],
+  "note": "Short 80-update continuation from identical checkpoint on identical 5120 rows; grouping changes order. Not a full training quality guarantee; weights discarded."
+}

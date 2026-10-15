@@ -38,7 +38,7 @@ Read the existing conversation first. Use Start or help only when needed and sup
 3. Use the documented file chooser API to select the absolute path to `homeworks/hw2/predictions.jsonl`. Do not paste the programs into the message box or attach the source CSV.
 4. Inspect the attachment preview, confirm its filename and the recipient, then send once. Preserve the chat tab with `markDeliverable()` for a completed result or `markHandoff()` if waiting for a response or user input.
 
-The attachment control was observed, but uploading a file has **not yet been verified end to end**. Follow the live UI rather than assuming later menu labels or successful delivery. Send the report, model or other files only if the bot's instructions and the user's request call for them.
+Verified end to end on 2026-10-15: **Add an attachment → File**, file chooser with an absolute JSONL path, attachment preview **Send File**, then its send button. The bot acknowledged execution and returned public pass@1. Use fresh UI selectors: the send button had no accessible label, so inspect the preview before clicking. Evidence: `homeworks/hw2/submissions/2026-10-15-gpu-check.json`. Follow the live UI rather than assuming labels or successful delivery. Send the report, model or other files only if the bot's instructions and the user's request call for them.
 
 ## Why use the user's account
 
@@ -51,3 +51,7 @@ Do not create another bot or request the course bot's token for this workflow. D
 - Report the exact score and submission ID when provided. Do not infer pass@1 from syntax validity, token loss or exact-match diagnostics, and do not claim a private leaderboard result unless shown.
 - Save a concise record in `homeworks/hw2/submissions/<timestamp>.json`: submission time with timezone, bot username, filename/hash, source commit, model/run, acceptance status, submission ID and reported score. Use null for unknown values. Keep Telegram credentials, session files and unrelated chat content out of the repository.
 - Submission to this bot is separate from delivering the required source code, inference notebook and PDF report. State what was actually accepted and what remains to submit.
+
+## Local discovery
+
+This repository stores the skill in `.agents/skills/submit-hw2-telegram`. When the chat is opened in its parent `NLP course`, a symlink in that parent's `.agents/skills/` exposes this same skill. Codex scans the working directory and ancestors, not child repositories. If it is missing from the picker after the link is added, restart Codex; do not duplicate the skill or install this course-specific workflow globally.
