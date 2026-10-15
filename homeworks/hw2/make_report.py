@@ -1,302 +1,126 @@
-"""Build the PDF experiment report from checked metrics.json values."""
-
-from __future__ import annotations
-
-import json
+"""Build the HW2 report from retained experiment evidence."""
 from pathlib import Path
-
+import json
+from html import escape
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
-from reportlab.graphics.shapes import Circle, Drawing, Line, String
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import (
-    BaseDocTemplate, Frame, KeepTogether, PageTemplate, Paragraph,
-    Spacer, Table, TableStyle,
-)
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
 
 ROOT = Path(__file__).parent
-METRICS = json.loads((ROOT / "metrics.json").read_text())
-OUTPUT = ROOT / "report.pdf"
-
-
-def font_path(bold: bool = False) -> str:
-    options = [
-        "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if bold else
-        "/System/Library/Fonts/Supplemental/Arial.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-    ]
-    for path in options:
-        if Path(path).exists():
-            return path
-    raise FileNotFoundError("A Cyrillic TrueType font is required")
-
-
-pdfmetrics.registerFont(TTFont("Report", font_path()))
-pdfmetrics.registerFont(TTFont("ReportBold", font_path(True)))
-pdfmetrics.registerFontFamily("Report", normal="Report", bold="ReportBold")
-
-INK = colors.HexColor("#22334d")
-MUTED = colors.HexColor("#55667b")
-BLUE = colors.HexColor("#356aa5")
-ORANGE = colors.HexColor("#cf7c35")
-PALE = colors.HexColor("#eef4fb")
-
+OUTPUT = ROOT / 'report.pdf'
 styles = getSampleStyleSheet()
-styles.add(ParagraphStyle(
-    name="ReportTitle", fontName="ReportBold", fontSize=19, leading=23,
-    textColor=INK, spaceAfter=8,
-))
-styles.add(ParagraphStyle(
-    name="ReportSubtitle", fontName="Report", fontSize=9.5, leading=14,
-    textColor=MUTED, spaceAfter=14,
-))
-styles.add(ParagraphStyle(
-    name="ReportHead", fontName="ReportBold", fontSize=11.5, leading=15,
-    textColor=INK, spaceBefore=12, spaceAfter=5,
-))
-styles.add(ParagraphStyle(
-    name="ReportBody", fontName="Report", fontSize=9.2, leading=13.5,
-    textColor=INK, spaceAfter=7,
-))
-styles.add(ParagraphStyle(
-    name="ReportSmall", fontName="Report", fontSize=8, leading=11.5,
-    textColor=MUTED, spaceAfter=5,
-))
-styles.add(ParagraphStyle(
-    name="ReportCell", fontName="Report", fontSize=8.4, leading=11,
-    textColor=INK,
-))
-styles.add(ParagraphStyle(
-    name="ReportCellBold", fontName="ReportBold", fontSize=8.4, leading=11,
-    textColor=INK,
-))
-styles.add(ParagraphStyle(
-    name="ReportFooter", fontName="Report", fontSize=8, leading=10,
-    textColor=MUTED, alignment=TA_CENTER,
-))
+styles.add(ParagraphStyle(name='Body', fontName='Helvetica', fontSize=10, leading=14, spaceAfter=9))
+styles.add(ParagraphStyle(name='Head', fontName='Helvetica-Bold', fontSize=13, leading=17, spaceBefore=10, spaceAfter=7, textColor=colors.HexColor('#243e59')))
+styles.add(ParagraphStyle(name='SmallText', fontName='Helvetica', fontSize=8, leading=11, spaceAfter=6))
+styles['Title'].fontName = 'Helvetica-Bold'
+styles['Title'].fontSize = 23
+styles['Title'].leading = 28
 
 
-def para(text: str, style: str = "ReportBody") -> Paragraph:
-    return Paragraph(text, styles[style])
+def p(text, kind='Body'):
+    return Paragraph(text, styles[kind])
 
 
-def page(canvas, document):
+def table(rows, widths):
+    result = Table([[p(escape(str(x)), 'SmallText') for x in row] for row in rows], colWidths=widths, repeatRows=1)
+    result.setStyle(TableStyle([
+        ('BACKGROUND',(0,0),(-1,0),colors.HexColor('#e8f0f7')),
+        ('VALIGN',(0,0),(-1,-1),'TOP'),
+        ('LINEBELOW',(0,0),(-1,0),0.5,colors.HexColor('#8fa7be')),
+        ('LINEBELOW',(0,1),(-1,-1),0.3,colors.HexColor('#dbe3ec')),
+        ('TOPPADDING',(0,0),(-1,-1),7),('BOTTOMPADDING',(0,0),(-1,-1),7),
+    ]))
+    return result
+
+
+def footer(canvas, doc):
     canvas.saveState()
-    width, height = A4
-    canvas.setStrokeColor(colors.HexColor("#d7e2ef"))
-    canvas.line(19 * mm, height - 17 * mm, width - 19 * mm, height - 17 * mm)
-    canvas.setFont("Report", 8)
-    canvas.setFillColor(MUTED)
-    canvas.drawString(19 * mm, 13 * mm, "Домашняя работа 2 · NLP")
-    canvas.drawRightString(width - 19 * mm, 13 * mm, f"{document.page}")
+    canvas.setFont('Helvetica',8)
+    canvas.setFillColor(colors.HexColor('#637487'))
+    canvas.drawString(20*mm,13*mm,'HSE NLP HW2 | Andrei Vorsin | 15 October 2026')
+    canvas.drawRightString(190*mm,13*mm,str(doc.page))
     canvas.restoreState()
 
 
-def metric(value, suffix: str = "", decimals: int = 4) -> str:
-    if value is None:
-        return "не измерено"
-    if isinstance(value, float):
-        return f"{value:.{decimals}f}{suffix}"
-    if isinstance(value, int):
-        return f"{value:,}".replace(",", " ") + suffix
-    return f"{value}{suffix}"
-
-
-def loss_chart(series: list[tuple[str, list[dict], colors.Color]]) -> Drawing:
-    chart = Drawing(155 * mm, 54 * mm)
-    left, bottom, width, height = 15 * mm, 9 * mm, 132 * mm, 37 * mm
-    chart.add(Line(left, bottom, left + width, bottom, strokeColor=MUTED, strokeWidth=0.7))
-    chart.add(Line(left, bottom, left, bottom + height, strokeColor=MUTED, strokeWidth=0.7))
-    maximum_step = max(point["step"] for _, observations, _ in series for point in observations)
-    y_max = max(4.5, max(point["token_loss"] for _, observations, _ in series for point in observations) + 0.2)
-    for tick in (0, 1, 2, 3, 4):
-        y = bottom + tick / y_max * height
-        chart.add(Line(left - 2 * mm, y, left + width, y,
-                       strokeColor=colors.HexColor("#e5ebf2"), strokeWidth=0.5))
-        chart.add(String(left - 5 * mm, y - 1.2 * mm, str(tick), fontName="Report",
-                         fontSize=7, textAnchor="end", fillColor=MUTED))
-    for fraction in (0, 0.5, 1):
-        x = left + fraction * width
-        chart.add(String(x, bottom - 4 * mm, f"{int(maximum_step * fraction):,}",
-                         fontName="Report", fontSize=7, textAnchor="middle", fillColor=MUTED))
-    for label, observations, color in series:
-        points = sorted(observations, key=lambda point: point["step"])
-        coords = [
-            (left + point["step"] / maximum_step * width,
-             bottom + point["token_loss"] / y_max * height)
-            for point in points
-        ]
-        for first, second in zip(coords, coords[1:]):
-            chart.add(Line(*first, *second, strokeColor=color, strokeWidth=2))
-        for x, y in coords:
-            chart.add(Circle(x, y, 2.2, fillColor=color, strokeColor=colors.white))
-    chart.add(String(left, bottom + height + 4 * mm, "Отложенный token loss по шагам",
-                     fontName="ReportBold", fontSize=9, fillColor=INK))
-    for index, (label, _, color) in enumerate(series):
-        x = left + 73 * mm + index * 30 * mm
-        chart.add(Line(x, bottom + height + 5 * mm, x + 5 * mm,
-                       bottom + height + 5 * mm, strokeColor=color, strokeWidth=2))
-        chart.add(String(x + 6 * mm, bottom + height + 4 * mm, label,
-                         fontName="Report", fontSize=7, fillColor=MUTED))
-    return chart
-
-
-def build() -> None:
-    doc = BaseDocTemplate(
-        str(OUTPUT), pagesize=A4, leftMargin=19 * mm,
-        rightMargin=19 * mm, topMargin=23 * mm, bottomMargin=21 * mm,
-        title="Домашняя работа 2: генерация кода",
-        author="Андрей Ворсин",
-    )
-    frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height,
-                  leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
-    doc.addPageTemplates(PageTemplate(id="report", frames=[frame], onPage=page))
-
-    story = [
-        para("Домашняя работа 2: генерация кода", "ReportTitle"),
-        para("Андрей Ворсин · ФКН ВШЭ · 3 октября 2026 года · " +
-             ("эксперимент продолжается" if METRICS["run_status"] != "complete" else
-              "итоговый отчет"), "ReportSubtitle"),
-        para("Задача и ограничения", "ReportHead"),
-        para(
-            "Обучить с нуля Transformer с энкодером вопроса и декодером Python-кода. "
-            "Данные - только <link href='https://huggingface.co/datasets/SlavaYus/tinysms_qa_12m' "
-            "color='#356aa5'>выданный датасет</link>: 11 838 003 пары question/code в train и "
-            "1 919 вопросов без ответов в test. Для итогового решения требуется сгенерировать "
-            "все тестовые ответы не дольше 180 секунд на одной NVIDIA T4. Публичный pass@1 "
-            "оценивает проверяющая система курса; тестовые ответы не опубликованы."
-        ),
-        para("Данные и модель", "ReportHead"),
-        para(
-            "Для проверки отложены первые 1 024 пары первого train-шарда. Эти пары не участвуют "
-            "в обучении модели и токенизатора. Токенизатор byte-level BPE размера 8 192 обучен "
-            "на остальных парах того же шарда. Модель T5-типа создана со случайными весами: "
-            f"{metric(METRICS['parameters'])} параметров, 4 слоя энкодера, 4 слоя декодера, "
-            "размер скрытого состояния 256, 4 головы внимания. Ограничения длины: 128 токенов "
-            "для вопроса и 192 для кода. Предобученные веса, дополнительные данные и искусственные "
-            "таргеты не применялись."
-        ),
-        para("Обучение", "ReportHead"),
-        para(
-            f"AdamW, скорость обучения 3 × 10<super>-4</super>, warmup 500 обновлений, "
-            f"batch {METRICS['batch_size']} × накопление градиента "
-            f"{METRICS['gradient_accumulation']} = 64 примера на обновление; "
-            "смешанная точность FP16, обрезка нормы градиента 1.0. "
-            f"Пробег - {metric(METRICS['target_updates'])} обновлений на "
-            f"{METRICS['device']}. Модель и состояние оптимизатора сохраняются каждые 500 шагов."
-        ),
-        para("Проверенные эксперименты", "ReportHead"),
-        para(
-            "Сначала один локальный шаг на Apple MPS проверил прохождение данных, обратный проход "
-            "и сохранение модели (train loss 9.6595; held-out token loss 9.0907). "
-            "Затем 10 шагов на T4 проверили совместимость среды и сохранение чекпоинта. "
-            f"Пилотный T4-прогон дошел до {metric(METRICS['t4_pilot_update'])} шагов "
-            f"(loss {metric(METRICS['t4_pilot_validation_loss'])}), но связь прервалась и "
-            "итоговый чекпоинт не был получен. Этот пилот не участвует в выборе итоговой модели."
-        ),
-        para(
-            "На корпоративной G4 проведены два запуска с одинаковой архитектурой, бюджетом "
-            "обновлений и гиперпараметрами. Бейзлайн читает каждый перемешанный шард целиком; "
-            "второй вариант переходит к следующему шарду после 1 000 мини-батчей. "
-            "Гипотеза: при том же числе обновлений большее покрытие train-шардов улучшит "
-            "обобщение на отложенных вопросах. "
-            f"Итоговый validation loss: {metric(METRICS['baseline_g4_final_loss'])} "
-            f"против {metric(METRICS['rotated_g4_final_loss'])}. "
-            f"У бейзлайна был лучший записанный loss "
-            f"{metric(METRICS['baseline_best_logged_loss'])} на шаге "
-            f"{metric(METRICS['baseline_best_logged_step'])}, однако его веса не сохранились: "
-            "остался только последний чекпоинт. "
-            f"Для ответов выбрана модель: {metric(METRICS['selected_experiment'])}. "
-            f"Чекпоинт выбран по минимальному loss на первых 256 отложенных парах "
-            f"(шаг {metric(METRICS.get('selected_checkpoint_step'))}, "
-            f"loss {metric(METRICS.get('selected_checkpoint_loss'))}). "
-            "Гипотеза о ротации поддержана меньшим минимальным loss; на отдельных 256 "
-            "парах точных текстовых совпадений было 2 против 0 у бейзлайна."
-        ),
+def build():
+    metrics = json.loads((ROOT/'metrics.json').read_text())
+    submission = json.loads((ROOT/'submissions/2026-10-15-gpu-check.json').read_text())
+    quality_path = ROOT/'quality_results.json'
+    quality = json.loads(quality_path.read_text()) if quality_path.exists() else {}
+    story = [p('Code generation from scratch','Title'),
+        p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 15 October 2026','SmallText'),
+        p('Current result','Head'),
+        p('The last scored public submission achieved <b>18.85% (181/960)</b>. The public sheet subsequently showed rank 13 of 15, with first place at 78.33%. The 33% baseline has not been passed. No private leaderboard result is available. The goal of first place remains open.'),
+        p('Task and rules','Head'),
+        p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
+        p('Data and architecture','Head'),
+        p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The saved model has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights.'),
+        p('Training uses AdamW, learning rate 0.0003, 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model state and optimizer state are saved at regular intervals.'),
+        p('Validation correction','Head'),
+        p('Earlier runs excluded the first 1,024 row positions but did not exclude copies of their questions. An audit found 24 later rows in shard 0 with the same question text. Historical validation was therefore not fully independent. Future streams exclude every reserved question text across all shards. Rows 0-255 select checkpoints; rows 256-511 provide separate diagnostics. The earlier tokenizer may have seen duplicate question text.'),
+        PageBreak(),
+        p('Quality experiments','Title'),
+        p('Historical runs','Head'),
+        table([
+            ['Experiment','Evidence','Interpretation'],
+            ['Local MPS / short T4 checks','One local update; ten T4 updates; later T4 pilot reached 4,000 updates, loss 1.6469.','Pipeline checks. The longer pilot checkpoint was not recovered.'],
+            ['Sequential shards, 20,000 updates','Final held-out token loss 1.1213; best logged 0.9207 at step 12,500.','Best weights were not retained; last weights only.'],
+            ['Rotate after 1,000 mini-batches, 20,000 updates','Final loss 0.9815; saved best 0.8636 at step 18,500.','Selected historical checkpoint. Held-out exact code match 2/256; public score 18.85%.'],
+        ],[42*mm,68*mm,60*mm]),
+        p('The historical comparison supports broader data coverage by token loss, but the validation-copy issue limits that conclusion. Token loss scores the next token with the reference prefix supplied; it does not show whether a generated program computes the right answer.'),
+        p('Audit before the new pilots','Head'),
+        p('All 1,024 held-out programs round-trip through the tokenizer exactly with cleanup disabled. Only 2 held-out questions and 3 of 1,919 test questions exceed the input limit; 5 held-out programs exceed the target limit. Truncation and tokenizer corruption do not explain most failures in this audit. Samples of 1,000 rows from shards 0, 15, 30, 45 and 55 have mean code lengths 65.96, 62.56, 93.17, 61.84 and 118.95 tokens. This suggests that sequential training encounters different styles for extended periods.'),
+        p('Matched sampling pilot','Head'),
+        p('Hypothesis: mixing original examples across shards improves held-out numeric agreement. Two fresh runs use identical initialization, model, seed, BF16 precision, batch 64, accumulation 1, grouping window 32 and 6,000 updates. Both exclude validation question texts. The control rotates after 1,000 batches. The treatment mixes up to 4,096 randomly selected original rows from every shard and resamples each epoch. Sampling is the experimental variable. Comparisons with older runs also change batch shape and validation exclusion.'),
     ]
-
-    observations = METRICS["validation"]
-    selected_steps = {500, 1000, 3000, 5000, 10000, METRICS["selected_checkpoint_step"], 20000}
-    selected = [x for x in observations if x["step"] in selected_steps]
-    rows = [[para("Шаг", "ReportCellBold"), para("Loss на отложенных токенах", "ReportCellBold")]]
-    rows += [[para(metric(item['step']), "ReportCell"),
-              para(f"{item['token_loss']:.4f}", "ReportCell")]
-             for item in selected]
-    table = Table(rows, colWidths=[38 * mm, 86 * mm], hAlign="LEFT", repeatRows=1)
-    table.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), PALE),
-        ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#d7e2ef")),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("TOPPADDING", (0, 0), (-1, -1), 5),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
-    ]))
-    story.append(table)
-    story.extend([
-        Spacer(1, 4 * mm),
-        loss_chart([
-            ("Бейзлайн", METRICS["baseline_validation"], BLUE),
-            *([("Ротация", METRICS["rotated_validation"], ORANGE)]
-              if METRICS.get("rotated_validation") else []),
-        ]),
-        Spacer(1, 5 * mm),
-        para(
-            "Token loss измеряет предсказание следующего токена при известном правильном префиксе. "
-            "Это не pass@1 и не проверка корректности выполненной программы.", "ReportSmall"
-        ),
-        para("Генерация и результат", "ReportHead"),
-        para(
-            "Основная генерация жадная, пакетами по 64 вопроса. Вопросы сортируются "
-            "по длине для уменьшения padding, затем ответы возвращаются в исходный порядок. "
-            "Только синтаксически неверные ответы повторно генерируются с четырьмя лучами; "
-            "один разделенный пробелом идентификатор исправлен, и результат проверен Python-парсером. "
-            "Время измеряется на T4 с синхронизацией CUDA вокруг генерации всех тестовых строк, "
-            "включая сортировку, токенизацию, повторные попытки и запись CSV. "
-            f"Результат: {metric(METRICS['test_predictions'], ' ответов')}; "
-            f"время {metric(METRICS['t4_generation_seconds'], ' с', decimals=2)}. "
-            "Все сгенерированные ответы непустые и синтаксически корректные.",
-        ),
-        para(
-            "На 256 отложенных парах, не использованных для выбора чекпоинта, считаются "
-            "доля непустого синтаксически корректного кода "
-            f"({metric(METRICS['syntax_valid_fraction'])}), доля программ с функцией solve "
-            f"({metric(METRICS['solve_defined_fraction'])}) и точное совпадение с эталоном "
-            f"({metric(METRICS['exact_match_fraction'])}). Эти числа - диагностика, "
-            "не замена pass@1: правильную задачу можно решить разным кодом. "
-            f"Публичный pass@1: {metric(METRICS['public_pass_at_1'])}."
-        ),
-        KeepTogether([para("Использование агента", "ReportHead"), para(
-            "Codex помог прочитать условие и схему датасета, написать и проверить код обработки "
-            "данных, архитектуру, цикл обучения, инференс и отчет. Он нашел ошибку передачи "
-            "token_type_ids в generate во время локальной проверки; ошибка исправлена до GPU-прогона. "
-            "Агент не создавал обучающие пары, дополнительные таргеты и эталонные ответы и не "
-            "использовал чужие веса. Итоговые численные результаты взяты из выполненных запусков."
-        )]),
-        para("Ограничения и воспроизводимость", "ReportHead"),
-        para(
-            "Формат посылки для Telegram-бота на момент работы еще не опубликован в условии. "
-            "Код, токенизатор, Colab-ноутбуки и результаты лежат в форке "
-            "<link href='https://github.com/OsVox/hse-nlp' color='#356aa5'>OsVox/hse-nlp</link>. "
-            "Для повторения нужны GPU для обучения, T4 для проверки лимита, доступ к датасету и запуск "
-            "<font name='ReportBold'>hw2_train_colab.ipynb</font>, затем "
-            "<font name='ReportBold'>hw2_inference_colab.ipynb</font>. "
-            "Тестовый leaderboard и 4-балльный порог нельзя считать подтвержденными без "
-            "публикации правил отправки и ответа проверяющей системы."
-        ),
-        para(
-            "Источники: <link href='https://github.com/ashaba1in/hse-nlp/blob/2026/homeworks/hw2_code_generation.md' "
-            "color='#356aa5'>условие курса</link>; "
-            "<link href='https://huggingface.co/datasets/SlavaYus/tinysms_qa_12m' "
-            "color='#356aa5'>описание датасета</link>.", "ReportSmall"
-        ),
-    ])
-    doc.build(story)
+    records = quality.get('runs',{})
+    if records:
+        rows = [['Run','Best token loss','Held-out numeric agreement']]
+        for name, item in records.items():
+            val = item.get('best_validation',{})
+            num = item.get('numeric',{})
+            score = f"{num.get('numeric_correct','?')}/{num.get('usable_references','?')}"
+            rows.append([name, f"{val['token_loss']:.4f}" if 'token_loss' in val else 'not measured', score])
+        story += [table(rows,[55*mm,50*mm,65*mm])]
+    else:
+        story += [p('The matched pilot was still running when this report version was generated. No pilot improvement is claimed.')]
+    story += [p('Numeric evaluation compares solve() outputs of generated and supplied held-out programs, using limited separate processes and restricted imports. Only finite numeric reference results are usable. The old saved model agrees on 50/245 usable references (20.4%). Reference errors and runner restrictions can affect this measure. Numeric outputs are never used as training targets.'),
+        PageBreak(),
+        p('Generation and speed','Title'),
+        p('Measured optimization experiments','Head'),
+        p('The course materials motivated length grouping, mixed precision, gradient accumulation, clipping and caching. The model already uses cached autoregressive generation. Training disables that cache. Loss accumulation stays on the GPU until logging. These choices were measured rather than assumed to make the full workload faster.'),
+        table([
+            ['Blackwell inference, same weights','Median seconds','Changed outputs'],
+            ['Before, FP32','11.350','0'],
+            ['After, FP32','11.240','0'],
+            ['After, FP16','13.027','54'],
+            ['After, BF16','12.249','313'],
+        ],[95*mm,37*mm,38*mm]),
+        p('Two repetitions used reversed variant order on the second pass. The approximately 1% FP32 difference has overlapping timing ranges; it is not convincing evidence of a speedup. Lower inference precision was slower and changed programs. FP32 remains the default. An 80-update continuation benchmark also found no clear speed or validation-loss improvement; it does not establish full retraining quality.'),
+        p('T4 requirement','Head'),
+        p('The historical 39.09-second T4 measurement belongs to an older run. Blackwell timings cannot establish the T4 requirement for the current candidate. The inference notebook now checks the actual GPU name and rejects a non-T4 speed verification. The final checkpoint and decoding configuration require a fresh complete T4 measurement before compliance is claimed.'),
+        p('Exact model output and submission','Head'),
+        p('Generation sorts questions by token length and restores their original positions. Greedy decoding is followed by four-beam generation for syntactically invalid outputs; the first parseable model candidate is retained. No candidate is rewritten. Selected token IDs are saved, then decoded again to check equality with every output string. A sidecar records source commit, checkpoint hash, question-order hash, output hash, device and generation settings. JSONL conversion only wraps each exact string as a code field.'),
+        p('The historical submission included one handwritten identifier repair, which does not meet the user\'s stricter model-only condition. That repair has been removed from all future inference. The old score is retained as historical evidence, not a score for a newly verified model-only candidate.'),
+        p('The bot accepts 1,919 JSONL rows in pass1_questions.jsonl order. The official dataset card identifies its test.parquet as the project test split, and original Parquet order is preserved. The separate JSONL question file has not been obtained for direct row-by-row comparison. Count and acceptance alone do not prove alignment.'),
+        PageBreak(),
+        p('Agent use and reproducibility','Title'),
+        p('What the agent did','Head'),
+        p('Codex read the assignment and course weeks, wrote data access, training, inference and diagnostic code, controlled Colab through MCP, inspected GPU state, compared measurements, prepared Telegram file packaging and wrote this report. It identified incomplete validation exclusion, stale T4 claims and handwritten postprocessing. Those findings changed the data exclusion rules, provenance records and speed checks.'),
+        p('Codex did not provide solution programs as training targets or replace model answers with its own solutions. No external model was used as a teacher. The submitted programs must come from the trained Transformer. Bot examples are not used to tune individual answers. The humanizer skill is used only to make report prose direct; it does not conceal agent involvement.'),
+        p('What remains open','Head'),
+        p('The public baseline and first-place objective remain unmet. Before selecting a final model, compare held-out numeric results, preserve its checkpoint and training evidence, establish question-file order as far as available evidence permits, run full generation on one T4, and obtain an actual score from the course bot. A public first-place result would not establish private first place. No private result is claimed.'),
+        p('Reproduction files','Head'),
+        p('Repository: <link href="https://github.com/OsVox/hse-nlp/tree/2026/homeworks/hw2">OsVox/hse-nlp, branch 2026, homeworks/hw2</link>. The directory contains train.py, data.py, numeric_eval.py, inference.py, tokenizer files, saved model weights, inference and training notebooks, experiment records and submission receipts. quality_experiments.md specifies the controlled pilot before its run. The raw logs and run configurations accompany the quality results.'),
+        p('Use a fresh output directory for each experiment. Run training with the recorded settings and keep latest plus best checkpoints. Run numeric evaluation on reserved training rows only. Use hw2_inference_colab.ipynb on a T4 to generate and package the test outputs. Download evidence and model files before deleting the Colab runtime.'),
+        p('Sources','Head'),
+        p('<link href="https://github.com/ashaba1in/hse-nlp/blob/2026/homeworks/hw2_code_generation.md">Course assignment</link>; <link href="https://huggingface.co/datasets/SlavaYus/tinysms_qa_12m">allowed dataset and schema</link>; course week 2 (encoder-decoder attention and decoding), week 3 (training methods), week 4 (attention and caching). Local measurements: metrics.json, gpu_benchmark/*.json, quality_results.json when present, and submissions/2026-10-15-gpu-check.json.','SmallText'),
+    ]
+    doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
+    doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     build()

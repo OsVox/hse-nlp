@@ -62,3 +62,10 @@ split, but the separate pass1_questions.jsonl has not yet been obtained for
 a row-by-row order comparison. Acceptance and equal counts do not prove it.
 Final candidate generation must be timed on an actual NVIDIA T4 before
 claiming the required 180-second limit. Blackwell timings do not establish it.
+
+## Next bounded test, specified before running
+
+After the matched sampling pilots, test learning rate 0.001 against 0.0003
+with the mixed sampler, holding the 6,000-update budget and all other settings
+fixed. This tests whether the small model is learning too slowly. Do not submit
+a pilot just because token loss decreases; compare held-out numeric agreement.

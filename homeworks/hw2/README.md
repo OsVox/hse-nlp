@@ -8,7 +8,8 @@ No pretrained weights, outside examples, or extra target programs are used.
 ## Files
 
 - `data.py` downloads original Parquet shards, reserves 1,024 training rows for
-  validation, and builds training batches.
+  validation, excludes every copy of their question texts from future training,
+  and builds sequential or globally mixed training batches.
 - `tokenizer/` is an 8,192-token byte-level BPE tokenizer fitted only on the
   supplied training split, excluding those validation rows.
 - `train.py` trains a 9.97-million-parameter T5-style model with four encoder
@@ -44,9 +45,12 @@ otherwise identical run that samples across more shards, add
 `--batches-per-shard 1000` and use a separate output directory. This is an
 experimental option; compare its held-out loss before choosing a final model.
 
-The course brief says submission details for its Telegram bot will be
-published later. The CSV packaging may need adjustment to those instructions.
-No leaderboard score is claimed until the bot verifies a submission.
+The bot accepts only JSONL with 1,919 exact model outputs. The inference notebook
+converts the CSV without changing any program and verifies token provenance.
+The last historical score is 18.85%; it included one handwritten identifier
+repair that has now been removed. Direct comparison with pass1_questions.jsonl
+remains pending. See quality_experiments.md for the current controlled runs and
+validation-copy caveat; the report is a progress report until final checks pass.
 
 ## Оптимизации по материалам курса
 
