@@ -64,5 +64,72 @@
       "https://arxiv.org/abs/2109.07740"
     ],
     "proposed_first_candidate_parameters": 42481152
-  }
+  },
+  "training_time_projection": {
+    "assumption": "Same sequence lengths and efficiency; seconds scale linearly with total parameters. This is a planning estimate, not measured larger-model throughput.",
+    "baseline_parameters": 9967360,
+    "baseline_examples_per_second": [
+      3692.8,
+      3200
+    ],
+    "baseline_note": "3692.8 measured short matched probe; 3200 rounded live rate including overhead.",
+    "full_corpus_equivalent_hours": [
+      {
+        "parameters": 9967360,
+        "hours": [
+          0.8904717739023685,
+          1.0276044270833333
+        ]
+      },
+      {
+        "parameters": 29700480,
+        "hours": [
+          2.6534046238273543,
+          3.062028935896767
+        ]
+      },
+      {
+        "parameters": 35663360,
+        "hours": [
+          3.1861210433373306,
+          3.6767836840112795
+        ]
+      },
+      {
+        "parameters": 42481152,
+        "hours": [
+          3.7952142572211853,
+          4.379677252833248
+        ]
+      },
+      {
+        "parameters": 51397120,
+        "hours": [
+          4.591755953419251,
+          5.298886370245816
+        ]
+      },
+      {
+        "parameters": 49298944,
+        "hours": [
+          4.40430747110504,
+          5.082570821655216
+        ]
+      }
+    ]
+  },
+  "training_exposure": [
+    {
+      "step": 160000,
+      "nominal_examples": 19200000,
+      "estimated_target_tokens": 1417618335.720797,
+      "note": "Nominal effective batch counts; partial batches and repeated sampled rows mean this is not a unique-example or exact-token count."
+    },
+    {
+      "step": 180000,
+      "nominal_examples": 21760000,
+      "estimated_target_tokens": 1606634113.816903,
+      "note": "Nominal effective batch counts; partial batches and repeated sampled rows mean this is not a unique-example or exact-token count."
+    }
+  ]
 }

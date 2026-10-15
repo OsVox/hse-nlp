@@ -47,6 +47,20 @@ def estimate(pool, tokenizer_path, train_rows):
         'a fitted encoder-decoder optimum. Pilot sizes require held-out quality and actual T4 timing.',
         sources=['https://arxiv.org/abs/2203.15556','https://arxiv.org/abs/2109.07740'],
         proposed_first_candidate_parameters=42481152)
+    result['training_time_projection'] = dict(
+        assumption='Same sequence lengths and efficiency; seconds scale linearly with total '
+        'parameters. This is a planning estimate, not measured larger-model throughput.',
+        baseline_parameters=9967360,
+        baseline_examples_per_second=[3692.8,3200],
+        baseline_note='3692.8 measured short matched probe; 3200 rounded live rate including overhead.',
+        full_corpus_equivalent_hours=[dict(parameters=a['parameters'],hours=[
+            train_rows/speed/3600*(a['parameters']/9967360) for speed in [3692.8,3200]])
+            for a in result['architectures']])
+    result['training_exposure'] = [dict(step=step,
+        nominal_examples=(20000*64+(step-20000)*128),
+        estimated_target_tokens=(20000*64+(step-20000)*128)*result['code']['mean_capped'],
+        note='Nominal effective batch counts; partial batches and repeated sampled rows mean '
+        'this is not a unique-example or exact-token count.') for step in [160000,180000]]
     return result
 
 
