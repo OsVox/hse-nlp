@@ -1,0 +1,15 @@
+{
+  "recorded_utc": "2026-10-15T18:59:52.946515+00:00",
+  "notebook_url": "https://colab.research.google.com/drive/1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
+  "account": "a.vorsin@replika.ai",
+  "bridge_verified": true,
+  "runtime": "CPU",
+  "gpu_allocated": false,
+  "consent_submitted": true,
+  "consent_page_refreshed_once": true,
+  "consent_observation": "Google consent remained Loading after Continue",
+  "mount_error": "ValueError: mount failed",
+  "training_started": false,
+  "completed_trials": 0,
+  "settings_inspection": "Browser security policy rejected chrome://settings/cookies; no settings changed"
+}
