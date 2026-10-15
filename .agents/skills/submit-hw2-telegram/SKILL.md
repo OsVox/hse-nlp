@@ -27,6 +27,8 @@ Creating this skill or preparing a file does not itself authorize sending. A use
 
 Use an available Telegram connector with the user's account, or the signed-in Telegram app/web UI through computer-use tools. Do not invent a Telegram MCP tool or request a token for the course bot: it belongs to the course, and submissions are sent as the user. If sign-in or required registration information is unavailable, ask for that specific missing step.
 
+On this Mac, Cold Turkey may block `t.me` and prevent browser automation. If that happens, report the blocker and ask the user to make Telegram available. Do not disable the blocker or switch channels just to evade it. Local CSV checks can finish, but mark the end-to-end submission check as blocked, not passed.
+
 Read the existing conversation first. Use Start or help only when needed and supported by the visible bot UI. Attach the selected predictions as a document/file, verify the attachment name and recipient, then send once. Send the report, model or other files only if the bot's instructions and the user's request call for them.
 
 ## Verify and retain the result
