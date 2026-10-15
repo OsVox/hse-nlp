@@ -95,8 +95,7 @@ def generate_predictions(
             )
             candidates = tokenizer.batch_decode(generated, skip_special_tokens=True, clean_up_tokenization_spaces=False)
             for position, index in enumerate(indices):
-                for candidate_index in range(position * 4, (position + 1) * 4):
-                    candidate = candidates[candidate_index]
+                for relative_index, candidate in enumerate(candidates[position * 4:(position + 1) * 4]):
                     if not candidate.strip():
                         continue
                     try:
@@ -104,7 +103,7 @@ def generate_predictions(
                     except SyntaxError:
                         continue
                     answers[index] = candidate
-                    selected_tokens[index] = generated[candidate_index].tolist()
+                    selected_tokens[index] = generated[position * 4 + relative_index].tolist()
                     repaired += 1
                     break
     if device.type == "cuda":
