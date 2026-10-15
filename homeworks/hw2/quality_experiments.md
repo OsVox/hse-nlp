@@ -317,3 +317,16 @@ to Drive first, exported and checked against the manifest, official order
 and exact selected model token decodes before one bot submission. The
 receipt was written and read back on Drive. Blackwell generation took
 9.372 seconds; T4 timing remains open. Training continues toward 180k.
+
+### Planned checkpoint-average pilot (CPU only)
+
+Compare the unchanged step-140000 model with the equal-weight average of
+steps 120000 and 140000 from the same run. Verify both parent hashes and
+identical architecture/tokenizer/run settings, average floating tensors in
+CPU float64, cast back to their original dtype, and reopen the saved T5.
+Keep both parents immutable and record all parent hashes. Use the same
+reserved training rows 256–511, FP32, greedy decoding, batch 64 and length
+limits as the preceding decoding comparison. Select on held-out numeric
+agreement and validation token loss; do not use test answers or bot examples.
+The average introduces neither new targets nor inference-time model copies.
+It is a pilot, not a claim of improvement; later averages need fresh checks.
