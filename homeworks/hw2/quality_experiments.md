@@ -276,3 +276,11 @@ checkpoint provenance and exact token decoding were verified before the
 single submission. The score receipt was written and read back on Drive.
 Generation took 8.646 seconds on Blackwell; this does not verify T4 timing.
 Training is continuing toward 180k with the same process and batch size 128.
+
+Step 120,000 achieved validation token loss 0.471192 and bot public pass@1
+**49.17% (472/960)**, rank **10 of 15** at 20:26 +03:00 on 2026-10-15.
+This adds 17 correct questions over step 100k. All 1,919 outputs passed
+the same Drive-first archive, manifest, question-order and exact-token-decode
+checks before one bot submission. The score receipt was saved and read back
+on Drive. Blackwell generation took 10.212 seconds; actual T4 timing is still
+unverified. The live process continued beyond 120k; 140k–180k remain pending.
