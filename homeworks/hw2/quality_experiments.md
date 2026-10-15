@@ -267,3 +267,12 @@ written and read back in the Drive run folder, then exported to the repository.
 Generation took 9.585 seconds on Blackwell; actual T4 timing remains open.
 The same training process continued past step 84,200; later checkpoints and
 their bot scores are still pending. First place has not been achieved.
+
+Step 100,000 achieved validation token loss 0.490893 and bot public pass@1
+**47.40% (455/960)**, rank **11 of 15** at 20:13 +03:00 on 2026-10-15.
+This adds 41 correct questions over the 80k checkpoint. All 1,919 outputs
+were saved to Drive before export; archive, file hashes, question order,
+checkpoint provenance and exact token decoding were verified before the
+single submission. The score receipt was written and read back on Drive.
+Generation took 8.646 seconds on Blackwell; this does not verify T4 timing.
+Training is continuing toward 180k with the same process and batch size 128.

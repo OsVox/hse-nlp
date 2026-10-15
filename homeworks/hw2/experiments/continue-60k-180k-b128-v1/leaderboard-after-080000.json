@@ -1,0 +1,16 @@
+{
+  "source_url": "https://docs.google.com/spreadsheets/d/1KcaREcQbUSfocz-Zv4gH7aHok_BO8bh9ECxVGQQfq18/export?format=csv",
+  "recorded_utc": "2026-10-15T17:04:35.579626+00:00",
+  "export_sha256": "6ac75c194e54d09c8a3b519ab53eb10bded178cb0f495a46dd608b2cb3496cf7",
+  "leader": {
+    "username": "Sllaavva",
+    "public_percent": 78.33
+  },
+  "ours": {
+    "username": "AndrejVorsin",
+    "public_percent": 43.13,
+    "rank": 12
+  },
+  "participants": 15,
+  "goal_achieved": false
+}
