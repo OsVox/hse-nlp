@@ -13,6 +13,7 @@ import torch
 from transformers import PreTrainedTokenizerFast, T5ForConditionalGeneration
 
 from .data import fetch_parquet
+from .speed import precision_dtype
 
 
 def generate_predictions(
@@ -22,6 +23,7 @@ def generate_predictions(
     *,
     batch_size: int = 64,
     max_new_tokens: int = 192,
+    precision: str = "fp32",
 ) -> tuple[int, float]:
     """Keep test order, save a CSV, and return (row count, generation seconds)."""
     if batch_size < 1 or max_new_tokens < 1:
@@ -30,7 +32,8 @@ def generate_predictions(
     if device.type != "cuda":
         print("Timing is not a T4 result: CUDA is unavailable")
     tokenizer = PreTrainedTokenizerFast.from_pretrained(model_dir)
-    model = T5ForConditionalGeneration.from_pretrained(model_dir).to(device)
+    dtype = precision_dtype(precision, device)
+    model = T5ForConditionalGeneration.from_pretrained(model_dir, torch_dtype=dtype).to(device)
     model.eval()
     test_path = fetch_parquet("data/test/test.parquet", cache_dir)
     questions = pq.read_table(test_path, columns=["question"])["question"].to_pylist()
@@ -40,16 +43,21 @@ def generate_predictions(
         torch.cuda.synchronize()
     started = time.monotonic()
     # Include sorting, tokenization, generation, and CSV writing in the timing.
-    lengths = [len(ids) for ids in tokenizer(questions, add_special_tokens=True)["input_ids"]]
+    # Токенизируем один раз; сортировка и повторная генерация используют эти же ID.
+    encoded = tokenizer(questions, truncation=True, max_length=128,
+                        return_token_type_ids=False)
+    lengths = [len(ids) for ids in encoded["input_ids"]]
+
+    def make_batch(indices):
+        return tokenizer.pad(
+            [{key: values[index] for key, values in encoded.items()} for index in indices],
+            padding=True, return_tensors="pt",
+        ).to(device)
     order = sorted(range(len(questions)), key=lambda index: lengths[index])
     with torch.inference_mode():
         for offset in range(0, len(order), batch_size):
             indices = order[offset:offset + batch_size]
-            batch = tokenizer(
-                [questions[index] for index in indices],
-                padding=True, truncation=True, max_length=128,
-                return_tensors="pt", return_token_type_ids=False,
-            ).to(device)
+            batch = make_batch(indices)
             generated = model.generate(
                 **batch,
                 max_new_tokens=max_new_tokens,
@@ -75,11 +83,7 @@ def generate_predictions(
         repaired = 0
         for offset in range(0, len(invalid), batch_size):
             indices = invalid[offset:offset + batch_size]
-            batch = tokenizer(
-                [questions[index] for index in indices],
-                padding=True, truncation=True, max_length=128,
-                return_tensors="pt", return_token_type_ids=False,
-            ).to(device)
+            batch = make_batch(indices)
             generated = model.generate(
                 **batch, max_new_tokens=max_new_tokens,
                 num_beams=4, num_return_sequences=4, do_sample=False,
@@ -128,7 +132,7 @@ def generate_predictions(
     if not all(answers):
         raise RuntimeError("the model returned an empty answer for at least one question")
     print(
-        f"generated={len(answers)} seconds={elapsed:.2f} device={device} "
+        f"generated={len(answers)} seconds={elapsed:.2f} device={device} precision={dtype} "
         f"invalid_before_retry={len(invalid)} beam_repaired={repaired} "
         f"syntax_repaired={syntax_repaired}"
     )
@@ -142,10 +146,11 @@ if __name__ == "__main__":
     parser.add_argument("--model-dir", type=Path, default=Path("homeworks/hw2/model"))
     parser.add_argument("--output-file", type=Path, default=Path("homeworks/hw2/predictions.csv"))
     parser.add_argument("--cache-dir", type=Path, default=Path("homeworks/hw2/cache"))
+    parser.add_argument("--precision", choices=["auto", "fp32", "fp16", "bf16"], default="fp32")
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--max-new-tokens", type=int, default=192)
     args = parser.parse_args()
     generate_predictions(
         args.model_dir, args.output_file, args.cache_dir,
-        batch_size=args.batch_size, max_new_tokens=args.max_new_tokens,
+        batch_size=args.batch_size, max_new_tokens=args.max_new_tokens, precision=args.precision,
     )

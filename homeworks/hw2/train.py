@@ -20,6 +20,7 @@ import torch
 from transformers import PreTrainedTokenizerFast, T5Config, T5ForConditionalGeneration
 
 from .data import SHARDS, training_batches, validation_examples
+from .speed import group_batches, precision_dtype
 
 SOURCE_LENGTH = 128
 TARGET_LENGTH = 192
@@ -82,7 +83,7 @@ def validation_loss(
     tokens = 0
     for start in range(0, len(examples), batch_size):
         batch = encode_batch(examples[start:start + batch_size], tokenizer, device)
-        output = model(**batch)
+        output = model(**batch, use_cache=False)
         count = int(batch["labels"].ne(-100).sum())
         weighted_loss += float(output.loss) * count
         tokens += count
@@ -122,6 +123,9 @@ def save_best_model(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--precision", choices=["auto", "fp32", "fp16", "bf16"], default="auto")
+    parser.add_argument("--group-window", type=int, default=32,
+                        help="Число батчей для группировки по длине; 1 отключает её")
     parser.add_argument("--steps", type=int, default=30_000)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--accumulation", type=int, default=4)
@@ -140,12 +144,16 @@ def main() -> None:
     if args.batches_per_shard is not None and args.batches_per_shard < 1:
         parser.error("batches per shard must be positive")
 
+    if args.group_window < 1:
+        parser.error("group window must be positive")
+
     torch.manual_seed(args.seed)
     device = torch.device(
         "cuda" if torch.cuda.is_available() else
         "mps" if torch.backends.mps.is_available() else "cpu"
     )
-    print(f"device={device}", flush=True)
+    dtype = precision_dtype(args.precision, device)
+    print(f"device={device} precision={dtype} group_window={args.group_window}", flush=True)
     tokenizer = PreTrainedTokenizerFast.from_pretrained("homeworks/hw2/tokenizer")
     checkpoint = args.output_dir / "latest"
     best_directory = args.output_dir / "best"
@@ -168,13 +176,14 @@ def main() -> None:
         return 0.1 + 0.9 * (1 + math.cos(math.pi * progress)) / 2
 
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, multiplier)
-    scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda")
+    scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda" and dtype == torch.float16)
     start_step = 0
     if (checkpoint / "training_state.pt").exists():
         state = torch.load(checkpoint / "training_state.pt", map_location="cpu", weights_only=False)
         optimizer.load_state_dict(state["optimizer"])
         scheduler.load_state_dict(state["scheduler"])
-        scaler.load_state_dict(state["scaler"])
+        if scaler.is_enabled() and state["scaler"]:
+            scaler.load_state_dict(state["scaler"])
         start_step = state["step"]
         print(f"resumed_at_step={start_step}", flush=True)
 
@@ -184,18 +193,20 @@ def main() -> None:
         args.cache_dir, args.batch_size, seed=args.seed + start_step,
         max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,
     )
+    batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
     validation = validation_examples(args.cache_dir)[:256]
     start_time = time.monotonic()
     for step in range(start_step + 1, args.steps + 1):
         optimizer.zero_grad(set_to_none=True)
-        running_loss = 0.0
+        # Не копируем loss на CPU после каждого микробатча: это ждёт GPU.
+        running_loss = torch.zeros((), device=device)
         for _ in range(args.accumulation):
             batch = encode_batch(next(batches), tokenizer, device)
-            autocast = torch.autocast("cuda", dtype=torch.float16) if device.type == "cuda" else nullcontext()
+            autocast = torch.autocast("cuda", dtype=dtype) if device.type == "cuda" and dtype != torch.float32 else nullcontext()
             with autocast:
-                loss = model(**batch).loss / args.accumulation
+                loss = model(**batch, use_cache=False).loss / args.accumulation
             scaler.scale(loss).backward()
-            running_loss += float(loss.detach())
+            running_loss += loss.detach()
         scaler.unscale_(optimizer)
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         scaler.step(optimizer)

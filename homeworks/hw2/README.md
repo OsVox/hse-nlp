@@ -47,3 +47,9 @@ experimental option; compare its held-out loss before choosing a final model.
 The course brief says submission details for its Telegram bot will be
 published later. The CSV packaging may need adjustment to those instructions.
 No leaderboard score is claimed until the bot verifies a submission.
+
+## Оптимизации по материалам курса
+
+См. [разбор приёмов, проверки и команды сравнения](optimizations.md).
+Новые настройки обучения: `--group-window` и `--precision`; в инференсе
+доступен `--precision` (по умолчанию `fp32`).
