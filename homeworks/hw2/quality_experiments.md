@@ -309,3 +309,11 @@ insufficient to change the submission decoder, especially while T4 timing
 for four beams remains unknown. Retain greedy decoding with the existing
 model-only retry for syntactically invalid outputs. These are held-out
 training diagnostics, not public scores or evidence of T4 compliance.
+
+Step 140,000 achieved validation token loss 0.452829 and bot public pass@1
+**50.73% (487/960)**, rank **10 of 15** at 20:39 +03:00 on 2026-10-15.
+This adds 15 correct questions over step 120k. Its 1,919 outputs were saved
+to Drive first, exported and checked against the manifest, official order
+and exact selected model token decodes before one bot submission. The
+receipt was written and read back on Drive. Blackwell generation took
+9.372 seconds; T4 timing remains open. Training continues toward 180k.
