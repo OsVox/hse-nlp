@@ -198,3 +198,35 @@ Colab showed no active sessions after release at 19:07 +03:00.
 
 See the run summary, raw telemetry, launch settings, and eight receipts.
 Fresh full-generation T4 timing and held-out numeric evaluation remain open.
+
+## Planned input pipeline probe and 60k-to-180k continuation
+
+The 60k model still improved in both selection loss and public score at each
+of the last six saved checkpoints. The next quality experiment adds 120,000
+updates to the same model, with the same tokenizer and allowed-data sampler.
+It retains AdamW moments, uses batch 128, BF16, and a fresh 500-update warmup
+with peak rate 0.0003 followed by cosine decay. Six checkpoints at 80k, 100k,
+120k, 140k, 160k and 180k will each be retained in Drive and scored by the bot.
+No architecture, target text, outside examples or handwritten answer changes
+are introduced. This run tests whether additional training improves quality;
+its new schedule is explicitly part of the continuation.
+
+Before GPU allocation, compare every tensor from three input paths on 32,768
+examples from the existing official training-only benchmark pool: legacy;
+window tokenization reused for collation; and that path with a bounded
+2-batch CPU preparation queue. Require identical shapes, IDs, attention masks,
+labels and order. Local tests cover truncation, duplicate rows, partial windows,
+literal special tokens, producer errors and early consumer shutdown (18 tests
+passed). Synthetic fixtures are confined to tests and never enter training.
+
+Then run two reversed-order GPU probes using the same checkpoint, seed,
+examples, batch size, precision, optimizer and warmup. Measure whole-loop
+examples/second without synchronizing each update. Keep the legacy path unless
+the fastest candidate improves median throughput by at least 5%. Probe weights
+are discarded. This changes only how the same batches are prepared.
+
+The CPU stage verifies all cached Parquet files and the 60k checkpoint, reopens
+the model, saves source and equivalence evidence to Drive, and copies the prior
+run's eight bot receipts and final report to Drive. The GPU stage reuses these
+verified inputs, retains telemetry, and requests runtime release at completion
+or failure. Runtime release must also be checked in Colab's active sessions UI.

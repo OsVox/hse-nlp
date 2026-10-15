@@ -22,6 +22,7 @@ from transformers import PreTrainedTokenizerFast, T5Config, T5ForConditionalGene
 from .data import SHARDS, training_batches, validation_examples
 from .speed import group_batches, precision_dtype
 from .checkpoint_io import archive_checkpoint, drive_preflight, package_jsonl, sha256
+from .input_pipeline import encoded_batches, prefetch_batches, to_device
 
 SOURCE_LENGTH = 128
 TARGET_LENGTH = 192
@@ -144,6 +145,10 @@ def main() -> None:
     parser.add_argument("--precision", choices=["auto", "fp32", "fp16", "bf16"], default="auto")
     parser.add_argument("--group-window", type=int, default=32,
                         help="Число батчей для группировки по длине; 1 отключает её")
+    parser.add_argument('--input-pipeline', choices=['legacy', 'encoded'], default='legacy',
+                        help='Reuse grouping token IDs instead of tokenizing each batch again')
+    parser.add_argument('--prefetch-batches', type=int, default=0,
+                        help='Bounded CPU preparation queue; requires the encoded pipeline')
     parser.add_argument("--steps", type=int, default=30_000)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--accumulation", type=int, default=4)
@@ -176,6 +181,8 @@ def main() -> None:
 
     if args.group_window < 1:
         parser.error("group window must be positive")
+    if args.prefetch_batches < 0 or (args.prefetch_batches and args.input_pipeline != 'encoded'):
+        parser.error('Non-negative prefetch depth requires --input-pipeline encoded')
     if args.predict_at_checkpoint and args.drive_root is None:
         parser.error('--predict-at-checkpoint requires --drive-root')
     if args.restart_schedule and args.resume_from is None:
@@ -283,7 +290,11 @@ def main() -> None:
         max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,
         mixed_rows_per_shard=args.mixed_rows_per_shard,
     )
-    batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
+    if args.input_pipeline == 'encoded':
+        batches = encoded_batches(batches, tokenizer, args.batch_size, args.group_window)
+        batches = prefetch_batches(batches, args.prefetch_batches, pin_memory=device.type == 'cuda')
+    else:
+        batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
     validation = validation_examples(args.cache_dir)[:256]
     start_time = time.monotonic()
     for step in range(start_step + 1, args.steps + 1):
@@ -292,7 +303,8 @@ def main() -> None:
         # Не копируем loss на CPU после каждого микробатча: это ждёт GPU.
         running_loss = torch.zeros((), device=device)
         for _ in range(args.accumulation):
-            batch = encode_batch(next(batches), tokenizer, device)
+            batch = (to_device(next(batches), device) if args.input_pipeline == 'encoded'
+                     else encode_batch(next(batches), tokenizer, device))
             autocast = torch.autocast("cuda", dtype=dtype) if device.type == "cuda" and dtype != torch.float32 else nullcontext()
             with autocast:
                 loss = model(**batch, use_cache=False).loss / args.accumulation
