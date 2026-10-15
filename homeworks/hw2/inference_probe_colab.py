@@ -1,6 +1,5 @@
 """Prepare an inference experiment on CPU; run a bounded probe on one T4."""
 import argparse
-import io
 import json
 import shutil
 import subprocess
@@ -52,7 +51,8 @@ def prepare():
         encoded = tokenizer(['Add two numbers.'],return_tensors='pt',return_token_type_ids=False)
         assert model.generate(**encoded,max_new_tokens=4).shape[0]==1
     del model
-    commit = subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+    commit = (Path('source_commit.txt').read_text().strip() if Path('source_commit.txt').exists()
+              else subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
     (local/'source_commit.txt').write_text(commit+'\n')
     PREPARED.mkdir(parents=True)
     bundle = local/'inputs.tar'
