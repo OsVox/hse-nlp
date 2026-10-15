@@ -89,6 +89,7 @@ def train_tokenizer(cache_dir: Path, output_dir: Path, vocab_size: int = 8_192) 
 def training_batches(
     cache_dir: Path, batch_size: int, *, seed: int = 42,
     max_shards: int = SHARDS, batches_per_shard: int | None = None,
+    mixed_rows_per_shard: int | None = None,
 ) -> Iterator[list[dict[str, str]]]:
     """Yield shuffled batches, optionally rotating shards before exhaustion.
 
@@ -100,8 +101,29 @@ def training_batches(
         raise ValueError("invalid batch size or shard count")
     if batches_per_shard is not None and batches_per_shard < 1:
         raise ValueError("batches_per_shard must be positive")
+    if mixed_rows_per_shard is not None and mixed_rows_per_shard < 1:
+        raise ValueError("mixed_rows_per_shard must be positive")
+    # The source has repeated questions with different programs. Reserve their
+    # question text across every shard, not just the first 1,024 row positions.
+    heldout_questions = {row['question'] for row in validation_examples(cache_dir)}
     epoch = 0
     while True:
+        if mixed_rows_per_shard is not None:
+            rows = []
+            rng = random.Random(seed + epoch)
+            for shard_index in range(max_shards):
+                table = pq.read_table(training_shard(shard_index, cache_dir),
+                                      columns=['question', 'code'])
+                first = VALIDATION_ROWS if shard_index == 0 else 0
+                indices = rng.sample(range(first, len(table)),
+                                     min(mixed_rows_per_shard, len(table) - first))
+                rows.extend(row for row in table.take(indices).to_pylist()
+                            if row['question'] not in heldout_questions)
+            rng.shuffle(rows)
+            for start in range(0, len(rows), batch_size):
+                yield rows[start:start + batch_size]
+            epoch += 1
+            continue
         shard_order = list(range(max_shards))
         random.Random(seed + epoch).shuffle(shard_order)
         for shard_index in shard_order:
@@ -109,6 +131,7 @@ def training_batches(
                 training_shard(shard_index, cache_dir), columns=["question", "code"]
             )
             rows = table.slice(VALIDATION_ROWS if shard_index == 0 else 0).to_pylist()
+            rows = [row for row in rows if row['question'] not in heldout_questions]
             order = list(range(len(rows)))
             random.Random(seed + epoch * SHARDS + shard_index).shuffle(order)
             for batch_number, start in enumerate(range(0, len(order), batch_size)):

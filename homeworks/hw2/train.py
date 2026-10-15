@@ -131,6 +131,8 @@ def main() -> None:
     parser.add_argument("--accumulation", type=int, default=4)
     parser.add_argument("--max-shards", type=int, default=SHARDS)
     parser.add_argument("--batches-per-shard", type=int, default=None)
+    parser.add_argument("--mixed-rows-per-shard", type=int, default=None,
+                        help="Mix a fresh random sample from all shards each epoch")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--learning-rate", type=float, default=3e-4)
     parser.add_argument("--warmup", type=int, default=500)
@@ -143,6 +145,8 @@ def main() -> None:
         parser.error("steps, batch size, accumulation and max shards must be positive")
     if args.batches_per_shard is not None and args.batches_per_shard < 1:
         parser.error("batches per shard must be positive")
+    if args.mixed_rows_per_shard is not None and args.mixed_rows_per_shard < 1:
+        parser.error("mixed rows per shard must be positive")
 
     if args.group_window < 1:
         parser.error("group window must be positive")
@@ -166,6 +170,14 @@ def main() -> None:
     model.to(device)
     model.train()
     print(f"parameters={sum(p.numel() for p in model.parameters()):,}", flush=True)
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    (args.output_dir / 'run_config.json').write_text(json.dumps({
+        **{key: str(value) if isinstance(value, Path) else value
+           for key, value in vars(args).items()},
+        'gpu': torch.cuda.get_device_name(0) if device.type == 'cuda' else None,
+        'model_config': model.config.to_dict(),
+        'heldout_exclusion': 'question text across all shards',
+    }, indent=2))
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.01)
 
@@ -192,6 +204,7 @@ def main() -> None:
     batches = training_batches(
         args.cache_dir, args.batch_size, seed=args.seed + start_step,
         max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,
+        mixed_rows_per_shard=args.mixed_rows_per_shard,
     )
     batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
     validation = validation_examples(args.cache_dir)[:256]
