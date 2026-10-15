@@ -531,5 +531,15 @@
   "current_saved_model_t4_verified": false,
   "public_score_scope": "Historical 2026-10-15 after_fp32.jsonl; includes one handwritten identifier repair removed from future inference.",
   "validation_independence_caveat": "Held-out row positions excluded, but duplicate question text was not excluded in historical runs; 24 copies found later in shard0.",
-  "goal_status": "in_progress"
+  "goal_status": "in_progress",
+  "latest_drive_run": {
+    "summary": "experiments/mixed-lr001-20k-drive-v1/summary.json",
+    "best_step": 20000,
+    "public_pass_at_1": 0.2031,
+    "correct": 195,
+    "total": 960,
+    "model_only": true,
+    "all_checkpoints_scored": true,
+    "t4_timing_verified": false
+  }
 }

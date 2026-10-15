@@ -49,15 +49,17 @@ def build():
     submission = json.loads((ROOT/'submissions/2026-10-15-gpu-check.json').read_text())
     quality_path = ROOT/'quality_results.json'
     quality = json.loads(quality_path.read_text()) if quality_path.exists() else {}
+    current = json.loads((ROOT/'experiments/mixed-lr001-20k-drive-v1/summary.json').read_text())
+    best = max(current['checkpoints'], key=lambda x: x['public_pass_at_1_percent'])
     story = [p('Code generation from scratch','Title'),
         p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 15 October 2026','SmallText'),
         p('Current result','Head'),
-        p('The last scored public submission achieved <b>18.85% (181/960)</b>. The public sheet subsequently showed rank 13 of 15, with first place at 78.33%. The 33% baseline has not been passed. No private leaderboard result is available. The goal of first place remains open.'),
+        p(f"The completed 20,000-update run has ten checkpoints saved in Google Drive and scored by the course bot. Its best model-only public result is <b>{best['public_pass_at_1_percent']:.2f}% ({best['correct']}/960)</b> at step {best['step']:,}. The 33% baseline and first-place goal remain unmet. No private leaderboard result is available."),
         p('Task and rules','Head'),
         p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
         p('Data and architecture','Head'),
         p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The saved model has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights.'),
-        p('Training uses AdamW, learning rate 0.0003, 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model state and optimizer state are saved at regular intervals.'),
+        p('The current run uses AdamW, learning rate 0.001 (historical runs used 0.0003), 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model state and optimizer state are saved at regular intervals.'),
         p('Validation correction','Head'),
         p('Earlier runs excluded the first 1,024 row positions but did not exclude copies of their questions. An audit found 24 later rows in shard 0 with the same question text. Historical validation was therefore not fully independent. Future streams exclude every reserved question text across all shards. Rows 0-255 select checkpoints; rows 256-511 provide separate diagnostics. The earlier tokenizer may have seen duplicate question text.'),
         PageBreak(),
@@ -88,6 +90,13 @@ def build():
         story += [p('The matched pilot was still running when this report version was generated. No pilot improvement is claimed.')]
     story += [p('Numeric evaluation compares solve() outputs of generated and supplied held-out programs, using limited separate processes and restricted imports. Only finite numeric reference results are usable. The old saved model agrees on 50/245 usable references (20.4%). Reference errors and runner restrictions can affect this measure. Numeric outputs are never used as training targets.'),
         PageBreak(),
+        p('Completed Drive-backed run','Title'),
+        p('All ten checkpoints retained','Head'),
+        p('The mixed sampler completed 20,000 updates with batch 64, BF16 training and a peak learning rate of 0.001. Source commit: 1a23e45b1138c3dba7c40befeae6d3337153df98. Training plus periodic validation, generation and Drive saves took about 12 minutes on an NVIDIA RTX PRO 6000 Blackwell Server Edition. This is not a T4 timing measurement.'),
+        table([['Step', 'Validation token loss', 'Public correct / 960', 'Public score']] + [[f"{x['step']:,}", f"{x['token_loss']:.4f}", x['correct'], f"{x['public_pass_at_1_percent']:.2f}%"] for x in current['checkpoints']], [35*mm, 50*mm, 45*mm, 40*mm]),
+        p('Every checkpoint was written to Drive with optimizer state and a completion manifest before predictions were generated. Each checkpoint has 1,919 exact model outputs, matching CSV and JSONL files, validation metrics and provenance hashes. The files were exported from Drive, checked locally and then submitted to the bot. Colab was disconnected before the bot evaluations finished.'),
+        p('Drive location: MyDrive/HSE_NLP_HW2/runs/mixed-lr001-20k-drive-v1. The repository keeps exported prediction evidence and individual submission receipts. Weights stay in Drive. The final validation loss is lower than in the short pilots, but scores across checkpoints show that lower token loss does not guarantee higher program accuracy.'),
+        PageBreak(),
         p('Generation and speed','Title'),
         p('Measured optimization experiments','Head'),
         p('The course materials motivated length grouping, mixed precision, gradient accumulation, clipping and caching. The model already uses cached autoregressive generation. Training disables that cache. Loss accumulation stays on the GPU until logging. These choices were measured rather than assumed to make the full workload faster.'),
@@ -111,7 +120,7 @@ def build():
         p('Codex read the assignment and course weeks, wrote data access, training, inference and diagnostic code, controlled Colab through MCP, inspected GPU state, compared measurements, prepared Telegram file packaging and wrote this report. It identified incomplete validation exclusion, stale T4 claims and handwritten postprocessing. Those findings changed the data exclusion rules, provenance records and speed checks.'),
         p('Codex did not provide solution programs as training targets or replace model answers with its own solutions. No external model was used as a teacher. The submitted programs must come from the trained Transformer. Bot examples are not used to tune individual answers. The humanizer skill is used only to make report prose direct; it does not conceal agent involvement.'),
         p('What remains open','Head'),
-        p('The new pilot weights were lost when temporary runtime storage was released before export succeeded; their measurements remain saved. The revised workflow verifies Drive save/export on CPU, prepares data and source bundles there, and archives every training checkpoint and its exact predictions to Drive before bot evaluation.'),
+        p('The early pilot weights were lost when temporary runtime storage was released before export succeeded; their measurements remain saved. The revised workflow passed CPU save and restore checks, then completed a fresh run with all ten checkpoints and their exact predictions retained in Drive. Every checkpoint has a bot receipt. The GPU has been released.'),
         p('The public baseline and first-place objective remain unmet. Before selecting a final model, compare held-out numeric results, preserve its checkpoint and training evidence, run full generation on one T4, and obtain an actual score from the course bot. A public first-place result would not establish private first place. No private result is claimed.'),
         p('Reproduction files','Head'),
         p('Repository: <link href="https://github.com/OsVox/hse-nlp/tree/2026/homeworks/hw2">OsVox/hse-nlp, branch 2026, homeworks/hw2</link>. The directory contains train.py, data.py, numeric_eval.py, inference.py, tokenizer files, saved model weights, inference and training notebooks, experiment records and submission receipts. quality_experiments.md specifies the controlled pilot before its run. The raw logs and run configurations accompany the quality results.'),

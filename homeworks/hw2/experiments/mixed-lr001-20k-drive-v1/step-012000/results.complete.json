@@ -1,0 +1,7 @@
+{
+  "step": 12000,
+  "jsonl_sha256": "ad8aec89b2a683843f901ae2beaa42f991981fcf66fa3b16de1741df04b8e0cc",
+  "bot_status": "pending",
+  "public_pass_at_1": null,
+  "question_order": "official data/test/test.parquet"
+}

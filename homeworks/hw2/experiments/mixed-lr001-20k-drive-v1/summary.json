@@ -1,0 +1,110 @@
+{
+  "run": "mixed-lr001-20k-drive-v1",
+  "status": "training_complete_all_checkpoints_scored",
+  "source_commit": "1a23e45b1138c3dba7c40befeae6d3337153df98",
+  "drive_path": "MyDrive/HSE_NLP_HW2/runs/mixed-lr001-20k-drive-v1",
+  "question_order": "official data/test/test.parquet row order; confirmed by user",
+  "test_rows": 1919,
+  "handwritten_answer_repairs": 0,
+  "t4_timing_verified": false,
+  "training_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "gpu_released": true,
+  "export_archive": "predictions-through-step-020000.zip",
+  "export_archive_sha256": "f34ba7f8b6c0c1b23015ea86f82c0f25085756da4aad79fbd35406a7aa67581f",
+  "public_rank": 13,
+  "public_participants": 15,
+  "best_public_step": 20000,
+  "checkpoints": [
+    {
+      "step": 2000,
+      "token_loss": 1.8063791222748629,
+      "correct": 31,
+      "total": 960,
+      "public_pass_at_1_percent": 3.23,
+      "predictions_sha256": "5ad12a6a3441a552f83e8d0efb2fbed43940c96eec7e093409fca956d6ac312d",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-002000.json"
+    },
+    {
+      "step": 4000,
+      "token_loss": 1.212956965806731,
+      "correct": 49,
+      "total": 960,
+      "public_pass_at_1_percent": 5.1,
+      "predictions_sha256": "d1cf6a5389ebf38bc2c0f87103a18bc3b8865d919f7409e804e489d2b0d5a2c7",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-004000.json"
+    },
+    {
+      "step": 6000,
+      "token_loss": 1.0967228331241952,
+      "correct": 93,
+      "total": 960,
+      "public_pass_at_1_percent": 9.69,
+      "predictions_sha256": "bf1d492b95ab5a6d517b7b173ca26482d4b364f9e05a222993a8c9b37ba6bc65",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-006000.json"
+    },
+    {
+      "step": 8000,
+      "token_loss": 1.002030518995243,
+      "correct": 103,
+      "total": 960,
+      "public_pass_at_1_percent": 10.73,
+      "predictions_sha256": "c5530a6bfbb3d1b0509ab2c9b17b3289585c002377415fb23d6ef2858f25d3de",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-008000.json"
+    },
+    {
+      "step": 10000,
+      "token_loss": 0.9395818475906129,
+      "correct": 141,
+      "total": 960,
+      "public_pass_at_1_percent": 14.69,
+      "predictions_sha256": "fc3648ff239752b49fe12dd4d6f9543b1d5e41d913b3c11ce307d94719af7bde",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-010000.json"
+    },
+    {
+      "step": 12000,
+      "token_loss": 0.8848290863437549,
+      "correct": 133,
+      "total": 960,
+      "public_pass_at_1_percent": 13.85,
+      "predictions_sha256": "ad8aec89b2a683843f901ae2beaa42f991981fcf66fa3b16de1741df04b8e0cc",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-012000.json"
+    },
+    {
+      "step": 14000,
+      "token_loss": 0.8540006616047919,
+      "correct": 163,
+      "total": 960,
+      "public_pass_at_1_percent": 16.98,
+      "predictions_sha256": "9b10a1b0bbdf8dc7d9e260bff1c8f39c2702bd30bed072d37bb963e246389869",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-014000.json"
+    },
+    {
+      "step": 16000,
+      "token_loss": 0.8219114451908593,
+      "correct": 182,
+      "total": 960,
+      "public_pass_at_1_percent": 18.96,
+      "predictions_sha256": "cd6c14f6e5802d1ca16f44c04d9b6fa2848db5026899bfefec6952b0069e3988",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-016000.json"
+    },
+    {
+      "step": 18000,
+      "token_loss": 0.8076224217171586,
+      "correct": 192,
+      "total": 960,
+      "public_pass_at_1_percent": 20.0,
+      "predictions_sha256": "56a368ee072395fb66598024958bac8b61f9ed904a017b87db532dbdf2835eb5",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-018000.json"
+    },
+    {
+      "step": 20000,
+      "token_loss": 0.7952487274718236,
+      "correct": 195,
+      "total": 960,
+      "public_pass_at_1_percent": 20.31,
+      "predictions_sha256": "9ed86130ed6dd668a0793bb72f77f2fa170cefcb0704936809d36977bc6377c7",
+      "receipt": "submissions/2026-10-15-mixed-lr001-step-020000.json"
+    }
+  ],
+  "drive_url": "https://drive.google.com/drive/u/0/folders/1PDsxzU_x846zQU9yWRhvQjHE44xodfof"
+}
