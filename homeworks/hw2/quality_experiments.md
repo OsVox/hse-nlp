@@ -284,3 +284,17 @@ the same Drive-first archive, manifest, question-order and exact-token-decode
 checks before one bot submission. The score receipt was saved and read back
 on Drive. Blackwell generation took 10.212 seconds; actual T4 timing is still
 unverified. The live process continued beyond 120k; 140k–180k remain pending.
+
+### Planned held-out decoding comparison at step 120k
+
+Hypothesis: four-beam decoding improves numeric agreement with the supplied
+held-out training references enough to justify its extra inference cost.
+Export the unchanged, verified step-120000 checkpoint from Drive. Compare
+greedy and four-beam generation on the same reserved shard-0 rows 256–511,
+using FP32, batch 64, input limit 128 and output limit 192. Use the existing
+numeric evaluator on the local CPU, leaving Colab training uninterrupted.
+Record model/source/data hashes and both full-generation wall times. Treat
+these CPU times only as relative diagnostic costs, never as T4 evidence.
+Do not use public-test answers or bot examples, modify programs, or create
+training targets. Keep the current submission decoder unless held-out
+evidence supports a change and the full T4 timing gate later passes.
