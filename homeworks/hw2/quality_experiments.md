@@ -230,3 +230,29 @@ the model, saves source and equivalence evidence to Drive, and copies the prior
 run's eight bot receipts and final report to Drive. The GPU stage reuses these
 verified inputs, retains telemetry, and requests runtime release at completion
 or failure. Runtime release must also be checked in Colab's active sessions UI.
+
+### Verified probe result and continuation launch
+
+The CPU gate passed on source `ca26869455692cb570b94cb4a633be7701221f9e`:
+all three paths produced identical tensor hashes for 32,768 examples and
+2,419,826 target tokens. CPU preparation took 18.72 seconds for legacy,
+6.38 for reused tokenization, and 5.98 with the two-batch queue. All eight
+prior bot receipts, summaries, the report and inference notebook were copied
+to the prior Drive run folder and verified by SHA256 before GPU allocation.
+
+On the RTX PRO 6000 Blackwell, median throughput over reversed rounds was:
+
+| Input path | Examples per second |
+| --- | ---: |
+| Legacy | 2,931.17 |
+| Reused tokenization | 3,483.24 |
+| Reused tokenization plus CPU queue | 3,692.80 |
+
+The selected path improves throughput by 25.98% in this matched probe, with
+the same batch size of 128 and peak allocated tensor memory of 7.75 GiB.
+The 60k-to-180k continuation was launched with this selected path. This is
+a speed result; new validation losses and bot scores remain pending.
+See `experiments/continue-60k-180k-b128-v1/` for CPU equivalence, full probe
+records, selection, source hashes and the launch configuration exported from
+Drive. Training completion, all six bot scores and GPU release must be
+verified before reporting this continuation as complete.

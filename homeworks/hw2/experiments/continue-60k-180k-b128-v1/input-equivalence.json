@@ -1,0 +1,30 @@
+{
+  "pool_sha256": "8612f359a5da6123a9bf03f868773bc16d9fc4069e3f16d92b421566e7d6466e",
+  "examples": 32768,
+  "batch_size": 128,
+  "tokenizer_sha256": "d9fa7b5618323be055ad10ebe760cff2801f251b39dabb7dc62188567c5a6414",
+  "results": [
+    {
+      "variant": "legacy",
+      "tensor_sha256": "b75fc142a395bbf71c0021e9747e223b486c6a5c6fe3423042d0eed374d5c6cc",
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "cpu_preparation_seconds": 18.716746028999978
+    },
+    {
+      "variant": "encoded",
+      "tensor_sha256": "b75fc142a395bbf71c0021e9747e223b486c6a5c6fe3423042d0eed374d5c6cc",
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "cpu_preparation_seconds": 6.375687679000066
+    },
+    {
+      "variant": "encoded-prefetch",
+      "tensor_sha256": "b75fc142a395bbf71c0021e9747e223b486c6a5c6fe3423042d0eed374d5c6cc",
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "cpu_preparation_seconds": 5.984582239000019
+    }
+  ],
+  "status": "all_tensors_equal"
+}

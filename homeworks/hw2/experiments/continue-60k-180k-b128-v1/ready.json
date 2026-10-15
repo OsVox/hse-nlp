@@ -1,0 +1,11 @@
+{
+  "source_commit": "ca26869455692cb570b94cb4a633be7701221f9e",
+  "source_sha256": "78f949f695cfb9bd48133b1bb75ee1da4626cc346c39029f90b1bb1e1aebc1d5",
+  "parent_model_sha256": "f1b4feaefc78ce7455d0fa51fabd9bfc0e9f900eb0ed39c1e58768a9ea45f865",
+  "pool_sha256": "8612f359a5da6123a9bf03f868773bc16d9fc4069e3f16d92b421566e7d6466e",
+  "input_equivalence_sha256": "771c2bfd549dbd8378289b8c0781a2f9461e5c2be9a6c2eb87fb0505ec7d20ac",
+  "gpu_allocated": false,
+  "parent_step": 60000,
+  "final_step": 180000,
+  "previous_run_receipts_copied": 8
+}

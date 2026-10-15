@@ -1,0 +1,9 @@
+{
+  "median_examples_per_second": {
+    "legacy": 2931.172696872766,
+    "encoded": 3483.23731037187,
+    "encoded-prefetch": 3692.8024032824287
+  },
+  "chosen": "encoded-prefetch",
+  "rule": "fastest median across reversed rounds; require at least 5% gain over legacy"
+}
