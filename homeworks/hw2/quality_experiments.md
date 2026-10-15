@@ -154,3 +154,22 @@ nvidia-smi samples. This hardware probe does not select a trained candidate;
 its temporary weights are discarded. Prepare its inputs and source on CPU
 and save them to Drive before allocating GPU. Every continuation checkpoint
 and its exact test outputs must again be saved to Drive and scored by the bot.
+
+
+## Batch throughput result and active continuation
+
+Both passes measured 16,384 identical examples (1,210,118 non-padding target
+tokens per pass). Median examples/second: batch 64 = 2,100.34; 128 = 2,278.92;
+256 = 2,114.27; 512 = 1,949.52. Batch 128 was selected: 8.5% more examples
+per second than 64, with peak allocated memory 7.75 GiB. The synchronized
+probe's average GPU utilization rose from 45% at batch 64 to 60% at 512,
+even though useful throughput fell at 512. The real unsynchronized training
+loop subsequently showed instantaneous utilization of 69-83%; these samples
+are not a run average. Raw telemetry is retained in Drive.
+
+continue-20k-60k-b128-v1 started from our retained 20,000-update model and
+optimizer. It adds 40,000 updates at batch 128, peak LR 0.0005, 500-update
+warmup and cosine decay. Checkpoints and test outputs are saved every 5,000
+updates. Source a411a64f8afe61e3a2b337af338c0ea6c19c9c15 is pinned. The new
+notebook documents CPU preparation, GPU restore, benchmark and continuation.
+At this entry the run is active; no new bot score is claimed.
