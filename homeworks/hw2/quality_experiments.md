@@ -135,3 +135,22 @@ verified all 61 Parquet hashes and the historical model hash. The final
 setup-complete.json was also downloaded through Drive and checked locally.
 See submissions/2026-10-15-drive-setup.json. No GPU was allocated for these checks.
 Training remains paused; this storage check is not a new bot submission.
+
+
+## Completed Drive run and longer continuation, 15 October 2026
+
+The mixed-lr001-20k-drive-v1 run completed and all ten saved checkpoints
+were exported from Drive and evaluated by the bot. The best public score
+was 20.31% (195/960) at update 20,000; the observed rank was 13/15.
+Selection loss was still improving (0.79525 at 20,000). See the run summary
+and ten receipts in submissions/. Compute was disconnected afterward.
+
+At the user's request, the next run continues our own verified 20,000-update
+checkpoint with optimizer moments retained and a fresh warmup/decay phase.
+Before choosing its batch size, benchmark 64, 128, 256 and 512 on identical
+training examples, in forward and reverse order. Record examples/second,
+tokens/second, CPU preparation time, GPU compute time, peak memory and
+nvidia-smi samples. This hardware probe does not select a trained candidate;
+its temporary weights are discarded. Prepare its inputs and source on CPU
+and save them to Drive before allocating GPU. Every continuation checkpoint
+and its exact test outputs must again be saved to Drive and scored by the bot.
