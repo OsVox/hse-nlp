@@ -1,0 +1,9 @@
+{
+  "samples": 4742,
+  "mean_gpu_utilization_percent": 74.52319696330662,
+  "median_gpu_utilization_percent": 94.0,
+  "p95_gpu_utilization_percent": 96.0,
+  "max_gpu_memory_mib": 10220.0,
+  "mean_gpu_power_watts": 294.91219105862507,
+  "note": "One-second nvidia-smi samples including checkpoint/validation/I/O. GPU utilization is not achieved FLOPs."
+}

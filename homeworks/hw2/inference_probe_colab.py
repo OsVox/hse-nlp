@@ -10,10 +10,10 @@ from pathlib import Path
 from .checkpoint_io import drive_preflight, sha256
 
 ROOT = Path('/content/drive/MyDrive/HSE_NLP_HW2')
-PREPARED = ROOT/'prepared/inference-speed-160k-v1'
-PARENT = ROOT/'runs/continue-60k-180k-b128-v1/step-160000'
-MODEL_HASH = '5b9c70b5d9b46271821aaf72aacd144ef64f8cc29ecf73865ff058511155d92b'
-RESULTS = ROOT/'benchmarks/inference-speed-160k-t4-v1'
+PREPARED = ROOT/'prepared/inference-speed-180k-v1'
+PARENT = ROOT/'runs/continue-60k-180k-b128-v1/step-180000'
+MODEL_HASH = '0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7'
+RESULTS = ROOT/'benchmarks/inference-speed-180k-t4-v1'
 
 
 def prepare():

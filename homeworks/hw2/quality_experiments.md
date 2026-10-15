@@ -371,3 +371,17 @@ for our encoder-decoder. See `scaling_estimate.py` and
 `experiments/scaling-analysis/data-estimate.json`. Proposed first larger
 candidate: width 512, six encoder layers, four decoder layers, 42,481,152
 parameters. Its quality and T4 speed must be measured before long training.
+
+The continuation finished at 180,000 with return code 0 and all six checkpoint
+exports complete on Drive. Its last checkpoint achieved token loss 0.440206
+and **53.85% (517/960), rank 9/15** at 21:14 +03:00. This is one more correct
+answer than 160k; no further continuation was started. Generation took 8.800
+seconds on Blackwell. The GPU was released through Colab controls and file
+work moved to a verified CPU runtime. Colab's JavaScript download failed for
+the final archive; the saved Drive archive was exported through Colab MCP in
+bounded byte chunks and verified against its SHA-256 before submission.
+
+The planned T4 probe now uses the final 180k checkpoint (model SHA-256
+0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7),
+with the same predeclared decoder and batch-size comparison. This also gives
+an actual T4 timing gate for the final trained checkpoint. No T4 result yet.
