@@ -1,0 +1,24 @@
+{
+  "recorded_utc": "2026-10-15T18:52:47.252753+00:00",
+  "source_commit": "1f1558515ce00d1be29f032bac843bcbfc5b6bf4",
+  "cpu_preflight_passed": true,
+  "cpu_tests": [
+    "test_model_sizes",
+    "test_continuation"
+  ],
+  "cpu_model_forward_checks_passed": true,
+  "ready_sha256": "d0fb09c4f83c44a17247ee643da9db6d6457961b26cb99fbc0818b6c0f8553da",
+  "source_bundle_sha256": "9b833702f598cbd98814efc81583136508576a5f69951e176bad0a66bfc5f0f6",
+  "drive_notebook": "MyDrive/HSE_NLP_HW2/hw2_short_pilots_colab.ipynb",
+  "gpu_selected": "G4",
+  "failure_stage": "drive.mount before source restore and before training",
+  "exception": "ValueError: mount failed",
+  "browser_observation": "Google consent remained loading; Colab showed output JavaScript load error and inability to contact reCAPTCHA service. No CAPTCHA challenge was displayed.",
+  "training_started": false,
+  "completed_trials": 0,
+  "bot_submissions": 0,
+  "automatic_release_called": true,
+  "disconnected_verified_in_ui": true,
+  "cpu_selected_for_next_connection": true,
+  "latest_failure_record_saved_to_drive": false
+}
