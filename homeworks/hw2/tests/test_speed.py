@@ -67,15 +67,15 @@ class SpeedTests(unittest.TestCase):
             pq.write_table(pa.table({'question': questions}), root / 'test.parquet')
             # Подмена только генерации: проверяем токенизацию, сортировку и запись.
             def generate(model, input_ids, **kwargs):
-                return input_ids
+                return input_ids.repeat_interleave(kwargs.get('num_return_sequences', 1), dim=0)
             with patch('transformers.T5ForConditionalGeneration.generate', generate):
                 count, _ = generate_predictions(Path('homeworks/hw2/model'), root/'out.csv', root,
                                                 batch_size=2, max_new_tokens=8)
             with (root/'out.csv').open(newline='') as f:
                 actual = [r['code'] for r in csv.DictReader(f)]
-            expected = [s.strip() for s in self.tokenizer.batch_decode(
+            expected = self.tokenizer.batch_decode(
                 self.tokenizer(questions, truncation=True, max_length=128)['input_ids'],
-                skip_special_tokens=True)]
+                skip_special_tokens=True, clean_up_tokenization_spaces=False)
             self.assertEqual(count, 4)
             self.assertEqual(actual, expected)
 
