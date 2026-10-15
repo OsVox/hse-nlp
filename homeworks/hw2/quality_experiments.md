@@ -123,3 +123,15 @@ generates predictions from the in-memory model to avoid reloading it, and
 queues every JSONL for the bot. Bot limits take precedence over the queue.
 The user confirmed official test.parquet order as the required task order;
 the separate pass1_questions.jsonl is no longer a prerequisite.
+
+## CPU Drive verification, 15 October 2026
+
+The approved a.vorsin@replika.ai Drive mount passed a real browser export:
+setup_verified.txt SHA256 79bc3c134a038e7c283ef8c2dd7371171096ec7c657c8d8a822192b643a7d842
+matched locally. All eight custom checks passed on CPU. All 60 training shards
+and official test.parquet (1,919 questions), source bundle, historical model
+and six evidence files were copied to Drive. A restore into empty directories
+verified all 61 Parquet hashes and the historical model hash. The final
+setup-complete.json was also downloaded through Drive and checked locally.
+See submissions/2026-10-15-drive-setup.json. No GPU was allocated for these checks.
+Training remains paused; this storage check is not a new bot submission.

@@ -1,0 +1,11 @@
+{
+  "status": "cpu_setup_verified",
+  "drive_export_probe_sha256": "79bc3c134a038e7c283ef8c2dd7371171096ec7c657c8d8a822192b643a7d842",
+  "restored_parquet_files": 61,
+  "test_rows": 1919,
+  "source_commit": "1a23e45b1138c3dba7c40befeae6d3337153df98",
+  "gpu_allocated": false,
+  "drive_folder_url": "https://drive.google.com/drive/u/0/folders/1Lv-jtDlPSihAbRl2F5WX4BuIrPgmbU1W",
+  "drive_export_record_sha256": "abf0c11e1c7a80ead300a08788206d9aeadd30ebd7a347e2ad8b19cafdb264de",
+  "tests_passed": 8
+}
