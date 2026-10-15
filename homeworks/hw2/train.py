@@ -45,15 +45,21 @@ def continuation_scheduler(optimizer, *, learning_rate, start_step, end_step, wa
     return torch.optim.lr_scheduler.LambdaLR(optimizer, multiplier)
 
 
-def new_model(tokenizer: PreTrainedTokenizerFast) -> T5ForConditionalGeneration:
+def new_model(tokenizer: PreTrainedTokenizerFast, *, d_model=256, d_ff=768,
+              encoder_layers=4, decoder_layers=4, num_heads=4,
+              dropout=0.1) -> T5ForConditionalGeneration:
+    if min(d_model, d_ff, encoder_layers, decoder_layers, num_heads) < 1:
+        raise ValueError('Model dimensions must be positive')
+    if d_model != 64 * num_heads or not 0 <= dropout < 1:
+        raise ValueError('Use 64-dimensional attention heads and dropout in [0, 1)')
     config = T5Config(
         vocab_size=len(tokenizer),
-        d_model=256,
-        d_ff=768,
-        num_layers=4,
-        num_decoder_layers=4,
-        num_heads=4,
-        dropout_rate=0.1,
+        d_model=d_model,
+        d_ff=d_ff,
+        num_layers=encoder_layers,
+        num_decoder_layers=decoder_layers,
+        num_heads=num_heads,
+        dropout_rate=dropout,
         feed_forward_proj="gated-gelu",
         pad_token_id=tokenizer.pad_token_id,
         eos_token_id=tokenizer.eos_token_id,
@@ -142,6 +148,12 @@ def save_best_model(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument('--d-model', type=int, default=None)
+    parser.add_argument('--d-ff', type=int, default=None)
+    parser.add_argument('--encoder-layers', type=int, default=None)
+    parser.add_argument('--decoder-layers', type=int, default=None)
+    parser.add_argument('--num-heads', type=int, default=None)
+    parser.add_argument('--dropout', type=float, default=None)
     parser.add_argument("--precision", choices=["auto", "fp32", "fp16", "bf16"], default="auto")
     parser.add_argument("--group-window", type=int, default=32,
                         help="Число батчей для группировки по длине; 1 отключает её")
@@ -231,9 +243,15 @@ def main() -> None:
     best_record = best_directory / "validation.json"
     best_loss = json.loads(best_record.read_text())["token_loss"] if best_record.exists() else float("inf")
     if (load_checkpoint / "config.json").exists():
+        if any(getattr(args, name) is not None for name in
+               ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']):
+            parser.error('Architecture overrides require a fresh model/output directory')
         model = T5ForConditionalGeneration.from_pretrained(load_checkpoint)
     else:
-        model = new_model(tokenizer)
+        model = new_model(tokenizer, **{
+            name: getattr(args, name) for name in
+            ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']
+            if getattr(args, name) is not None})
     model.to(device)
     model.train()
     print(f"parameters={sum(p.numel() for p in model.parameters()):,}", flush=True)
