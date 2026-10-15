@@ -1,0 +1,30 @@
+{
+  "method": "uniform arithmetic weight average",
+  "parents": [
+    {
+      "path": "homeworks/hw2/checkpoints/drive-step-120000",
+      "model_sha256": "7f802d63d3972d9071ace26b43935c9088ecbccc68ddd5973c6f641f84a6a5de",
+      "manifest_sha256": "f3e9070991facb4fcd686e1f20e88f3b648b09a58d6be2c41b567465a6693dd6",
+      "run_config_sha256": "17943693f49effc047c82b7f808e38bf290cab3cba0e2cbd03b3089bd32a0df3",
+      "step": 120000
+    },
+    {
+      "path": "homeworks/hw2/checkpoints/drive-step-140000",
+      "model_sha256": "a5f55707eb24808e02cd1179efe50cf09a1b647f1fc3d8fc7f38e272a164bc23",
+      "manifest_sha256": "ed5e28b0834a3ab18ccee22d5b28c215d259a18e562ecf2b23c561ee2c34433c",
+      "run_config_sha256": "17943693f49effc047c82b7f808e38bf290cab3cba0e2cbd03b3089bd32a0df3",
+      "step": 140000
+    }
+  ],
+  "weights": [
+    0.5,
+    0.5
+  ],
+  "device": "cpu",
+  "accumulation_dtype": "float64",
+  "parameters": 9967360,
+  "script_sha256": "4b05434e0ec955cf90b1914bae1c60f5610e8252e1cff576a5268d5ca35113d1",
+  "resume_supported": false,
+  "training_targets_created": false,
+  "model_sha256": "1899523de86009e220df0c7ddde73a2a7e72807f9f970e0f6d5bd70d1a778420"
+}

@@ -1,0 +1,18 @@
+{
+  "device": "cpu",
+  "precision": "fp32",
+  "rows": 256,
+  "offset": 0,
+  "runs": [
+    {
+      "name": "drive-step-140000",
+      "model_sha256": "a5f55707eb24808e02cd1179efe50cf09a1b647f1fc3d8fc7f38e272a164bc23",
+      "token_loss": 0.45282505241906823
+    },
+    {
+      "name": "average-120k-140k",
+      "model_sha256": "1899523de86009e220df0c7ddde73a2a7e72807f9f970e0f6d5bd70d1a778420",
+      "token_loss": 0.45938334944734055
+    }
+  ]
+}

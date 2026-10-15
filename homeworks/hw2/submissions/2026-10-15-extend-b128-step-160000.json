@@ -1,0 +1,24 @@
+{
+  "time": "2026-10-15T20:54+03:00",
+  "time_precision": "minute",
+  "bot": "hse_nlp_hw2_2026_bot",
+  "filename": "extend-b128-step-160000.jsonl",
+  "jsonl_sha256": "46677e6502d6f102b59a9105880217fbc00561d4e1c2d5fc47aa25079ae8ce59",
+  "source_commit": "ca26869455692cb570b94cb4a633be7701221f9e",
+  "run": "continue-60k-180k-b128-v1",
+  "step": 160000,
+  "model_sha256": "5b9c70b5d9b46271821aaf72aacd144ef64f8cc29ecf73865ff058511155d92b",
+  "status": "scored",
+  "public_percent": 53.75,
+  "correct": 516,
+  "total": 960,
+  "rank": 9,
+  "participants": 15,
+  "submission_id": null,
+  "validation_token_loss": 0.4419220093243715,
+  "message_ids": {
+    "outgoing": 788590,
+    "score": 788592,
+    "rank": 788593
+  }
+}

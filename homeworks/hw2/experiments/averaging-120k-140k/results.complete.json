@@ -1,0 +1,11 @@
+{
+  "files": {
+    "average.json": "6df08ce0d96dbef6f8f8220e481015263add7de9d9c476ff0789f2d35053282c",
+    "average.predictions.jsonl": "0038a419510ff76f87d0f92dbc2664c27ef08fcd2add0f1bbebc64ad699fe0b2",
+    "averaging.json": "7843c0311c65fe781f4da4abe7c04c6bc76d96535e580bf09d414d2b6e2ab336",
+    "baseline-140k.json": "bfb0e4deb61d04d572522c7abbabf68083b577b0f18c6ac43a41dbce42652c78",
+    "baseline-140k.predictions.jsonl": "b76c8e676c05bb08d3e2347e76539b36e3251e50ec1eeeeb6454da203ec4cd27",
+    "checkpoint.complete.json": "256f8c7db76869f740a76f04fe18f8bf3a008419fadd5fe91864f56dfbd470d3",
+    "validation-loss.json": "ca37fd906ce80c6ccbf41daa2920a96154d5dd7040bbd9218779bd217416eecb"
+  }
+}

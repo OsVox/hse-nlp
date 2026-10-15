@@ -330,3 +330,44 @@ limits as the preceding decoding comparison. Select on held-out numeric
 agreement and validation token loss; do not use test answers or bot examples.
 The average introduces neither new targets nor inference-time model copies.
 It is a pilot, not a claim of improvement; later averages need fresh checks.
+
+Result: the average matched 124/245 usable references, versus 122/245 for
+the unchanged 140k model. Execution failures increased from 16 to 22, while
+selection token loss worsened from 0.452825 to 0.459383 on the same CPU and
+rows 0–255. Generation times were 10.160 and 10.313 seconds. This is mixed
+evidence on a small set, so retain the unchanged checkpoint. Exact predictions,
+model hashes and both diagnostics are in `experiments/averaging-120k-140k/`.
+
+Step 160,000 achieved validation token loss 0.441922 and public bot pass@1
+**53.75% (516/960)**, rank **9 of 15**, at 20:54 +03:00 on 2026-10-15.
+This adds 29 correct questions over 140k. The Drive-first export and exact
+token decoding checks passed; the single submission's receipt was saved and
+read back on Drive. Blackwell generation took 9.495 seconds. The improvement
+is larger than the previous interval, so a hard quality plateau is not proven.
+
+### Planned T4 inference batch-size comparison
+
+At the user's request, prioritize inference speed before another training run.
+Use the immutable 160k checkpoint, FP32, current greedy decoder and syntax-only
+four-beam retry. Compare batch sizes 64, 128 and 256, twice in reversed order,
+with input/output limits 128/192. Retain every exact program, its model/token
+provenance, peak allocated memory and output differences from batch 64. Only
+unchanged outputs can establish a speed gain without a new quality comparison.
+Profile a separate baseline pass so its synchronization overhead cannot alter
+the primary timing comparison. Measure model loading and warm-up separately;
+include all generation, retry, decode, local CSV and full-call overhead in
+reported scopes. Save results to Drive after each run. Bound the experiment
+to a 600-second soft budget and 720-second process timeout, then release GPU.
+All model/data loading checks must pass on CPU before allocating the T4.
+Do not benchmark concurrently with training. No performance result yet.
+
+The corpus has 11,838,003 rows in 60 shards. The existing train-only probe
+contains 15,358 rows and estimates 46.91 capped question tokens and 73.83
+capped code tokens per pair: about 555M source and 874M target tokens per
+corpus. The probe samples near-equal numbers per shard; these are approximate
+totals, not unique-content counts. The Chinchilla D/20 heuristic gives 44M
+using targets or 71M using combined tokens, but neither is a fitted optimum
+for our encoder-decoder. See `scaling_estimate.py` and
+`experiments/scaling-analysis/data-estimate.json`. Proposed first larger
+candidate: width 512, six encoder layers, four decoder layers, 42,481,152
+parameters. Its quality and T4 speed must be measured before long training.
