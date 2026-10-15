@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import ast
 import csv
-import re
+import hashlib
+import json
+import subprocess
 import time
 from pathlib import Path
 
@@ -38,6 +40,7 @@ def generate_predictions(
     test_path = fetch_parquet("data/test/test.parquet", cache_dir)
     questions = pq.read_table(test_path, columns=["question"])["question"].to_pylist()
     answers = [""] * len(questions)
+    selected_tokens = [None] * len(questions)
 
     if device.type == "cuda":
         torch.cuda.synchronize()
@@ -65,9 +68,10 @@ def generate_predictions(
                 do_sample=False,
                 use_cache=True,
             )
-            decoded = tokenizer.batch_decode(generated, skip_special_tokens=True)
-            for index, answer in zip(indices, decoded):
-                answers[index] = answer.strip()
+            decoded = tokenizer.batch_decode(generated, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+            for index, answer, token_ids in zip(indices, decoded, generated.tolist()):
+                answers[index] = answer
+                selected_tokens[index] = token_ids
 
         # Give malformed answers a second chance. The fallback only changes
         # programs that already fail Python parsing, so valid greedy outputs
@@ -89,38 +93,20 @@ def generate_predictions(
                 num_beams=4, num_return_sequences=4, do_sample=False,
                 use_cache=True,
             )
-            candidates = tokenizer.batch_decode(generated, skip_special_tokens=True)
+            candidates = tokenizer.batch_decode(generated, skip_special_tokens=True, clean_up_tokenization_spaces=False)
             for position, index in enumerate(indices):
-                for candidate in candidates[position * 4:(position + 1) * 4]:
-                    candidate = candidate.strip()
-                    if not candidate:
+                for candidate_index in range(position * 4, (position + 1) * 4):
+                    candidate = candidates[candidate_index]
+                    if not candidate.strip():
                         continue
                     try:
                         ast.parse(candidate)
                     except SyntaxError:
                         continue
                     answers[index] = candidate
+                    selected_tokens[index] = generated[candidate_index].tolist()
                     repaired += 1
                     break
-        syntax_repaired = 0
-        for index in invalid:
-            try:
-                ast.parse(answers[index])
-                continue
-            except SyntaxError:
-                pass
-            # The byte-level tokenizer can split an identifier after an
-            # underscore (for example, `total_ degrees`). Join only that
-            # pattern and keep the change only if Python accepts the result.
-            candidate = re.sub(r"(?<=\w)_[ \t]+(?=[A-Za-z])", "_", answers[index])
-            if not candidate.strip():
-                continue
-            try:
-                ast.parse(candidate)
-            except SyntaxError:
-                continue
-            answers[index] = candidate
-            syntax_repaired += 1
     if device.type == "cuda":
         torch.cuda.synchronize()
     output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -134,8 +120,24 @@ def generate_predictions(
     print(
         f"generated={len(answers)} seconds={elapsed:.2f} device={device} precision={dtype} "
         f"invalid_before_retry={len(invalid)} beam_repaired={repaired} "
-        f"syntax_repaired={syntax_repaired}"
+        f"handwritten_repairs=0"
     )
+    # Each output is the exact decode of a selected model token sequence.
+    assert answers == tokenizer.batch_decode(
+        selected_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=False,
+    )
+    provenance = {
+        "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+        "model_sha256": hashlib.sha256((model_dir / "model.safetensors").read_bytes()).hexdigest(),
+        "output_sha256": hashlib.sha256(output_file.read_bytes()).hexdigest(),
+        "questions_sha256": hashlib.sha256(json.dumps(questions, ensure_ascii=False).encode()).hexdigest(),
+        "generation_seconds": elapsed,
+        "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else None,
+        "precision": str(dtype), "batch_size": batch_size,
+        "max_new_tokens": max_new_tokens, "handwritten_repairs": 0,
+        "selected_token_ids": selected_tokens,
+    }
+    output_file.with_suffix(".provenance.json").write_text(json.dumps(provenance), encoding="utf-8")
     return len(answers), elapsed
 
 
