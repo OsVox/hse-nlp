@@ -1,0 +1,7 @@
+{
+  "test_row_zero_based": 1,
+  "code": "def solve() -> int:\n    area = 54\n    base = 12\n    height = (2 * area) / base\n    result = height\n\n    return result\n",
+  "inspection": "The unchanged generated formula is (2*54)/12 = 9. Source and arithmetic inspection only; no independent program execution in this check.",
+  "output_modified": false,
+  "used_for_training": false
+}
