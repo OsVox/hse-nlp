@@ -90,6 +90,7 @@ def training_batches(
     cache_dir: Path, batch_size: int, *, seed: int = 42,
     max_shards: int = SHARDS, batches_per_shard: int | None = None,
     mixed_rows_per_shard: int | None = None,
+    frequency_index=None, frequency_power: float = 0.0,
 ) -> Iterator[list[dict[str, str]]]:
     """Yield shuffled batches, optionally rotating shards before exhaustion.
 
@@ -103,6 +104,10 @@ def training_batches(
         raise ValueError("batches_per_shard must be positive")
     if mixed_rows_per_shard is not None and mixed_rows_per_shard < 1:
         raise ValueError("mixed_rows_per_shard must be positive")
+    if not 0 <= frequency_power <= 1:
+        raise ValueError('frequency power must be in [0, 1]')
+    if frequency_power and (frequency_index is None or mixed_rows_per_shard is None):
+        raise ValueError('frequency sampling requires an index and mixed sampling')
     # The source has repeated questions with different programs. Reserve their
     # question text across every shard, not just the first 1,024 row positions.
     heldout_questions = {row['question'] for row in validation_examples(cache_dir)}
@@ -111,14 +116,22 @@ def training_batches(
         if mixed_rows_per_shard is not None:
             rows = []
             rng = random.Random(seed + epoch)
+            acceptance_rng = random.Random(seed + epoch + 2026101603)
             for shard_index in range(max_shards):
                 table = pq.read_table(training_shard(shard_index, cache_dir),
                                       columns=['question', 'code'])
                 first = VALIDATION_ROWS if shard_index == 0 else 0
                 indices = rng.sample(range(first, len(table)),
                                      min(mixed_rows_per_shard, len(table) - first))
-                rows.extend(row for row in table.take(indices).to_pylist()
-                            if row['question'] not in heldout_questions)
+                candidates = table.take(indices).to_pylist()
+                if frequency_power:
+                    from .question_frequency import keep_row
+                    frequencies = frequency_index.arrays[shard_index]
+                    candidates = [row for i, row in zip(indices, candidates)
+                                  if keep_row(int(frequencies[i]), frequency_power, acceptance_rng)]
+                rows.extend(row for row in candidates if row['question'] not in heldout_questions)
+            if not rows:
+                raise ValueError('sampling produced no eligible training rows')
             rng.shuffle(rows)
             for start in range(0, len(rows), batch_size):
                 yield rows[start:start + batch_size]

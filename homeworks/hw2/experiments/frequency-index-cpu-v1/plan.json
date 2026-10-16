@@ -1,0 +1,15 @@
+{
+  "compute": "CPU only; no model training",
+  "hypothesis": "Downweight repeated question texts without choosing a supposedly correct target or changing original text.",
+  "powers": [
+    0,
+    0.5,
+    1
+  ],
+  "question_grouping": "Exact strings across all 60 original shards",
+  "exclusion": "Every copy of the first 1024 held-out question texts",
+  "artifact": "One uint32 count per original row; manifest with source and index SHA256",
+  "preflight": "Compare 1024 batches from original and inverse-frequency streams; zero-power stream must remain identical. All target variants remain available.",
+  "selection": "Only propose a bounded matched training pilot after verified index and reasonable CPU throughput. No accuracy claim or long training from this audit.",
+  "outer_timeout_seconds": 1200
+}

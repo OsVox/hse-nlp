@@ -218,6 +218,9 @@ def main() -> None:
     parser.add_argument("--batches-per-shard", type=int, default=None)
     parser.add_argument("--mixed-rows-per-shard", type=int, default=None,
                         help="Mix a fresh random sample from all shards each epoch")
+    parser.add_argument('--frequency-index', type=Path, default=None)
+    parser.add_argument('--frequency-power', type=float, default=0.0,
+                        help='Accept original rows with probability count**(-power); CPU index required')
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--learning-rate", type=float, default=3e-4)
     parser.add_argument('--numeric-token-weight', type=float, default=1.0,
@@ -262,6 +265,14 @@ def main() -> None:
         parser.error("batches per shard must be positive")
     if args.mixed_rows_per_shard is not None and args.mixed_rows_per_shard < 1:
         parser.error("mixed rows per shard must be positive")
+    if not 0 <= args.frequency_power <= 1 or (args.frequency_power and
+            (args.frequency_index is None or args.mixed_rows_per_shard is None)):
+        parser.error('frequency power in [0,1] requires index and mixed sampling when nonzero')
+    frequency_index = None
+    if args.frequency_index is not None:
+        from .question_frequency import FrequencyIndex, digest
+        frequency_index = FrequencyIndex(args.frequency_index, args.cache_dir, shards=args.max_shards)
+        args.frequency_manifest_sha256 = digest(args.frequency_index/'manifest.json')
 
     if args.group_window < 1:
         parser.error("group window must be positive")
@@ -394,6 +405,7 @@ def main() -> None:
         args.cache_dir, args.batch_size, seed=args.seed + start_step,
         max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,
         mixed_rows_per_shard=args.mixed_rows_per_shard,
+        frequency_index=frequency_index, frequency_power=args.frequency_power,
     )
     if args.strip_comments:
         from .code_cleanup import cleaned_batches
