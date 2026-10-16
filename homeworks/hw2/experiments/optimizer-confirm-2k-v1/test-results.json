@@ -1,5 +1,6 @@
 {
-  "passed": 14,
+  "passed": 10,
   "suite": "optimizer_confirmation, optimizer_pilot, optimizers, runtime_guard",
-  "status": "passed"
+  "status": "passed",
+  "seconds": 3.78
 }
