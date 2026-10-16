@@ -62,7 +62,11 @@ def build():
     completion_path = extended_root/'execution.complete.json'
     completion = json.loads(completion_path.read_text()) if completion_path.exists() else None
     t4_path = ROOT/'experiments/inference-speed-180k-t4-v1/results.json'
+    if (ROOT/'experiments/t4-comparison-v1/baseline180k/results.json').exists():
+        t4_path = ROOT/'experiments/t4-comparison-v1/baseline180k/results.json'
     t4 = json.loads(t4_path.read_text()) if t4_path.exists() else None
+    large_t4_path = ROOT/'experiments/t4-comparison-v1/encoder6-6k/results.json'
+    large_t4 = json.loads(large_t4_path.read_text()) if large_t4_path.exists() else None
     story = [p('Code generation from scratch','Title'),
         p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 16 October 2026','SmallText'),
         p('Current result','Head'),
@@ -176,17 +180,20 @@ def build():
         p('<link href="https://arxiv.org/abs/2203.15556">Hoffmann et al., Training Compute-Optimal Large Language Models</link>; <link href="https://arxiv.org/abs/2109.07740">Ghorbani et al., Scaling Laws for Neural Machine Translation</link>. Reproduction: scaling_estimate.py and experiments/scaling-analysis/.','SmallText'),
         PageBreak(),p('Final-checkpoint T4 inference','Title'),
         p('Protocol','Head'),
-        p('Prepare and verify the final step-180000 model, tokenizer, official 1,919 questions and source on CPU. Save a hash-verified bundle to Drive, export and verify its ready record, then allocate one T4. Compare FP32 batch sizes 64, 128 and 256, twice with reversed order. Keep greedy generation, cached decoder state, length sorting, syntax-only beam retry and input/output limits 128/192 unchanged. Save every exact output, token provenance, hash and measurement to Drive. Use a separate profiling pass; exclude its synchronization overhead from the timing comparison.'),
+        p('Prepare and verify model weights, tokenizer, official 1,919 questions and source on CPU. Save a hash-verified bundle to Drive, export and verify its ready record, then allocate one T4. Compare FP32 batch sizes 64, 128 and 256, twice with reversed order. Keep greedy generation, cached decoder state, length sorting, syntax-only beam retry and input/output limits 128/192 unchanged. Save every exact output, token provenance, hash and measurement to Drive. The two-model run omits optional profiling to keep GPU use bounded.'),
         p('Generation time includes tokenization, sorting, generation, retries, decoding and local CSV writing. Full-call time additionally covers test reading, model hashing, provenance writing and verification. Model load and a small warm-up are measured separately. Drive archival is outside the generation timer. The experiment has a 600-second soft budget and a bounded child-process timeout; the notebook requests GPU release in finally.'),
     ]
     if t4 and t4.get('completed'):
-        rows = [['Batch','Median generation, s','Slowest run, s','Same outputs as 64']]
-        for item in t4['summary']:
-            rows.append([item['batch_size'],f"{item['median_seconds']:.3f}",
-                         f"{item['max_seconds']:.3f}",item['all_outputs_equal_baseline']])
-        story += [table(rows,[30*mm,50*mm,45*mm,45*mm]),
+        rows = [['Model','Batch','Median, s','Slowest, s','Same outputs as 64']]
+        for label, data in [('9.97M, 180k',t4),('42.48M, 6k',large_t4)]:
+            if data and data.get('completed'):
+                for item in data['summary']:
+                    rows.append([label,item['batch_size'],f"{item['median_seconds']:.3f}",
+                                 f"{item['max_seconds']:.3f}",item['all_outputs_equal_baseline']])
+        story += [table(rows,[35*mm,20*mm,35*mm,35*mm,45*mm]),
                   p(f"Device: {escape(t4['gpu'])}; PyTorch {escape(t4['torch'])}; Transformers {escape(t4['transformers'])}. Model loading took {t4['model_load_seconds']:.3f} seconds and warm-up took {t4['warmup_seconds']:.3f} seconds. Changed programs require separate quality evaluation; byte-identical outputs preserve the same predictions."),
-                  p('Full runs, per-call times, memory peaks, provenance and output hashes are retained in experiments/inference-speed-180k-t4-v1/results.json. Reproduce with hw2_inference_benchmark_colab.ipynb. The requirement applies to measured generation, not to an extrapolation from Blackwell.')]
+                  p('Batch 256 is selected for these immutable weights. Both models finish far below 180 seconds. Every run matches its already-scored JSONL exactly: 53.85% for the established model and 18.96% for the 6k larger pilot. Duplicate bot submissions were avoided. Later weights need a fresh timing and output check.'),
+                  p('Full runs, per-call times, memory peaks, provenance and output hashes are retained in experiments/t4-comparison-v1 and its Drive archive. Reproduce with hw2_t4_comparison_colab.ipynb; the main inference notebook now selects batch 256 for the established checkpoint. The completed T4 runtime was manually released after its asynchronous release request left it connected.')]
     else:
         story.append(p('The first T4 attempt stopped before generation because drive.mount failed. Its notebook failure handler released the GPU. A refreshed CPU-only session reproduced the failure. On 16 October the user restored Drive access on CPU; a subsequent four-model GPU pilot saved and exported all checkpoints successfully. Actual T4 inference remains unmeasured for the current candidates, so no T4 speedup or compliance is claimed.'))
     pilot_root = ROOT / 'experiments/short-pilots-v1'
@@ -204,7 +211,7 @@ def build():
             p('The screen kept seed 42, batch 128, BF16 training, the same mixed data stream, tokenizer and 128/192 token limits. All runs used 200 warm-up updates and a short cosine schedule. Width, encoder depth and learning rate were varied in separate comparisons. One immutable checkpoint per trial was saved in Drive, exported with hashes and selected token IDs, verified locally, then scored once by the bot. Source: 1f1558515ce00d1be29f032bac843bcbfc5b6bf4.'),
             table(rows, [38*mm,19*mm,23*mm,25*mm,33*mm,32*mm]),
             p('Keep the 9.97M model at .001 and the 42.48M model at .0003. The small model has lower token loss and lower cost; the larger finalist has higher held-out execution agreement, confirmed by the bot. Lowering the rate within the 42M architecture improved all quality measures. The larger high-rate models do not justify continuation from this screen.'),
-            p('These are early-learning results from one seed, not final convergence estimates. Even the best pilot remains below the established 180k model at 53.85%. The bot reported public rank 10/15 on 16 October; earlier rank 9/15 was an earlier snapshot. No private score or actual T4 timing is available for these pilots.'),
+            p('These are early-learning results from one seed, not final convergence estimates. Even the best pilot remains below the established 180k model at 53.85%. The bot reported public rank 10/15 on 16 October; earlier rank 9/15 was an earlier snapshot. No private score is available. The later T4 comparison covers the established model and the larger 6k finalist.'),
             p('Time and next comparison', 'Head'),
             p('The driver took 718.51 seconds after data restoration; its launcher record spans 758.79 seconds including restoration and imports. Across 716 GPU samples, mean activity was 72.90%, median 97%, and peak memory 18,627 MiB. Activity is not achieved compute throughput; startup, I/O and execution evaluation contribute low samples. Batch-size speed still needs a matched benchmark.'),
             p('Continue both finalists from 2k to 6k with their optimizer moments, batch 128 and respective learning rates. Both receive the same new deterministic sample stream, a restarted 4k cosine schedule and 200 warm-up updates. Save and score the 6k checkpoint for each. Check actual T4 inference before long training. The four-way GPU was released manually after the automatic notebook request left it connected; file work resumed on CPU.'),

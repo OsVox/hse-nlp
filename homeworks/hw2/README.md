@@ -28,11 +28,17 @@ No pretrained weights, outside examples, or extra target programs are used.
 
 ## Reproduce
 
-Select an available GPU in Colab and run `hw2_train_colab.ipynb`. Its export
-cell downloads `hw2_model.zip` before the Colab runtime ends. Extract it into
-`homeworks/hw2/model/` in this repository; `training_state.pt` is only needed
-to resume training. Then run `hw2_inference_colab.ipynb` on a T4 to verify the
-course's 180-second generation limit.
+Use the CPU-first Drive workflow below for training experiments. Keep GPU off
+until file checks pass. Save checkpoints and exact predictions to Drive, export
+from Drive, then submit the checked JSONL to the course bot.
+
+`hw2_inference_colab.ipynb` loads the established step-180000 checkpoint from
+Drive. Run its CPU preparation phase first, then its T4 phase. Batch 256 was
+measured at 10.38 and 10.79 seconds on an actual Tesla T4 on 16 October; all
+1,919 programs exactly match the JSONL scored at 53.85% (517/960). It is about
+2.73 times faster than batch 64 by the two-run medians. The GPU phase saves
+results to Drive and requests release; verify that Colab actually disconnects.
+Future weights need a new timing and output check.
 
 The training script can also be run from the repository root:
 
@@ -47,9 +53,11 @@ experimental option; compare its held-out loss before choosing a final model.
 
 The bot accepts only JSONL with 1,919 exact model outputs. The inference notebook
 converts the CSV without changing any program and verifies token provenance.
-The last historical score is 18.85%; it included one handwritten identifier
-repair that has now been removed. The user confirmed that official test.parquet row order is required. See quality_experiments.md for the current controlled runs and
-validation-copy caveat; the report is a progress report until final checks pass.
+The earlier 18.85% result included a handwritten identifier repair that was
+removed. The current 53.85% result uses exact model outputs. The user confirmed
+that official test.parquet row order is required. See quality_experiments.md
+and experiments/ for controlled runs and the validation-copy caveat. First
+place remains unmet; the PDF is a progress report.
 
 ## Оптимизации по материалам курса
 

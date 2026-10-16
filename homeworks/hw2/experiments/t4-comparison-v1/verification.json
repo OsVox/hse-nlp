@@ -1,0 +1,28 @@
+[
+  {
+    "name": "baseline180k",
+    "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+    "source_commit": "eb3f96fb3ba57930ac6dd39f26a48baf4e4ef583",
+    "selected_batch": 256,
+    "median_seconds": 10.586072718499992,
+    "max_seconds": 10.790551773000004,
+    "all_outputs_equal_baseline": true,
+    "t4_within_180_seconds": true,
+    "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+    "rows": 1919,
+    "status": "every_export_and_token_decode_verified"
+  },
+  {
+    "name": "encoder6-6k",
+    "model_sha256": "7d0898f6595ee684df6f8ffa6231bbf914bc81aee91e95298003b1ff69b66deb",
+    "source_commit": "cf1b9292052b687e842802cee240e5e2a7dad4b8",
+    "selected_batch": 256,
+    "median_seconds": 20.303814780500034,
+    "max_seconds": 20.55573533200004,
+    "all_outputs_equal_baseline": true,
+    "t4_within_180_seconds": true,
+    "jsonl_sha256": "93df0fca9ee39394e874ba6f17c607a7fd6a9a6ab625cb4c8315087c0a42a341",
+    "rows": 1919,
+    "status": "every_export_and_token_decode_verified"
+  }
+]

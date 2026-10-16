@@ -179,6 +179,8 @@ def main() -> None:
                         help="Mounted Drive run directory; verify before allocating the model")
     parser.add_argument("--predict-at-checkpoint", action="store_true",
                         help="Save model-generated test JSONL for every archived checkpoint")
+    parser.add_argument('--prediction-batch-size', type=int, default=64,
+                        help='Generation batch for checkpoint exports; does not change training batches')
     parser.add_argument('--resume-from', type=Path, default=None,
                         help='Verified checkpoint from our own earlier run; use a new output directory')
     parser.add_argument('--restart-schedule', action='store_true',
@@ -197,6 +199,8 @@ def main() -> None:
         parser.error('Non-negative prefetch depth requires --input-pipeline encoded')
     if args.predict_at_checkpoint and args.drive_root is None:
         parser.error('--predict-at-checkpoint requires --drive-root')
+    if args.prediction_batch_size < 1:
+        parser.error('--prediction-batch-size must be positive')
     if args.restart_schedule and args.resume_from is None:
         parser.error('--restart-schedule requires --resume-from')
     parent = None
@@ -362,7 +366,8 @@ def main() -> None:
                     from .inference import generate_predictions
                     output = archived / 'predictions.csv'
                     generate_predictions(archived, output, args.cache_dir,
-                                         model=model, tokenizer=tokenizer, precision='fp32')
+                                         model=model, tokenizer=tokenizer, precision='fp32',
+                                         batch_size=args.prediction_batch_size)
                     digest = package_jsonl(output, archived / 'predictions.jsonl')
                     (archived / 'results.complete.json').write_text(json.dumps({
                         'step': step, 'jsonl_sha256': digest,

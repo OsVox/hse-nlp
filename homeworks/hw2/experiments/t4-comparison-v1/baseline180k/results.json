@@ -1,0 +1,139 @@
+{
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "transformers": "4.57.6",
+  "precision": "fp32",
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "test_sha256": "8bde59c8d8bb7edc4e8a503be22fc132c4a47773025d333432e78c5489e6522a",
+  "script_sha256": "c16c45f49d2e91f954dd69b234d2cc7d4c70f31615c14f7ee756a0048d53a0e0",
+  "inference_sha256": "7c10a82dd2001363069dbe5993e303561f153c15afab958540292846b89b7123",
+  "model_load_seconds": 0.28898367800002234,
+  "runs": [
+    {
+      "batch_size": 64,
+      "repeat": 0,
+      "status": "complete",
+      "generation_seconds": 29.122432361999984,
+      "call_seconds": 29.47373628700001,
+      "peak_allocated_bytes": 238270464,
+      "changed_from_baseline": 0,
+      "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+      "rows": 1919,
+      "files": {
+        "fp32-b64-r0.csv": "7ac329d1520bd80c2e2db9ae032b8a48f9b65a54a869c04a82f9369f296634fc",
+        "fp32-b64-r0.jsonl": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+        "fp32-b64-r0.provenance.json": "5d5f4a660bdc510873526a07520c5944b59fa6ac5667d27e9e3f3aa19aaad85c"
+      }
+    },
+    {
+      "batch_size": 128,
+      "repeat": 0,
+      "status": "complete",
+      "generation_seconds": 16.613615148999997,
+      "call_seconds": 16.853570414000046,
+      "peak_allocated_bytes": 431373824,
+      "changed_from_baseline": 0,
+      "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+      "rows": 1919,
+      "files": {
+        "fp32-b128-r0.csv": "7ac329d1520bd80c2e2db9ae032b8a48f9b65a54a869c04a82f9369f296634fc",
+        "fp32-b128-r0.jsonl": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+        "fp32-b128-r0.provenance.json": "4eb684f49d0ff7055f566604f33f19153055c33640cf3496a12826b733d46535"
+      }
+    },
+    {
+      "batch_size": 256,
+      "repeat": 0,
+      "status": "complete",
+      "generation_seconds": 10.381593663999979,
+      "call_seconds": 10.639460763999978,
+      "peak_allocated_bytes": 686216704,
+      "changed_from_baseline": 0,
+      "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+      "rows": 1919,
+      "files": {
+        "fp32-b256-r0.csv": "7ac329d1520bd80c2e2db9ae032b8a48f9b65a54a869c04a82f9369f296634fc",
+        "fp32-b256-r0.jsonl": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+        "fp32-b256-r0.provenance.json": "e5e5cc5cbbb921a0b4f07276ffac23d382a39b28d2be2a9b3001c6405e949a6e"
+      }
+    },
+    {
+      "batch_size": 256,
+      "repeat": 1,
+      "status": "complete",
+      "generation_seconds": 10.790551773000004,
+      "call_seconds": 11.045297508000033,
+      "peak_allocated_bytes": 686216704,
+      "changed_from_baseline": 0,
+      "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+      "rows": 1919,
+      "files": {
+        "fp32-b256-r1.csv": "7ac329d1520bd80c2e2db9ae032b8a48f9b65a54a869c04a82f9369f296634fc",
+        "fp32-b256-r1.jsonl": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+        "fp32-b256-r1.provenance.json": "2627a423da59113442867533d8c8957933f5df6638dfe66e608447fbac7657e9"
+      }
+    },
+    {
+      "batch_size": 128,
+      "repeat": 1,
+      "status": "complete",
+      "generation_seconds": 16.73783957400002,
+      "call_seconds": 17.117901432999986,
+      "peak_allocated_bytes": 431373824,
+      "changed_from_baseline": 0,
+      "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+      "rows": 1919,
+      "files": {
+        "fp32-b128-r1.csv": "7ac329d1520bd80c2e2db9ae032b8a48f9b65a54a869c04a82f9369f296634fc",
+        "fp32-b128-r1.jsonl": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+        "fp32-b128-r1.provenance.json": "e42a4a338ba9033f6b3a7af57c3d994451da56bc1cd58d87884af07c115223ce"
+      }
+    },
+    {
+      "batch_size": 64,
+      "repeat": 1,
+      "status": "complete",
+      "generation_seconds": 28.646765028999937,
+      "call_seconds": 28.892544170999997,
+      "peak_allocated_bytes": 238270464,
+      "changed_from_baseline": 0,
+      "jsonl_sha256": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+      "rows": 1919,
+      "files": {
+        "fp32-b64-r1.csv": "7ac329d1520bd80c2e2db9ae032b8a48f9b65a54a869c04a82f9369f296634fc",
+        "fp32-b64-r1.jsonl": "e89be84a5842e51083c1e553a882af3d77350870e8faf6af0c6a6166f59ab59b",
+        "fp32-b64-r1.provenance.json": "9854c4ecb59c24463f4f0d54b6edc80e4d8dc0c46f8332d1fa5b39221c9439d3"
+      }
+    }
+  ],
+  "timing_scope": "Generation timer includes tokenization, sorting, greedy, syntax retry, decode and local CSV. Call timer additionally includes test reading, provenance hashing/writing and output verification. Model load and Drive archival are reported separately/excluded.",
+  "max_new_tokens": 192,
+  "max_input_tokens": 128,
+  "budget_seconds": 600.0,
+  "automatic_submission": false,
+  "warmup_seconds": 0.9537877320000234,
+  "summary": [
+    {
+      "batch_size": 64,
+      "median_seconds": 28.88459869549996,
+      "max_seconds": 29.122432361999984,
+      "all_outputs_equal_baseline": true,
+      "repeat_outputs_identical": true
+    },
+    {
+      "batch_size": 128,
+      "median_seconds": 16.67572736150001,
+      "max_seconds": 16.73783957400002,
+      "all_outputs_equal_baseline": true,
+      "repeat_outputs_identical": true
+    },
+    {
+      "batch_size": 256,
+      "median_seconds": 10.586072718499992,
+      "max_seconds": 10.790551773000004,
+      "all_outputs_equal_baseline": true,
+      "repeat_outputs_identical": true
+    }
+  ],
+  "completed": true
+}
