@@ -1,0 +1,64 @@
+{
+  "steps": 2048,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 42,
+  "warmup": 200,
+  "learning_rate": 0.0003,
+  "save_every": 2048,
+  "eval_every": 512,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": null,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "d_model": 512,
+  "d_ff": 1536,
+  "encoder_layers": 6,
+  "decoder_layers": 4,
+  "num_heads": 8,
+  "initialization_vocab_size": 16384,
+  "arms": {
+    "control": "original8192",
+    "swiglu": "original8192"
+  },
+  "training_updates_per_arm": 2048,
+  "example_presentations_per_arm": 262144,
+  "training_timeout_seconds": 480,
+  "outer_timeout_seconds": 1000,
+  "hypothesis": "Does replacing gated-GELU with SwiGLU improve early executed-answer learning at identical parameter count?",
+  "matched": "Identical full random weights, seed42, original tokenizer, full-coverage row order, batch128, 2048 updates, BF16, 200-step warmup and cosine schedule. Native Muon0.001 on hidden matrices and AdamW0.0003 on embeddings/vectors. Source/target caps128/192 and greedy decoding stay fixed. Only the gated feed-forward activation changes.",
+  "selection": "Require positive executed-answer gains on BOTH held-out subsets and no extra total execution failures. Verify identical full initialization and consumed-row hashes, zero repeats and 262144 consumed rows in each arm. Repeat any survivor with another seed before combining or extending. Public scores are recorded separately.",
+  "limitations": "Short scratch pilot and reused held-out sets; equal updates do not ensure equal GPU time. Rates are not separately tuned. The existing caps still truncate some original text; this isolated activation test does not resolve that data issue or complete a training pass. No automatic long run.",
+  "decoding": "Strict greedy, num_beams=1, no repairs",
+  "provenance": "Original supplied examples and random weights only. Same original 8k tokenizer in every arm. Native PyTorch Muon with match_rms_adamw scaling; no imported training data or pretrained model.",
+  "throughput_guard_estimated_train_seconds": 400,
+  "arm_options": {
+    "control": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "feed_forward_proj": "gated-gelu",
+      "coverage_index": "/content/activation-inputs/coverage-index"
+    },
+    "swiglu": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "feed_forward_proj": "gated-silu",
+      "coverage_index": "/content/activation-inputs/coverage-index"
+    }
+  },
+  "reference": "https://arxiv.org/abs/2002.05202",
+  "next_stages": [
+    "Repeat a surviving activation with a second seed.",
+    "Resolve long original examples without silent truncation.",
+    "Require a verified full-pass training receipt before claiming all eligible examples were trained."
+  ],
+  "expected_parameters": {
+    "control": 42481152,
+    "swiglu": 42481152
+  },
+  "require_identical_initialization": true
+}

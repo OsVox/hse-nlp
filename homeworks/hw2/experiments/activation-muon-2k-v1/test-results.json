@@ -1,0 +1,11 @@
+{
+  "passed": 10,
+  "failed": 0,
+  "seconds": 2.67,
+  "command": "pytest -q tests/test_activation_pilot.py tests/test_model_sizes.py tests/test_tokenizer_pilot.py",
+  "device": "CPU",
+  "initial_test_fixture_issues_corrected": [
+    "Exclude token_type_ids from direct T5 test input",
+    "Check SiLU numerically rather than assuming a torch module class"
+  ]
+}

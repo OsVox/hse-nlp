@@ -50,13 +50,16 @@ def continuation_scheduler(optimizer, *, learning_rate, start_step, end_step, wa
 
 def new_model(tokenizer: PreTrainedTokenizerFast, *, d_model=256, d_ff=768,
               encoder_layers=4, decoder_layers=4, num_heads=4,
-              dropout=0.1, initialization_vocab_size=None) -> T5ForConditionalGeneration:
+              dropout=0.1, initialization_vocab_size=None,
+              feed_forward_proj='gated-gelu') -> T5ForConditionalGeneration:
     if min(d_model, d_ff, encoder_layers, decoder_layers, num_heads) < 1:
         raise ValueError('Model dimensions must be positive')
     if d_model != 64 * num_heads or not 0 <= dropout < 1:
         raise ValueError('Use 64-dimensional attention heads and dropout in [0, 1)')
     if initialization_vocab_size is not None and initialization_vocab_size < len(tokenizer):
         raise ValueError('Initialization vocabulary must cover the actual vocabulary')
+    if feed_forward_proj not in {'gated-gelu', 'gated-silu'}:
+        raise ValueError('Unsupported feed-forward activation')
     config = T5Config(
         vocab_size=initialization_vocab_size or len(tokenizer),
         d_model=d_model,
@@ -65,7 +68,7 @@ def new_model(tokenizer: PreTrainedTokenizerFast, *, d_model=256, d_ff=768,
         num_decoder_layers=decoder_layers,
         num_heads=num_heads,
         dropout_rate=dropout,
-        feed_forward_proj="gated-gelu",
+        feed_forward_proj=feed_forward_proj,
         pad_token_id=tokenizer.pad_token_id,
         eos_token_id=tokenizer.eos_token_id,
         decoder_start_token_id=tokenizer.pad_token_id,
@@ -91,13 +94,17 @@ def tokenizer_for_run(checkpoint, requested=None):
     return checkpoint if (checkpoint/'tokenizer.json').exists() else Path('homeworks/hw2/tokenizer')
 
 
-def nonembedding_hash(model):
+def parameter_hash(model, *, exclude_embeddings=False):
     digest = hashlib.sha256()
     for name, parameter in model.named_parameters():
-        if name != 'shared.weight':
+        if not exclude_embeddings or name != 'shared.weight':
             digest.update(name.encode())
             digest.update(parameter.detach().cpu().contiguous().numpy().tobytes())
     return digest.hexdigest()
+
+
+def nonembedding_hash(model):
+    return parameter_hash(model, exclude_embeddings=True)
 
 
 def encode_batch(
@@ -203,6 +210,8 @@ def main() -> None:
     parser.add_argument('--decoder-layers', type=int, default=None)
     parser.add_argument('--num-heads', type=int, default=None)
     parser.add_argument('--dropout', type=float, default=None)
+    parser.add_argument('--feed-forward-proj', choices=['gated-gelu','gated-silu'], default=None,
+                        help='Fresh-model activation; persisted in the model configuration')
     parser.add_argument("--precision", choices=["auto", "fp32", "fp16", "bf16"], default="auto")
     parser.add_argument("--group-window", type=int, default=32,
                         help="Число батчей для группировки по длине; 1 отключает её")
@@ -392,17 +401,19 @@ def main() -> None:
         if args.initialization_vocab_size is not None:
             parser.error('Common-vocabulary initialization requires a fresh model')
         if any(getattr(args, name) is not None for name in
-               ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']):
+               ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout', 'feed_forward_proj']):
             parser.error('Architecture overrides require a fresh model/output directory')
         model = T5ForConditionalGeneration.from_pretrained(load_checkpoint)
     else:
         model = new_model(tokenizer, initialization_vocab_size=args.initialization_vocab_size, **{
             name: getattr(args, name) for name in
-            ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']
+            ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout', 'feed_forward_proj']
             if getattr(args, name) is not None})
     initial_nonembedding_sha256 = None
+    initial_model_sha256 = None
     if args.initialization_vocab_size is not None:
         initial_nonembedding_sha256 = nonembedding_hash(model)
+        initial_model_sha256 = parameter_hash(model)
         # Resizing consumes random draws. Restart the dropout stream identically.
         torch.manual_seed(args.seed)
     if args.continuation_dropout is not None:
@@ -422,6 +433,7 @@ def main() -> None:
         'parent_checkpoint': parent,
         'schedule_start': schedule_start,
         'initial_nonembedding_sha256': initial_nonembedding_sha256,
+        'initial_model_sha256': initial_model_sha256,
     }, indent=2))
 
     from .optimizers import make_optimizer, restore_training_state

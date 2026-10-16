@@ -1,0 +1,32 @@
+{
+  "cpu_verified": true,
+  "results": {
+    "control": {
+      "parameters": 42481152,
+      "initial_model_sha256": "65e2267b08fc703d326adea5ad6dc7c04cf4c93c70cb1a8d40829251badc9bad",
+      "initial_body_sha256": "7443d8b4bfe57020391f882da5bbf5093a74a41d5b1553c7f29c710fc0e59b7b",
+      "activation": "gated-gelu",
+      "loss": 10.858372688293457,
+      "gradient_norm": 19.725831985473633,
+      "finite_after_update": true
+    },
+    "swiglu": {
+      "parameters": 42481152,
+      "initial_model_sha256": "65e2267b08fc703d326adea5ad6dc7c04cf4c93c70cb1a8d40829251badc9bad",
+      "initial_body_sha256": "7443d8b4bfe57020391f882da5bbf5093a74a41d5b1553c7f29c710fc0e59b7b",
+      "activation": "gated-silu",
+      "loss": 10.980523109436035,
+      "gradient_norm": 19.913543701171875,
+      "finite_after_update": true
+    }
+  },
+  "actual_original_examples": 4,
+  "all_initial_parameters_identical": true,
+  "torch_version": "2.9.0",
+  "gpu_used": false,
+  "weights_saved": false,
+  "eligible_rows": 11836444,
+  "all_shards_and_indices_hash_verified": true,
+  "coverage_manifest_sha256": "77fbcbc1c7b2e3d76e8a4f433a73969ffd4a7c13ffa99e4a70851a687065959f",
+  "elapsed_seconds": 177.93094324998674
+}

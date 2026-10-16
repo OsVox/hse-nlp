@@ -54,6 +54,16 @@ def verify_initializations(hashes, plan):
         assert len(set(hashes.values())) == 1
 
 
+def training_command(options):
+    command=[sys.executable,'-u','-m','homeworks.hw2.train']
+    for key,value in options.items():
+        if value is None or value is False:
+            continue
+        command.extend(['--'+key.replace('_','-')] if value is True else
+                       ['--'+key.replace('_','-'),str(value)])
+    return command+['--predict-at-checkpoint']
+
+
 def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select,
         runtime_preflight_fn=None):
     PREPARED, RUN, PLAN, select = prepared, run_dir, plan, selection_fn
@@ -83,9 +93,7 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select,
                 options.update(PLAN.get('arm_options', {}).get(arm_name, {}))
                 options.update(tokenizer_dir=Path('pilot-tokenizers')/tokenizer_name,
                     cache_dir=CACHE,output_dir=Path('/content/tokenizer-pilot-training')/arm_name,drive_root=arm)
-                command=[sys.executable,'-u','-m','homeworks.hw2.train']
-                for key,value in options.items():command.extend(['--'+key.replace('_','-'),str(value)])
-                command.append('--predict-at-checkpoint')
+                command=training_command(options)
                 if arm_name == 'comments':command.append('--strip-comments')
                 (arm/'launch.json').write_text(json.dumps({'command':command},indent=2))
                 with (arm/'training.log').open('w') as log:
