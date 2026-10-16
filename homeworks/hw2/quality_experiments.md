@@ -396,3 +396,27 @@ This does not establish a missing Drive permission or an inference-code fault.
 The GPU remains off. No T4 timing, batch-size winner, or speedup can be reported.
 Evidence is in `experiments/inference-speed-180k-t4-v1/`; the latest failure
 records and report are preserved locally and in Git, pending Drive recovery.
+
+
+## 16 October: short size/rate pilots and actual T4 inference
+
+Four fresh 2k runs screened 9.97M, 35.66M and 42.48M models and two rates.
+The small .001 and larger .0003 models were continued to 6k. Their exact
+Drive exports scored 16.04% (154/960) and 18.96% (182/960), with held-out
+numeric agreement 38/245 and 41/245. The larger model's modest advantage cost
+about 1.9x as much added training and export time. These short one-seed runs
+do not establish an optimal size. Full evidence and receipts are in
+experiments/short-pilots-v1 and experiments/finalist-pilots-v1.
+
+Actual Tesla T4 comparisons selected inference batch 256. The established
+180k model generated all 1,919 programs in 10.38 and 10.79 seconds; the larger
+6k model took 20.05 and 20.56 seconds. All twelve measured runs matched their
+already-scored JSONL files exactly. Median speedups over batch 64 were 2.73x
+and 1.82x. See experiments/t4-comparison-v1 and its local-decode verification.
+The best public score remains 53.85%; the latest bot ranking was 10/15.
+
+To reduce Drive reconnects, the next CPU-prepared, bounded GPU session combines
+a production-pipeline batch-speed probe, equal-example quality pilots only
+if the batch changes, and a 20k-equivalent continuation stage. This is a plan,
+not a completed result. All checkpoints must be saved to Drive and evaluated
+in the bot; the session is capped at 45 minutes. No full-corpus run is started.
