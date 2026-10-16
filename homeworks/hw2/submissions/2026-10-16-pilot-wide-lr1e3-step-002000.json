@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-10-16T06:36:00+03:00",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "pilot-wide-lr1e3-step-002000.jsonl",
+  "jsonl_sha256": "5b7ce0cda85f9ad4e45d9c8e5a8be72d4b0595603810f7946ec785e4e03c67c9",
+  "source_commit": "1f1558515ce00d1be29f032bac843bcbfc5b6bf4",
+  "model_sha256": "9eff76af877ad4f3f5a6bd61bb602d314fcc1f8dd418765a6dd8a708e8fe636f",
+  "run": "short-pilots-v1/wide-lr1e3/step-002000",
+  "status": "scored",
+  "public_correct": 31,
+  "public_total": 960,
+  "public_percent": 3.23,
+  "reported_rank": 10,
+  "participants": 15,
+  "telegram_message_ids": {
+    "file": 788622,
+    "accepted": 788623,
+    "score": 788624,
+    "rank": 788625
+  },
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "export_verified": true,
+  "timestamp_precision": "minute"
+}
