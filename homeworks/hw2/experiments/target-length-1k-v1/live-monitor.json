@@ -1,0 +1,11 @@
+{
+  "source": "Read-only Colab monitor cell HVPcdE5O1VCF",
+  "worker_pid": 2266,
+  "worker_running": true,
+  "training_arm": "target384",
+  "latest_logged_step": 73600,
+  "gpu_utilization_percent": 100,
+  "memory_mib": 44873,
+  "power_watts": 366.62,
+  "single_snapshot_not_average": true
+}

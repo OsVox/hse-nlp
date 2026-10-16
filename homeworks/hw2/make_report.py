@@ -817,6 +817,25 @@ def build():
             p('A fixed seed selects 32 over-limit original programs per shard (1,920 total). All original programs parse. After applying the current 192-token target truncation, 472 no longer parse, 1,344 still parse but lose every return statement, and only 104 remain parseable with a return. This is an equal-sized per-shard sample conditional on being too long, not a population-weighted estimate. Parsing does not establish execution or numeric correctness. No programs are executed or rewritten.'),
             p('A corpus census does not prove training exposure. The best checkpoint still lacks a completed full-pass receipt. Exact traversal now prevents repeats before a full pass and saves its consumed position, but the short pipeline check is not a full epoch. No optimal context limit, accuracy gain or exhaustive optimization is claimed.'),
             p('Source: corpus_token_audit.py, tests/test_corpus_token_audit.py, commit 906b422. Evidence: experiments/corpus-token-cpu-v1. Full per-row arrays, source and summary were uploaded to Drive and verified by download. The existing best inference artifact and its public score remain unchanged.','SmallText')]
+    target_run = ROOT/'experiments/target-length-1k-v1'
+    if (target_run/'conclusion.json').exists():
+        conclusion=json.loads((target_run/'conclusion.json').read_text())
+        selected=json.loads((target_run/'selection.json').read_text())
+        rows=[['Training cap','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,cap in [('control',192),('target384',384)]:
+            stages=selected['results'][name]
+            receipt=json.loads((target_run/name/'step-074048/bot_receipt.json').read_text())
+            rows.append([cap,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],
+                sum(v['prediction_failures'] for v in stages.values()),receipt['public_correct']])
+        story += [PageBreak(),p('Retaining longer original training programs','Title'),
+            p('The corpus audit found 212,045 programs longer than the current 192-token training cap. Compare caps 192 and 384 in two 1,024-update continuations from the same own scratch-trained 42.48M parent at step 73,024. Keep AdamW moments, batch 128, BF16, seed 42, rate 0.00003, warmup 50 and numerical-token weight 2. All parameters train. Both arms use the corrected full-coverage traversal.'),
+            p('Grouping uses target lengths capped at 192 in both arms, preserving identical row order and batch membership. Only the retained training target length changes. Source cap 128, validation target cap 192 and greedy generation cap 192 stay fixed. No code rewriting or extra labels are used.'),
+            table(rows,[38*mm,32*mm,35*mm,30*mm,35*mm]),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('The predeclared selection gate requires positive executed-answer gains on both held-out subsets, no extra total execution failures and no loss against the parent on either subset. Any survivor needs a second seed. Public scores are recorded separately. These reused held-out sets and short continuations cannot establish statistical significance or the best long-run context size.'),
+            p('Both checkpoints record exactly 131,072 unique original rows, zero repeats and the same consumed-row-order hash. This is about 1.11% of the eligible corpus, not a complete training pass. The 384-token limit still truncates 1,184 eligible programs; rare long questions and programs need explicit handling before claiming complete token coverage. The unchanged generation cap can limit the benefit on long outputs.'),
+            p('Eleven CPU tests passed, including default-stream compatibility, changed-cap resume rejection, matched row order and actual checkpoint/archive/resume. On 4,096 original rows, 80 targets retain additional text; target tokens rise from 300,695 to 304,642 while padded positions rise from 720,896 to 912,512. A full-size parent forward/backward check on longer original programs has finite gradients. No CPU-test weights were saved.'),
+            p('Source 698b8bf1520b93904919c2acb07e2c2102341774. Every retained checkpoint and strict greedy output was saved to Drive before export, checksum verification and bot evaluation. Evidence: experiments/target-length-1k-v1. No long run started; T4 timing remains unverified.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

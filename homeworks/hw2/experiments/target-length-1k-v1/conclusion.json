@@ -1,0 +1,14 @@
+{
+  "decision": "The 384-token training cap fails the predeclared short-run quality gate: held-out correct-answer changes are +3/245 and -7/493 versus the 192-token control; execution failures change by +3. Public scores are 570/960 versus 573/960. The previous best remains 575/960. Do not combine this change on the basis of this short trial. Retaining complete original targets remains a data-integrity requirement to address, and a short negative continuation does not rule out a longer-run benefit. No long run started.",
+  "compute": "The driver took 296.55 seconds (4.94 minutes), including restoration, both training arms and evaluation. Training process times were 98.28 and 116.56 seconds. Steady logged throughput was 1567.3 versus 1270.1 examples/s. Whole-driver GPU utilization averaged 65.69% (median 96%); peak memory was 46411 MiB. Allocation, Drive sign-in and installation are outside this driver timing.",
+  "long_run_started": false,
+  "all_checkpoints_scored": true,
+  "completed_training_full_pass": false,
+  "all_optimizations_exhausted": false,
+  "shortlist": [],
+  "next": [
+    "Handle rare long original sequences without silently training on incomplete programs.",
+    "Run the prioritized matched SwiGLU scratch pilot, repeating any gain before combination.",
+    "Require a consumed-row full-pass receipt before claiming all eligible examples were trained."
+  ]
+}

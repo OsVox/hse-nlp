@@ -80,5 +80,16 @@
       "coverage": 573
     },
     "evidence": "coverage-pipeline-1k-v1/conclusion.json"
+  },
+  "latest_target_length_observation": {
+    "timestamp": "2026-10-16T20:53:00+03:00",
+    "rank": 10,
+    "participants": 16,
+    "best_public_correct": 575,
+    "candidate_scores": {
+      "control": 573,
+      "target384": 570
+    },
+    "evidence": "target-length-1k-v1/conclusion.json"
   }
 }

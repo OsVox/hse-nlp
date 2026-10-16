@@ -1,0 +1,32 @@
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+resumed_at_step=73024 optimizer_reset=False
+new_schedule_start=73024 peak_lr=3e-05
+step=73050 train_loss=0.4898 elapsed_s=8.2
+step=73100 train_loss=0.3666 elapsed_s=13.2
+step=73150 train_loss=0.4519 elapsed_s=18.2
+step=73200 train_loss=0.3797 elapsed_s=22.6
+step=73250 train_loss=0.2389 elapsed_s=28.0
+step=73300 train_loss=0.4444 elapsed_s=32.6
+step=73350 train_loss=0.3287 elapsed_s=37.8
+step=73400 train_loss=0.4158 elapsed_s=42.7
+step=73450 train_loss=0.3315 elapsed_s=47.8
+step=73500 train_loss=0.4160 elapsed_s=52.8
+step=73550 train_loss=0.3372 elapsed_s=57.6
+step=73600 train_loss=0.4474 elapsed_s=63.3
+step=73650 train_loss=0.3894 elapsed_s=68.3
+step=73700 train_loss=0.3378 elapsed_s=73.8
+step=73750 train_loss=0.3948 elapsed_s=78.5
+step=73800 train_loss=0.3400 elapsed_s=83.6
+step=73850 train_loss=0.4269 elapsed_s=88.7
+step=73900 train_loss=0.3462 elapsed_s=93.7
+step=73950 train_loss=0.4789 elapsed_s=99.0
+step=74000 train_loss=0.4159 elapsed_s=103.9
+step=74048 val_token_loss=0.4047
+best_step=74048 best_val_token_loss=0.4047
+coverage={"eligible_rows": 11836444, "eligible_by_shard": [198952, 199974, 199983, 199983, 199977, 199977, 199977, 199976, 199977, 199976, 199969, 199975, 199981, 199977, 199988, 199992, 199993, 199994, 199991, 199994, 199996, 199998, 199992, 199996, 199996, 199993, 199998, 199988, 199992, 199999, 200000, 200000, 200000, 200000, 200000, 200000, 199997, 199990, 199985, 199995, 199991, 199990, 199993, 199991, 199994, 199995, 199992, 199998, 199995, 199995, 199993, 199993, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 38003], "excluded_by_shard": [1048, 26, 17, 17, 23, 23, 23, 24, 23, 24, 31, 25, 19, 23, 12, 8, 7, 6, 9, 6, 4, 2, 8, 4, 4, 7, 2, 12, 8, 1, 0, 0, 0, 0, 0, 0, 3, 10, 15, 5, 9, 10, 7, 9, 6, 5, 8, 2, 5, 5, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0], "unique_visited_by_shard": [2176, 2197, 2193, 2241, 2177, 2186, 2143, 2186, 2193, 2236, 2169, 2180, 2142, 2161, 2162, 2198, 2229, 2145, 2187, 2223, 2162, 2186, 2141, 2182, 2167, 2195, 2190, 2176, 2204, 2221, 2155, 2148, 2248, 2210, 2230, 2212, 2197, 2177, 2147, 2204, 2172, 2153, 2171, 2195, 2178, 2161, 2214, 2194, 2174, 2151, 2207, 2205, 2191, 2153, 2218, 2160, 2190, 2117, 2210, 2182], "presentations_by_shard": [2176, 2197, 2193, 2241, 2177, 2186, 2143, 2186, 2193, 2236, 2169, 2180, 2142, 2161, 2162, 2198, 2229, 2145, 2187, 2223, 2162, 2186, 2141, 2182, 2167, 2195, 2190, 2176, 2204, 2221, 2155, 2148, 2248, 2210, 2230, 2212, 2197, 2177, 2147, 2204, 2172, 2153, 2171, 2195, 2178, 2161, 2214, 2194, 2174, 2151, 2207, 2205, 2191, 2153, 2218, 2160, 2190, 2117, 2210, 2182], "visited_current_epoch_by_shard": [2176, 2197, 2193, 2241, 2177, 2186, 2143, 2186, 2193, 2236, 2169, 2180, 2142, 2161, 2162, 2198, 2229, 2145, 2187, 2223, 2162, 2186, 2141, 2182, 2167, 2195, 2190, 2176, 2204, 2221, 2155, 2148, 2248, 2210, 2230, 2212, 2197, 2177, 2147, 2204, 2172, 2153, 2171, 2195, 2178, 2161, 2214, 2194, 2174, 2151, 2207, 2205, 2191, 2153, 2218, 2160, 2190, 2117, 2210, 2182], "completed_full_passes": 0, "unique_rows_since_tracking_started": 131072, "coverage_percent": 1.1073596090177085, "presentations": 131072, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 73024, "source_length": 128, "target_length": 384, "grouping_target_length": 192, "note": "Original row IDs, not distinct question texts; row coverage does not prove untruncated token coverage."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/target-length-1k-v1/target384/step-074048
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=3.73 device=cuda:0 precision=torch.float32 invalid_before_retry=5 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/target-length-1k-v1/target384/step-074048 jsonl_sha256=d384a8cb702715138eca7cf6e71372920e3b1b31240ab2a94484ad92f9f246cb
+finished_steps=74048

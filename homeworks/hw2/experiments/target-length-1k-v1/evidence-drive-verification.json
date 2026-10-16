@@ -1,0 +1,7 @@
+{
+  "id": "1erlPi_zL6bsyQ6Gg7d6xz7fyJhR2MZIj",
+  "sha256": "cfbcc0ea1c254147bc96cea5c3d2ac82f20215b683af9ea2e94248836c3457a3",
+  "bytes": 1128754,
+  "download_verified": true,
+  "includes": "CPU checks, runtime evidence, exact predictions, checkpoint hashes, bot receipts, report/notebook verification and source; weights remain in checkpoint folders"
+}

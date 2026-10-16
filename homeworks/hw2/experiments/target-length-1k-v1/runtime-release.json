@@ -1,0 +1,6 @@
+{
+  "verified": true,
+  "evidence": "Colab active-sessions dialog: no active sessions; resources sidebar: 0 active sessions and 0 units/hour",
+  "worker_returncode": 0,
+  "automatic_release": true
+}

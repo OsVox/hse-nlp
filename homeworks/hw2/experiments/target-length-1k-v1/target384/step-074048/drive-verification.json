@@ -1,0 +1,9 @@
+{
+  "arm": "target384",
+  "arm_folder": "1eTklWgIwOsDr6QfAv_xO45Ut1xhcS5Vq",
+  "checkpoint_folder": "1FMSnDS8wa16oARKZVv8VAsahfVMfI4YI",
+  "model_id": "1i1CbRUmiRe7N9xOAtFqq6WYUHeFR63U7",
+  "model_bytes": 169938176,
+  "model_sha256": "4488d9ea1293e9637c53cbb8e306d5315c2dc6b47e12c85e93043d06d204790c",
+  "remote_model_download_verified": true
+}
