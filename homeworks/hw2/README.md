@@ -5,12 +5,17 @@ randomly initialized encoder-decoder Transformer on the supplied
 [`SlavaYus/tinysms_qa_12m` dataset](https://huggingface.co/datasets/SlavaYus/tinysms_qa_12m).
 No pretrained weights, outside examples, or extra target programs are used.
 
+Current verified public best: **583/960 (60.73%)**, step 75,776 of
+`complete-curve-4k-v1`; latest bot rank is 10/16 at 23:15 (+03), 16 October.
+The strict-greedy inference notebook pins this checkpoint and source. Its new
+preparation bundle has not run; final T4 timing remains unverified.
+
 ## Full training-data coverage
 
 The old `--mixed-rows-per-shard` sampler can repeat rows before visiting the
 entire corpus. Availability of all 60 shards is not evidence of a complete pass.
 The coverage audit bounds the 78M pilot at at most 2.21% unique-row coverage and
-the best 73,024-step checkpoint at at most 78.97%; actual unique coverage is
+the previous best 73,024-step checkpoint at at most 78.97%; actual unique coverage is
 unknown. Independent experiment models do not share training experience.
 
 Prepare `full_coverage` indices on CPU, before allocating a GPU:
@@ -57,12 +62,22 @@ update commits the logical batch's row receipt. An over-budget individual row
 raises explicitly rather than being cut or skipped. Default capped experiments
 and immutable prepared sources remain reproducible.
 
-These budgets are memory proxies, not measured GPU byte limits. A short GPU
-probe is still required before adopting this path. Dropout and floating-point
+These budgets are memory proxies, not measured GPU byte limits. The bounded
+GPU probe passed on G4, including 130 selected length extremes. Dropout and floating-point
 rounding can differ between split and unsplit execution. Changing tokenization
 mode rejects an old coverage cursor; start a clearly recorded new traversal.
 CPU checks are in `experiments/untruncated-cpu-v1`. No CPU audit or small-model
 test is evidence that the competition checkpoint completed a full training pass.
+
+`complete-curve-4k-v1` then trained 3,776 updates with complete original sequences,
+retaining four Drive-saved and bot-scored checkpoints. Public scores were
+574, 581, 583 and 569/960. The selected best gained eight public answers, but
+held-out gains were mixed (0/245 and +5/493, with three additional execution
+failures). No automatic long extension follows. The best checkpoint tracked
+352,256 unique original rows; the final checkpoint tracked 483,328, with no
+repeats. Neither completed a full pass. The driver took 512.01 seconds, excluding
+allocation, authorization and installation; median GPU utilization was 94%.
+All checkpoint exports and bot receipts were verified; compute was released.
 
 ## Files
 

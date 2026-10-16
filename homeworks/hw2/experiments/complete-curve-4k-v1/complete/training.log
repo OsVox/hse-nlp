@@ -1,0 +1,105 @@
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+resumed_at_step=73024 optimizer_reset=False
+new_schedule_start=73024 peak_lr=3e-05
+step=73050 train_loss=0.4949 elapsed_s=8.5
+step=73100 train_loss=0.3642 elapsed_s=13.4
+step=73150 train_loss=0.4492 elapsed_s=18.3
+step=73200 train_loss=0.3762 elapsed_s=22.5
+step=73250 train_loss=0.2430 elapsed_s=27.7
+step=73300 train_loss=0.4423 elapsed_s=32.0
+step=73350 train_loss=0.3295 elapsed_s=37.1
+step=73400 train_loss=0.4239 elapsed_s=41.8
+step=73450 train_loss=0.3328 elapsed_s=46.6
+step=73500 train_loss=0.4196 elapsed_s=51.4
+step=73550 train_loss=0.3309 elapsed_s=56.0
+step=73600 train_loss=0.4384 elapsed_s=61.5
+step=73650 train_loss=0.3881 elapsed_s=66.1
+step=73700 train_loss=0.3485 elapsed_s=71.5
+step=73728 val_token_loss=0.4051
+best_step=73728 best_val_token_loss=0.4051
+coverage={"eligible_rows": 11836444, "eligible_by_shard": [198952, 199974, 199983, 199983, 199977, 199977, 199977, 199976, 199977, 199976, 199969, 199975, 199981, 199977, 199988, 199992, 199993, 199994, 199991, 199994, 199996, 199998, 199992, 199996, 199996, 199993, 199998, 199988, 199992, 199999, 200000, 200000, 200000, 200000, 200000, 200000, 199997, 199990, 199985, 199995, 199991, 199990, 199993, 199991, 199994, 199995, 199992, 199998, 199995, 199995, 199993, 199993, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 38003], "excluded_by_shard": [1048, 26, 17, 17, 23, 23, 23, 24, 23, 24, 31, 25, 19, 23, 12, 8, 7, 6, 9, 6, 4, 2, 8, 4, 4, 7, 2, 12, 8, 1, 0, 0, 0, 0, 0, 0, 3, 10, 15, 5, 9, 10, 7, 9, 6, 5, 8, 2, 5, 5, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0], "unique_visited_by_shard": [1530, 1515, 1514, 1549, 1496, 1470, 1426, 1538, 1525, 1545, 1524, 1493, 1445, 1489, 1499, 1526, 1546, 1509, 1518, 1562, 1485, 1481, 1456, 1504, 1496, 1474, 1478, 1515, 1498, 1537, 1476, 1467, 1503, 1533, 1568, 1470, 1536, 1501, 1511, 1493, 1523, 1480, 1498, 1504, 1474, 1420, 1516, 1495, 1479, 1487, 1516, 1532, 1500, 1487, 1539, 1480, 1503, 1452, 1497, 1529], "presentations_by_shard": [1530, 1515, 1514, 1549, 1496, 1470, 1426, 1538, 1525, 1545, 1524, 1493, 1445, 1489, 1499, 1526, 1546, 1509, 1518, 1562, 1485, 1481, 1456, 1504, 1496, 1474, 1478, 1515, 1498, 1537, 1476, 1467, 1503, 1533, 1568, 1470, 1536, 1501, 1511, 1493, 1523, 1480, 1498, 1504, 1474, 1420, 1516, 1495, 1479, 1487, 1516, 1532, 1500, 1487, 1539, 1480, 1503, 1452, 1497, 1529], "visited_current_epoch_by_shard": [1530, 1515, 1514, 1549, 1496, 1470, 1426, 1538, 1525, 1545, 1524, 1493, 1445, 1489, 1499, 1526, 1546, 1509, 1518, 1562, 1485, 1481, 1456, 1504, 1496, 1474, 1478, 1515, 1498, 1537, 1476, 1467, 1503, 1533, 1568, 1470, 1536, 1501, 1511, 1493, 1523, 1480, 1498, 1504, 1474, 1420, 1516, 1495, 1479, 1487, 1516, 1532, 1500, 1487, 1539, 1480, 1503, 1452, 1497, 1529], "completed_full_passes": 0, "unique_rows_since_tracking_started": 90112, "coverage_percent": 0.7613097311996745, "presentations": 90112, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 73024, "source_length": null, "target_length": null, "grouping_target_length": 192, "untruncated_tokens": {"question": 4228250, "code": 6708420}, "note": "Original row IDs with untruncated tokenization; no historical token exposure claim."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-073728
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=5.03 device=cuda:0 precision=torch.float32 invalid_before_retry=5 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-073728 jsonl_sha256=f947dc22f6268c8d45793cb4bd885f44ae9877eacd706c2cdbf704e2d9251478
+step=73750 train_loss=0.3990 elapsed_s=82.8
+step=73800 train_loss=0.3351 elapsed_s=87.9
+step=73850 train_loss=0.4329 elapsed_s=92.8
+step=73900 train_loss=0.3496 elapsed_s=97.5
+step=73950 train_loss=0.4767 elapsed_s=102.6
+step=74000 train_loss=0.4099 elapsed_s=107.1
+step=74050 train_loss=0.2836 elapsed_s=112.3
+step=74100 train_loss=0.3667 elapsed_s=116.7
+step=74150 train_loss=0.3108 elapsed_s=121.5
+step=74200 train_loss=0.4201 elapsed_s=126.1
+step=74250 train_loss=0.3321 elapsed_s=130.9
+step=74300 train_loss=0.4460 elapsed_s=136.0
+step=74350 train_loss=0.4682 elapsed_s=140.6
+step=74400 train_loss=0.5092 elapsed_s=145.9
+step=74450 train_loss=0.4811 elapsed_s=150.2
+step=74500 train_loss=0.2961 elapsed_s=155.3
+step=74550 train_loss=0.4265 elapsed_s=160.1
+step=74600 train_loss=0.2999 elapsed_s=164.9
+step=74650 train_loss=0.3854 elapsed_s=169.9
+step=74700 train_loss=0.3935 elapsed_s=174.8
+step=74750 train_loss=0.4209 elapsed_s=179.6
+step=74752 val_token_loss=0.4035
+best_step=74752 best_val_token_loss=0.4035
+coverage={"eligible_rows": 11836444, "eligible_by_shard": [198952, 199974, 199983, 199983, 199977, 199977, 199977, 199976, 199977, 199976, 199969, 199975, 199981, 199977, 199988, 199992, 199993, 199994, 199991, 199994, 199996, 199998, 199992, 199996, 199996, 199993, 199998, 199988, 199992, 199999, 200000, 200000, 200000, 200000, 200000, 200000, 199997, 199990, 199985, 199995, 199991, 199990, 199993, 199991, 199994, 199995, 199992, 199998, 199995, 199995, 199993, 199993, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 38003], "excluded_by_shard": [1048, 26, 17, 17, 23, 23, 23, 24, 23, 24, 31, 25, 19, 23, 12, 8, 7, 6, 9, 6, 4, 2, 8, 4, 4, 7, 2, 12, 8, 1, 0, 0, 0, 0, 0, 0, 3, 10, 15, 5, 9, 10, 7, 9, 6, 5, 8, 2, 5, 5, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0], "unique_visited_by_shard": [3673, 3690, 3663, 3672, 3691, 3687, 3654, 3681, 3663, 3671, 3695, 3673, 3689, 3687, 3675, 3697, 3730, 3682, 3666, 3736, 3680, 3702, 3684, 3686, 3694, 3704, 3678, 3684, 3700, 3715, 3683, 3672, 3734, 3683, 3696, 3684, 3698, 3668, 3678, 3691, 3703, 3670, 3679, 3679, 3690, 3675, 3699, 3701, 3665, 3680, 3685, 3701, 3685, 3656, 3695, 3705, 3651, 3682, 3697, 3697], "presentations_by_shard": [3673, 3690, 3663, 3672, 3691, 3687, 3654, 3681, 3663, 3671, 3695, 3673, 3689, 3687, 3675, 3697, 3730, 3682, 3666, 3736, 3680, 3702, 3684, 3686, 3694, 3704, 3678, 3684, 3700, 3715, 3683, 3672, 3734, 3683, 3696, 3684, 3698, 3668, 3678, 3691, 3703, 3670, 3679, 3679, 3690, 3675, 3699, 3701, 3665, 3680, 3685, 3701, 3685, 3656, 3695, 3705, 3651, 3682, 3697, 3697], "visited_current_epoch_by_shard": [3673, 3690, 3663, 3672, 3691, 3687, 3654, 3681, 3663, 3671, 3695, 3673, 3689, 3687, 3675, 3697, 3730, 3682, 3666, 3736, 3680, 3702, 3684, 3686, 3694, 3704, 3678, 3684, 3700, 3715, 3683, 3672, 3734, 3683, 3696, 3684, 3698, 3668, 3678, 3691, 3703, 3670, 3679, 3679, 3690, 3675, 3699, 3701, 3665, 3680, 3685, 3701, 3685, 3656, 3695, 3705, 3651, 3682, 3697, 3697], "completed_full_passes": 0, "unique_rows_since_tracking_started": 221184, "coverage_percent": 1.8686693402173828, "presentations": 221184, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 73024, "source_length": null, "target_length": null, "grouping_target_length": 192, "untruncated_tokens": {"question": 10366875, "code": 16440480}, "note": "Original row IDs with untruncated tokenization; no historical token exposure claim."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-074752
+generated=1919 seconds=3.51 device=cuda:0 precision=torch.float32 invalid_before_retry=4 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-074752 jsonl_sha256=f84a0f55914ec11b0f06e488d924173b3dd075c1ea30eee1cf0ca6b91824957b
+step=74800 train_loss=0.4253 elapsed_s=191.3
+step=74850 train_loss=0.2867 elapsed_s=196.6
+step=74900 train_loss=0.4020 elapsed_s=201.2
+step=74950 train_loss=0.3408 elapsed_s=210.7
+step=75000 train_loss=0.4096 elapsed_s=215.4
+step=75050 train_loss=0.3611 elapsed_s=220.3
+step=75100 train_loss=0.4075 elapsed_s=225.3
+step=75150 train_loss=0.4292 elapsed_s=230.1
+step=75200 train_loss=0.4688 elapsed_s=235.3
+step=75250 train_loss=0.4461 elapsed_s=239.7
+step=75300 train_loss=0.3060 elapsed_s=244.8
+step=75350 train_loss=0.3671 elapsed_s=249.5
+step=75400 train_loss=0.3207 elapsed_s=254.3
+step=75450 train_loss=0.4577 elapsed_s=259.1
+step=75500 train_loss=0.3627 elapsed_s=263.9
+step=75550 train_loss=0.5077 elapsed_s=268.8
+step=75600 train_loss=0.4439 elapsed_s=273.6
+step=75650 train_loss=0.2341 elapsed_s=278.6
+step=75700 train_loss=0.3918 elapsed_s=283.3
+step=75750 train_loss=0.3831 elapsed_s=288.3
+step=75776 val_token_loss=0.4039
+coverage={"eligible_rows": 11836444, "eligible_by_shard": [198952, 199974, 199983, 199983, 199977, 199977, 199977, 199976, 199977, 199976, 199969, 199975, 199981, 199977, 199988, 199992, 199993, 199994, 199991, 199994, 199996, 199998, 199992, 199996, 199996, 199993, 199998, 199988, 199992, 199999, 200000, 200000, 200000, 200000, 200000, 200000, 199997, 199990, 199985, 199995, 199991, 199990, 199993, 199991, 199994, 199995, 199992, 199998, 199995, 199995, 199993, 199993, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 38003], "excluded_by_shard": [1048, 26, 17, 17, 23, 23, 23, 24, 23, 24, 31, 25, 19, 23, 12, 8, 7, 6, 9, 6, 4, 2, 8, 4, 4, 7, 2, 12, 8, 1, 0, 0, 0, 0, 0, 0, 3, 10, 15, 5, 9, 10, 7, 9, 6, 5, 8, 2, 5, 5, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0], "unique_visited_by_shard": [5872, 5859, 5851, 5891, 5796, 5858, 5844, 5871, 5961, 5882, 5859, 5904, 5853, 5908, 5891, 5902, 5776, 5845, 5861, 5857, 5882, 5889, 5865, 5884, 5905, 5847, 5895, 5851, 5873, 5851, 5912, 5844, 5854, 5920, 5882, 5863, 5909, 5872, 5865, 5843, 5864, 5894, 5837, 5972, 5888, 5896, 5852, 5897, 5849, 5881, 5841, 5848, 5890, 5811, 5875, 5897, 5867, 5840, 5805, 5905], "presentations_by_shard": [5872, 5859, 5851, 5891, 5796, 5858, 5844, 5871, 5961, 5882, 5859, 5904, 5853, 5908, 5891, 5902, 5776, 5845, 5861, 5857, 5882, 5889, 5865, 5884, 5905, 5847, 5895, 5851, 5873, 5851, 5912, 5844, 5854, 5920, 5882, 5863, 5909, 5872, 5865, 5843, 5864, 5894, 5837, 5972, 5888, 5896, 5852, 5897, 5849, 5881, 5841, 5848, 5890, 5811, 5875, 5897, 5867, 5840, 5805, 5905], "visited_current_epoch_by_shard": [5872, 5859, 5851, 5891, 5796, 5858, 5844, 5871, 5961, 5882, 5859, 5904, 5853, 5908, 5891, 5902, 5776, 5845, 5861, 5857, 5882, 5889, 5865, 5884, 5905, 5847, 5895, 5851, 5873, 5851, 5912, 5844, 5854, 5920, 5882, 5863, 5909, 5872, 5865, 5843, 5864, 5894, 5837, 5972, 5888, 5896, 5852, 5897, 5849, 5881, 5841, 5848, 5890, 5811, 5875, 5897, 5867, 5840, 5805, 5905], "completed_full_passes": 0, "unique_rows_since_tracking_started": 352256, "coverage_percent": 2.9760289492350913, "presentations": 352256, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 73024, "source_length": null, "target_length": null, "grouping_target_length": 192, "untruncated_tokens": {"question": 16520366, "code": 26191560}, "note": "Original row IDs with untruncated tokenization; no historical token exposure claim."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-075776
+generated=1919 seconds=3.35 device=cuda:0 precision=torch.float32 invalid_before_retry=3 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-075776 jsonl_sha256=ec4ce16aefc89e26df91dcb9125111bd63fec7796f67b4f91b9a4ef82acdb300
+step=75800 train_loss=0.4086 elapsed_s=299.2
+step=75850 train_loss=0.3804 elapsed_s=304.4
+step=75900 train_loss=0.4360 elapsed_s=309.2
+step=75950 train_loss=0.3086 elapsed_s=314.1
+step=76000 train_loss=0.4974 elapsed_s=319.1
+step=76050 train_loss=0.4162 elapsed_s=323.8
+step=76100 train_loss=0.3114 elapsed_s=329.2
+step=76150 train_loss=0.4249 elapsed_s=333.7
+step=76200 train_loss=0.3357 elapsed_s=338.9
+step=76250 train_loss=0.3814 elapsed_s=343.7
+step=76300 train_loss=0.3625 elapsed_s=348.6
+step=76350 train_loss=0.4202 elapsed_s=353.5
+step=76400 train_loss=0.3607 elapsed_s=358.0
+step=76450 train_loss=0.2544 elapsed_s=363.3
+step=76500 train_loss=0.4069 elapsed_s=367.6
+step=76550 train_loss=0.3114 elapsed_s=372.8
+step=76600 train_loss=0.4400 elapsed_s=377.7
+step=76650 train_loss=0.3338 elapsed_s=382.3
+step=76700 train_loss=0.4311 elapsed_s=387.5
+step=76750 train_loss=0.3435 elapsed_s=392.3
+step=76800 train_loss=0.5178 elapsed_s=397.7
+step=76800 val_token_loss=0.4029
+best_step=76800 best_val_token_loss=0.4029
+coverage={"eligible_rows": 11836444, "eligible_by_shard": [198952, 199974, 199983, 199983, 199977, 199977, 199977, 199976, 199977, 199976, 199969, 199975, 199981, 199977, 199988, 199992, 199993, 199994, 199991, 199994, 199996, 199998, 199992, 199996, 199996, 199993, 199998, 199988, 199992, 199999, 200000, 200000, 200000, 200000, 200000, 200000, 199997, 199990, 199985, 199995, 199991, 199990, 199993, 199991, 199994, 199995, 199992, 199998, 199995, 199995, 199993, 199993, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 38003], "excluded_by_shard": [1048, 26, 17, 17, 23, 23, 23, 24, 23, 24, 31, 25, 19, 23, 12, 8, 7, 6, 9, 6, 4, 2, 8, 4, 4, 7, 2, 12, 8, 1, 0, 0, 0, 0, 0, 0, 3, 10, 15, 5, 9, 10, 7, 9, 6, 5, 8, 2, 5, 5, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0], "unique_visited_by_shard": [8061, 8047, 8051, 8033, 8065, 8046, 8054, 8054, 8060, 8049, 8039, 8056, 8069, 8053, 8060, 8044, 8043, 8067, 8056, 8041, 8066, 8052, 8070, 8069, 8040, 8049, 8050, 8068, 8065, 8054, 8044, 8059, 8076, 8058, 8051, 8059, 8062, 8076, 8051, 8064, 8052, 8061, 8042, 8074, 8055, 8065, 8066, 8058, 8066, 8066, 8047, 8056, 8047, 8046, 8052, 8040, 8053, 8030, 8048, 8073], "presentations_by_shard": [8061, 8047, 8051, 8033, 8065, 8046, 8054, 8054, 8060, 8049, 8039, 8056, 8069, 8053, 8060, 8044, 8043, 8067, 8056, 8041, 8066, 8052, 8070, 8069, 8040, 8049, 8050, 8068, 8065, 8054, 8044, 8059, 8076, 8058, 8051, 8059, 8062, 8076, 8051, 8064, 8052, 8061, 8042, 8074, 8055, 8065, 8066, 8058, 8066, 8066, 8047, 8056, 8047, 8046, 8052, 8040, 8053, 8030, 8048, 8073], "visited_current_epoch_by_shard": [8061, 8047, 8051, 8033, 8065, 8046, 8054, 8054, 8060, 8049, 8039, 8056, 8069, 8053, 8060, 8044, 8043, 8067, 8056, 8041, 8066, 8052, 8070, 8069, 8040, 8049, 8050, 8068, 8065, 8054, 8044, 8059, 8076, 8058, 8051, 8059, 8062, 8076, 8051, 8064, 8052, 8061, 8042, 8074, 8055, 8065, 8066, 8058, 8066, 8066, 8047, 8056, 8047, 8046, 8052, 8040, 8053, 8030, 8048, 8073], "completed_full_passes": 0, "unique_rows_since_tracking_started": 483328, "coverage_percent": 4.0833885582528, "presentations": 483328, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 73024, "source_length": null, "target_length": null, "grouping_target_length": 192, "untruncated_tokens": {"question": 22664359, "code": 35924775}, "note": "Original row IDs with untruncated tokenization; no historical token exposure claim."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-076800
+generated=1919 seconds=3.61 device=cuda:0 precision=torch.float32 invalid_before_retry=4 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-076800 jsonl_sha256=ee2481e5e3b9bb54c33555efb7a7ab08038af58e7088ac02ab5e11df4162b05d
+finished_steps=76800

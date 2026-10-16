@@ -1,0 +1,14 @@
+[
+  {
+    "arm": "complete",
+    "stage": "pilot",
+    "started_utc": 1792181684.530145,
+    "collected_utc": 1792181691.5620701
+  },
+  {
+    "arm": "complete",
+    "stage": "confirmation",
+    "started_utc": 1792181691.561525,
+    "collected_utc": 1792181698.9406672
+  }
+]

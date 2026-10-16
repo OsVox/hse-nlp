@@ -1,0 +1,10 @@
+{
+  "arm": "complete",
+  "step": 74752,
+  "arm_folder": "1EECRt4_aGnr8ZfA-1e25AVHUEP3MYfBs",
+  "checkpoint_folder": "17T3uLz-QSX8FXVLZojfinKJS7EDU3ZSg",
+  "model_id": "1DQ2-veptp_x8eIuCf_Ms-tqwtpu3ZnIX",
+  "model_bytes": 169938176,
+  "model_sha256": "ecd6b3f2cc7fcedbe5b785d07bae1846c1261907312277b9c46dd5fe57d583eb",
+  "remote_model_download_verified": true
+}

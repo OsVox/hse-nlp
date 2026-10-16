@@ -1,0 +1,9 @@
+{
+  "model_sha256": "472cc28d5b1d877c50a4cabef771cd1c2fe27426787cf0ceb557f552d482204a",
+  "source_commit": "d3c8136a68830bca45f26ab4fcad31450d344f81",
+  "step": 75776,
+  "all_code_cells_compile": true,
+  "preparation_bundle_run": false,
+  "t4_timing_verified": false,
+  "scored_output_verified": true
+}

@@ -1,0 +1,27 @@
+{
+  "folder": "1jfIS8AuQtcZV8U-YOISSMdakzTAJDCMb",
+  "source_commit": "d3c8136a68830bca45f26ab4fcad31450d344f81",
+  "files": [
+    {
+      "id": "1F8-5g-JHoN6VuTnuc2Zvb36yugBvGtpJ",
+      "name": "ready.json",
+      "sha256": "47a8536c78c9c50f005f1424c2301863950bcf4049d94b913a394215f5781791",
+      "byte_verified": true
+    },
+    {
+      "id": "12leiBg3bGl9GqNmhhK2ubUtK613Q7EoS",
+      "name": "launch.py",
+      "sha256": "5893c82dc2b4ee1e0d65f94114e9199a8271d032908bc206ace1a5e4180a7c70",
+      "byte_verified": true
+    },
+    {
+      "id": "1Yv6KjL-EwvTR4hcZ16af84GofCVhx-au",
+      "name": "source.tar",
+      "sha256": "19e84b91516ad3a240cf2b02c48273f78cb3cb1919f9851497163b06d3308ee7",
+      "byte_verified": true
+    }
+  ],
+  "reused_parent_id": "1uHcWzZD3n-wb64L9xyIr4TFugfjooAHN",
+  "parent_local_sha256_verified": true,
+  "parent_drive_md5_verified": true
+}

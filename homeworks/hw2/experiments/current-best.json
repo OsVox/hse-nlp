@@ -1,106 +1,44 @@
 {
-  "timestamp": "2026-10-16T14:48:00+03:00",
+  "timestamp": "2026-10-16T23:13:00+03:00",
   "timestamp_precision": "minute",
   "bot_username": "hse_nlp_hw2_2026_bot",
-  "filename": "frequency-screen-control-073024.jsonl",
-  "jsonl_sha256": "32153a851016b95bca6653e0cf6e8e6ac046498b6c4585901870331ed0281adf",
-  "source_commit": "0a3e2bfac3da70a5750efcf7233aa7506a6350e0",
-  "model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
-  "run": "frequency-screen-1k-v1",
-  "variant": "control",
-  "step": 73024,
+  "filename": "complete-curve-075776.jsonl",
+  "jsonl_sha256": "ec4ce16aefc89e26df91dcb9125111bd63fec7796f67b4f91b9a4ef82acdb300",
+  "source_commit": "d3c8136a68830bca45f26ab4fcad31450d344f81",
+  "model_sha256": "472cc28d5b1d877c50a4cabef771cd1c2fe27426787cf0ceb557f552d482204a",
+  "run": "complete-curve-4k-v1",
+  "variant": "complete",
+  "step": 75776,
   "status": "scored",
-  "public_correct": 575,
+  "public_correct": 583,
   "public_total": 960,
-  "public_percent": 59.9,
-  "reported_rank": 9,
+  "public_percent": 60.73,
+  "reported_rank": 10,
   "participants": 16,
-  "rank_basis": "Best retained submission; tied with inverse_sqrt in this screen",
+  "rank_basis": "Best retained submission",
   "telegram_message_ids": {
-    "file": 788810,
-    "accepted": 788811,
-    "score": 788812,
-    "rank": 788813
+    "file": 789065,
+    "accepted": 789066,
+    "score": 789067,
+    "rank": 789068
   },
   "export_verified": true,
   "t4_timing_verified": false,
   "question_order_basis": "User confirmed official test.parquet order",
-  "selection": "greedy",
   "num_beams": 1,
   "syntax_retry_beams": 0,
-  "drive_checkpoint_folder": "1y65ow6zmst_zyysdafxpbn4TU-Z87gWB",
-  "heldout_extension_gate_passed": false,
-  "selection_note": "Keep simpler control among tied public scores; both sampling treatments fail held-out gate. No long extension.",
+  "drive_checkpoint_folder": "1g_2GQ9VNykam4_qMl-l4fe0q66AgjORP",
+  "training": true,
+  "public_test_used_for_selection": true,
+  "selection": "greedy",
+  "selection_note": "Retained as the highest observed public score among four predeclared checkpoints. Public answers were not used for training or choosing the experiment recipe. Held-out gains are 0/245 and +5/493 with 3 extra execution failures; no automatic long extension.",
+  "long_extension_supported": false,
   "latest_leaderboard_observation": {
     "rank": 10,
     "participants": 16,
-    "observed_at": "2026-10-16T17:07:00+03:00",
-    "leader_percent": 78.33,
-    "evidence": "optimizer-confirm-2k-v1/leaderboard-observation.json"
+    "observed_at": "2026-10-16T23:15:00+03:00",
+    "evidence": "complete-curve-4k-v1/complete/step-076800/bot_receipt.json"
   },
-  "latest_depth_confirmation_observation": {
-    "timestamp": "2026-10-16T18:10:00+03:00",
-    "rank": 10,
-    "participants": 16,
-    "best_public_correct": 575,
-    "note": "Bot rank is based on best retained submission; new short pilot scored 109/960."
-  },
-  "latest_optimizer_transfer_observation": {
-    "timestamp": "2026-10-16T18:36:00+03:00",
-    "rank": 10,
-    "participants": 16,
-    "best_public_correct": 575,
-    "candidate_scores": [
-      568,
-      571,
-      569,
-      568
-    ],
-    "evidence": "muon-transfer-1k-v1/conclusion.json"
-  },
-  "latest_size_screen_observation": {
-    "timestamp": "2026-10-16T19:41:00+03:00",
-    "rank": 10,
-    "participants": 16,
-    "best_public_correct": 575,
-    "new_short_run_correct": {
-      "small": 90,
-      "control": 107,
-      "large": 110
-    },
-    "note": "Best retained submission unchanged; size candidates selected on held-out criteria."
-  },
-  "latest_coverage_pipeline_observation": {
-    "timestamp": "2026-10-16T20:20:00+03:00",
-    "rank": 10,
-    "participants": 16,
-    "best_public_correct": 575,
-    "candidate_scores": {
-      "control": 568,
-      "coverage": 573
-    },
-    "evidence": "coverage-pipeline-1k-v1/conclusion.json"
-  },
-  "latest_target_length_observation": {
-    "timestamp": "2026-10-16T20:53:00+03:00",
-    "rank": 10,
-    "participants": 16,
-    "best_public_correct": 575,
-    "candidate_scores": {
-      "control": 573,
-      "target384": 570
-    },
-    "evidence": "target-length-1k-v1/conclusion.json"
-  },
-  "latest_activation_observation": {
-    "timestamp": "2026-10-16T22:47:00+03:00",
-    "rank": 10,
-    "participants": 16,
-    "best_public_correct": 575,
-    "candidate_scores": {
-      "control": 107,
-      "swiglu": 108
-    },
-    "evidence": "activation-muon-2k-v1/conclusion.json"
-  }
+  "newly_tracked_unique_rows": 352256,
+  "completed_training_full_pass": false
 }

@@ -1,0 +1,13 @@
+{
+  "samples": 505,
+  "driver_utilization_mean_percent": 71.27722772277228,
+  "driver_utilization_median_percent": 94.0,
+  "peak_memory_mib": 34633.0,
+  "logged_throughput": {
+    "start_step": 73100,
+    "end_step": 76800,
+    "seconds": 384.3,
+    "examples_per_second": 1232.3705438459535,
+    "scope": "Includes intermediate validation, checkpoint saving and generation; excludes startup and final evaluation."
+  }
+}

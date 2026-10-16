@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1ZjcrxjLPCOLicPaC1gfN4BU3gd7RMlwC",
+    "name": "results.complete.json",
+    "bytes": 215
+  },
+  {
+    "id": "1gPfO0Fa3xMwnJHEayZgI23Vxs65-JCnA",
+    "name": "predictions.jsonl",
+    "bytes": 453886
+  },
+  {
+    "id": "1NLk9h9CgBFSM6JtBTVn49hjZYLltLw6n",
+    "name": "predictions.provenance.json",
+    "bytes": 1231795
+  },
+  {
+    "id": "18kvhY8g57dlVMM--mi6Jz05RVk7vY8gX",
+    "name": "predictions.csv",
+    "bytes": 421783
+  },
+  {
+    "id": "1V5u7lqVGCikavxEPyG1Q4-WSf5lal6VN",
+    "name": "checkpoint.complete.json",
+    "bytes": 1067
+  },
+  {
+    "id": "1662ShHGRA9KMEqqRpsn_jdpMjKUWtmPH",
+    "name": "generation_config.json",
+    "bytes": 142
+  },
+  {
+    "id": "1OE0mGKDMfBiMorQoaTva0OQfWOAp4pxv",
+    "name": "config.json",
+    "bytes": 685
+  },
+  {
+    "id": "13LChGVTvYzlrrE_MMUKXNthmdFlgBxe6",
+    "name": "step.json",
+    "bytes": 15
+  },
+  {
+    "id": "1_uRUx4VINI1RE__tKfUziRA4H4YELqFX",
+    "name": "tokenizer_config.json",
+    "bytes": 971
+  },
+  {
+    "id": "1AU77yZczKpleR7pfaGPN9WokVwSv0roR",
+    "name": "validation.json",
+    "bytes": 49
+  },
+  {
+    "id": "1ZwO6_YeEBSPPWv_DMmIA9m-OCiJL4dJJ",
+    "name": "coverage.json",
+    "bytes": 5518
+  },
+  {
+    "id": "1mGThKouBRXj6kDJRqFi5FjtTIs74JNqF",
+    "name": "run_config.json",
+    "bytes": 49687
+  },
+  {
+    "id": "1jSN-a302WuV2NBDVA31EBdBwPwcQi3U5",
+    "name": "special_tokens_map.json",
+    "bytes": 416
+  },
+  {
+    "id": "1LjBEyO4xRPSuQBpxO1v7jUjrF87YgI6N",
+    "name": "tokenizer.json",
+    "bytes": 545550
+  }
+]

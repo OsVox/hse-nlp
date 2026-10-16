@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T23:13:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "complete-curve-075776.jsonl",
+  "jsonl_sha256": "ec4ce16aefc89e26df91dcb9125111bd63fec7796f67b4f91b9a4ef82acdb300",
+  "source_commit": "d3c8136a68830bca45f26ab4fcad31450d344f81",
+  "model_sha256": "472cc28d5b1d877c50a4cabef771cd1c2fe27426787cf0ceb557f552d482204a",
+  "run": "complete-curve-4k-v1",
+  "variant": "complete",
+  "step": 75776,
+  "status": "scored",
+  "public_correct": 583,
+  "public_total": 960,
+  "public_percent": 60.73,
+  "reported_rank": 10,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 789065,
+    "accepted": 789066,
+    "score": 789067,
+    "rank": 789068
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1g_2GQ9VNykam4_qMl-l4fe0q66AgjORP",
+  "training": true,
+  "public_test_used_for_selection": false
+}

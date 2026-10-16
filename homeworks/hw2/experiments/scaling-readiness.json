@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-16T23:00:08.476808+03:00",
+  "updated_at": "2026-10-16T23:17:59.228979+03:00",
   "scaling_ready": false,
   "long_run_started": false,
   "all_optimizations_exhausted": false,
-  "best_public_correct": 575,
+  "best_public_correct": 583,
   "best_public_total": 960,
   "data": {
     "eligible_original_rows": 11836444,
@@ -13,10 +13,6 @@
     "completed_trained_full_pass": false,
     "historical_unique_coverage_of_best_model": "Unknown; known presentation upper bound is below a full pass",
     "full_corpus_token_lengths_audited": true,
-    "current_input_cap": 128,
-    "current_target_cap": 192,
-    "rows_with_truncated_text": 228035,
-    "programs_truncated": 212045,
     "maximum_question_tokens": 741,
     "maximum_program_tokens": 1208,
     "evidence": [
@@ -24,10 +20,20 @@
       "coverage-pipeline-1k-v1",
       "corpus-token-cpu-v1",
       "untruncated-cpu-v1",
-      "untruncated-gpu-probe-v1"
+      "untruncated-gpu-probe-v1",
+      "complete-curve-4k-v1"
     ],
     "untruncated_training_cpu_verified": true,
-    "untruncated_training_gpu_probe_passed": true
+    "untruncated_training_gpu_probe_passed": true,
+    "historical_input_cap": 128,
+    "historical_target_cap": 192,
+    "rows_truncated_under_historical_caps": 228035,
+    "programs_truncated_under_historical_caps": 212045,
+    "current_training_sequence_policy": "Complete original questions and programs; memory-budgeted microbatches without truncation",
+    "current_evaluation_caps": {
+      "input": 128,
+      "output": 192
+    }
   },
   "attention_probe": {
     "evidence": "t5-sdpa-probe-v1",
@@ -35,9 +41,9 @@
     "all_fused_attention_implementations_ruled_out": false
   },
   "remaining_priorities": [
-    "Choose a measured complete-sequence chunk budget, then run a bounded quality continuation with multiple checkpoints before a full pass or larger model.",
-    "Use exact consumed-row and token accounting and require a completed full-pass receipt.",
-    "Evaluate the selected model on a bounded longer learning curve with checkpoint scores and stopping rules before increasing model size."
+    "Cheap checkpoint-stability screen on held-out results before a longer continuation.",
+    "Retain exact consumed-row/token accounting and require a completed full-pass receipt.",
+    "Reassess model size only after data coverage and prioritized optimization evidence."
   ],
   "constraints": [
     "Only original allowed data and own scratch encoder-decoder Transformer; no extra teacher targets.",
@@ -69,5 +75,19 @@
     "extra_execution_failures": 32,
     "shortlist": [],
     "all_activation_designs_ruled_out": false
+  },
+  "complete_sequence_curve": {
+    "evidence": "complete-curve-4k-v1",
+    "public_curve": [
+      574,
+      581,
+      583,
+      569
+    ],
+    "best_step": 75776,
+    "selected_checkpoint_unique_rows": 352256,
+    "final_checkpoint_unique_rows": 483328,
+    "full_pass": false,
+    "automatic_extension": false
   }
 }

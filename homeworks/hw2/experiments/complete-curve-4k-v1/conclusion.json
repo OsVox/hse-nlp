@@ -1,0 +1,24 @@
+{
+  "decision": "The public trajectory is 574, 581, 583 and 569 correct out of 960. Retain step 75,776 at 583/960 (60.73%) as the new public best, an 8-answer gain over 575/960; latest rank is 10/16 at 23:15 (+03). Held-out gains for this checkpoint are 0/245 and +5/493, with 3 additional execution failures. The final checkpoint gains 1/245 and 2/493 but falls publicly. This is mixed evidence, not a repeatable quality gain or support for an automatic long extension. The selected checkpoint has 352,256 newly tracked unique rows; the final one has 483,328. Neither completed a full pass.",
+  "compute": "The driver took 512.01 seconds (8.53 minutes), including restoration, training, checkpoint exports and held-out evaluation. Training-process time was 408.97 seconds. Logged throughput was 1,232.4 examples/s, including intermediate checkpoint work. Whole-driver GPU utilization averaged 71.28% (median 94%); peak memory was 34,633 MiB. Allocation, Drive authorization and installation are additional. Worker exit 0 and zero active sessions were verified.",
+  "all_checkpoints_scored": true,
+  "automatic_extension": false,
+  "completed_training_full_pass": false,
+  "all_optimizations_exhausted": false,
+  "best_step": 75776,
+  "best_public_correct": 583,
+  "public_curve": [
+    574,
+    581,
+    583,
+    569
+  ],
+  "new_best_gain": 8,
+  "selected_checkpoint_unique_rows": 352256,
+  "final_checkpoint_unique_rows": 483328,
+  "next": [
+    "Preserve and reproduce the new public-best checkpoint.",
+    "Investigate checkpoint stability with a cheap held-out-only screen before considering a longer continuation.",
+    "Retain complete original examples and exact cursor accounting; require a full-pass receipt before claiming complete exposure."
+  ]
+}

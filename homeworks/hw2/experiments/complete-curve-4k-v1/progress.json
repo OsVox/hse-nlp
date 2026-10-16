@@ -1,0 +1,61 @@
+{
+  "completed_arms": [
+    "complete"
+  ],
+  "results": {
+    "complete": {
+      "pilot": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 140,
+        "numeric_agreement_on_usable": 0.5714285714285714,
+        "prediction_failures": 13,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-076800",
+        "offset": 256,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 1.6953323389999468,
+        "batch_size": 64,
+        "max_input_tokens": 128,
+        "max_new_tokens": 192,
+        "model_sha256": "0a318991ff1fda45c2373f0d360517dfa5fac8c7c87291e2f0a4c036601789c1",
+        "evaluator_sha256": "d5e658f610a032ea50508eff3cfe7498c2e288ed4dd3c3b97378532480cba75f",
+        "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+        "handwritten_repairs": 0,
+        "predictions_sha256": "fa7332b9b936f0369e7666727c4d05db4161d24604257dc571a4fda67fb42376",
+        "scoring_seconds": 3.696651820999932,
+        "scoring_started_utc": 1792181684.5669324,
+        "scoring_finished_utc": 1792181688.2635853
+      },
+      "confirmation": {
+        "rows": 512,
+        "usable_references": 493,
+        "numeric_correct": 288,
+        "numeric_agreement_on_usable": 0.5841784989858012,
+        "prediction_failures": 30,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/complete-curve-4k-v1/complete/step-076800",
+        "offset": 512,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 3.3325000969998655,
+        "batch_size": 64,
+        "max_input_tokens": 128,
+        "max_new_tokens": 192,
+        "model_sha256": "0a318991ff1fda45c2373f0d360517dfa5fac8c7c87291e2f0a4c036601789c1",
+        "evaluator_sha256": "d5e658f610a032ea50508eff3cfe7498c2e288ed4dd3c3b97378532480cba75f",
+        "questions_sha256": "2fdab07a7520635f500655d327a1953cbc4315a105b6be33756360b1a7a7771a",
+        "handwritten_repairs": 0,
+        "predictions_sha256": "09048a0428cbb4def293aa946b366ab48b8863230b7eb1dc3bd01f97c736d272",
+        "scoring_seconds": 7.297147699999869,
+        "scoring_started_utc": 1792181691.5933971,
+        "scoring_finished_utc": 1792181698.8905463
+      }
+    }
+  }
+}
