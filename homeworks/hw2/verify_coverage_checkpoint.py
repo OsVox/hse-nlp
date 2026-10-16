@@ -75,6 +75,7 @@ def main():
     parser.add_argument('--ready',type=Path,required=True)
     parser.add_argument('--parent',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--row-replay',type=Path)
     args=parser.parse_args()
     record=read_verified(args.checkpoint,'coverage.json')
     config=read_verified(args.checkpoint,'run_config.json')
@@ -82,6 +83,18 @@ def main():
     require(step == record['optimizer_step'], 'Checkpoint step mismatch')
     result=verify(record,config,json.loads(args.ready.read_text())['plan'],
                   read_verified(args.parent,'coverage.json'))
+    if args.row_replay:
+        from .replay_coverage_order import compare
+        replay=json.loads(args.row_replay.read_text())
+        ready=json.loads(args.ready.read_text())
+        require(replay['source_commit']==ready['source_commit'], 'Replay source mismatch')
+        require(replay['index_manifest_sha256']==ready['fresh_preparation']['index_manifest_sha256'],
+                'Replay index mismatch')
+        compare(replay['checkpoints'][str(step)],record)
+        result.update(independent_row_order_verified=True,
+            row_order_sha256=record['state']['row_order_sha256'],
+            replay_sha256=hashlib.sha256(args.row_replay.read_bytes()).hexdigest(),
+            scope='Saved consumption hash chain, per-shard counts and full-token totals match an independent CPU reconstruction from verified row IDs and cached token lengths.')
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result))
 

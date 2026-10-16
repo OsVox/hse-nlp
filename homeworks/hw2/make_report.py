@@ -1065,6 +1065,15 @@ def build():
                 receipt['public_correct'],f"{receipt['public_percent']:.2f}%"])
         if len(rows)>1:
             story += [p('Drive-verified checkpoint submissions','Head'),table(rows,[30*mm,65*mm,40*mm,35*mm])]
+        replay_path=full/'independent-row-replay.json'
+        if replay_path.exists():
+            replay=json.loads(replay_path.read_text())
+            matched=set(replay['compared_checkpoint_steps'])
+            for verification in full.glob('step-*/independent-coverage-verification.json'):
+                evidence=json.loads(verification.read_text())
+                if evidence.get('independent_row_order_verified'):matched.add(evidence['step'])
+            steps=', '.join(f'{s:,}' for s in sorted(matched))
+            story += [p(f"Independent CPU reconstruction matches the saved consumed-row hash chain, per-shard counts and full-token totals at updates {steps}. It used verified original row IDs and cached token lengths, without importing the production sampler or allocating a GPU. The complete plan contains {replay['unique_planned_rows']:,} distinct eligible rows with no repeats. Uncompared future checkpoints are planned coverage, not proof of completed training.",'SmallText')]
         triangle=full/'step-040000/user-triangle-case.json'
         if triangle.exists():
             case=json.loads(triangle.read_text())
