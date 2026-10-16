@@ -1,0 +1,9 @@
+{
+  "ready_id": "1QwLghW3w0KtQNwLeH5v70LBpVsGL2DeV",
+  "parent_archive_id": "1TS2nXrHju0DnnYSem6bOSXQiIbtQmzSC",
+  "parent_archive_sha256": "04cb285e52b4e38a6b690cb7d25f6d74222909822688243bf9900021c4275387",
+  "source_sha256_verified": true,
+  "launcher_sha256_verified": true,
+  "source_commit": "1d7ce0c3ec3ceae7d65e8d5153d308d5a5f69b8f",
+  "preflight_exit_code": 0
+}

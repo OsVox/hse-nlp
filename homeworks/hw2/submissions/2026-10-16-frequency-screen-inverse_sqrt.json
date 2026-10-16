@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T14:49:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "frequency-screen-inverse_sqrt-073024.jsonl",
+  "jsonl_sha256": "07985a448b96f963f6fe7783a1e2b6f760cf29b8905233f12addc88a21e47c84",
+  "source_commit": "0a3e2bfac3da70a5750efcf7233aa7506a6350e0",
+  "model_sha256": "a3ce04fa50cb3c4eec12848d41f8bde19573adbb034bc9cb291377617cf1549b",
+  "run": "frequency-screen-1k-v1",
+  "variant": "inverse_sqrt",
+  "step": 73024,
+  "status": "scored",
+  "public_correct": 575,
+  "public_total": 960,
+  "public_percent": 59.9,
+  "reported_rank": 9,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 788814,
+    "accepted": 788815,
+    "score": 788816,
+    "rank": 788817
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "selection": "greedy",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1zyZtXkWlE0dswn3EaYvw5_e3VnOkRJrb",
+  "heldout_extension_gate_passed": null
+}

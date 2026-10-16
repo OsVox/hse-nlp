@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T14:48:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "frequency-screen-control-073024.jsonl",
+  "jsonl_sha256": "32153a851016b95bca6653e0cf6e8e6ac046498b6c4585901870331ed0281adf",
+  "source_commit": "0a3e2bfac3da70a5750efcf7233aa7506a6350e0",
+  "model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "run": "frequency-screen-1k-v1",
+  "variant": "control",
+  "step": 73024,
+  "status": "scored",
+  "public_correct": 575,
+  "public_total": 960,
+  "public_percent": 59.9,
+  "reported_rank": 9,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 788810,
+    "accepted": 788811,
+    "score": 788812,
+    "rank": 788813
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "selection": "greedy",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1y65ow6zmst_zyysdafxpbn4TU-Z87gWB",
+  "heldout_extension_gate_passed": null
+}

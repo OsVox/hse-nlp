@@ -1,0 +1,29 @@
+{
+  "source_commit": "0a3e2bfac3da70a5750efcf7233aa7506a6350e0",
+  "previous_attempt_folder": "15P1g3cBXN8SsJDFjqmvI1r2SXZj5mPTP",
+  "files": [
+    {
+      "file": "source-v2.tar",
+      "id": "12gs2R_HltK6vmizFivoBaH3Lphpxeiq-",
+      "sha256": "2236cd9edcd25a9fd224705a0674334de8a8d8274f2824748e76629fc76c04cb",
+      "byte_verified": true
+    },
+    {
+      "file": "launch.py",
+      "id": "1kcqqNMbU0n8QcmOKSGqVhdHsKgWaBJDH",
+      "sha256": "98359e1e9cc6c987f7369aa35bc474d6ad18306314c8efc59533e607881d23ef",
+      "byte_verified": true
+    },
+    {
+      "file": "ready.json",
+      "id": "1QwLghW3w0KtQNwLeH5v70LBpVsGL2DeV",
+      "sha256": "e840f2f1b888cbb330ea653cffab213eab1827446b888d6fd0629fbe439a001a",
+      "byte_verified": true
+    }
+  ],
+  "drive_run_folder": "1E1am5iYcJ-_M7O8aV0fiEFecmwRVxT39",
+  "launch_cell_id": "GtPI1REnhLyi",
+  "driver_pid": 7780,
+  "launch_observed": "2026-10-16T14:44:00+03:00",
+  "launch_timestamp_precision": "minute"
+}

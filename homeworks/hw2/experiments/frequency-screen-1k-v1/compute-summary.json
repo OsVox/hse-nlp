@@ -1,0 +1,10 @@
+{
+  "samples": 363,
+  "median_gpu_percent": 97.0,
+  "mean_gpu_percent": 67.96694214876032,
+  "peak_memory_mib": 25009.0,
+  "elapsed_seconds": 367.1609414860002,
+  "scope": "Driver telemetry includes setup, training, checkpointing and evaluation; excludes GPU allocation and OAuth before driver started",
+  "first_failed_attempt_overhead": "Approximately 3 minutes, minute precision; no model produced",
+  "released_verified": "Colab Manage Sessions: no active sessions"
+}

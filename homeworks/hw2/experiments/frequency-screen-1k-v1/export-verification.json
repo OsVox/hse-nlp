@@ -1,0 +1,23 @@
+{
+  "drive_run_folder": "1E1am5iYcJ-_M7O8aV0fiEFecmwRVxT39",
+  "drive_export_id": "1OWnbc809raJ2jGKcRxf_yxjbdIzO3S-z",
+  "export_sha256": "6145c147411ad5c45c0ffa5649a8bf2065d7617dcc3f3f8c484aca9cb31884fe",
+  "all_three_checkpoints_exact_export_verified": true,
+  "official_question_order_verified": true,
+  "all_three_bot_scores_recorded": true,
+  "training_config_verified": {
+    "steps": 73024,
+    "parent_step": 72000,
+    "batch_size": 128,
+    "seed": 42,
+    "numeric_token_weight": 2,
+    "frequency_powers": [
+      0,
+      0.5,
+      1
+    ]
+  },
+  "training_source_commit": "0a3e2bfac3da70a5750efcf7233aa7506a6350e0",
+  "inference_notebook_validation": "All Python cells compile; pins verified against saved training manifest; new inference bundle not executed",
+  "t4_timing_verified": false
+}

@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T14:52:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "frequency-screen-inverse-073024.jsonl",
+  "jsonl_sha256": "f0d1b70b49d9b68b640cbaebb55c81cd686bb9dd70e44f1f9f0bee2748f32f73",
+  "source_commit": "0a3e2bfac3da70a5750efcf7233aa7506a6350e0",
+  "model_sha256": "635de80919eca59d0c9776e5bbdb638920ee06e7efc90f709eb39247300125ef",
+  "run": "frequency-screen-1k-v1",
+  "variant": "inverse",
+  "step": 73024,
+  "status": "scored",
+  "public_correct": 558,
+  "public_total": 960,
+  "public_percent": 58.13,
+  "reported_rank": 9,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 788818,
+    "accepted": 788819,
+    "score": 788820,
+    "rank": 788821
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "selection": "greedy",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1FEZSsZcex0n63fZim5nQ7RscSFRBFpkw",
+  "heldout_extension_gate_passed": null
+}

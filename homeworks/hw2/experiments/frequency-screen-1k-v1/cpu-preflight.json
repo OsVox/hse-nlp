@@ -1,0 +1,26 @@
+{
+  "parent_verified": true,
+  "optimizer_verified": true,
+  "forward_finite": true,
+  "parent_step": 72000,
+  "streams": {
+    "control": {
+      "rows": 131072,
+      "unique_questions": 130723,
+      "seconds": 9.054755268000008
+    },
+    "inverse_sqrt": {
+      "rows": 131072,
+      "unique_questions": 131002,
+      "seconds": 8.974969707000014
+    },
+    "inverse": {
+      "rows": 131072,
+      "unique_questions": 131045,
+      "seconds": 9.040833981000048
+    }
+  },
+  "elapsed_seconds": 122.832407466,
+  "gpu": false,
+  "index_manifest_sha256": "2724bd79dda59e8499bc4694eb307b8cc2de5b989c34cf026d9b519a2bff1726"
+}

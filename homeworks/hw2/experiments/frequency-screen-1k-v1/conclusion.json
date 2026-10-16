@@ -1,0 +1,6 @@
+{
+  "decision": "Reject both inverse-frequency treatments for longer training. Relative to control, inverse_sqrt loses 7 held-out agreements and adds 4 execution failures; inverse loses 9 and adds 2. Public results are 575/960 control, 575/960 inverse_sqrt and 558/960 inverse. Retain the simpler control for reproducing our new best 59.90%; the two-answer gain over its 72k parent is exploratory and does not establish a benefit from longer training. No long run or second seed is justified by this screen.",
+  "compute": "The successful three-arm driver took 367.16 seconds (6.12 minutes), with median GPU utilization 97%, mean 67.97% and peak memory 25,009 MiB. This excludes allocation/OAuth before the driver; the first failed attempt added approximately three minutes. CPU preflight took 122.83 seconds. Colab showed no active sessions after completion. T4 timing remains deferred.",
+  "augmentation_policy": "Assignment prohibits additional training examples or targets. These trials changed only sampling of original rows, excluding held-out questions; no augmentation was created.",
+  "next_long_run": false
+}

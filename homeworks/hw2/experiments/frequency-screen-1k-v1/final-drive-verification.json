@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "name": "report.pdf",
+    "sha256": "66afd0cde2f0016bcca0c4baaf488b702f8e1b819bd3f93857bb91a233736a22",
+    "byte_verified": true
+  },
+  {
+    "id": "1V23YAkw3ISuu0qJH2-TfE3UC7CYaOktb",
+    "name": "hw2_inference_colab.ipynb",
+    "sha256": "006c5c334f47b61c0c116854b07790bfe982301f8fd4e6aafdefce87140e4454",
+    "byte_verified": true
+  },
+  {
+    "id": "1gTFB4ykD16Fd7bh69A2qXd0_IolwDdsO",
+    "name": "frequency-screen-evidence.zip",
+    "sha256": "a485cd096b1102b03a09f992179ad7028f594e6da5572add0246e3d85367e6e5",
+    "byte_verified": true
+  }
+]
