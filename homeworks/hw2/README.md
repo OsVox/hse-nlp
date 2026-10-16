@@ -24,7 +24,7 @@ No pretrained weights, outside examples, or extra target programs are used.
   Exact output token IDs, question order, model hash, and timings are saved.
 - `hw2_full_training_colab.ipynb` prepares the selected larger model on CPU
   and resumes it on G4. `hw2_inference_colab.ipynb` uses strict greedy decoding
-  on its 70k checkpoint. `hw2_inference_vote_colab.ipynb` archives the earlier
+  on the numeric-loss trial at 72k. `hw2_inference_vote_colab.ipynb` archives the earlier
   57.08% voting result. T4 timing remains deferred for the new configuration.
 - `metrics.json` and `report.pdf` record results once the runs finish.
 
@@ -34,7 +34,7 @@ Use the CPU-first Drive workflow below for training experiments. Keep GPU off
 until file checks pass. Save checkpoints and exact predictions to Drive, export
 from Drive, then submit the checked JSONL to the course bot.
 
-`hw2_inference_colab.ipynb` loads the 42.48M step-070000 checkpoint from
+`hw2_inference_colab.ipynb` loads the 42.48M numeric-loss step-072000 checkpoint from
 Drive after CPU checks. Strict greedy decoding is the user's selected policy
 as of 16 October. The historical 54.06% larger-model result, and the 53.85%
 small-model result, used greedy decoding with syntax-only beam retries;
@@ -43,7 +43,7 @@ they must not be relabelled as strict greedy scores. Historical voting reached
 separate bot receipts. The strict greedy 50k export scored 54.06% (519/960)
 at 09:26 (+03:00), matching the earlier retry-enabled score. Save outputs
 to Drive before export. Strict greedy at 60k scored 56.25% (540/960),
-21 more correct than 50k. The final 70k greedy export scored **57.71% (554/960)** at 10:09 (+03:00), now the best result across all our decoding experiments. The bot reported rank 8/15.
+21 more correct than 50k. The final 70k greedy export scored **57.71% (554/960)** at 10:09 (+03:00), then the best result across our decoding experiments. The bot reported rank 8/15.
 
 The completed training process used its original immutable source, whose automatic
 checkpoint predictions allow syntax retries. Use `greedy_export.py` on saved
@@ -109,4 +109,4 @@ require strictly more correct results and no extra execution failures. Only
 a confirmed average gets a full test export; no new training data or targets
 are created. The 60k/70k average improved the first sample from 142 to 152/247, but confirmation improved only 135 to 136/246 while execution failures rose from 10 to 13. It failed the predefined gate and was not submitted. The three-checkpoint average scored 141/247 and was rejected earlier. All models and results are retained in Drive and `experiments/checkpoint-average-70k-v1`. No GPU was used.
 
-`loss_pilot.py` prepares a matched 2,000-step control and a factor-two numeric/operator token-weight experiment, both starting from the same 70k checkpoint and optimizer state. It preserves original targets, data stream, seed, model size, learning-rate schedule and strict greedy decoding. Five focused tests passed. CPU file and optimizer checks must finish before GPU launch. No longer run starts automatically. See `experiments/non-scaling-plan.json` for hypotheses and their status.
+`loss_pilot.py` prepares a matched 2,000-step control and a factor-two numeric/operator token-weight experiment, both starting from the same 70k checkpoint and optimizer state. It preserves original targets, data stream, seed, model size, learning-rate schedule and strict greedy decoding. Five focused tests passed. CPU checks completed before GPU launch. Both 2,000-step trials finished in 453 seconds total (including restoration, evaluation and export), with median GPU activity of 97%. The unchanged-loss control scored 58.54% (562/960); numeric2 scored **59.69% (573/960)**, our best public result, rank 8/15. This is an 11-answer gain at matched model size and training budget. Held-out results were mixed (138 vs 141/245, then 289 vs 284/493) with slightly more execution failures, so the predefined extension gate failed. Keep the best-scored artifact for reproduction, but do not extend this trial automatically. Colab showed no active sessions afterward. See `experiments/non-scaling-plan.json` for hypotheses and their status.

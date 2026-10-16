@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-10-16T10:20:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "numeric-loss-control-072000.jsonl",
+  "jsonl_sha256": "00f28602d757f798513a811aad8a61d1454ed03aa3a450c3ca357a6ad20a9acf",
+  "source_commit": "8755a8f4867683d940e9b34fa48365e3cf4f8c21",
+  "model_sha256": "189ecee4b0a9932a1ffb93e9970208d438637713ddcf682e2d6181313e55a438",
+  "run": "numeric-loss-2k-v1",
+  "variant": "control",
+  "step": 72000,
+  "status": "scored",
+  "public_correct": 562,
+  "public_total": 960,
+  "public_percent": 58.54,
+  "reported_rank": 8,
+  "participants": 15,
+  "rank_basis": "Best retained submission; this output is also current best",
+  "telegram_message_ids": {
+    "file": 788699,
+    "accepted": 788700,
+    "score": 788701,
+    "rank": 788702
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "selection": "greedy",
+  "num_beams": 1,
+  "syntax_retry_beams": 0
+}

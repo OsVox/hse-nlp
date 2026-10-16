@@ -1,0 +1,6 @@
+{
+  "vocabulary_size": 8192,
+  "weighted_token_pieces": 305,
+  "special_tokens_unchanged": true,
+  "factor": 2
+}

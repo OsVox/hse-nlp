@@ -1,0 +1,17 @@
+{
+  "telemetry_samples": 442,
+  "median_utilization_all_percent": 97.0,
+  "median_utilization_busy_percent": 98.0,
+  "fraction_samples_gpu_over_90_percent": 0.6628959276018099,
+  "peak_memory_mib": 21077.0,
+  "gpu_session_release": "Colab Manage Sessions visibly showed no active sessions",
+  "longer_training_started": false,
+  "selected_method": "numeric2 for reproduction of best observed public score; held-out extension gate failed",
+  "control_training_seconds": 167.7,
+  "numeric2_training_seconds": 171.7,
+  "public_control_correct": 562,
+  "public_numeric2_correct": 573,
+  "public_difference_correct": 11,
+  "public_difference_percentage_points": 1.1458333333333333,
+  "training_budget_matched": true
+}

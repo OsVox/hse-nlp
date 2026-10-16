@@ -1,0 +1,53 @@
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+resumed_at_step=70000
+new_schedule_start=70000 peak_lr=3e-05
+step=70050 train_loss=0.3499 elapsed_s=9.3
+step=70100 train_loss=0.3204 elapsed_s=13.6
+step=70150 train_loss=0.3813 elapsed_s=17.5
+step=70200 train_loss=0.3207 elapsed_s=21.7
+step=70250 train_loss=0.3908 elapsed_s=25.6
+step=70300 train_loss=0.3345 elapsed_s=29.5
+step=70350 train_loss=0.4652 elapsed_s=33.8
+step=70400 train_loss=0.3678 elapsed_s=37.4
+step=70450 train_loss=0.3040 elapsed_s=41.6
+step=70500 train_loss=0.3989 elapsed_s=45.2
+step=70550 train_loss=0.3299 elapsed_s=49.5
+step=70600 train_loss=0.4184 elapsed_s=53.4
+step=70650 train_loss=0.3546 elapsed_s=57.3
+step=70700 train_loss=0.4654 elapsed_s=61.5
+step=70750 train_loss=0.3827 elapsed_s=65.4
+step=70800 train_loss=0.5090 elapsed_s=69.7
+step=70850 train_loss=0.4341 elapsed_s=73.3
+step=70900 train_loss=0.3183 elapsed_s=77.4
+step=70950 train_loss=0.4026 elapsed_s=81.5
+step=71000 train_loss=0.3842 elapsed_s=85.6
+step=71000 val_token_loss=0.4086
+best_step=71000 best_val_token_loss=0.4086
+step=71050 train_loss=0.4015 elapsed_s=90.1
+step=71100 train_loss=0.3930 elapsed_s=94.1
+step=71150 train_loss=0.4320 elapsed_s=98.4
+step=71200 train_loss=0.3645 elapsed_s=102.4
+step=71250 train_loss=0.2338 elapsed_s=106.6
+step=71300 train_loss=0.4107 elapsed_s=110.6
+step=71350 train_loss=0.3103 elapsed_s=114.6
+step=71400 train_loss=0.4158 elapsed_s=118.4
+step=71450 train_loss=0.3206 elapsed_s=122.4
+step=71500 train_loss=0.4403 elapsed_s=126.4
+step=71550 train_loss=0.3593 elapsed_s=130.6
+step=71600 train_loss=0.5022 elapsed_s=134.8
+step=71650 train_loss=0.4401 elapsed_s=138.8
+step=71700 train_loss=0.3163 elapsed_s=142.9
+step=71750 train_loss=0.4598 elapsed_s=146.7
+step=71800 train_loss=0.3405 elapsed_s=150.8
+step=71850 train_loss=0.4386 elapsed_s=154.8
+step=71900 train_loss=0.3871 elapsed_s=158.9
+step=71950 train_loss=0.4051 elapsed_s=168.0
+step=72000 train_loss=0.3988 elapsed_s=171.7
+step=72000 val_token_loss=0.4066
+best_step=72000 best_val_token_loss=0.4066
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/numeric-loss-2k-v1/numeric2/step-072000
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=4.05 device=cuda:0 precision=torch.float32 invalid_before_retry=2 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/numeric-loss-2k-v1/numeric2/step-072000 jsonl_sha256=a74500bb19a7817c29d182f5296c17a48e2fa269f1b84f42c2b5681bc02daf66
+finished_steps=72000

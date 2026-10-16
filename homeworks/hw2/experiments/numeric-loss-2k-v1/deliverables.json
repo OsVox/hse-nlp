@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "name": "report.pdf",
+      "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+      "sha256": "24d4ee389b3768953c8343e08e5e9290a7a830ea57109b81241cb8e72e412aa8",
+      "byte_equal": true
+    },
+    {
+      "name": "hw2_inference_colab.ipynb",
+      "id": "1V23YAkw3ISuu0qJH2-TfE3UC7CYaOktb",
+      "sha256": "7a202aea4d071ecf1f4b403f1bc947409c12bbfa645c0706422d77596adc41ca",
+      "byte_equal": true
+    }
+  ],
+  "pdf_pages": 16,
+  "pdf_changed_pages_visually_checked": [
+    1,
+    15,
+    16
+  ],
+  "notebook_cell_syntax_checked": true,
+  "notebook_end_to_end_run": false,
+  "saved_decoder_and_model_evaluated": true
+}

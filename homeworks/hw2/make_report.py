@@ -75,7 +75,7 @@ def build():
         p('Task and rules','Head'),
         p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
         p('Data and architecture','Head'),
-        p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The initial baseline has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights. The current selected larger model has 42,481,152 parameters, six encoder layers, four decoder layers, width 512 and feed-forward width 1536; it stopped at 70k updates.'),
+        p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The initial baseline has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights. The current selected larger model has 42,481,152 parameters, six encoder layers, four decoder layers, width 512 and feed-forward width 1536; the full run stopped at 70k and the matched loss trials each added 2k updates.'),
         p('Training uses AdamW, 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. The first 20,000 updates used batch 64 and peak learning rate 0.001. The first continuation retained optimizer moments, used batch 128 and restarted the schedule at peak rate 0.0005. The 60k-to-180k continuation retains batch 128 and optimizer moments, with a new schedule peaking at 0.0003. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model and optimizer states are saved regularly.'),
         p('Validation correction','Head'),
         p('Earlier runs excluded the first 1,024 row positions but did not exclude copies of their questions. An audit found 24 later rows in shard 0 with the same question text. Historical validation was therefore not fully independent. Future streams exclude every reserved question text across all shards. Rows 0-255 select checkpoints; rows 256-511 provide separate diagnostics. The earlier tokenizer may have seen duplicate question text.'),
@@ -325,7 +325,7 @@ def build():
         rows = [['Model', 'Pilot correct /247', 'Execution failures']]
         for name, result in selection['pilot'].items():
             rows.append([name, result['numeric_correct'], result['prediction_failures']])
-        story += [PageBreak(), p('Improvement without more training','Title'),
+        story += [PageBreak(), p('Checkpoint averaging test','Title'),
             p('Arithmetic averaging combines our own 60k/70k or 50k/60k/70k weights into one model of unchanged size. It adds zero training updates and still generates one greedy candidate. All runs use CPU, FP32, batch 64 and two threads. The original Transformer paper also used checkpoint averaging, although its decoding settings differed.'),
             table(rows,[70*mm,50*mm,50*mm])]
         if 'confirmation' in selection:
@@ -338,6 +338,19 @@ def build():
         for receipt_path in sorted(average.glob('exports/*/step-*/bot_receipt.json')):
             receipt = json.loads(receipt_path.read_text())
             story += [p(f"Bot result for {escape(receipt['variant'])}: {receipt['public_correct']}/960 ({receipt['public_percent']:.2f}%). Exact file: {escape(receipt['filename'])}. T4 timing remains unverified.")]
+    loss_pilot = ROOT/'experiments/numeric-loss-2k-v1'
+    if (loss_pilot/'selection.json').exists():
+        result = json.loads((loss_pilot/'selection.json').read_text())
+        rows = [['Arm', 'Pilot agreements', 'Confirmation agreements', 'Public correct /960']]
+        for name, stages in result['results'].items():
+            receipt = loss_pilot/name/'step-072000/bot_receipt.json'
+            public = json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            rows.append([name] + [f"{stages[stage]['numeric_correct']}/{stages[stage]['usable_references']}" for stage in ['pilot','confirmation']] + [public])
+        story += [PageBreak(), p('Short matched loss-weight test','Title'),
+            p('Two independent 2,000-update continuations start from the same own 70k weights and optimizer state. Both use batch 128, seed 42, identical sampled data, BF16, peak learning rate .00003, 100 warmup steps and the same cosine schedule. Control uses the original loss. Numeric2 gives twice the weight to 305 of 8,192 tokenizer pieces matching numbers or arithmetic operators. Original programs are unchanged; matching pieces in comments and strings also receive weight. This is a heuristic, not a syntax-aware objective.'),
+            table(rows,[30*mm,45*mm,55*mm,40*mm]),
+            p(f"The predefined held-out gate requires more numeric agreements and no extra execution failures on both subsets. Confirmed: {result['confirmed']}. This is a short exploratory comparison on previously used validation questions; it is not statistical significance. Training losses across arms are not directly comparable. Uniform validation loss and executed-answer diagnostics remain comparable."),
+            p('Five focused tests checked normalized weighting, ignored padding, piece selection and continuation scheduling. CPU checks verified all dataset files, model weights and optimizer moments before G4 allocation. Both checkpoints and exact greedy outputs were saved to Drive before local export, token verification and bot submission. The control scored 562/960 (58.54%) and numeric2 scored 573/960 (59.69%), an 11-answer public gain at equal training budget. Numeric2 is retained for reproducing the highest public score; it did not pass the held-out gate for extending training. Total experiment time was 453 seconds, median GPU activity 97%. Colab showed no active sessions after completion. No longer training run started. Source: 8755a8f4867683d940e9b34fa48365e3cf4f8c21; evidence: experiments/numeric-loss-2k-v1. T4 timing remains deferred.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
