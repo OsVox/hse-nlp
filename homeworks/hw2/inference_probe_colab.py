@@ -16,7 +16,7 @@ MODEL_HASH = '0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7'
 RESULTS = ROOT/'benchmarks/inference-speed-180k-t4-v1'
 
 
-def prepare():
+def prepare(expected_parameters=9967360):
     import torch
     import pyarrow.parquet as pq
     from transformers import PreTrainedTokenizerFast, T5ForConditionalGeneration
@@ -46,7 +46,7 @@ def prepare():
     assert pq.ParquetFile(local/'cache/test.parquet').metadata.num_rows==1919
     tokenizer = PreTrainedTokenizerFast.from_pretrained(local/'model',local_files_only=True)
     model = T5ForConditionalGeneration.from_pretrained(local/'model',local_files_only=True)
-    assert sum(p.numel() for p in model.parameters())==9967360
+    assert sum(p.numel() for p in model.parameters())==expected_parameters
     with torch.inference_mode():
         encoded = tokenizer(['Add two numbers.'],return_tensors='pt',return_token_type_ids=False)
         assert model.generate(**encoded,max_new_tokens=4).shape[0]==1
@@ -66,6 +66,7 @@ def prepare():
     digest = sha256(bundle)
     assert sha256(PREPARED/'inputs.tar')==digest
     ready = dict(source_commit=commit,inputs_sha256=digest,model_sha256=MODEL_HASH,
+                 parameters=expected_parameters,
                  test_sha256=test_hash,cpu_preflight_passed=True,
                  model_files=selected,rows=1919,required_gpu='T4',
                  variants=[64,128,256],rounds=2,precision='fp32',
