@@ -1,0 +1,43 @@
+{
+  "cpu_verified": true,
+  "source_pool_sha256": "e34e56375e18c763206629e71d6d7cf70eaf0eca3b4e590a3c6d34266f9b1d36",
+  "counts": {
+    "regular": {
+      "1": {
+        "examples": 4096,
+        "microbatches": 44,
+        "exact_nonpadding_tokens_preserved": true
+      },
+      "2": {
+        "examples": 4096,
+        "microbatches": 34,
+        "exact_nonpadding_tokens_preserved": true
+      },
+      "3": {
+        "examples": 4096,
+        "microbatches": 32,
+        "exact_nonpadding_tokens_preserved": true
+      }
+    },
+    "extreme": {
+      "1": {
+        "examples": 130,
+        "microbatches": 15,
+        "exact_nonpadding_tokens_preserved": true
+      },
+      "2": {
+        "examples": 130,
+        "microbatches": 9,
+        "exact_nonpadding_tokens_preserved": true
+      },
+      "3": {
+        "examples": 130,
+        "microbatches": 7,
+        "exact_nonpadding_tokens_preserved": true
+      }
+    }
+  },
+  "tests_passed": 6,
+  "test_seconds": 3.52,
+  "development_correction": "The initial preflight incorrectly concatenated variable-width padded chunks. The corrected check compares each original non-padding question and program token in order; microbatch trimming removes padding only."
+}

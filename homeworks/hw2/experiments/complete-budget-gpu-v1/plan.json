@@ -1,0 +1,34 @@
+{
+  "hypothesis": "Larger complete-sequence microbatches may improve throughput at unchanged effective batch and original rows.",
+  "factors": [
+    1,
+    2,
+    3
+  ],
+  "orders": [
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      3,
+      2,
+      1
+    ]
+  ],
+  "regular_examples": 4096,
+  "extreme_examples": 130,
+  "effective_batch": 128,
+  "optimizer": "AdamW",
+  "learning_rate": 3e-05,
+  "parameters": 42481152,
+  "numeric_weight": 2,
+  "precision": "bf16",
+  "worker_timeout_seconds": 360,
+  "minimum_memory_gib": 80,
+  "weights_discarded": true,
+  "quality_claim": false,
+  "gate": "Require finite regular and extreme runs with complete tensors. Adopt larger budget only if both reversed-order repeats are faster than factor1 and peak memory leaves at least 15% device headroom; otherwise retain factor1.",
+  "source": "Previously hash-verified original-data regular and extreme pool; no new examples or targets."
+}
