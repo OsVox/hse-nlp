@@ -1045,6 +1045,28 @@ def build():
                 r=json.loads(receipt.read_text())
                 score=f" The regenerated file scored {r['public_correct']}/{r['public_total']} ({r['public_percent']:.2f}%)."
             story += [p('Export exception: the 78M step 1,921 output exceeded the bot limit (4.88 MB versus 4 MB). Original predictions remain on Drive. A CPU size estimate selected a 640-token cap for fresh greedy generation from the same weights; no programs are edited.'+score+' This export uses a different cap; held-out comparisons retain 1,280 tokens. See bot_rejection.json, reexport-size-audit.json and the nested export receipt.','SmallText')]
+    full = ROOT/'experiments/selected-full-pass-v2'
+    if (full/'ready.json').exists():
+        ready=json.loads((full/'ready.json').read_text()); plan=ready['plan']
+        progress=json.loads((full/'progress-observed.json').read_text()) if (full/'progress-observed.json').exists() else {}
+        completed=(full/'full-pass-verification.json').exists()
+        story += [PageBreak(),p('Selected recipe: full-data scale-up','Title'),
+            p(f"The completed matched-time comparison selected AdamW42. Continue its original seed-42 checkpoint at update {plan['parent_step']:,} to {plan['final_step']:,}, preserving optimizer moments, learning-rate schedule, random states and the consumed-row cursor. The planned pass covers {plan['eligible_rows']:,} eligible original rows; validation groups stay excluded."),
+            p('Keep the 42,481,152-parameter encoder-decoder, original tokenizer and targets, BF16 training, effective batch 128, length grouping and two-batch prefetch. Microbatches are bounded by token and attention budgets while preserving complete input and target sequences. Public exports use FP32 greedy decoding, complete questions and a 1,280-token output cap.'),
+            p('The first launch stopped before any training updates because fresh-model flags were passed to checkpoint resume. Its GPU guard released the runtime. The corrected command removes those flags after checking the parent recipe. Ten focused CPU checks passed. A real-checkpoint CPU smoke test advanced 6,018 to 6,019 with no repeated rows; it used FP32 and skipped CUDA random-state restoration only in the test harness. Production resumes the unchanged original GPU checkpoint.'),
+            p(('Full-pass coverage has been verified against the final saved ledger.' if completed else
+               f"Full-pass completion is not yet verified. Latest retained monitor observation: update {progress.get('step','pending'):,}." if isinstance(progress.get('step'),int) else 'Full-pass completion is not yet verified.'))]
+        rows=[['Update','Unique eligible rows seen','Public correct /960','Public score']]
+        for cp in sorted(full.glob('step-*')):
+            if not (cp/'bot_receipt.json').exists():continue
+            receipt=json.loads((cp/'bot_receipt.json').read_text())
+            coverage=json.loads((cp/'coverage.json').read_text())['report']
+            rows.append([f"{receipt['step']:,}",f"{coverage['unique_rows_since_tracking_started']:,}",
+                receipt['public_correct'],f"{receipt['public_percent']:.2f}%"])
+        if len(rows)>1:
+            story += [p('Drive-verified checkpoint submissions','Head'),table(rows,[30*mm,65*mm,40*mm,35*mm])]
+        story += [p('Each checkpoint is saved to Drive before its exact token IDs, CSV and 1,919-row JSONL are downloaded and checked. Bot receipts remain separate from training and held-out measurements. Saving and inference overhead are excluded from training-time estimates. The runtime has a hard timeout and automatic GPU release on completion or failure.','SmallText'),
+            p(f"Frozen training source {ready['source_commit'][:7]}; evidence: experiments/selected-full-pass-v1 (failed launch) and selected-full-pass-v2. Historical public best remains a separate artifact; neither one completed pass nor a green execution receipt alone proves first place or T4 timing compliance.",'SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

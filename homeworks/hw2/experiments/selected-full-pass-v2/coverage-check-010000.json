@@ -1,0 +1,10 @@
+{
+  "step": 10000,
+  "presentations": 1280000,
+  "unique_rows": 1280000,
+  "repeats": 0,
+  "source_length": null,
+  "target_length": null,
+  "model_sha256": "e5ddbfe7dd212a01410765cd8567cca00c88a683f59bde5f8814932c3db46a13",
+  "verified": true
+}
