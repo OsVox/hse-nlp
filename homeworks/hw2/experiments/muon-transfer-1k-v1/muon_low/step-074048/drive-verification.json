@@ -1,0 +1,9 @@
+{
+  "arm": "muon_low",
+  "arm_folder": "160-slqfsroTzeVnmjPjOARAxLiQ5NOI9",
+  "checkpoint_folder": "1PdkKymmH2Fym6BOIaMrRBh5qqaHpWgCZ",
+  "model_id": "1jC5Fd0iV6urQdiDSbMzBiwXefBrDi--E",
+  "model_bytes": 169938176,
+  "model_sha256": "31cf9ff3924d011fdfe96f0a4c816153420f564c368bbf6c309694cca01f1f84",
+  "remote_model_download_verified": true
+}

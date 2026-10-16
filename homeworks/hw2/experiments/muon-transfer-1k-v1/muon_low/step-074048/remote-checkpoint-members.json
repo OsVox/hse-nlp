@@ -1,0 +1,17 @@
+{
+  "all_manifest_files_present": true,
+  "files": {
+    "tokenizer.json": "14O3NiiyLFpBaV258h70lGtagQ7DxRTti",
+    "training_state.pt": "1fn2VuSKFI9vuuKHEBE2VAujTWzL5tHJ4",
+    "special_tokens_map.json": "1WKoSr6PRfUdsYcd91bsU-BUZcxrLXe9T",
+    "run_config.json": "1af2KGNuqWMfYZp3X7CBGxD29gP_4jcF4",
+    "validation.json": "1Z_soRcrqtSy8aBZtoPz6YjwuSynd0iX2",
+    "model.safetensors": "1jC5Fd0iV6urQdiDSbMzBiwXefBrDi--E",
+    "tokenizer_config.json": "1WNfQejI2fZOk98YYFLkqTzac2kXfYVDK",
+    "step.json": "1oL1deunm02odzkbhHTfzBtrPcvAlwJFV",
+    "config.json": "1LlsQ78WZi8b0w9rb533MazwoRuzbynU6",
+    "generation_config.json": "19Eu8mn9wCPkXq6GbGNX4zBn0-r-0FNM5"
+  },
+  "model_hash_verified_separately": true,
+  "optimizer_hash_verified_by_checkpoint_writer": true
+}

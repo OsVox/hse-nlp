@@ -1,0 +1,9 @@
+{
+  "arm": "muon_high",
+  "arm_folder": "1bL9NAlba-hQGMMYn5j0gVFNOy-1sc-zb",
+  "checkpoint_folder": "1n9ULIoC44Edwpsw79m9Fdw8ixzcrfGn7",
+  "model_id": "1G7QPL0bQGvPjLXcy5rwR4rld9zwJoXEy",
+  "model_bytes": 169938176,
+  "model_sha256": "636730e4b2e5e717508fc380014c3a6202058b54d94668bad5c6fda7d7538777",
+  "remote_model_download_verified": true
+}

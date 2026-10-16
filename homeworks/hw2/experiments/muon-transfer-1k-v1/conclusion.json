@@ -1,0 +1,9 @@
+{
+  "decision": "Neither Muon transfer rate passed the declared held-out gate. Relative to the stronger reset-AdamW reference, low-rate Muon changed correct counts by -4/+4 with 5 extra failures; high-rate Muon changed them by +1/-2 with 9 extra failures. Both also lost agreement on at least one subset against the parent. Public scores were 568, 571, 569 and 568 /960 for continued AdamW, reset AdamW, Muon 0.0001 and Muon 0.0003. Retain the parent 575/960 model and do not extend these transfers. This does not invalidate Muon gains from fresh initialization or establish that every transfer rate fails.",
+  "compute": "The four-arm driver took 535.41 seconds (8.92 minutes). Each arm processed 131,072 identical examples, 6,152,967 source tokens and 9,646,354 target tokens. Process times were 98.92, 94.22, 106.52 and 106.43 seconds. Whole-driver utilization was median 96%, mean 68.77%; peak memory was 21,443 MiB. Allocation-request to verified zero sessions was at most 845.21 seconds (14.09 minutes), including authorization, setup and cleanup. An extra cleanup cell raced automatic release and briefly reconnected an empty runtime; it was removed through Colab UI. After terminal worker status, use read-only Drive/UI checks, not executable diagnostic cells.",
+  "all_checkpoints_scored": true,
+  "all_model_hashes_verified_from_drive": true,
+  "shortlist": [],
+  "long_run_started": false,
+  "compute_released": true
+}

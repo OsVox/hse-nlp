@@ -1,0 +1,13 @@
+{
+  "previous_goal_turn_classification": "progress",
+  "evidence": "Depth seed1042 comparison scored, checkpoint durability verified, context lengths measured, report and source saved.",
+  "current_hypothesis": "Transfer the replicated scratch Muon optimizer gain to own mature checkpoint, isolating optimizer reset.",
+  "after_results": "Require declared held-out gate and second seed before any longer continuation. If transfer fails, investigate model size or stability with bounded fresh-model pilots instead of repeating the same continuation.",
+  "user_constraints": [
+    "Cheap hypotheses before long training",
+    "Greedy decoding",
+    "GPU only after CPU preflight and Drive preparation",
+    "Save every checkpoint and bot-evaluate its exact export",
+    "Input cap remains128 after measured truncation audit"
+  ]
+}

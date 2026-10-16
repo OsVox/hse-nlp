@@ -1,0 +1,9 @@
+{
+  "gpu_request_lower_time_bound_unix": 1792164148.685015,
+  "gpu_request_lower_time_bound_utc": "2026-10-16T15:22:28.685015+00:00",
+  "basis": "Before allocation through verified release; upper bound, not exact billing",
+  "release_verified_unix": 1792164993.898257,
+  "release_verified_utc": "2026-10-16T15:36:33.898257+00:00",
+  "allocation_to_release_upper_bound_seconds": 845.2132420539856,
+  "proof": "gpu-released.png"
+}

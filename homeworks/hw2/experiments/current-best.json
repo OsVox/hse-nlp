@@ -44,5 +44,18 @@
     "participants": 16,
     "best_public_correct": 575,
     "note": "Bot rank is based on best retained submission; new short pilot scored 109/960."
+  },
+  "latest_optimizer_transfer_observation": {
+    "timestamp": "2026-10-16T18:36:00+03:00",
+    "rank": 10,
+    "participants": 16,
+    "best_public_correct": 575,
+    "candidate_scores": [
+      568,
+      571,
+      569,
+      568
+    ],
+    "evidence": "muon-transfer-1k-v1/conclusion.json"
   }
 }

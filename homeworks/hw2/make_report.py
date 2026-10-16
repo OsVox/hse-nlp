@@ -693,6 +693,21 @@ def build():
             table(rows,[42*mm,20*mm,35*mm,35*mm,38*mm]),
             p(c['decision']),p(c['hardware_availability']),
             p('All probe weights are discarded. The supplied code, prepared inputs, hashes, logs and measured results are preserved on Drive. Each runtime has a bounded worker and automatic release. A batch change must separately pass a short quality comparison before adoption. CPU checks verified equal useful token counts before allocation. Benchmark source: commit 9e1a489. Evidence: experiments/muon-batch-probe-v1 and the adjacent H100/A100 attempt folders.','SmallText')]
+    transfer = ROOT/'experiments/muon-transfer-1k-v1'
+    if (transfer/'conclusion.json').exists():
+        conclusion=json.loads((transfer/'conclusion.json').read_text())
+        r=json.loads((transfer/'selection.json').read_text())
+        rows=[['Optimizer arm','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,stages in r['results'].items():
+            receipt=transfer/name/'step-074048/bot_receipt.json'
+            public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            rows.append([name,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),public])
+        story += [PageBreak(),p('Muon transfer to the mature checkpoint','Title'),
+            p('Four matched 1,024-update continuations start from the same own scratch-trained 73,024-step, 42.48M-parameter model (575/960 public). Compare AdamW with saved moments, reset AdamW, and reset Muon at matrix rates 0.0001 and 0.0003. AdamW on embeddings and vectors stays at 0.00003. Original tokenizer, examples, batch 128, numerical-token loss weight 2, 50-step warmup and cosine schedule remain matched. All parameters train. The reset AdamW arm separates the optimizer choice from discarding stored moments.'),
+            table(rows,[46*mm,29*mm,35*mm,25*mm,35*mm]),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('Selection compares Muon against the stronger AdamW arm on the two reused held-out subsets. Require positive gains in both and no additional total execution failures; also require no loss against the parent (139/245 and 286/493). Any survivor requires a second-seed comparison. Public scores are recorded separately. This small screen cannot establish optimal rates or statistical significance.'),
+            p('Eleven focused CPU tests pass, including optimizer-state reset, continuation schedules and selection gates. Full-size CPU forward/backward/update checks are finite for all four arms; the parent manifest is verified. Source f05c15878bb2be8bddf88f7385e48a580cbc84e7 and the parent archive were uploaded and downloaded back before GPU allocation. No pretrained weights, rewritten labels or test-reward optimization are used. Evidence: experiments/muon-transfer-1k-v1.','SmallText')]
     context_audit = ROOT/'experiments/context-length-cpu-v1/lengths.json'
     if context_audit.exists():
         audit=json.loads(context_audit.read_text())
