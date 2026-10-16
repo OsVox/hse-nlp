@@ -1,0 +1,26 @@
+[
+  {
+    "arm": "control",
+    "stage": "pilot",
+    "started_utc": 1792159470.4236243,
+    "collected_utc": 1792159477.6076107
+  },
+  {
+    "arm": "control",
+    "stage": "confirmation",
+    "started_utc": 1792159477.6071322,
+    "collected_utc": 1792159696.1926
+  },
+  {
+    "arm": "muon_low",
+    "stage": "pilot",
+    "started_utc": 1792159689.0054822,
+    "collected_utc": 1792159696.192915
+  },
+  {
+    "arm": "muon_low",
+    "stage": "confirmation",
+    "started_utc": 1792159696.192131,
+    "collected_utc": 1792159703.5696807
+  }
+]

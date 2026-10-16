@@ -30,5 +30,12 @@
   "syntax_retry_beams": 0,
   "drive_checkpoint_folder": "1y65ow6zmst_zyysdafxpbn4TU-Z87gWB",
   "heldout_extension_gate_passed": false,
-  "selection_note": "Keep simpler control among tied public scores; both sampling treatments fail held-out gate. No long extension."
+  "selection_note": "Keep simpler control among tied public scores; both sampling treatments fail held-out gate. No long extension.",
+  "latest_leaderboard_observation": {
+    "rank": 10,
+    "participants": 16,
+    "observed_at": "2026-10-16T17:07:00+03:00",
+    "leader_percent": 78.33,
+    "evidence": "optimizer-confirm-2k-v1/leaderboard-observation.json"
+  }
 }

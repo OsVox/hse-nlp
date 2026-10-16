@@ -1,0 +1,16 @@
+[
+  {
+    "arm": "control",
+    "id": "1SiPusf6N5Im5B05M_Q70Svua1Fm2Gom2",
+    "bytes": 169938176,
+    "sha256": "22fa4b7eec41f6e17f6b2a819d6523083bc29cc6c737c51e68bb5814c7dc65bf",
+    "download_verified": true
+  },
+  {
+    "arm": "muon_low",
+    "id": "1LV8Fd-Qt4z1icEBpGAoxC44NYZNK5v1R",
+    "bytes": 169938176,
+    "sha256": "ce5c9863e63acab740caec3d24f60df1ea75b670855d0b0c09a1d0d6a33fe2f5",
+    "download_verified": true
+  }
+]

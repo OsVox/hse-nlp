@@ -68,10 +68,11 @@ def build():
     large_t4_path = ROOT/'experiments/t4-comparison-v1/encoder6-6k/results.json'
     large_t4 = json.loads(large_t4_path.read_text()) if large_t4_path.exists() else None
     latest_best = json.loads((ROOT/'experiments/current-best.json').read_text())
+    latest_rank = latest_best.get('latest_leaderboard_observation', {})
     story = [p('Code generation from scratch','Title'),
         p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 16 October 2026','SmallText'),
         p('Current result','Head'),
-        p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best public result is <b>{latest_best['public_percent']:.2f}% ({latest_best['public_correct']}/960)</b>. The bot reported rank {latest_best['reported_rank']} of {latest_best['participants']} at {escape(latest_best['timestamp'])}. Its exact scored output is {escape(latest_best['filename'])}. This is the current best result across our decoding experiments and uses strict greedy decoding. Later sections distinguish historical settings. T4 timing remains deferred. No private result is available."),
+        p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best public result is <b>{latest_best['public_percent']:.2f}% ({latest_best['public_correct']}/960)</b>. Latest verified rank is {latest_rank.get('rank', latest_best['reported_rank'])} of {latest_rank.get('participants', latest_best['participants'])} at {escape(latest_rank.get('observed_at', latest_best['timestamp']))}. Its exact scored output is {escape(latest_best['filename'])}. This is the current best result across our decoding experiments and uses strict greedy decoding. Later sections distinguish historical settings. T4 timing remains deferred. No private result is available."),
         p('Task and rules','Head'),
         p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
         p('Data and architecture','Head'),
@@ -637,6 +638,21 @@ def build():
             p('Choose the stronger AdamW rate by summed held-out agreements, breaking ties by fewer failures then lower rate. Muon must improve both subsets without extra failures. Each survivor requires another seed before any longer or combined run. This compares early fresh-model learning; it does not test switching optimizers on the mature model, and it does not establish optimal rates or model size. Public feedback is recorded separately.'),
             p(conclusion['decision']),p(conclusion['compute']),
             p('Twelve focused CPU checks passed, plus four discarded full-size one-step CPU preflights with identical initial loss and finite gradients for every model parameter. Colab CPU confirmed native Muon before GPU allocation. A discarded GPU timing probe estimated 0.104 seconds/step for AdamW and 0.115 for Muon on the same 128-example batch. Source: bb3c316097764701dc0eaa822b3eafc5decaf9b1. Native implementation: https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html. Inspiration: https://github.com/KellerJordan/modded-nanogpt; its language-model speedrun results do not imply gains on this task.','SmallText')]
+    optimizer_confirm = ROOT/'experiments/optimizer-confirm-2k-v1'
+    if (optimizer_confirm/'conclusion.json').exists():
+        conclusion=json.loads((optimizer_confirm/'conclusion.json').read_text())
+        r=json.loads((optimizer_confirm/'selection.json').read_text())
+        rows=[['Recipe','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,stages in r['results'].items():
+            receipt=optimizer_confirm/name/'step-002048/bot_receipt.json'
+            public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            rows.append([name,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),public])
+        story += [PageBreak(),p('Muon: second-seed replication','Title'),
+            p('Repeat only the selected AdamW 0.0003 and Muon 0.001 recipes with shared seed 1042. The original screen used seed 42. Every parameter of each 42.48M encoder-decoder trains from scratch for 2,048 updates; the original 8k tokenizer, batch 128, original target loss, warmup and data pipeline stay fixed. Muon uses AdamW 0.0003 for embeddings and vectors. No frozen backbone, pretrained weights, generated targets or test feedback enters training.'),
+            table(rows,[46*mm,29*mm,35*mm,25*mm,35*mm]),
+            p('The candidate must improve both held-out subsets and add no total execution failures in both seeds. The prior selection file is checksum-verified before launch. These reused validation questions make the result exploratory; replication across seeds does not establish statistical significance, a compute-optimal model size or eventual mature-model accuracy. Equal examples also do not imply equal GPU cost.'),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('Ten focused checks passed. Existing full-size CPU model/optimizer checks and native-Muon Colab compatibility evidence were reused because the implementations and rates are unchanged. Preparation files were uploaded to Drive and downloaded back before allocation. Each checkpoint and strict-greedy test output was saved to Drive before export and exact-token verification. Source: 310a4d89ec8fd62d58d59e7042134cd4bd7c23ac. Evidence: experiments/optimizer-confirm-2k-v1.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

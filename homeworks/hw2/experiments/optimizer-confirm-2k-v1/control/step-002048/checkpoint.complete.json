@@ -1,0 +1,15 @@
+{
+  "files": {
+    "tokenizer.json": "d9fa7b5618323be055ad10ebe760cff2801f251b39dabb7dc62188567c5a6414",
+    "training_state.pt": "788d3b6c359a0a3ff5a30c6424c9a501f4b6a1eee354a6a2935d726b086ab985",
+    "special_tokens_map.json": "80f4c6c5cf3867d7669ff8aa8f6aebb8a7499322e62d7faae06262d6014edd61",
+    "run_config.json": "aff676e8de3453f53e007eaa0b53fd9954291769be35e3f1ed5b5ea0d8d4762b",
+    "validation.json": "e37d572a175510005e2f471750ba59e4701bb7f3cade1ec445502505fd1d4bb9",
+    "model.safetensors": "22fa4b7eec41f6e17f6b2a819d6523083bc29cc6c737c51e68bb5814c7dc65bf",
+    "tokenizer_config.json": "1356e8da73293c9e7bd5a55d12c68de8404b731b8cfc0dbcefbda6a4a0f4c624",
+    "step.json": "a4534730b57c52d935910c83287d6065b7a2484d4809cafc2339f32bcff55345",
+    "config.json": "d501cabac9ff4e74216e0de7fdd858d5cae3873d06436a34df1bfddd5959f19e",
+    "generation_config.json": "8145d7eecabff8e16a9876617a6d52728e9b8fbe24c426e6bf9ebbd6bfb87737"
+  },
+  "status": "checkpoint_verified"
+}

@@ -1,0 +1,8 @@
+{
+  "decision": "The selected Muon recipe passes the two-seed screening rule. On seed 1042, it scores 26/245 and 48/493 versus AdamW 20/245 and 38/493, with 45 fewer total execution failures. Seed 42 gains were +4 and +6 with 31 fewer failures. The bot scores 115/960 (11.98%) versus 72/960 (7.50%) for the new pair; previous seed scores were 96 versus 70. This supports further bounded testing of Muon, not a guaranteed mature-model gain. Keep the existing 575/960 model. Latest bot rank is 10/16; first place observed at 78.33%. No long run has started.",
+  "compute": "Each arm processed 262,136 original examples, 12,284,754 source tokens and 19,280,571 target tokens in 2,048 updates. Training process times including setup and checkpoint generation were 177.79 seconds for AdamW and 200.35 for Muon (12.69% more). Driver time was 456.24 seconds (7.60 minutes); the conservative allocation-to-release upper bound was 568.07 seconds (9.47 minutes). Whole-driver GPU utilization averaged 73.83%, median 96%, peak memory 19,147 MiB. Both exact outputs were saved to Drive, exported and scored; remote model downloads were checked against saved hashes. Colab has no active sessions. T4 timing remains unverified.",
+  "source_commit": "310a4d89ec8fd62d58d59e7042134cd4bd7c23ac",
+  "replicated": true,
+  "long_run_started": false,
+  "next": "Test encoder/decoder capacity balance with the replicated Muon recipe in short matched runs, then confirm survivors and compare learning curves at measured equal GPU time before full training."
+}

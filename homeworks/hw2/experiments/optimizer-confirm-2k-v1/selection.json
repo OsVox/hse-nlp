@@ -1,0 +1,139 @@
+{
+  "results": {
+    "control": {
+      "pilot": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 20,
+        "numeric_agreement_on_usable": 0.08163265306122448,
+        "prediction_failures": 60,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/optimizer-confirm-2k-v1/control/step-002048",
+        "offset": 256,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 1.8622900999999956,
+        "batch_size": 64,
+        "max_input_tokens": 128,
+        "max_new_tokens": 192,
+        "model_sha256": "22fa4b7eec41f6e17f6b2a819d6523083bc29cc6c737c51e68bb5814c7dc65bf",
+        "evaluator_sha256": "d5e658f610a032ea50508eff3cfe7498c2e288ed4dd3c3b97378532480cba75f",
+        "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+        "handwritten_repairs": 0,
+        "predictions_sha256": "03ac2e1230f7f2bb6ba85864e2e5377c4fd0518b743d081ba3d273fd73cfb91d",
+        "scoring_seconds": 3.706545109999979,
+        "scoring_started_utc": 1792159470.4560127,
+        "scoring_finished_utc": 1792159474.1625593
+      },
+      "confirmation": {
+        "rows": 512,
+        "usable_references": 493,
+        "numeric_correct": 38,
+        "numeric_agreement_on_usable": 0.07707910750507099,
+        "prediction_failures": 125,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/optimizer-confirm-2k-v1/control/step-002048",
+        "offset": 512,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 3.5074222680000275,
+        "batch_size": 64,
+        "max_input_tokens": 128,
+        "max_new_tokens": 192,
+        "model_sha256": "22fa4b7eec41f6e17f6b2a819d6523083bc29cc6c737c51e68bb5814c7dc65bf",
+        "evaluator_sha256": "d5e658f610a032ea50508eff3cfe7498c2e288ed4dd3c3b97378532480cba75f",
+        "questions_sha256": "2fdab07a7520635f500655d327a1953cbc4315a105b6be33756360b1a7a7771a",
+        "handwritten_repairs": 0,
+        "predictions_sha256": "4a2da9df76c44ce30e1acff32deedaee749ae56629a8d6d4d51907006e2ce8cd",
+        "scoring_seconds": 7.423676201000035,
+        "scoring_started_utc": 1792159477.639089,
+        "scoring_finished_utc": 1792159485.0627666
+      }
+    },
+    "muon_low": {
+      "pilot": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 26,
+        "numeric_agreement_on_usable": 0.10612244897959183,
+        "prediction_failures": 45,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/optimizer-confirm-2k-v1/muon_low/step-002048",
+        "offset": 256,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 1.8814317200000232,
+        "batch_size": 64,
+        "max_input_tokens": 128,
+        "max_new_tokens": 192,
+        "model_sha256": "ce5c9863e63acab740caec3d24f60df1ea75b670855d0b0c09a1d0d6a33fe2f5",
+        "evaluator_sha256": "d5e658f610a032ea50508eff3cfe7498c2e288ed4dd3c3b97378532480cba75f",
+        "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+        "handwritten_repairs": 0,
+        "predictions_sha256": "a5ee49662d8d585802c9d33c3bb77152a8b5acf1d8a92c95726ae2b90039451d",
+        "scoring_seconds": 3.7179564680000112,
+        "scoring_started_utc": 1792159689.0374556,
+        "scoring_finished_utc": 1792159692.755414
+      },
+      "confirmation": {
+        "rows": 512,
+        "usable_references": 493,
+        "numeric_correct": 48,
+        "numeric_agreement_on_usable": 0.0973630831643002,
+        "prediction_failures": 95,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/optimizer-confirm-2k-v1/muon_low/step-002048",
+        "offset": 512,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 3.5185806790000242,
+        "batch_size": 64,
+        "max_input_tokens": 128,
+        "max_new_tokens": 192,
+        "model_sha256": "ce5c9863e63acab740caec3d24f60df1ea75b670855d0b0c09a1d0d6a33fe2f5",
+        "evaluator_sha256": "d5e658f610a032ea50508eff3cfe7498c2e288ed4dd3c3b97378532480cba75f",
+        "questions_sha256": "2fdab07a7520635f500655d327a1953cbc4315a105b6be33756360b1a7a7771a",
+        "handwritten_repairs": 0,
+        "predictions_sha256": "6faed9640b041903593ff59d258e79fc713f6c2fb11c421e26d31de505f0aa0d",
+        "scoring_seconds": 7.320562042999995,
+        "scoring_started_utc": 1792159696.2241101,
+        "scoring_finished_utc": 1792159703.5446742
+      }
+    }
+  },
+  "paired_seeds": {
+    "42": {
+      "split_gains": {
+        "pilot": 4,
+        "confirmation": 6
+      },
+      "failure_delta": -31
+    },
+    "1042": {
+      "split_gains": {
+        "pilot": 6,
+        "confirmation": 10
+      },
+      "failure_delta": -45
+    }
+  },
+  "confirmed": true,
+  "shortlist": [
+    "muon_low"
+  ],
+  "training_updates_per_arm": 2048,
+  "all_parameters_trained": true,
+  "training_from_scratch": true,
+  "public_test_used_for_selection": false,
+  "long_run_started": false,
+  "prior_selection_sha256": "e73810010e8586f1e1b26d7d2954161fb181e6bda05f120abde7028338af684d",
+  "prior_run": "optimizer-scratch-2k-v1"
+}
