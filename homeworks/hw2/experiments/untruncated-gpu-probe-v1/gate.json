@@ -1,0 +1,27 @@
+{
+  "pool_sha256": "e34e56375e18c763206629e71d6d7cf70eaf0eca3b4e590a3c6d34266f9b1d36",
+  "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+  "split_source_sha256": "b05ea62a81a172d655c2a7c2aadfbdf45e2ac3e7454150e278b32a84251bf9f0",
+  "budgets": {
+    "token_budget": 40960,
+    "attention_budget": 9961472
+  },
+  "counts": {
+    "regular": {
+      "rows": 4096,
+      "microbatches": 44,
+      "question_tokens": 193287,
+      "program_tokens": 304642
+    },
+    "extreme": {
+      "rows": 130,
+      "microbatches": 15,
+      "question_tokens": 21280,
+      "program_tokens": 50157
+    }
+  },
+  "row_order_sha256": "0f979706c44c49c94ec80674dcda38ff67f8ac2e6613a8cc8f0dee1c79461556",
+  "cpu_verified": true,
+  "weights_discarded": true,
+  "training_quality_claim": false
+}

@@ -1,0 +1,9 @@
+{
+  "decision": "Do not repeat the longer-decoding experiment: prior length-cap-cpu-v1 already regenerated the affected 23 rows using input192/output384, changed 21 programs, and tied 575/960.",
+  "role": "CPU recheck of saved question lengths and greedy token IDs only; not a new quality experiment.",
+  "prior_evidence": "experiments/length-cap-cpu-v1/conclusion.json",
+  "prior_source_commit": "65f74d50bd9f6d68da0a555929783d0273a7d266",
+  "gpu_used": false,
+  "model_changed": false,
+  "public_score_changed": false
+}

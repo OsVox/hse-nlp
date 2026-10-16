@@ -1,0 +1,33 @@
+{
+  "model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "output_sha256": "78df1bf2fc50e943079d7ea2dab676cf6ee55ec50957be289925f267f7a07134",
+  "num_beams": 1,
+  "max_new_tokens": 192,
+  "rows": 1919,
+  "generated_without_eos": 21,
+  "row_indices_without_eos": [
+    221,
+    274,
+    414,
+    419,
+    460,
+    513,
+    631,
+    645,
+    663,
+    671,
+    907,
+    943,
+    974,
+    1022,
+    1121,
+    1182,
+    1217,
+    1334,
+    1357,
+    1731,
+    1826
+  ],
+  "source": "Original saved greedy token IDs, no regeneration or answer labels",
+  "decision": "Input truncation affects 3 test questions. Generation cap cannot explain an unfinished sequence when EOS is present; test a changed cap only if this audit finds unfinished generations."
+}

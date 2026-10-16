@@ -1,0 +1,33 @@
+{
+  "hypothesis": "Can the complete-sequence path handle all observed length extremes within memory, and what is its short throughput cost?",
+  "parameters": 42481152,
+  "precision": "bf16",
+  "optimizer": "Muon .001 / AdamW .0003",
+  "numeric_token_weight": 2,
+  "regular_examples": 4096,
+  "extreme_examples": 130,
+  "batch_size": 128,
+  "measured_updates": 32,
+  "warmup_updates": 3,
+  "variant_orders": [
+    [
+      "capped",
+      "complete"
+    ],
+    [
+      "complete",
+      "capped"
+    ]
+  ],
+  "budgets": {
+    "token_budget": 40960,
+    "attention_budget": 9961472
+  },
+  "worker_timeout_seconds": 360,
+  "training_quality_claim": false,
+  "weights_discarded": true,
+  "checkpoint_retained": false,
+  "source": "Original eligible rows only, corpus and index hashes verified on CPU.",
+  "timing_scope": "Pretokenized CPU batches, device transfers, forward/backward and optimizer updates. Tokenization timing is separate; no loader-prefetch speed claim.",
+  "gate": "Require all runs finite, including long-example stress, within memory. Report observed throughput and peak memory, without selecting a training recipe from a speed-only probe."
+}

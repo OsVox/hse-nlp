@@ -1,0 +1,28 @@
+{
+  "cpu_only": true,
+  "test_answers_read": false,
+  "training_started": false,
+  "splits": {
+    "official_test_questions": {
+      "rows": 1919,
+      "mean": 43.71912454403335,
+      "maximum": 166,
+      "over_128": 3,
+      "over_192": 0
+    },
+    "pilot_questions": {
+      "rows": 256,
+      "mean": 44.4375,
+      "maximum": 122,
+      "over_128": 0,
+      "over_192": 0
+    },
+    "confirmation_questions": {
+      "rows": 512,
+      "mean": 43.890625,
+      "maximum": 159,
+      "over_128": 1,
+      "over_192": 0
+    }
+  }
+}

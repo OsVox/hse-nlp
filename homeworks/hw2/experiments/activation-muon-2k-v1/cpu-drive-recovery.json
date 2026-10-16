@@ -1,0 +1,13 @@
+{
+  "cpu_only": true,
+  "drive_read_write_verified": true,
+  "checks": {
+    "source.tar": "eaceaadc025e619f257d9db112628acf456ed3fbf94d2891b5535df17094e65c",
+    "launch.py": "df3d47a1d3482d01d57552786f22fc97dc3176da7b95baf91f7f86bf91a26018"
+  },
+  "index_verified": true,
+  "dataset_archive_bytes": 1594593280,
+  "training_started": false,
+  "checked_utc": 1792179376.167914,
+  "recovery": "fresh MCP bridge and browser tab"
+}
