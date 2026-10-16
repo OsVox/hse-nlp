@@ -24,7 +24,7 @@ No pretrained weights, outside examples, or extra target programs are used.
   Exact output token IDs, question order, model hash, and timings are saved.
 - `hw2_full_training_colab.ipynb` prepares the selected larger model on CPU
   and resumes it on G4. `hw2_inference_colab.ipynb` uses strict greedy decoding
-  on its 50k checkpoint. `hw2_inference_vote_colab.ipynb` archives the earlier
+  on its 60k checkpoint. `hw2_inference_vote_colab.ipynb` archives the earlier
   57.08% voting result. T4 timing remains deferred for the new configuration.
 - `metrics.json` and `report.pdf` record results once the runs finish.
 
@@ -34,7 +34,7 @@ Use the CPU-first Drive workflow below for training experiments. Keep GPU off
 until file checks pass. Save checkpoints and exact predictions to Drive, export
 from Drive, then submit the checked JSONL to the course bot.
 
-`hw2_inference_colab.ipynb` loads the 42.48M step-050000 checkpoint from
+`hw2_inference_colab.ipynb` loads the 42.48M step-060000 checkpoint from
 Drive after CPU checks. Strict greedy decoding is the user's selected policy
 as of 16 October. The historical 54.06% larger-model result, and the 53.85%
 small-model result, used greedy decoding with syntax-only beam retries;
@@ -42,7 +42,8 @@ they must not be relabelled as strict greedy scores. Historical voting reached
 57.08% (548/960), retained only as an experiment. Strict greedy exports need
 separate bot receipts. The strict greedy 50k export scored 54.06% (519/960)
 at 09:26 (+03:00), matching the earlier retry-enabled score. Save outputs
-to Drive before export.
+to Drive before export. Strict greedy at 60k scored 56.25% (540/960),
+21 more correct than 50k.
 
 The active training process keeps its original immutable source. Its automatic
 checkpoint predictions still allow syntax retries. Use `greedy_export.py` on

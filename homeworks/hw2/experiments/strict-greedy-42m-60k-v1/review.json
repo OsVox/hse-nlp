@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-16T09:33:00+03:00",
+  "decision": "Continue the existing bounded 100k run; do not extend its budget yet",
+  "greedy_public_correct": {
+    "50000": 519,
+    "60000": 540
+  },
+  "gain_last_10000_steps": 21,
+  "best_historical_public_correct": 548,
+  "rank": 8,
+  "participants": 15,
+  "next_review": 70000,
+  "validation_loss_60000": {
+    "step": 60000,
+    "token_loss": 0.4254572578575318
+  }
+}

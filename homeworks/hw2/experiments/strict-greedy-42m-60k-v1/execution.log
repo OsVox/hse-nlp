@@ -1,0 +1,5 @@
+Timing is not a T4 result: CUDA is unavailable
+`torch_dtype` is deprecated! Use `dtype` instead!
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=91.84 device=cpu precision=torch.float32 invalid_before_retry=2 beam_repaired=0 handwritten_repairs=0
+{"step": 60000, "rows": 1919, "jsonl_sha256": "7b2afa67e33d48e28bb7e48d8bcbff0e42e540b3d8745140eefd643919590106", "generation_seconds": 91.83679603100018, "source_commit": "8dcb74d2164a30c7b3169dcf7adf76114139761f", "selection": "greedy", "bot_status": "pending", "t4_timing_verified": false}

@@ -1,0 +1,26 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "44,45,46,47",
+    "/usr/bin/python3",
+    "-u",
+    "-m",
+    "homeworks.hw2.greedy_export",
+    "--model-dir",
+    "/content/drive/MyDrive/HSE_NLP_HW2/runs/full-42m-100k-v1/step-060000",
+    "--cache-dir",
+    "/content/hw2_cache",
+    "--output-dir",
+    "/content/drive/MyDrive/HSE_NLP_HW2/benchmarks/strict-greedy-42m-60k-v1/step-060000"
+  ],
+  "source_commit": "8dcb74d2164a30c7b3169dcf7adf76114139761f",
+  "cpu_only": true,
+  "cpu_affinity": [
+    44,
+    45,
+    46,
+    47
+  ],
+  "timeout_seconds": 600
+}

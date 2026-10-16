@@ -1,0 +1,10 @@
+{
+  "step": 60000,
+  "rows": 1919,
+  "jsonl_sha256": "7b2afa67e33d48e28bb7e48d8bcbff0e42e540b3d8745140eefd643919590106",
+  "generation_seconds": 91.83679603100018,
+  "source_commit": "8dcb74d2164a30c7b3169dcf7adf76114139761f",
+  "selection": "greedy",
+  "bot_status": "pending",
+  "t4_timing_verified": false
+}
