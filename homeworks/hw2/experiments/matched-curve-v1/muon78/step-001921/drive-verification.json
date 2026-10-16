@@ -1,0 +1,9 @@
+{
+  "arm": "muon78",
+  "arm_folder": "1T12YCtMRhqao0ME08kdA2s5DoXwn8gN7",
+  "checkpoint_folder": "1Ff16wOtPEtNtQ7s-yUYAk1kHawdH8y9f",
+  "model_id": "1HlxyED-Kqzoh53r5EzZnPgCjVXM77REz",
+  "model_bytes": 312598104,
+  "model_sha256": "8e3786e2ff7a987f82a20351daa106bc285f96d151682bd7b527899484337c6c",
+  "remote_model_download_verified": true
+}

@@ -1,0 +1,11 @@
+{
+  "step": 1921,
+  "jsonl_sha256": "c16bdc9b54b5e542603b662b959558eeaa6a64946b71d5ab882a1a08242d77e3",
+  "original_checkpoint": "/content/drive/MyDrive/HSE_NLP_HW2/runs/matched-curve-v1/muon78/step-001921",
+  "max_new_tokens": 640,
+  "bot_status": "pending",
+  "public_pass_at_1": null,
+  "question_order": "official data/test/test.parquet",
+  "training": false,
+  "reason": "Original model output exceeded the bot file-size limit; fresh greedy generation, no program edits."
+}

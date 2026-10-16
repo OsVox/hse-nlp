@@ -1,0 +1,74 @@
+[
+  {
+    "arm": "adamw42:3011",
+    "stage": "pilot",
+    "started_utc": 1792186166.0897052,
+    "collected_utc": 1792186225.6025782
+  },
+  {
+    "arm": "adamw42:3011",
+    "stage": "confirmation",
+    "started_utc": 1792186225.6020548,
+    "collected_utc": 1792186285.456129
+  },
+  {
+    "arm": "adamw42:6018",
+    "stage": "pilot",
+    "started_utc": 1792186285.4557004,
+    "collected_utc": 1792186345.068992
+  },
+  {
+    "arm": "adamw42:6018",
+    "stage": "confirmation",
+    "started_utc": 1792186345.0685415,
+    "collected_utc": 1792187170.4118288
+  },
+  {
+    "arm": "muon42:2686",
+    "stage": "pilot",
+    "started_utc": 1792187170.4113226,
+    "collected_utc": 1792187230.0276449
+  },
+  {
+    "arm": "muon42:2686",
+    "stage": "confirmation",
+    "started_utc": 1792187230.027153,
+    "collected_utc": 1792187278.9004707
+  },
+  {
+    "arm": "muon42:5422",
+    "stage": "pilot",
+    "started_utc": 1792187278.89991,
+    "collected_utc": 1792187310.6751723
+  },
+  {
+    "arm": "muon42:5422",
+    "stage": "confirmation",
+    "started_utc": 1792187310.6747031,
+    "collected_utc": 1792188251.3026583
+  },
+  {
+    "arm": "muon78:1921",
+    "stage": "pilot",
+    "started_utc": 1792188251.3021579,
+    "collected_utc": 1792188324.7376277
+  },
+  {
+    "arm": "muon78:1921",
+    "stage": "confirmation",
+    "started_utc": 1792188324.7371597,
+    "collected_utc": 1792188399.1546805
+  },
+  {
+    "arm": "muon78:3871",
+    "stage": "pilot",
+    "started_utc": 1792188399.154274,
+    "collected_utc": 1792188473.2923806
+  },
+  {
+    "arm": "muon78:3871",
+    "stage": "confirmation",
+    "started_utc": 1792188473.2919023,
+    "collected_utc": 1792188487.8828766
+  }
+]

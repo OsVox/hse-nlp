@@ -1,0 +1,12 @@
+{
+  "purpose": "Size estimates only, not submitted predictions. Regeneration must run the unchanged checkpoint.",
+  "estimated_bytes": {
+    "1024": 3970586,
+    "768": 3050643,
+    "640": 2587128,
+    "512": 2121501
+  },
+  "chosen_cap": 640,
+  "reason": "Below4MB with substantial space; fixed before reading any score for a capped output.",
+  "original_limit_hits": 983
+}

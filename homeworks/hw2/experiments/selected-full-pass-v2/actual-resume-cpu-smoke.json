@@ -1,0 +1,15 @@
+{
+  "actual_training_entrypoint": true,
+  "parent_step": 6018,
+  "final_step": 6019,
+  "scheduler_step": 6019,
+  "updates": 1,
+  "unique_rows": 770432,
+  "repeats": 0,
+  "cpu_only": true,
+  "precision": "fp32",
+  "checkpoint_for_testing_only": true,
+  "cuda_rng_skipped_for_cpu_smoke": true,
+  "training_seconds": 15.842152500001248,
+  "production_parent_unchanged": true
+}

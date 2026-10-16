@@ -1,0 +1,9 @@
+{
+  "completed": false,
+  "training_updates": 0,
+  "reason": "Fresh initialization and architecture flags were passed to checkpoint resume",
+  "automatic_gpu_release": true,
+  "observed_reconnect_button": true,
+  "completed_reexport": "matched-curve-v1/muon78/step-001921/export-max640-v1/step-001921",
+  "next_run": "selected-full-pass-v2"
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "tokenizer.json": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+    "training_state.pt": "2f7026174bd41bbf6caa490abfcd7fb1c4e562bf911e9445a78067fe14be04d0",
+    "special_tokens_map.json": "80f4c6c5cf3867d7669ff8aa8f6aebb8a7499322e62d7faae06262d6014edd61",
+    "run_config.json": "015b0d9362602156afa9dab5e934ca10f8f6fe003d8ed54ee7ada31ae982d58d",
+    "coverage.json": "35b22841e583af9f21c0770b65e87ac6285f3b792692be66954075c91362e1e5",
+    "training-budget.json": "a208bd067c4fbca7644d242b4584221621bc1bcf6987e7cf4d8712f760663d6c",
+    "model.safetensors": "8e3786e2ff7a987f82a20351daa106bc285f96d151682bd7b527899484337c6c",
+    "tokenizer_config.json": "1356e8da73293c9e7bd5a55d12c68de8404b731b8cfc0dbcefbda6a4a0f4c624",
+    "step.json": "fdb9cd424a7c200cfde9929b960cdf3d97c122f3775d9cf5e8d80e1525a13a7a",
+    "config.json": "aa859fc16d89f6c954b41fe2f06b23d1eff80d37e6c8d973885575798bca8031",
+    "generation_config.json": "8145d7eecabff8e16a9876617a6d52728e9b8fbe24c426e6bf9ebbd6bfb87737"
+  },
+  "status": "checkpoint_verified"
+}

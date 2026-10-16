@@ -1,0 +1,7 @@
+{
+  "samples": 3214,
+  "median_utilization_percent": 90.0,
+  "mean_utilization_percent": 81.58649657747355,
+  "peak_memory_mib": 91925.0,
+  "scope": "Whole driver including data restore, checkpoint saves, generation and held-out evaluation; allocation/setup additional."
+}

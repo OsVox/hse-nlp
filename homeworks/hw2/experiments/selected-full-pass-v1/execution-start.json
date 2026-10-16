@@ -1,0 +1,12 @@
+{
+  "run_folder": "1m20i0640YHcX9zswy4MHvuSrmEvt4eBy",
+  "worker_pid": 2596,
+  "source_commit": "0f4d7a080e7f4718e130205f0b761b4a028df3d7",
+  "notebook_id": "1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
+  "launcher_cell": "OyJHaL4LycyV",
+  "monitor_cell": "uKt2kGahzO0g",
+  "launched": true,
+  "completed": false,
+  "observed_gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "collector": "/tmp/collect_selected_full.py"
+}

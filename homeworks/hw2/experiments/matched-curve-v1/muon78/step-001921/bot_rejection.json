@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-10-17T00:58:00+03:00",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "matched-curve-muon78-001921.jsonl",
+  "jsonl_sha256": "1ea81f2a57b7faa3789836786afa1649c36cbe2b287d66704c257fe3ce63d582",
+  "model_sha256": "8e3786e2ff7a987f82a20351daa106bc285f96d151682bd7b527899484337c6c",
+  "source_commit": "723f5b35652efd5b2c5d305fcec9f9cc2b40ea06",
+  "run": "matched-curve-v1",
+  "variant": "muon78",
+  "step": 1921,
+  "status": "rejected",
+  "reason": "file_too_large",
+  "bytes": 4882631,
+  "bot_reported_limit_mb": 4,
+  "public_correct": null,
+  "public_percent": null,
+  "telegram_message_ids": {
+    "file": 789097,
+    "rejection": 789098
+  },
+  "drive_checkpoint_folder": "1Ff16wOtPEtNtQ7s-yUYAk1kHawdH8y9f",
+  "max_new_tokens": 1280,
+  "unchanged_original_preserved": true,
+  "next_action": "Regenerate this same checkpoint with a smaller predeclared output cap in the next allocated GPU phase; do not edit existing programs."
+}

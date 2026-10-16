@@ -1,0 +1,7 @@
+{
+  "verified": true,
+  "evidence": "Colab Active sessions dialog: \u041d\u0435\u0442 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0445 \u0441\u0435\u0430\u043d\u0441\u043e\u0432.",
+  "worker_returncode": 0,
+  "method": "Native Chrome UI after runtime.unassign",
+  "gpu_active_sessions": 0
+}

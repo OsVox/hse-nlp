@@ -1,0 +1,121 @@
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+step=1 train_loss=10.4528 elapsed_s=6.1
+step=50 train_loss=8.9901 elapsed_s=10.9
+step=100 train_loss=6.0295 elapsed_s=16.6
+step=150 train_loss=4.5297 elapsed_s=21.6
+step=200 train_loss=3.2379 elapsed_s=27.2
+step=250 train_loss=3.3547 elapsed_s=32.5
+step=300 train_loss=3.0051 elapsed_s=37.8
+step=350 train_loss=3.4429 elapsed_s=43.4
+step=400 train_loss=2.6236 elapsed_s=48.4
+step=450 train_loss=1.9431 elapsed_s=54.2
+step=500 train_loss=2.3590 elapsed_s=59.2
+step=550 train_loss=2.0178 elapsed_s=64.7
+step=600 train_loss=2.4671 elapsed_s=69.7
+step=650 train_loss=1.8532 elapsed_s=75.0
+step=700 train_loss=2.4373 elapsed_s=80.6
+step=750 train_loss=2.0767 elapsed_s=85.8
+step=800 train_loss=3.1064 elapsed_s=91.6
+step=850 train_loss=2.1251 elapsed_s=96.7
+step=900 train_loss=1.1138 elapsed_s=102.1
+step=950 train_loss=2.0349 elapsed_s=107.5
+step=1000 train_loss=1.3913 elapsed_s=112.7
+step=1050 train_loss=2.0131 elapsed_s=118.2
+step=1100 train_loss=1.5707 elapsed_s=123.3
+step=1150 train_loss=2.1662 elapsed_s=129.2
+step=1200 train_loss=1.5377 elapsed_s=134.1
+step=1250 train_loss=0.9603 elapsed_s=139.9
+step=1300 train_loss=1.7674 elapsed_s=145.0
+step=1350 train_loss=1.2240 elapsed_s=150.5
+step=1400 train_loss=1.7792 elapsed_s=155.7
+step=1450 train_loss=1.3264 elapsed_s=161.3
+step=1500 train_loss=1.9820 elapsed_s=166.7
+step=1550 train_loss=1.4442 elapsed_s=172.3
+step=1600 train_loss=2.3934 elapsed_s=178.1
+step=1650 train_loss=1.4085 elapsed_s=183.3
+step=1700 train_loss=1.0486 elapsed_s=188.7
+step=1750 train_loss=1.5500 elapsed_s=193.8
+step=1800 train_loss=1.2268 elapsed_s=199.5
+step=1850 train_loss=1.7863 elapsed_s=204.8
+step=1900 train_loss=1.5681 elapsed_s=210.1
+step=1950 train_loss=1.8699 elapsed_s=220.7
+step=2000 train_loss=1.2895 elapsed_s=225.8
+step=2050 train_loss=0.8509 elapsed_s=231.5
+step=2100 train_loss=1.5251 elapsed_s=236.6
+step=2150 train_loss=0.9510 elapsed_s=242.1
+step=2200 train_loss=1.7132 elapsed_s=247.2
+step=2250 train_loss=1.4309 elapsed_s=252.8
+step=2300 train_loss=1.8320 elapsed_s=258.3
+step=2350 train_loss=1.3344 elapsed_s=263.8
+step=2400 train_loss=2.1564 elapsed_s=269.5
+step=2450 train_loss=1.6178 elapsed_s=274.6
+step=2500 train_loss=0.9188 elapsed_s=280.1
+step=2550 train_loss=1.4988 elapsed_s=285.2
+step=2600 train_loss=0.9033 elapsed_s=290.8
+step=2650 train_loss=1.6282 elapsed_s=296.3
+coverage={"eligible_rows": 11834223, "eligible_by_shard": [198952, 199939, 199947, 199946, 199940, 199941, 199936, 199935, 199938, 199934, 199928, 199935, 199941, 199939, 199951, 199957, 199958, 199959, 199954, 199959, 199960, 199963, 199957, 199960, 199960, 199958, 199960, 199952, 199957, 199960, 199964, 199958, 199953, 199956, 199952, 199956, 199954, 199955, 199950, 199960, 199955, 199954, 199957, 199957, 199960, 199958, 199955, 199964, 199960, 199960, 199957, 199958, 199963, 199962, 199963, 199961, 199958, 199960, 199961, 37966], "excluded_by_shard": [1048, 61, 53, 54, 60, 59, 64, 65, 62, 66, 72, 65, 59, 61, 49, 43, 42, 41, 46, 41, 40, 37, 43, 40, 40, 42, 40, 48, 43, 40, 36, 42, 47, 44, 48, 44, 46, 45, 50, 40, 45, 46, 43, 43, 40, 42, 45, 36, 40, 40, 43, 42, 37, 38, 37, 39, 42, 40, 39, 37], "unique_visited_by_shard": [5730, 5720, 5708, 5753, 5663, 5687, 5711, 5732, 5811, 5764, 5727, 5756, 5705, 5755, 5756, 5783, 5651, 5728, 5734, 5731, 5744, 5740, 5728, 5722, 5763, 5716, 5768, 5741, 5729, 5721, 5753, 5706, 5704, 5774, 5765, 5730, 5769, 5732, 5733, 5697, 5707, 5769, 5694, 5822, 5728, 5731, 5732, 5741, 5732, 5750, 5703, 5734, 5733, 5659, 5721, 5732, 5704, 5685, 5650, 5741], "presentations_by_shard": [5730, 5720, 5708, 5753, 5663, 5687, 5711, 5732, 5811, 5764, 5727, 5756, 5705, 5755, 5756, 5783, 5651, 5728, 5734, 5731, 5744, 5740, 5728, 5722, 5763, 5716, 5768, 5741, 5729, 5721, 5753, 5706, 5704, 5774, 5765, 5730, 5769, 5732, 5733, 5697, 5707, 5769, 5694, 5822, 5728, 5731, 5732, 5741, 5732, 5750, 5703, 5734, 5733, 5659, 5721, 5732, 5704, 5685, 5650, 5741], "visited_current_epoch_by_shard": [5730, 5720, 5708, 5753, 5663, 5687, 5711, 5732, 5811, 5764, 5727, 5756, 5705, 5755, 5756, 5783, 5651, 5728, 5734, 5731, 5744, 5740, 5728, 5722, 5763, 5716, 5768, 5741, 5729, 5721, 5753, 5706, 5704, 5774, 5765, 5730, 5769, 5732, 5733, 5697, 5707, 5769, 5694, 5822, 5728, 5731, 5732, 5741, 5732, 5750, 5703, 5734, 5733, 5659, 5721, 5732, 5704, 5685, 5650, 5741], "completed_full_passes": 0, "unique_rows_since_tracking_started": 343808, "coverage_percent": 2.905201296274373, "presentations": 343808, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 0, "source_length": null, "target_length": null, "grouping_target_length": 192, "untruncated_tokens": {"question": 16118986, "code": 25581870}, "note": "Original row IDs with untruncated tokenization; no historical token exposure claim."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/matched-curve-v1/muon42/step-002686
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=103.39 device=cuda:0 precision=torch.float32 invalid_before_retry=89 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/matched-curve-v1/muon42/step-002686 jsonl_sha256=8ed7f6ec5e3a0cfb0fc9ce4e208becc8a24b06c6201a725ce2740d41d6ce2168
+step=2700 train_loss=1.2749 elapsed_s=406.2
+step=2750 train_loss=1.9060 elapsed_s=411.7
+step=2800 train_loss=1.1507 elapsed_s=417.0
+step=2850 train_loss=0.7703 elapsed_s=422.5
+step=2900 train_loss=1.4651 elapsed_s=427.5
+step=2950 train_loss=0.8765 elapsed_s=433.0
+step=3000 train_loss=1.6398 elapsed_s=438.2
+step=3050 train_loss=1.1164 elapsed_s=443.7
+step=3100 train_loss=1.5635 elapsed_s=449.2
+step=3150 train_loss=1.4254 elapsed_s=454.5
+step=3200 train_loss=1.9076 elapsed_s=460.7
+step=3250 train_loss=1.4242 elapsed_s=465.5
+step=3300 train_loss=0.8855 elapsed_s=471.3
+step=3350 train_loss=1.4999 elapsed_s=476.4
+step=3400 train_loss=1.0351 elapsed_s=482.0
+step=3450 train_loss=1.4093 elapsed_s=487.2
+step=3500 train_loss=1.1264 elapsed_s=492.5
+step=3550 train_loss=1.6090 elapsed_s=498.1
+step=3600 train_loss=1.2387 elapsed_s=503.1
+step=3650 train_loss=0.7091 elapsed_s=508.8
+step=3700 train_loss=1.3829 elapsed_s=513.9
+step=3750 train_loss=0.9221 elapsed_s=519.4
+step=3800 train_loss=1.4816 elapsed_s=524.7
+step=3850 train_loss=1.2106 elapsed_s=535.0
+step=3900 train_loss=1.7138 elapsed_s=540.2
+step=3950 train_loss=1.2205 elapsed_s=545.4
+step=4000 train_loss=2.1152 elapsed_s=551.2
+step=4050 train_loss=1.2534 elapsed_s=556.1
+step=4100 train_loss=0.7865 elapsed_s=561.9
+step=4150 train_loss=1.4751 elapsed_s=567.0
+step=4200 train_loss=1.0836 elapsed_s=572.5
+step=4250 train_loss=1.4630 elapsed_s=577.8
+step=4300 train_loss=1.0311 elapsed_s=583.0
+step=4350 train_loss=1.7294 elapsed_s=588.9
+step=4400 train_loss=1.4741 elapsed_s=593.9
+step=4450 train_loss=0.6943 elapsed_s=599.9
+step=4500 train_loss=1.4333 elapsed_s=604.8
+step=4550 train_loss=0.8407 elapsed_s=610.5
+step=4600 train_loss=1.4258 elapsed_s=616.0
+step=4650 train_loss=0.9787 elapsed_s=621.2
+step=4700 train_loss=1.6215 elapsed_s=626.6
+step=4750 train_loss=1.3302 elapsed_s=632.0
+step=4800 train_loss=1.7616 elapsed_s=637.8
+step=4850 train_loss=1.2961 elapsed_s=642.6
+step=4900 train_loss=0.7803 elapsed_s=648.2
+step=4950 train_loss=1.2631 elapsed_s=653.8
+step=5000 train_loss=0.9069 elapsed_s=659.0
+step=5050 train_loss=1.3625 elapsed_s=664.4
+step=5100 train_loss=1.0117 elapsed_s=670.0
+step=5150 train_loss=1.6727 elapsed_s=675.6
+step=5200 train_loss=1.1629 elapsed_s=680.6
+step=5250 train_loss=0.6431 elapsed_s=686.1
+step=5300 train_loss=1.3710 elapsed_s=691.4
+step=5350 train_loss=0.7746 elapsed_s=696.9
+step=5400 train_loss=1.4957 elapsed_s=702.3
+coverage={"eligible_rows": 11834223, "eligible_by_shard": [198952, 199939, 199947, 199946, 199940, 199941, 199936, 199935, 199938, 199934, 199928, 199935, 199941, 199939, 199951, 199957, 199958, 199959, 199954, 199959, 199960, 199963, 199957, 199960, 199960, 199958, 199960, 199952, 199957, 199960, 199964, 199958, 199953, 199956, 199952, 199956, 199954, 199955, 199950, 199960, 199955, 199954, 199957, 199957, 199960, 199958, 199955, 199964, 199960, 199960, 199957, 199958, 199963, 199962, 199963, 199961, 199958, 199960, 199961, 37966], "excluded_by_shard": [1048, 61, 53, 54, 60, 59, 64, 65, 62, 66, 72, 65, 59, 61, 49, 43, 42, 41, 46, 41, 40, 37, 43, 40, 40, 42, 40, 48, 43, 40, 36, 42, 47, 44, 48, 44, 46, 45, 50, 40, 45, 46, 43, 43, 40, 42, 45, 36, 40, 40, 43, 42, 37, 38, 37, 39, 42, 40, 39, 37], "unique_visited_by_shard": [11616, 11564, 11591, 11587, 11568, 11568, 11534, 11580, 11599, 11571, 11586, 11594, 11601, 11553, 11580, 11571, 11616, 11565, 11562, 11614, 11598, 11575, 11580, 11560, 11547, 11577, 11593, 11599, 11569, 11548, 11563, 11517, 11584, 11530, 11559, 11568, 11567, 11562, 11558, 11581, 11539, 11591, 11569, 11572, 11546, 11523, 11561, 11621, 11578, 11565, 11559, 11535, 11541, 11539, 11549, 11540, 11534, 11572, 11530, 11497], "presentations_by_shard": [11616, 11564, 11591, 11587, 11568, 11568, 11534, 11580, 11599, 11571, 11586, 11594, 11601, 11553, 11580, 11571, 11616, 11565, 11562, 11614, 11598, 11575, 11580, 11560, 11547, 11577, 11593, 11599, 11569, 11548, 11563, 11517, 11584, 11530, 11559, 11568, 11567, 11562, 11558, 11581, 11539, 11591, 11569, 11572, 11546, 11523, 11561, 11621, 11578, 11565, 11559, 11535, 11541, 11539, 11549, 11540, 11534, 11572, 11530, 11497], "visited_current_epoch_by_shard": [11616, 11564, 11591, 11587, 11568, 11568, 11534, 11580, 11599, 11571, 11586, 11594, 11601, 11553, 11580, 11571, 11616, 11565, 11562, 11614, 11598, 11575, 11580, 11560, 11547, 11577, 11593, 11599, 11569, 11548, 11563, 11517, 11584, 11530, 11559, 11568, 11567, 11562, 11558, 11581, 11539, 11591, 11569, 11572, 11546, 11523, 11561, 11621, 11578, 11565, 11559, 11535, 11541, 11539, 11549, 11540, 11534, 11572, 11530, 11497], "completed_full_passes": 0, "unique_rows_since_tracking_started": 694016, "coverage_percent": 5.864483033655864, "presentations": 694016, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 0, "source_length": null, "target_length": null, "grouping_target_length": 192, "untruncated_tokens": {"question": 32524512, "code": 51604259}, "note": "Original row IDs with untruncated tokenization; no historical token exposure claim."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/matched-curve-v1/muon42/step-005422
+generated=1919 seconds=53.38 device=cuda:0 precision=torch.float32 invalid_before_retry=6 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/matched-curve-v1/muon42/step-005422 jsonl_sha256=c0b8e26ce5c6770371852e739e66a5424909807aa124612551d2ca348f923da2
+finished_steps=5422

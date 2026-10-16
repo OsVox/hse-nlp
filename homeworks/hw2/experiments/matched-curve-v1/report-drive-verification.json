@@ -1,8 +1,8 @@
 {
   "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
-  "sha256": "e0de263020491408dd3541b36868f7df3cf8a08274cbb77702bdbbfe1b301544",
-  "bytes": 157755,
+  "sha256": "11d28ddc20b38fff06b5ed97975166c4182624eaff371bf5fd6e819f47071cac",
+  "bytes": 158130,
   "byte_verified": true,
   "pages": 56,
-  "status": "Partial matched-time results; 78M still running"
+  "status": "All matched-time results complete, including capped export; AdamW42 selected"
 }
