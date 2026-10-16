@@ -25,16 +25,24 @@ def collate_tokens(sources, targets, *, pad_id, eos_id):
     return {'input_ids': inputs, 'attention_mask': mask, 'labels': labels}
 
 
-def encoded_batches(batches, tokenizer, batch_size, window):
+def encoded_batches(batches, tokenizer, batch_size, window, *, skip_truncated_targets=False):
     if window < 1 or batch_size < 1:
         raise ValueError('batch size and grouping window must be positive')
     if tokenizer.padding_side != 'right':
         raise ValueError('This model pipeline requires right padding')
     batches = iter(batches)
+    carry = []
     while chunk := list(islice(batches, window)):
         rows = [row for batch in chunk for row in batch]
         if not rows:
             continue
+        if skip_truncated_targets:
+            raw_targets = tokenizer([r['code'] for r in rows], truncation=False)['input_ids']
+            rows = carry + [row for row, ids in zip(rows, raw_targets) if len(ids) <= 192]
+            count = len(rows) // batch_size * batch_size
+            rows, carry = rows[:count], rows[count:]
+            if not rows:
+                continue
         source = tokenizer([r['question'] for r in rows], truncation=True,
                            max_length=128)['input_ids']
         target = tokenizer([r['code'] for r in rows], truncation=True,

@@ -1,0 +1,46 @@
+{
+  "parent_step": 70000,
+  "final_step": 71000,
+  "batch_size": 128,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "save_every": 1000,
+  "eval_every": 1000,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "arms": {
+    "control": {},
+    "numeric2": {
+      "numeric_token_weight": 2.0
+    },
+    "smooth005": {
+      "label_smoothing": 0.05
+    },
+    "equal_question": {
+      "example_balanced_loss": true
+    },
+    "dropout0": {
+      "continuation_dropout": 0.0
+    },
+    "dropout005": {
+      "continuation_dropout": 0.05
+    },
+    "lr6e5": {
+      "learning_rate": 6e-05
+    },
+    "complete_targets": {
+      "skip_truncated_targets": true
+    }
+  },
+  "added_example_presentations_per_arm": 128000,
+  "training_timeout_seconds": 400,
+  "outer_timeout_seconds": 2400,
+  "hypothesis": "One factor per arm from identical 70k weights and optimizer; fixed seed and budget.",
+  "limitations": "Filtered arm necessarily sees different examples, but full batches and update count match. Validation has been reused; effects are exploratory.",
+  "selection": "Rank all arms on numeric agreements in held-out rows 256:1024. Shortlist at most three with positive total gain, no negative gain in either half, and no increase in total execution failures. Repeat survivors against control with a second seed; test a combination only after that. No automatic long training.",
+  "expansion": "Persist every checkpoint and strict greedy test output to Drive; export and evaluate every checkpoint in bot. Public feedback is recorded separately."
+}

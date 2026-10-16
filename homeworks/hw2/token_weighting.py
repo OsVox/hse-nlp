@@ -21,11 +21,16 @@ def token_weights(tokenizer, factor):
     return weights
 
 
-def weighted_loss(logits, labels, weights):
+def weighted_loss(logits, labels, weights, *, smoothing=0.0, example_balanced=False):
     """Normalize by valid-token weight; ignored padding adds no loss/gradient."""
     flat = labels.reshape(-1)
     valid = flat.ne(-100)
     per_token = F.cross_entropy(logits.float().reshape(-1, logits.shape[-1]),
-                                flat, reduction='none', ignore_index=-100)
+                                flat, reduction='none', ignore_index=-100, label_smoothing=smoothing)
     selected = weights[flat.clamp_min(0)] * valid
+    if example_balanced:
+        numerator = (per_token * selected).reshape(labels.shape).sum(dim=1)
+        denominator = selected.reshape(labels.shape).sum(dim=1)
+        usable = denominator.gt(0)
+        return (numerator / denominator.clamp_min(1))[usable].mean()
     return (per_token * selected).sum() / selected.sum().clamp_min(1)

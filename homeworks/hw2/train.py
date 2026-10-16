@@ -147,6 +147,19 @@ def save_best_model(
     )
 
 
+def override_dropout(model, probability):
+    """Change both module dropout and T5 attention's functional dropout."""
+    if not 0 <= probability < 1:
+        raise ValueError('dropout must be in [0, 1)')
+    for module in model.modules():
+        if isinstance(module, torch.nn.Dropout):
+            module.p = probability
+        if isinstance(getattr(module, 'dropout', None), float):
+            module.dropout = probability
+        if hasattr(module, 'config'):
+            module.config.dropout_rate = probability
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('--d-model', type=int, default=None)
@@ -173,6 +186,10 @@ def main() -> None:
     parser.add_argument("--learning-rate", type=float, default=3e-4)
     parser.add_argument('--numeric-token-weight', type=float, default=1.0,
                         help='Experimental loss weight for numeric/operator pieces; original targets stay unchanged')
+    parser.add_argument('--label-smoothing', type=float, default=0.0)
+    parser.add_argument('--example-balanced-loss', action='store_true')
+    parser.add_argument('--continuation-dropout', type=float, default=None)
+    parser.add_argument('--skip-truncated-targets', action='store_true')
     parser.add_argument("--warmup", type=int, default=500)
     parser.add_argument("--save-every", type=int, default=1_000)
     parser.add_argument("--eval-every", type=int, default=500)
@@ -191,6 +208,12 @@ def main() -> None:
     args = parser.parse_args()
     if not math.isfinite(args.numeric_token_weight) or args.numeric_token_weight < 1:
         parser.error('numeric token weight must be finite and at least one')
+    if not 0 <= args.label_smoothing < 1:
+        parser.error('label smoothing must be in [0, 1)')
+    if args.continuation_dropout is not None and (args.resume_from is None or not 0 <= args.continuation_dropout < 1):
+        parser.error('continuation dropout requires a parent and a value in [0, 1)')
+    if args.skip_truncated_targets and args.input_pipeline != 'encoded':
+        parser.error('target filtering requires encoded pipeline')
     if min(args.steps, args.batch_size, args.accumulation, args.max_shards) < 1:
         parser.error("steps, batch size, accumulation and max shards must be positive")
     if args.batches_per_shard is not None and args.batches_per_shard < 1:
@@ -261,9 +284,11 @@ def main() -> None:
             name: getattr(args, name) for name in
             ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']
             if getattr(args, name) is not None})
+    if args.continuation_dropout is not None:
+        override_dropout(model, args.continuation_dropout)
     model.to(device)
     loss_weights = (token_weights(tokenizer, args.numeric_token_weight).to(device)
-                    if args.numeric_token_weight != 1 else None)
+                    if args.numeric_token_weight != 1 or args.label_smoothing or args.example_balanced_loss else None)
     model.train()
     print(f"parameters={sum(p.numel() for p in model.parameters()):,}", flush=True)
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -324,7 +349,8 @@ def main() -> None:
         # Keep the producer's instance separate from validation and prediction.
         input_tokenizer = (PreTrainedTokenizerFast.from_pretrained(
             args.resume_from or 'homeworks/hw2/tokenizer') if args.prefetch_batches else tokenizer)
-        batches = encoded_batches(batches, input_tokenizer, args.batch_size, args.group_window)
+        batches = encoded_batches(batches, input_tokenizer, args.batch_size, args.group_window,
+                                  skip_truncated_targets=args.skip_truncated_targets)
         batches = prefetch_batches(batches, args.prefetch_batches, pin_memory=device.type == 'cuda')
     else:
         batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
@@ -342,7 +368,9 @@ def main() -> None:
             with autocast:
                 output = model(**batch, use_cache=False)
                 loss = (output.loss if loss_weights is None else
-                        weighted_loss(output.logits, batch['labels'], loss_weights)) / args.accumulation
+                        weighted_loss(output.logits, batch['labels'], loss_weights,
+                                      smoothing=args.label_smoothing,
+                                      example_balanced=args.example_balanced_loss)) / args.accumulation
             scaler.scale(loss).backward()
             running_loss += loss.detach()
         scaler.unscale_(optimizer)

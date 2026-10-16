@@ -1,7 +1,7 @@
 {
   "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
-  "current_action": "Completed averaging and matched loss-weight tests; all artifacts scored and retained",
-  "gpu_state": "No active Colab sessions verified in Manage Sessions",
+  "current_action": "Broad screening: eight matched 1000-step arms, then second-seed checks and short combinations before any long run",
+  "gpu_state": "CPU preparation; GPU disconnected",
   "next_candidates": [
     {
       "name": "Question-balanced sampling",
@@ -24,11 +24,11 @@
   ],
   "future_training_comparison": {
     "parent": "same verified own checkpoint",
-    "updates_per_arm": 2000,
+    "updates_per_arm": 1000,
     "batch_size": 128,
     "matched": "same optimizer state, learning-rate schedule, example budget, validation rows and decoding; change one factor per arm",
     "decision": "Require held-out executed-answer gain beyond matched baseline and confirm on separate questions before a longer run",
-    "status": "Both 2k arms completed; no automatic expansion"
+    "status": "Preparing broad-screen-1k-v1"
   },
   "low_priority": {
     "longer_input": "Only 0.1498% of questions truncated in existing 15,358-row sample",
