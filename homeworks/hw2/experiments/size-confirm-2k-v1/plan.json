@@ -1,0 +1,67 @@
+{
+  "steps": 2048,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 1042,
+  "warmup": 200,
+  "learning_rate": 0.0003,
+  "save_every": 2048,
+  "eval_every": 512,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "d_model": 512,
+  "d_ff": 1536,
+  "encoder_layers": 6,
+  "decoder_layers": 4,
+  "num_heads": 8,
+  "initialization_vocab_size": 16384,
+  "arms": {
+    "control": "original8192",
+    "small": "original8192"
+  },
+  "training_updates_per_arm": 2048,
+  "example_presentations_per_arm": 262144,
+  "training_timeout_seconds": 600,
+  "outer_timeout_seconds": 1100,
+  "hypothesis": "Replicate the 17.58M versus 42.48M early-learning comparison with a second seed before choosing longer-run candidates.",
+  "matched": "Same original tokenizer, Muon rates, capped source/target lengths, mixed sampler, batch128 and 2048 updates as the first size screen; seed1042. Reverse arm order. This isolates replication rather than combining the later data-pipeline changes.",
+  "selection": "The smaller model must improve both held-out subsets with no extra total execution failures in both seeds. Public scores do not select the recipe. A pass advances it to matched-compute learning-curve confirmation, not directly to full training.",
+  "limitations": "Reused held-out questions and short capped runs are exploratory. This replication does not establish complete-example exposure or an optimal model size. All longer recipe comparisons must use the verified full-coverage complete-sequence pipeline.",
+  "decoding": "Strict greedy, num_beams=1, no repairs",
+  "provenance": "Original supplied examples and random weights only. Same original 8k tokenizer in every arm. Native PyTorch Muon with match_rms_adamw scaling; no imported training data or pretrained model.",
+  "throughput_guard_estimated_train_seconds": 400,
+  "arm_options": {
+    "control": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "d_model": 512,
+      "d_ff": 1536,
+      "num_heads": 8
+    },
+    "small": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "d_model": 320,
+      "d_ff": 960,
+      "num_heads": 5
+    }
+  },
+  "reference": "https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html",
+  "next_stages": [
+    "Complete bounded matched-compute learning curves on newly reserved questions with full original sequences.",
+    "Then execute the authorized longer run using the best confirmed recipe and exact full-pass accounting."
+  ],
+  "expected_parameters": {
+    "control": 42481152,
+    "small": 17580480
+  },
+  "require_identical_initialization": false,
+  "prior_seed": 42,
+  "confirmation_seed": 1042
+}

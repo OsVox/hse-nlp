@@ -1,0 +1,5 @@
+{
+  "passed": 11,
+  "seconds": 3.09,
+  "command": "pytest -q homeworks/hw2/tests/test_size_confirmation.py homeworks/hw2/tests/test_size_pilot.py homeworks/hw2/tests/test_optimizers.py"
+}

@@ -1,0 +1,23 @@
+{
+  "cpu_verified": true,
+  "torch_version": "2.9.0",
+  "results": {
+    "control": {
+      "parameters": 42481152,
+      "loss": 10.586381912231445,
+      "seconds": 0.7722644589957781,
+      "finite_gradients": true,
+      "labels_unchanged": true,
+      "cached_greedy_matches_uncached": true
+    },
+    "small": {
+      "parameters": 17580480,
+      "loss": 9.879803657531738,
+      "seconds": 0.3494029579742346,
+      "finite_gradients": true,
+      "labels_unchanged": true,
+      "cached_greedy_matches_uncached": true
+    }
+  },
+  "scope": "Discarded CPU forward/backward and greedy-cache checks at actual widths; no optimizer update or saved model. Native Muon behavior covered by existing tests."
+}
