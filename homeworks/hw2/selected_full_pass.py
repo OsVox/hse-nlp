@@ -16,7 +16,7 @@ from .checkpoint_io import drive_preflight, sha256
 from .short_pilots import ROOT, CACHE, copy_verified, restore_data
 from .tokenizer_pilot import training_command
 
-NAME = 'selected-full-pass-v1'
+NAME = 'selected-full-pass-v2'
 PREPARED = ROOT/'prepared'/NAME
 RUN = ROOT/'runs'/NAME
 INPUTS = Path('/content/selected-full-pass-inputs')
@@ -53,6 +53,11 @@ def build_plan(prior, confirmation, parent_config, parent_budget, eligible_rows)
     training_timeout = math.ceil(remaining*seconds_per_update*1.35 + len(checkpoint_steps)*180 + 300)
     options.update(max_training_seconds=None, checkpoint_training_seconds=None,
                    save_every=10000, eval_every=options['steps'], coverage_index=str(INPUTS/'index'))
+    # The checkpoint supplies architecture and embeddings. Fresh-model flags
+    # are checked against its recipe above, but are invalid on the resume CLI.
+    for key in ('initialization_vocab_size', 'd_model', 'd_ff', 'encoder_layers',
+                'decoder_layers', 'num_heads', 'dropout', 'feed_forward_proj'):
+        options.pop(key, None)
     return dict(recipe=recipe, options=options, parent_step=step, parent_seed=42,
         final_step=options['steps'], eligible_rows=eligible_rows, checkpoint_steps=checkpoint_steps,
         measured_seconds_per_update=seconds_per_update,

@@ -27,6 +27,12 @@ def test_full_pass_preserves_training_recipe_and_reuses_seed42():
         assert plan['options'][key] == config[key]
     assert plan['options']['max_training_seconds'] is None
     assert plan['options']['checkpoint_training_seconds'] is None
+    from homeworks.hw2.tokenizer_pilot import training_command
+    command = training_command(dict(plan['options'],resume_from='/verified/parent'))
+    for flag in ('--initialization-vocab-size','--d-model','--d-ff',
+                 '--encoder-layers','--decoder-layers','--num-heads',
+                 '--dropout','--feed-forward-proj','--restart-schedule','--reset-optimizer'):
+        assert flag not in command
     compile(launcher(plan),'launch.py','exec')
     assert f"timeout={plan['outer_timeout_seconds']}" in launcher(plan)
     bad = dict(config,seed=1042)
