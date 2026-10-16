@@ -1,0 +1,24 @@
+{
+  "source_commit": "1abd5e36874b45a5f9c28e8c4d06b3a0da617074",
+  "drive_folder": "1YUshiUchhiEMMCYRvT4j59kRZyqOg2HL",
+  "files": [
+    {
+      "name": "source.tar",
+      "id": "1uzXJ45nJx9I76Wg8MYHkXwuLU8YYfUZP",
+      "sha256": "7df41d294b84415b8f1198b119fe92719e14afd69f6e3fb28c434314f77434f4",
+      "byte_verified": true
+    },
+    {
+      "name": "ready.json",
+      "id": "1hRcGyBniKYhHjgzP-IU6lWi7sEdHRoCv",
+      "sha256": "1b8efb6fdb37c1751fa46e9f8583e1d65b62080896836af98cafd771b94c0497",
+      "byte_verified": true
+    },
+    {
+      "name": "cpu-launch.py",
+      "id": "1x1q-08MtCZagNN8ucIlh8uyKc_5lOYps",
+      "sha256": "a9eb829e1f576956d9f64bcd0767a4d077f62f31f002f78227ae8c42df1308ab",
+      "byte_verified": true
+    }
+  ]
+}

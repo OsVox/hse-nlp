@@ -1,0 +1,39 @@
+[
+  {
+    "file": "homeworks/hw2/experiments/frequency-index-cpu-v1/conclusion.json",
+    "id": "1gXZmKAYb9R5mxHW55ZNgaLDLKGNqzDGj",
+    "sha256": "7fceee29dd1cb3e85a52fa3de39c6e066be61b4f7ca53a8dc37f4ef232d625bb",
+    "byte_verified": true
+  },
+  {
+    "file": "homeworks/hw2/experiments/frequency-index-cpu-v1/export-verification.json",
+    "id": "1eplx7cPMJRB0KFyfuElATU2ilqoZkDyC",
+    "sha256": "8fba542f3596746a0ac6d4ea2a187691ce7535df61986c60033be6fe548834b2",
+    "byte_verified": true
+  },
+  {
+    "file": "homeworks/hw2/experiments/frequency-index-cpu-v1/released.png",
+    "id": "14p2xISm5tJ7U0OczdcGhbHJ8flhBaOV0",
+    "sha256": "fcb035347bbe95de0ad3561f04d5702f00eb1fe4920d928ba655941f1f7c4cc0",
+    "byte_verified": true
+  },
+  {
+    "file": "homeworks/hw2/experiments/frequency-index-cpu-v1/started.png",
+    "id": "1sxz-908lOggq9qAfSt5LM7T1N8hF9q_u",
+    "sha256": "fd2b1d98dda07053ee52b8a0da71531cb3bec9856f339eb8a8ded26cbf3e4a27",
+    "byte_verified": true
+  },
+  {
+    "file": "homeworks/hw2/experiments/frequency-screen-1k-v1/plan.json",
+    "id": "1TjSyd5CeuQ8_1__spSgsa2TTrE_w-vLp",
+    "sha256": "e2d09297ca9c3a093eb992a68ceeef3c8df51b0a811b785bce78c2168556e20f",
+    "byte_verified": true
+  },
+  {
+    "file": "homeworks/hw2/report.pdf",
+    "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "sha256": "55f4a14c172913d23c89a4aabed1d09f13c8fb47ab34207a677a94544837c281",
+    "byte_verified": true,
+    "pages": 28
+  }
+]

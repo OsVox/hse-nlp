@@ -1,0 +1,47 @@
+{
+  "status": "planned_not_launched",
+  "parent_step": 72000,
+  "parent_model_sha256": "878683b76cfb5fc768d1e13c1b060b3fb9ae6007010cda744870fd24184bbe88",
+  "parent_drive_folder": "16QXNLZ81uS-nAmflYHSGqHLabLpJ19yO",
+  "parent_mount_path": "/content/drive/MyDrive/HSE_NLP_HW2/runs/numeric-loss-2k-v1/numeric2/step-072000",
+  "final_step": 73024,
+  "training_updates_per_arm": 1024,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 42,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "numeric_token_weight": 2.0,
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "precision": "bf16",
+  "prediction_batch_size": 256,
+  "frequency_index_run": "frequency-index-cpu-v1",
+  "arms": {
+    "control": {
+      "frequency_power": 0
+    },
+    "inverse_sqrt": {
+      "frequency_power": 0.5
+    },
+    "inverse": {
+      "frequency_power": 1
+    }
+  },
+  "selection": "Strictly positive executed-answer gain on each held-out subset with no increase in total execution failures versus control. Confirm survivors with another seed; no automatic longer training.",
+  "hypothesis": "Reduce repeated-question influence while retaining all original target variants. No synthesized pairs or targets.",
+  "cpu_requirements": [
+    "Verify all index source checksums and index archive bytes",
+    "Verify best checkpoint model, optimizer state and resume step on CPU before allocating GPU",
+    "Benchmark actual continuation-seed stream and confirm full equal-size batches"
+  ],
+  "limitations": "Per-shard candidate sampling prevents exact global uniformity. Public best parent is exploratory; reused validation does not prove generalization. CPU evidence concerns data mechanics only.",
+  "decoding": "Strict greedy; no repairs",
+  "save": "Every final checkpoint and predictions in Drive; export, verify and submit every unique model output once",
+  "training_timeout_seconds": 400,
+  "outer_timeout_seconds": 1200,
+  "frequency_index_archive_sha256": "2b692f641bc60c38c059e2d2ab26c72b55ca9f20a47e84ae85bc1f6a9262cc9b",
+  "frequency_index_manifest_sha256": "2724bd79dda59e8499bc4694eb307b8cc2de5b989c34cf026d9b519a2bff1726"
+}

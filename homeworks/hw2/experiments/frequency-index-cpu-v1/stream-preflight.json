@@ -1,0 +1,20 @@
+{
+  "0": {
+    "rows": 131072,
+    "unique_questions": 130717,
+    "seconds": 21.415157679999993,
+    "stream_sha256": "5cf9d0a9ab18fa585f6fdd111a9a0845ea37210d52b1c83600beb92a84449a6d"
+  },
+  "0.5": {
+    "rows": 131072,
+    "unique_questions": 131007,
+    "seconds": 24.157826949999958,
+    "stream_sha256": "3966836c5288a8c95304576ae65fcb83e86986af5aa41d0e76fadbce26d852ed"
+  },
+  "1": {
+    "rows": 131072,
+    "unique_questions": 131047,
+    "seconds": 14.790382431000012,
+    "stream_sha256": "7db5650541604c44e45b27d42a0cb1db9f58b868ba8a8abee4582e7bf451e868"
+  }
+}

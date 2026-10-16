@@ -543,6 +543,27 @@ def build():
         if (token_confirm/'conclusion.json').exists():
             conclusion=json.loads((token_confirm/'conclusion.json').read_text())
             story += [p(conclusion['decision']),p(conclusion['compute'])]
+    frequency = ROOT/'experiments/frequency-index-cpu-v1'
+    if (frequency/'index/results.json').exists():
+        r=json.loads((frequency/'index/results.json').read_text())
+        rows=[['Sampling power','Accepted rows','Unique questions','Expected repeat share']]
+        for power,values in r['arms'].items():
+            rows.append([power,f"{values['accepted_rows']:,}",f"{values['unique_questions']:,}",f"{100*values['expected_repeated_question_fraction']:.2f}%"])
+        story += [PageBreak(),p('Original-data sampling: CPU preflight','Title'),
+            p('Augmented question-program pairs are not used: the assignment prohibits additional training examples or targets. This experiment instead prepares inverse-frequency sampling of unchanged original rows. A question appearing f times is accepted with probability f to the power minus alpha. Alpha zero keeps the original sampler; 0.5 mildly reduces repetition; 1 applies full inverse-frequency weighting. All original program variants remain eligible. No answer is selected as correct and no program is rewritten.'),
+            p(f"The CPU index covers {r['eligible_rows']:,} eligible rows and {r['unique_questions']:,} exact question strings across all 60 training shards. Every copy of a held-out question is excluded. One uint32 count is stored per original row; source and index checksums are verified before training. The existing mixed sampler draws equal candidates per shard, so this does not promise perfectly uniform question probabilities."),
+            table(rows,[35*mm,40*mm,40*mm,55*mm]),
+            p('The table measures one fixed candidate pool, not model accuracy or equal-budget training. Weighted pools are smaller; a future fixed-update trial draws further original rows to fill the same number of training batches. Candidate selection uses no public test information. Prior numeric disagreements do not identify the correct reference, so they are not used to delete or replace targets.'),
+            p('Five focused tests cover exact cross-shard counts, held-out exclusion, checksum rejection, deterministic probabilities, original target preservation and unchanged zero-power behavior. Source: 1abd5e36874b45a5f9c28e8c4d06b3a0da617074. No GPU is allocated for this audit.','SmallText')]
+        if (frequency/'stream-preflight.json').exists():
+            values=json.loads((frequency/'stream-preflight.json').read_text())
+            rows=[['Power','Original rows','Unique questions','CPU loading seconds']]
+            for power,v in values.items():
+                rows.append([power,f"{v['rows']:,}",f"{v['unique_questions']:,}",f"{v['seconds']:.2f}"])
+            story += [table(rows,[25*mm,45*mm,45*mm,55*mm]),p('This timing covers data loading and sampling only, without tokenization or model training. It is not GPU throughput. Unique counts in a short stream need not increase: repeatedly occurring questions can fall outside the selected prefix by chance.')]
+        if (frequency/'conclusion.json').exists():
+            conclusion=json.loads((frequency/'conclusion.json').read_text())
+            story += [p(conclusion['decision']),p(conclusion['compute'],'SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

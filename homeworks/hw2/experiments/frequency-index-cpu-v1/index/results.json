@@ -1,0 +1,33 @@
+{
+  "eligible_rows": 11836444,
+  "unique_questions": 10920597,
+  "candidate_rows": 245750,
+  "candidate_unique_questions": 244692,
+  "sample_seed": 42,
+  "sample_per_shard": 4096,
+  "arms": {
+    "0": {
+      "accepted_rows": 245750,
+      "unique_questions": 244692,
+      "repeated_question_rows": 33023,
+      "expected_acceptance": 1.0,
+      "expected_repeated_question_fraction": 0.1343763987792472
+    },
+    "0.5": {
+      "accepted_rows": 233833,
+      "unique_questions": 233649,
+      "repeated_question_rows": 21106,
+      "expected_acceptance": 0.9515170301989985,
+      "expected_repeated_question_fraction": 0.09026998598221815
+    },
+    "1": {
+      "accepted_rows": 226787,
+      "unique_questions": 226719,
+      "repeated_question_rows": 14060,
+      "expected_acceptance": 0.9230360242356187,
+      "expected_repeated_question_fraction": 0.062199547479598175
+    }
+  },
+  "elapsed_seconds": 48.89447629000006,
+  "limitations": "CPU sampling audit only; no accuracy evidence. The existing mixed sampler draws equal candidates per shard, so inverse frequency does not guarantee exactly uniform questions. All target variants remain possible. Zero means held out, never a bad program label."
+}
