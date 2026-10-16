@@ -5,6 +5,41 @@ randomly initialized encoder-decoder Transformer on the supplied
 [`SlavaYus/tinysms_qa_12m` dataset](https://huggingface.co/datasets/SlavaYus/tinysms_qa_12m).
 No pretrained weights, outside examples, or extra target programs are used.
 
+## Full training-data coverage
+
+The old `--mixed-rows-per-shard` sampler can repeat rows before visiting the
+entire corpus. Availability of all 60 shards is not evidence of a complete pass.
+The coverage audit bounds the 78M pilot at at most 2.21% unique-row coverage and
+the best 73,024-step checkpoint at at most 78.97%; actual unique coverage is
+unknown. Independent experiment models do not share training experience.
+
+Prepare `full_coverage` indices on CPU, before allocating a GPU:
+
+```bash
+python -m homeworks.hw2.full_coverage --cache-dir DATA --output-dir INDEX
+```
+
+Use `train --coverage-index INDEX --input-pipeline encoded --max-shards 60`
+with the desired training arguments, removing `--mixed-rows-per-shard` and other
+sampling/filtering overrides. This optional path keeps original targets and
+visits every eligible original row before repeating. It preserves the current
+128/192 token limits; row coverage is not full-token exposure.
+
+`coverage.json` records per-shard coverage and a consumed-batch cursor, tied to
+the optimizer checkpoint step. Prefetched batches are excluded until an update
+uses them. Resume preserves dataset, tokenizer, seed and grouping configuration.
+FP32/BF16 are supported; FP16 is rejected until skipped-update retries are
+implemented. Old models start a new tracked traversal with prior unique coverage
+explicitly unknown. Exact data resume does not claim bitwise model-update replay.
+
+The CPU preflight verified all 11,836,444 eligible row IDs exactly once, with no
+held-out rows, duplicates or omissions. One pass requires 92,473 batches at 128.
+Twenty-three focused tests passed, including tiny-model training and archived
+checkpoint resume. Local CPU input preparation showed no obvious slowdown;
+GPU throughput and score effects remain unmeasured. Evidence is in
+`experiments/coverage-readiness-cpu-v1` and `experiments/full-coverage-cpu-v1`.
+The longer 78M run remains on hold.
+
 ## Files
 
 - `data.py` downloads original Parquet shards, reserves 1,024 training rows for

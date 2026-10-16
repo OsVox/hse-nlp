@@ -1,0 +1,52 @@
+{
+  "decision": "CPU coverage correction verified; keep long-run scaling gate closed until a bounded GPU throughput/quality check and remaining prioritized optimization screens.",
+  "rows": 11836444,
+  "row_plan_exact_once": true,
+  "model_has_trained_full_pass": false,
+  "batches_per_full_pass_at_128": 92473,
+  "tests_passed": 23,
+  "cpu_benchmarks": [
+    {
+      "mode": "coverage",
+      "batches": 128,
+      "rows": 16384,
+      "seconds": 4.717361124989111,
+      "first_batch_seconds": 3.9752997089817654,
+      "rows_per_second": 3473.1282100091116
+    },
+    {
+      "mode": "legacy",
+      "batches": 128,
+      "rows": 16384,
+      "seconds": 4.671770832996117,
+      "first_batch_seconds": 3.8582179170043673,
+      "rows_per_second": 3507.0213385215548
+    },
+    {
+      "mode": "legacy",
+      "batches": 128,
+      "rows": 16384,
+      "seconds": 4.620937959000003,
+      "first_batch_seconds": 3.8487591249868274,
+      "rows_per_second": 3545.6005134389625
+    },
+    {
+      "mode": "coverage",
+      "batches": 128,
+      "rows": 16384,
+      "seconds": 4.6174194590130355,
+      "first_batch_seconds": 3.9172882919956464,
+      "rows_per_second": 3548.3022812707704
+    }
+  ],
+  "gpu_used": false,
+  "public_score_changed": false,
+  "historical_coverage": "Unknown unique row identities before tracking starts; no retroactive coverage claim.",
+  "resume_scope": "Exact data tensors and consumed cursor. Dropout/model updates are not claimed bitwise identical across process restarts.",
+  "next": [
+    "Archive verified CPU index and source on Drive.",
+    "Use --coverage-index with all 60 shards; remove --mixed-rows-per-shard.",
+    "Run a short GPU throughput/quality pilot, retain strict greedy decoding, save every checkpoint and evaluate in the bot.",
+    "Keep inference checkpoint unchanged until a verified score improvement."
+  ]
+}

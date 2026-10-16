@@ -151,6 +151,7 @@ def save_checkpoint(
     model: T5ForConditionalGeneration, optimizer: torch.optim.Optimizer,
     scheduler: torch.optim.lr_scheduler.LambdaLR, scaler: torch.amp.GradScaler,
     step: int, tokenizer: PreTrainedTokenizerFast, directory: Path,
+    *, coverage=None,
 ) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     model.save_pretrained(directory, safe_serialization=True)
@@ -162,6 +163,9 @@ def save_checkpoint(
         "scaler": scaler.state_dict(),
     }, directory / "training_state.pt")
     (directory / "step.json").write_text(json.dumps({"step": step}))
+    if coverage is not None:
+        coverage_record = {**coverage.checkpoint(), 'optimizer_step': step}
+        (directory / 'coverage.json').write_text(json.dumps(coverage_record, indent=2)+'\n')
 
 
 def save_best_model(
@@ -223,6 +227,9 @@ def main() -> None:
     parser.add_argument("--batches-per-shard", type=int, default=None)
     parser.add_argument("--mixed-rows-per-shard", type=int, default=None,
                         help="Mix a fresh random sample from all shards each epoch")
+    parser.add_argument('--coverage-index', type=Path, default=None,
+                        help='CPU-prepared full_coverage index; visit all eligible rows before repeating')
+    parser.add_argument('--coverage-rows-per-shard', type=int, default=4096)
     parser.add_argument('--frequency-index', type=Path, default=None)
     parser.add_argument('--frequency-power', type=float, default=0.0,
                         help='Accept original rows with probability count**(-power); CPU index required')
@@ -281,6 +288,12 @@ def main() -> None:
         parser.error("batches per shard must be positive")
     if args.mixed_rows_per_shard is not None and args.mixed_rows_per_shard < 1:
         parser.error("mixed rows per shard must be positive")
+    if args.coverage_index is not None and (
+            args.input_pipeline != 'encoded' or args.coverage_rows_per_shard < 1 or
+            args.mixed_rows_per_shard is not None or args.batches_per_shard is not None or
+            args.frequency_index is not None or args.frequency_power or
+            args.skip_truncated_targets or args.strip_comments):
+        parser.error('Full coverage requires encoded input and unchanged, unfiltered original rows; remove legacy sampling options')
     if not 0 <= args.frequency_power <= 1 or (args.frequency_power and
             (args.frequency_index is None or args.mixed_rows_per_shard is None)):
         parser.error('frequency power in [0,1] requires index and mixed sampling when nonzero')
@@ -325,6 +338,8 @@ def main() -> None:
         "mps" if torch.backends.mps.is_available() else "cpu"
     )
     dtype = precision_dtype(args.precision, device)
+    if args.coverage_index is not None and dtype == torch.float16:
+        parser.error('Full coverage requires fp32 or bf16; skipped fp16 updates need explicit batch retry support')
     print(f"device={device} precision={dtype} group_window={args.group_window}", flush=True)
     checkpoint = args.output_dir / "latest"
     load_checkpoint = args.resume_from or checkpoint
@@ -332,6 +347,28 @@ def main() -> None:
     tokenizer = load_training_tokenizer(tokenizer_path, individual_digits=args.individual_digits)
     previous_config_path = load_checkpoint / 'run_config.json'
     previous_config = json.loads(previous_config_path.read_text()) if previous_config_path.exists() else {}
+    coverage = None
+    if previous_config.get('coverage_index') and args.coverage_index is None:
+        parser.error('Resume must preserve the full-coverage stream')
+    if args.coverage_index is not None:
+        from .full_coverage import FullCoverage, load_index
+        manifest, paths, indices = load_index(args.cache_dir, args.coverage_index)
+        if len(paths) != args.max_shards:
+            parser.error('Coverage index shard count differs from --max-shards')
+        coverage_path = load_checkpoint/'coverage.json'
+        if previous_config.get('coverage_index') and not coverage_path.exists():
+            raise ValueError('Full-coverage parent is missing its consumed-stream state')
+        coverage_record = json.loads(coverage_path.read_text()) if coverage_path.exists() else None
+        if coverage_record is not None and coverage_record['optimizer_step'] != json.loads((load_checkpoint/'step.json').read_text())['step']:
+            raise ValueError('Coverage cursor and optimizer checkpoint steps disagree')
+        coverage_state = coverage_record['state'] if coverage_record is not None else None
+        coverage_tokenizer = load_training_tokenizer(tokenizer_path, individual_digits=args.individual_digits)
+        coverage = FullCoverage(manifest, paths, indices, coverage_tokenizer,
+            seed=args.seed, batch_size=args.batch_size, window=args.group_window,
+            rows_per_shard=args.coverage_rows_per_shard,
+            shuffle_batch_order=args.shuffle_batch_order, state=coverage_state,
+            start_step=json.loads((load_checkpoint/'step.json').read_text())['step']
+                       if (load_checkpoint/'step.json').exists() else 0)
     if previous_config.get('schedule_start') is not None and not args.restart_schedule:
         if args.steps != previous_config['steps']:
             parser.error('Changing a continuation budget requires --resume-from and --restart-schedule')
@@ -420,18 +457,21 @@ def main() -> None:
 
     if (load_checkpoint / 'training_state.pt').exists():
         del state
-    # A resumed run uses a new deterministic stream of the supplied train split.
-    # Optimizer state continues unless explicitly reset; no exact batch replay.
+    # Legacy sampling restarts at a new seed. Full coverage instead resumes its
+    # saved consumed-batch cursor, independently of producer prefetch progress.
     batches = training_batches(
         args.cache_dir, args.batch_size, seed=args.seed + start_step,
         max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,
         mixed_rows_per_shard=args.mixed_rows_per_shard,
         frequency_index=frequency_index, frequency_power=args.frequency_power,
     )
-    if args.strip_comments:
+    if coverage is not None:
+        batches = prefetch_batches(coverage.batches(), args.prefetch_batches,
+                                  pin_memory=device.type == 'cuda')
+    elif args.strip_comments:
         from .code_cleanup import cleaned_batches
         batches = cleaned_batches(batches)
-    if args.input_pipeline == 'encoded':
+    if coverage is None and args.input_pipeline == 'encoded':
         # Fast tokenizers temporarily change padding/truncation settings per call.
         # Keep the producer's instance separate from validation and prediction.
         input_tokenizer = (load_training_tokenizer(tokenizer_path,
@@ -440,7 +480,7 @@ def main() -> None:
                                   skip_truncated_targets=args.skip_truncated_targets,
                                   shuffle_batch_seed=(args.seed + start_step if args.shuffle_batch_order else None))
         batches = prefetch_batches(batches, args.prefetch_batches, pin_memory=device.type == 'cuda')
-    else:
+    elif coverage is None:
         batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
     validation = validation_examples(args.cache_dir)[:256]
     decoder_generator = None
@@ -455,9 +495,13 @@ def main() -> None:
         optimizer.zero_grad(set_to_none=True)
         # Не копируем loss на CPU после каждого микробатча: это ждёт GPU.
         running_loss = torch.zeros((), device=device)
+        coverage_receipts = []
         for _ in range(args.accumulation):
-            batch = (to_device(next(batches), device) if args.input_pipeline == 'encoded'
-                     else encode_batch(next(batches), tokenizer, device))
+            raw_batch = next(batches)
+            if coverage is not None:
+                coverage_receipts.append(raw_batch.pop('_coverage'))
+            batch = (to_device(raw_batch, device) if args.input_pipeline == 'encoded'
+                     else encode_batch(raw_batch, tokenizer, device))
             examples_processed += batch['labels'].shape[0]
             tokens_processed[0] += batch['attention_mask'].sum()
             tokens_processed[1] += batch['labels'].ne(-100).sum()
@@ -475,9 +519,12 @@ def main() -> None:
             scaler.scale(loss).backward()
             running_loss += loss.detach()
         scaler.unscale_(optimizer)
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0,
+                                       error_if_nonfinite=coverage is not None)
         scaler.step(optimizer)
         scaler.update()
+        for receipt in coverage_receipts:
+            coverage.commit(receipt)
         scheduler.step()
         if step == 1 or step % 50 == 0:
             elapsed = time.monotonic() - start_time
@@ -490,13 +537,16 @@ def main() -> None:
                 save_best_model(model, tokenizer, step, score, best_directory)
                 print(f"best_step={step} best_val_token_loss={score:.4f}", flush=True)
         if step % args.save_every == 0 or step == args.steps:
-            save_checkpoint(model, optimizer, scheduler, scaler, step, tokenizer, checkpoint)
+            save_checkpoint(model, optimizer, scheduler, scaler, step, tokenizer, checkpoint,
+                            coverage=coverage)
+            (checkpoint / 'run_config.json').write_text((args.output_dir / 'run_config.json').read_text())
+            if coverage is not None:
+                print('coverage='+json.dumps(coverage.checkpoint()['report']), flush=True)
             if args.drive_root is not None:
                 if score is not None:
                     (checkpoint / 'validation.json').write_text(json.dumps({'step': step, 'token_loss': score}))
                 else:
                     (checkpoint / 'validation.json').unlink(missing_ok=True)
-                (checkpoint / 'run_config.json').write_text((args.output_dir / 'run_config.json').read_text())
                 archived = args.drive_root / f'step-{step:06d}'
                 archive_checkpoint(checkpoint, archived)
                 print(f'drive_checkpoint_verified={archived}', flush=True)
@@ -514,6 +564,8 @@ def main() -> None:
                     }, indent=2))
                     model.train()
                     print(f'checkpoint_ready_for_bot={archived} jsonl_sha256={digest}', flush=True)
+    if hasattr(batches, 'close'):
+        batches.close()
     print(f"finished_steps={args.steps}", flush=True)
     if device.type == 'cuda':
         torch.cuda.synchronize()

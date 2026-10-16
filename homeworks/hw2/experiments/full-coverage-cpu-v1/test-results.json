@@ -1,0 +1,10 @@
+{
+  "command": "env PYTHONPATH=. USE_TF=0 USE_FLAX=0 uv run --with transformers==4.57.6 --with torch==2.9.0 --with pytest python -m pytest homeworks/hw2/tests/test_full_coverage.py homeworks/hw2/tests/test_input_pipeline.py homeworks/hw2/tests/test_data.py homeworks/hw2/tests/test_checkpoint_io.py -q",
+  "passed": 23,
+  "failed": 0,
+  "seconds": 5.9,
+  "device": "CPU",
+  "tests_use_synthetic_fixtures_only": true,
+  "actual_tiny_model_train_and_resume": true,
+  "scope": "Data traversal, grouping/resume, prefetch isolation, original held-out exclusion, archive integrity. Not a production GPU throughput or quality measurement."
+}

@@ -69,9 +69,14 @@ def prefetch_batches(batches, depth=2, *, pin_memory=False):
     """Bounded CPU producer; pass errors to the consumer and stop on close."""
     if depth < 0:
         raise ValueError('prefetch depth must be non-negative')
+    def pin(batch):
+        # Coverage receipts stay on CPU; only model-input tensors need pinning.
+        return {k: v.pin_memory() if isinstance(v, torch.Tensor) else v
+                for k, v in batch.items()}
+
     if depth == 0:
         for batch in batches:
-            yield {k: v.pin_memory() for k, v in batch.items()} if pin_memory else batch
+            yield pin(batch) if pin_memory else batch
         return
     queue = Queue(maxsize=depth)
     stopped = Event()
@@ -90,7 +95,7 @@ def prefetch_batches(batches, depth=2, *, pin_memory=False):
                 if stopped.is_set():
                     break
                 if pin_memory:
-                    batch = {k: v.pin_memory() for k, v in batch.items()}
+                    batch = pin(batch)
                 put('batch', batch)
         except BaseException as error:
             put('error', error)
