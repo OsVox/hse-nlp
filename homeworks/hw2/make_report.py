@@ -39,7 +39,7 @@ def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont('Helvetica',8)
     canvas.setFillColor(colors.HexColor('#637487'))
-    canvas.drawString(20*mm,13*mm,'HSE NLP HW2 | Andrei Vorsin | 15 October 2026')
+    canvas.drawString(20*mm,13*mm,'HSE NLP HW2 | Andrei Vorsin | 16 October 2026')
     canvas.drawRightString(190*mm,13*mm,str(doc.page))
     canvas.restoreState()
 
@@ -64,7 +64,7 @@ def build():
     t4_path = ROOT/'experiments/inference-speed-180k-t4-v1/results.json'
     t4 = json.loads(t4_path.read_text()) if t4_path.exists() else None
     story = [p('Code generation from scratch','Title'),
-        p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 15 October 2026','SmallText'),
+        p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 16 October 2026','SmallText'),
         p('Current result','Head'),
         p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best model-only public result is <b>{best['public_percent']:.2f}% ({best['correct']}/960)</b> at step {best['step']:,}, rank {best['rank']} of {best['participants']} at {best['time']}. The 33% baseline is exceeded; first place remains unmet. No private result is available."),
         p('Task and rules','Head'),
@@ -188,7 +188,27 @@ def build():
                   p(f"Device: {escape(t4['gpu'])}; PyTorch {escape(t4['torch'])}; Transformers {escape(t4['transformers'])}. Model loading took {t4['model_load_seconds']:.3f} seconds and warm-up took {t4['warmup_seconds']:.3f} seconds. Changed programs require separate quality evaluation; byte-identical outputs preserve the same predictions."),
                   p('Full runs, per-call times, memory peaks, provenance and output hashes are retained in experiments/inference-speed-180k-t4-v1/results.json. Reproduce with hw2_inference_benchmark_colab.ipynb. The requirement applies to measured generation, not to an extrapolation from Blackwell.')]
     else:
-        story.append(p('The first T4 attempt stopped before generation because drive.mount failed. Its notebook failure handler released the GPU. A refreshed CPU-only session reproduced the mount failure: DriveFS reported failure to obtain credentials from Colab\'s internal metadata service. Model and data preparation had already passed on CPU and remain saved in Drive. No T4 speedup or compliance is claimed, and further GPU allocation is deferred until this connection problem is resolved.'))
+        story.append(p('The first T4 attempt stopped before generation because drive.mount failed. Its notebook failure handler released the GPU. A refreshed CPU-only session reproduced the failure. On 16 October the user restored Drive access on CPU; a subsequent four-model GPU pilot saved and exported all checkpoints successfully. Actual T4 inference remains unmeasured for the current candidates, so no T4 speedup or compliance is claimed.'))
+    pilot_root = ROOT / 'experiments/short-pilots-v1'
+    if (pilot_root / 'results.json').exists():
+        pilots = json.loads((pilot_root / 'results.json').read_text())
+        rows = [['Parameters / layers', 'Peak LR', 'Val. loss', 'Held-out / 245', 'Public / 960', 'Train + export, s']]
+        for x in pilots:
+            receipt = json.loads((ROOT / 'submissions' / f"2026-10-16-pilot-{x['name']}-step-002000.json").read_text())
+            layers = '6/4' if x['name'].startswith('encoder6') else '4/4'
+            rows.append([f"{x['parameters']/1e6:.2f}M, {layers}", '.0003' if x['name'].endswith('3e4') else '.001',
+                         f"{x['validation']['token_loss']:.4f}", x['numeric']['numeric_correct'],
+                         f"{receipt['public_correct']} ({receipt['public_percent']:.2f}%)", f"{x['train_and_export_seconds']:.2f}"])
+        story += [PageBreak(), p('Short architecture and rate pilots', 'Title'),
+            p('Four fresh models, 2,000 updates each', 'Head'),
+            p('The screen kept seed 42, batch 128, BF16 training, the same mixed data stream, tokenizer and 128/192 token limits. All runs used 200 warm-up updates and a short cosine schedule. Width, encoder depth and learning rate were varied in separate comparisons. One immutable checkpoint per trial was saved in Drive, exported with hashes and selected token IDs, verified locally, then scored once by the bot. Source: 1f1558515ce00d1be29f032bac843bcbfc5b6bf4.'),
+            table(rows, [38*mm,19*mm,23*mm,25*mm,33*mm,32*mm]),
+            p('Keep the 9.97M model at .001 and the 42.48M model at .0003. The small model has lower token loss and lower cost; the larger finalist has higher held-out execution agreement, confirmed by the bot. Lowering the rate within the 42M architecture improved all quality measures. The larger high-rate models do not justify continuation from this screen.'),
+            p('These are early-learning results from one seed, not final convergence estimates. Even the best pilot remains below the established 180k model at 53.85%. The bot reported public rank 10/15 on 16 October; earlier rank 9/15 was an earlier snapshot. No private score or actual T4 timing is available for these pilots.'),
+            p('Time and next comparison', 'Head'),
+            p('The driver took 718.51 seconds after data restoration; its launcher record spans 758.79 seconds including restoration and imports. Across 716 GPU samples, mean activity was 72.90%, median 97%, and peak memory 18,627 MiB. Activity is not achieved compute throughput; startup, I/O and execution evaluation contribute low samples. Batch-size speed still needs a matched benchmark.'),
+            p('Continue both finalists from 2k to 6k with their optimizer moments, batch 128 and respective learning rates. Both receive the same new deterministic sample stream, a restarted 4k cosine schedule and 200 warm-up updates. Save and score the 6k checkpoint for each. Check actual T4 inference before long training. The four-way GPU was released manually after the automatic notebook request left it connected; file work resumed on CPU.'),
+            p('Evidence: experiments/short-pilots-v1, its selection.md and export.json, four submission receipts, finalist_pilots.py and hw2_finalist_pilots_colab.ipynb. Full weights, optimizer states and exact predictions remain in Google Drive.', 'SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

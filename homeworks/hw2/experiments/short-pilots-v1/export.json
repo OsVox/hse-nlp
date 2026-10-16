@@ -1,0 +1,13 @@
+{
+  "archive": "final-exports.zip",
+  "archive_sha256": "1e61b09cec27219fdff6ebcfab97acaa0982c0dcde49f5fc22af8348c8caf119",
+  "archive_bytes": 1053774,
+  "source_commit": "1f1558515ce00d1be29f032bac843bcbfc5b6bf4",
+  "drive_first": true,
+  "all_exact_token_decodes_verified": true,
+  "gpu_release": "Manual UI release verified after async unassign left runtime connected; CPU selected next",
+  "selected_for_6k": [
+    "small-lr1e3",
+    "encoder6-lr3e4"
+  ]
+}

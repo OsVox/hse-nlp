@@ -1,0 +1,8 @@
+{
+  "samples": 716,
+  "utilization_percent_mean": 72.89525139664805,
+  "utilization_percent_median": 97.0,
+  "samples_at_least_90_percent": 478,
+  "peak_memory_mib": 18627.0,
+  "note": "Utilization is sampled GPU active time, not achieved FLOPs; includes startup, I/O and evaluation."
+}

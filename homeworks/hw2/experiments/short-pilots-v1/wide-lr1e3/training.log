@@ -1,0 +1,63 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792121522.789332    3096 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1792121522.821514    3096 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792121524.056388    3096 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1792121524.056826    3096 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=35,663,360
+step=1 train_loss=10.3171 elapsed_s=5.8
+step=50 train_loss=4.1125 elapsed_s=9.1
+step=100 train_loss=3.2027 elapsed_s=13.1
+step=150 train_loss=3.2729 elapsed_s=16.5
+step=200 train_loss=2.5443 elapsed_s=20.1
+step=250 train_loss=3.1303 elapsed_s=23.5
+step=300 train_loss=2.3337 elapsed_s=27.3
+step=350 train_loss=3.1152 elapsed_s=30.9
+step=400 train_loss=2.5574 elapsed_s=34.7
+step=450 train_loss=1.8327 elapsed_s=38.5
+step=500 train_loss=2.6803 elapsed_s=42.0
+step=500 val_token_loss=2.4940
+best_step=500 best_val_token_loss=2.4940
+step=550 train_loss=1.8197 elapsed_s=46.2
+step=600 train_loss=2.5880 elapsed_s=49.9
+step=650 train_loss=2.1454 elapsed_s=53.7
+step=700 train_loss=2.7155 elapsed_s=57.4
+step=750 train_loss=2.1412 elapsed_s=61.0
+step=800 train_loss=3.3932 elapsed_s=65.0
+step=850 train_loss=2.2850 elapsed_s=68.5
+step=900 train_loss=1.8047 elapsed_s=72.2
+step=950 train_loss=2.4095 elapsed_s=76.0
+step=1000 train_loss=1.9611 elapsed_s=79.5
+step=1000 val_token_loss=2.2829
+best_step=1000 best_val_token_loss=2.2829
+step=1050 train_loss=2.5228 elapsed_s=83.4
+step=1100 train_loss=2.0306 elapsed_s=87.0
+step=1150 train_loss=2.6869 elapsed_s=90.8
+step=1200 train_loss=2.2898 elapsed_s=94.2
+step=1250 train_loss=1.3365 elapsed_s=98.2
+step=1300 train_loss=2.3697 elapsed_s=101.7
+step=1350 train_loss=1.7487 elapsed_s=105.7
+step=1400 train_loss=2.3865 elapsed_s=109.2
+step=1450 train_loss=2.0090 elapsed_s=112.8
+step=1500 train_loss=2.6289 elapsed_s=116.9
+step=1500 val_token_loss=2.0734
+best_step=1500 best_val_token_loss=2.0734
+step=1550 train_loss=1.9464 elapsed_s=120.6
+step=1600 train_loss=2.9421 elapsed_s=124.7
+step=1650 train_loss=2.1800 elapsed_s=128.2
+step=1700 train_loss=1.3470 elapsed_s=131.8
+step=1750 train_loss=2.3004 elapsed_s=135.5
+step=1800 train_loss=1.5342 elapsed_s=139.1
+step=1850 train_loss=2.3660 elapsed_s=142.8
+step=1900 train_loss=1.6345 elapsed_s=146.7
+step=1950 train_loss=2.5567 elapsed_s=155.4
+step=2000 train_loss=1.9748 elapsed_s=158.9
+step=2000 val_token_loss=1.9631
+best_step=2000 best_val_token_loss=1.9631
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/short-pilots-v1/wide-lr1e3/step-002000
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=14.02 device=cuda:0 precision=torch.float32 invalid_before_retry=84 beam_repaired=67 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/short-pilots-v1/wide-lr1e3/step-002000 jsonl_sha256=5b7ce0cda85f9ad4e45d9c8e5a8be72d4b0595603810f7946ec785e4e03c67c9
+finished_steps=2000

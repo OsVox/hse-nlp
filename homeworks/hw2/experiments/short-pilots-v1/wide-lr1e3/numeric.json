@@ -1,0 +1,23 @@
+{
+  "rows": 256,
+  "usable_references": 245,
+  "numeric_correct": 12,
+  "numeric_agreement_on_usable": 0.04897959183673469,
+  "prediction_failures": 69,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/short-pilots-v1/wide-lr1e3/step-002000",
+  "offset": 256,
+  "beams": 1,
+  "device": "cuda",
+  "precision": "torch.float32",
+  "cpu_threads": 24,
+  "generation_seconds": 1.8670715940000377,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "9eff76af877ad4f3f5a6bd61bb602d314fcc1f8dd418765a6dd8a708e8fe636f",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+  "predictions_sha256": "34e8f0c36d8a2b48af1a3d8794180142b9536d239bb744693c7459f0ae69d6e8",
+  "handwritten_repairs": 0
+}
