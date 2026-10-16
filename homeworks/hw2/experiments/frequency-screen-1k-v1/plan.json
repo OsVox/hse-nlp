@@ -1,5 +1,5 @@
 {
-  "status": "planned_not_launched",
+  "status": "preregistered_not_launched",
   "parent_step": 72000,
   "parent_model_sha256": "878683b76cfb5fc768d1e13c1b060b3fb9ae6007010cda744870fd24184bbe88",
   "parent_drive_folder": "16QXNLZ81uS-nAmflYHSGqHLabLpJ19yO",
@@ -21,13 +21,19 @@
   "frequency_index_run": "frequency-index-cpu-v1",
   "arms": {
     "control": {
-      "frequency_power": 0
+      "frequency_power": 0,
+      "numeric_token_weight": 2.0,
+      "frequency_index": "/content/frequency-screen-index/index"
     },
     "inverse_sqrt": {
-      "frequency_power": 0.5
+      "frequency_power": 0.5,
+      "numeric_token_weight": 2.0,
+      "frequency_index": "/content/frequency-screen-index/index"
     },
     "inverse": {
-      "frequency_power": 1
+      "frequency_power": 1,
+      "numeric_token_weight": 2.0,
+      "frequency_index": "/content/frequency-screen-index/index"
     }
   },
   "selection": "Strictly positive executed-answer gain on each held-out subset with no increase in total execution failures versus control. Confirm survivors with another seed; no automatic longer training.",
@@ -43,5 +49,8 @@
   "training_timeout_seconds": 400,
   "outer_timeout_seconds": 1200,
   "frequency_index_archive_sha256": "2b692f641bc60c38c059e2d2ab26c72b55ca9f20a47e84ae85bc1f6a9262cc9b",
-  "frequency_index_manifest_sha256": "2724bd79dda59e8499bc4694eb307b8cc2de5b989c34cf026d9b519a2bff1726"
+  "frequency_index_manifest_sha256": "2724bd79dda59e8499bc4694eb307b8cc2de5b989c34cf026d9b519a2bff1726",
+  "save_every": 73024,
+  "eval_every": 73024,
+  "overlap_cpu_scoring": true
 }
