@@ -85,7 +85,9 @@ def verify_checkpoint(checkpoint, step, eligible):
     return r
 
 
-def run():
+def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select):
+    PREPARED, RUN, PLAN, select = prepared, run_dir, plan, selection_fn
+    CONFIGS, OPTIONS = PLAN['arms'], PLAN['options']
     import torch
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
     assert torch.cuda.get_device_properties(0).total_memory>=40*1024**3
@@ -140,7 +142,7 @@ def run():
                             subprocess.run(command+['--generate-only'],stdout=log,stderr=subprocess.STDOUT,check=True,timeout=180)
                         scoring.start(key,stage,command+['--score-only'],output)
                         scoring.collect(scores)
-                if 'muon42' in initial:assert initial['adamw42']==initial['muon42']
+                if {'adamw42','muon42'} <= initial.keys():assert initial['adamw42']==initial['muon42']
                 (RUN/'progress.json').write_text(json.dumps(dict(curves=curves,scores=scores),indent=2))
             scoring.collect(scores,wait=True)
             for points in curves.values():
