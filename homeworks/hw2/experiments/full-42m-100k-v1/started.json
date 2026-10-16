@@ -1,0 +1,28 @@
+{
+  "verified_at": "2026-10-16T05:34:26.167954+00:00",
+  "status": "training",
+  "pid": 1377,
+  "source_commit": "69829cbe4f76a54907f1306df19e34065e75a75a",
+  "notebook_url": "https://colab.research.google.com/drive/1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
+  "resumed_at_step": 20000,
+  "observed_step": 20150,
+  "parameters": 42481152,
+  "batch_size": 128,
+  "precision": "bf16",
+  "learning_rate_peak": 0.00015,
+  "target_step": 100000,
+  "checkpoint_interval": 10000,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "gpu_utilization_snapshot_percent": 98,
+  "gpu_memory_snapshot_mib": 18951,
+  "gpu_total_mib": 97887,
+  "cpu_preflight_verified": true,
+  "next_review_steps": [
+    30000,
+    40000
+  ],
+  "outputs_path": "MyDrive/HSE_NLP_HW2/runs/full-42m-100k-v1",
+  "outer_timeout_seconds": 9000,
+  "automatic_runtime_release": true,
+  "drive_run_folder_id": "1Vzz6qzIvRPhI7YygMEzktutVSso27fdJ"
+}

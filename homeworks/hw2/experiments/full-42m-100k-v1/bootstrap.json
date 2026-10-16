@@ -7,7 +7,7 @@
   },
   "read_back_verified": true,
   "cpu_preflight": "verified",
-  "gpu_training": "not started",
+  "gpu_training": "started; resumed step 20000; observed step 20150",
   "notebook_file_id": "1MFg5g_0u7Lg5PZHKFKdnbgNm0wGrR5RD",
   "notebook_sha256": "5ecf7e010ae78b02941499280ec22b31af7d96fd1d63695de82e5a2ad846717d",
   "notebook_read_back_verified": true,
