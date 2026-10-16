@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "file": "homeworks/hw2/report.pdf",
+    "sha256": "93e82ae1304753e09aff9f5c2d81114f774ecf61b11e9343494ec9f3c775d9dd",
+    "byte_verified": true
+  },
+  {
+    "id": "1WnTgdO9SuX6TUKfwlUF7B_uaWBDkDGKj",
+    "file": "homeworks/hw2/experiments/digit-screen-1k-v1/comparison.md",
+    "sha256": "84c0a243b39f375e9470e99b4df4555afead295928da0fa7237aa320d2ca746d",
+    "byte_verified": true
+  }
+]

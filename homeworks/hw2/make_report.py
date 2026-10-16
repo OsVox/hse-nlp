@@ -404,6 +404,27 @@ def build():
         if (ordering/'execution.json').exists():
             e=json.loads((ordering/'execution.json').read_text())
             story += [p(f"Driver duration: {e['elapsed_seconds']/60:.2f} minutes, excluding allocation and authorization before the driver. Median sampled GPU utilization was 97%; mean was 63.79%, including restoration, CPU scoring and saving. Colab confirmed no active sessions after automatic release. No long extension was started.")]
+    digits = ROOT/'experiments/digit-screen-1k-v1'
+    if (digits/'selection.json').exists():
+        r=json.loads((digits/'selection.json').read_text())
+        audit=json.loads((digits/'tokenization-audit.json').read_text())
+        rows=[['Tokenizer','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name, stages in r['results'].items():
+            f=digits/name/'step-071024/bot_receipt.json'
+            public=json.loads(f.read_text())['public_correct'] if f.exists() else 'pending'
+            rows.append([name,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],
+                         sum(s['prediction_failures'] for s in stages.values()),public])
+        story += [PageBreak(),p('Individual digits: short adaptation test','Title'),
+            p('The treatment adds individual digit boundaries before BPE merges while retaining the original learned vocabulary, token IDs, model architecture and target text. The control and treatment continue from identical own 70k weights and Adam moments for 1,024 updates each, with batch 128, peak learning rate .00003 and 50 warmup updates. Both use strict greedy generation. The same original example pool is consumed at the complete-window boundary; longer sequences change grouping and padding.'),
+            p(f"CPU audit: {audit['rows']:,} original pairs sampled across all 60 shards, excluding held-out question copies. Both tokenizers recover every original text exactly; save/reload and unchanged vocabulary IDs passed. Question mean length rises from 46.97 to 51.85 tokens; program mean from 74.52 to 80.94. At the unchanged 128/192 limits, question truncations rise from 218 to 446 and program truncations from 2,375 to 3,005."),
+            table(rows,[49*mm,29*mm,35*mm,25*mm,32*mm]),
+            p('The predefined gate requires improvement on both held-out subsets and no increase in total execution failures. Shortlisted for a second-seed test: '+(', '.join(r['shortlist']) or 'none')+'. No long extension is automatic. This tests adaptation of an existing BPE model, not a model trained from scratch with digit boundaries. Repeated validation is exploratory.'),
+            p('The treatment lost 55 held-out agreements and added 6 execution failures. Public accuracy fell by 50/960 (5.21 percentage points). Reject this adaptation; the best remains 573/960 (59.69%), rank 8/15. The original control reproduces previous correct counts but 11 of 1,919 program strings differ, so bitwise repeatability is not established.'),
+            p('Motivation: Singh and Strouse, Tokenization counts (2024), https://arxiv.org/abs/2402.14903. That paper concerns arithmetic tokenization and does not establish a benefit for this Python-generation task. No paper examples or additional targets enter training.','SmallText'),
+            p('Eighteen focused checks passed before launch. Every checkpoint and its original test output was saved to Drive before export and exact verification. Training source: f9676760c37607102647c7d0b792810f81f1e8f1. Evidence: experiments/digit-screen-1k-v1.','SmallText')]
+        if (digits/'execution.json').exists():
+            e=json.loads((digits/'execution.json').read_text())
+            story += [p(f"GPU driver duration: {e['elapsed_seconds']/60:.2f} minutes, excluding allocation and authorization. CPU preparation took 149.47 seconds, including the 65.65-second tokenizer audit. Colab confirmed no active sessions after automatic release; T4 timing remains unverified.")]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

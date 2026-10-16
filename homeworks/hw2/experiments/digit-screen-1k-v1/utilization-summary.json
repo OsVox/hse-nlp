@@ -1,0 +1,6 @@
+{
+  "samples": 284,
+  "median_gpu_utilization_percent": 97.0,
+  "mean_gpu_utilization_percent": 58.17605633802817,
+  "scope": "Driver only; includes restore, CPU scoring and saving; excludes allocation and authorization"
+}

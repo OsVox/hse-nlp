@@ -1,6 +1,6 @@
 {
   "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
-  "current_action": "Completed and bot-scored four batch-order trials; failed paired gate; no long run. Prepare CPU checks for number segmentation and reduce GPU idle evaluation.",
+  "current_action": "Completed digit-screen-1k-v1; clear held-out and public regression, no extension. Preserve best numeric2 and prepare another distinct cheap hypothesis.",
   "gpu_state": "Released; Colab Manage Sessions reports no active sessions",
   "next_candidates": [
     {
@@ -26,6 +26,12 @@
       "hypothesis": "Truncated or malformed original targets can teach incomplete programs.",
       "first_check": "Audit syntax and target-length rates; do not equate unsupported sandbox execution with incorrect data.",
       "status": "Tested original-target length filtering: 423/738 vs control 416/738, but 45 vs 40 execution failures; failed gate"
+    },
+    {
+      "name": "Individual digit boundaries",
+      "hypothesis": "Make numeric literals easier to copy using the original vocabulary",
+      "status": "Tested for 1024 updates against matched control; clear regression; no extension",
+      "evidence": "digit-screen-1k-v1/comparison.md"
     }
   ],
   "future_training_comparison": {
@@ -55,6 +61,8 @@
     "numeric_weighting": "Best public score 59.69%; 11 more correct than matched control; mixed held-out evidence",
     "broad_screen": "Eight 1000-step arms; none passed positive gain on both subsets with no added total execution failures",
     "full_training_audit": "10,920,597 exact question hashes; 7.74% excess duplicate rows; 0.173% input and 1.946% target truncation in 122,880 sampled original pairs; no GPU allocated",
-    "batch_order": "Seed gains +3 and -1 held-out; pooled failures +3; public shuffled 550/549 vs controls 561/560; rejected"
-  }
+    "batch_order": "Seed gains +3 and -1 held-out; pooled failures +3; public shuffled 550/549 vs controls 561/560; rejected",
+    "digit_tokenization": "Individual-digit adaptation: held-out 363/738 vs 418/738; failures 47 vs 41; public 511/960 vs 561/960. Rejected."
+  },
+  "preparation_policy": "CPU use is explicitly approved. Use it for meaningful data/preflight checks before GPU; reuse already verified data and parent checkpoint archives when unchanged to avoid unnecessary repeated transfers and setup. Revalidate artifact hashes during restore."
 }

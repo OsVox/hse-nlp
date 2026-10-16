@@ -1,0 +1,11 @@
+{
+  "source_commit": "f9676760c37607102647c7d0b792810f81f1e8f1",
+  "source_sha256": "28e3fa06b6f1f3b78ee2a59d96d22fd6fb3bcb0df2edb768fbe7055d627313e4",
+  "launcher_sha256": "58cdaad0a41a7c6406ff4a8256448c66034e472e766faf2354db48303b485bb1",
+  "gpu_allowed": false,
+  "bootstrap_folder_id": "1frrVSFwfwVo3bP_rb52xVFN_hOrck_Ls",
+  "source_id": "1iQ9TWISVTESBgqRfRyqWdGcH6vBAjY8g",
+  "launcher_id": "1lvqH4atfkq1RDT3ykIQjHtVSvKM1qW7M",
+  "ready_id": "179YfyxSMVkBp99LofJk7rtw7ODLOWyco",
+  "focused_tests_passed": 18
+}
