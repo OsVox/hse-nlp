@@ -1,0 +1,13 @@
+{
+  "decision": "Retain source cap 128 pending an explicit quality/speed test. Average question length is about 44 tokens in shard0 and test; prior all-shard sample averaged 46.86. Dynamic padding and length grouping already avoid a fixed 128-token cost. Cap 64 cuts 230 test questions; cap 96 cuts 27; cap 128 cuts 3. No training or inference change made.",
+  "tests_completed_first": "depth-confirm-2k-v1; both bot scores and remote weights verified; evidence archived before this audit.",
+  "gpu_used": false,
+  "source_sha256": "6516d62034c2ea641f5f940b3127a4ce238c3a5a37c7528cd1f10f3e7b284067",
+  "source_base_commit": "ecafbaf",
+  "tokenizer_equivalence": {
+    "ignoring_serialized_padding_and_truncation": true,
+    "canonical_sha256": "08da572e2dc42e4834cdf9d915d6e34ee68d6098d34444fa6db12def59b5ae5b",
+    "original_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+    "best_checkpoint_sha256": "d9fa7b5618323be055ad10ebe760cff2801f251b39dabb7dc62188567c5a6414"
+  }
+}

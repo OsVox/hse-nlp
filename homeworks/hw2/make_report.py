@@ -693,6 +693,23 @@ def build():
             table(rows,[42*mm,20*mm,35*mm,35*mm,38*mm]),
             p(c['decision']),p(c['hardware_availability']),
             p('All probe weights are discarded. The supplied code, prepared inputs, hashes, logs and measured results are preserved on Drive. Each runtime has a bounded worker and automatic release. A batch change must separately pass a short quality comparison before adoption. CPU checks verified equal useful token counts before allocation. Benchmark source: commit 9e1a489. Evidence: experiments/muon-batch-probe-v1 and the adjacent H100/A100 attempt folders.','SmallText')]
+    context_audit = ROOT/'experiments/context-length-cpu-v1/lengths.json'
+    if context_audit.exists():
+        audit=json.loads(context_audit.read_text())
+        rows=[['Questions','Count','Mean tokens','Median','95th / 99th']]
+        for name,label in [('train_shard_0','Eligible shard 0'),('official_test','Official test')]:
+            s=audit['results'][name];q=s['quantiles']
+            rows.append([label,s['rows'],f"{s['mean_tokens']:.2f}",q['0.5'],f"{q['0.95']} / {q['0.99']}"])
+        cuts=[['Input cap','Train questions cut','Test questions cut']]
+        for cap in ['64','96','128','192']:
+            cuts.append([cap,*[f"{audit['results'][name]['caps'][cap]['questions_cut']:,} ({audit['results'][name]['caps'][cap]['questions_cut_percent']:.2f}%)" for name in ['train_shard_0','official_test']]])
+        story += [PageBreak(),p('Question lengths and context limits','Title'),
+            p('CPU-only audit performed after the encoder/decoder confirmation was scored and archived. Tokenize original questions with the current original 8k tokenizer, without padding or truncation; counts include the final end token. All eligible shard-0 rows exclude exact held-out question texts. This is not a census of the full 60-shard corpus. The earlier 15,304-question sample across all 60 shards averaged 46.86 tokens.'),
+            table(rows,[46*mm,29*mm,35*mm,25*mm,35*mm]),
+            table(cuts,[30*mm,70*mm,70*mm]),
+            p('Retain the current 128-token input limit pending a quality and speed comparison. A 64-token limit would truncate about 12% of test questions. Training already groups similar lengths in windows of 32 batches, and both training and inference pad only to the longest sequence in each batch; a 128-token cap does not make every input 128 tokens long. These counts do not measure GPU savings or establish the best cap.'),
+            p('The three test inputs above the current limit contain 137, 146 and 166 tokens including the end token. Input coverage is therefore a reason to test a larger limit as well as more efficient grouping. Neither the 128-token source cap nor the 192-token target cap changed. No model was trained, predictions generated or bot submission made for this audit. Original and mature-checkpoint tokenizer definitions agree after removing saved padding/truncation settings.'),
+            p('Evidence: context_length_audit.py and experiments/context-length-cpu-v1. The CPU measurement took 3.29 seconds; no Colab allocation was made. Full histograms, input and tokenizer checksums, and the earlier sample reference are retained.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
