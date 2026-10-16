@@ -19,14 +19,13 @@ No pretrained weights, outside examples, or extra target programs are used.
 - `evaluate.py` measures syntax validity, presence of `solve`, and exact code
   match on held-out rows 256–511, which are separate from the 256 rows used to
   select checkpoints. These diagnostics are not pass@1.
-- `inference.py` generates answers for the 1,919 test questions, retries only
-  syntactically invalid programs with four beams, preserves each selected model
-  output exactly, records its token IDs and checkpoint hash, preserves test order, writes one `code` column,
-  and times the full generation loop.
+- `inference.py` defaults to strictly greedy decoding: one candidate, no sampling,
+  no syntax retries. `--syntax-retry` exists only to reproduce historical runs.
+  Exact output token IDs, question order, model hash, and timings are saved.
 - `hw2_full_training_colab.ipynb` prepares the selected larger model on CPU
-  and resumes it on G4. `hw2_inference_colab.ipynb` reproduces the best scored
-  four-beam execution-voting output; its T4 timing is deferred. The historical measured greedy
-  configuration is retained in `hw2_inference_greedy_t4_colab.ipynb`.
+  and resumes it on G4. `hw2_inference_colab.ipynb` uses strict greedy decoding
+  on its 50k checkpoint. `hw2_inference_vote_colab.ipynb` archives the earlier
+  57.08% voting result. T4 timing remains deferred for the new configuration.
 - `metrics.json` and `report.pdf` record results once the runs finish.
 
 ## Reproduce
@@ -35,17 +34,17 @@ Use the CPU-first Drive workflow below for training experiments. Keep GPU off
 until file checks pass. Save checkpoints and exact predictions to Drive, export
 from Drive, then submit the checked JSONL to the course bot.
 
-`hw2_inference_colab.ipynb` loads the established step-180000 checkpoint from
-Drive. Run its CPU preparation phase first. Four-beam execution voting on CPU scored
-57.08% (548/960), rank 8/15 on 16 October at 08:59 (+03:00). Generation and
-selection took 279.43 seconds on CPU at batch 64. All programs are exact model
-decodes. Reference answers never enter selection. The earlier beam-only output
-scored 56.67% (544/960); its notebook is retained separately. This setting's T4 timing is unverified and
-is deferred while improving quality. Save outputs to Drive before export.
+`hw2_inference_colab.ipynb` loads the 42.48M step-050000 checkpoint from
+Drive after CPU checks. Strict greedy decoding is the user's selected policy
+as of 16 October. The historical 54.06% larger-model result, and the 53.85%
+small-model result, used greedy decoding with syntax-only beam retries;
+they must not be relabelled as strict greedy scores. Historical voting reached
+57.08% (548/960), retained only as an experiment. Strict greedy exports need
+separate bot receipts. Save outputs to Drive before export.
 
-The historical greedy configuration scored 53.85% (517/960). On an actual
-T4, batch 256 took 10.38 and 10.79 seconds and reproduced that scored JSONL
-exactly. These timings do not apply to four-beam decoding or other weights.
+The active training process keeps its original immutable source. Its automatic
+checkpoint predictions still allow syntax retries. Use `greedy_export.py` on
+saved checkpoints before further submissions; no training restart is needed.
 
 The selected 42.48M model is continuing from 20,000 toward 100,000 updates
 at batch 128 and BF16 on G4. Its CPU checks verified the original dataset,

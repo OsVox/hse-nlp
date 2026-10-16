@@ -1,5 +1,6 @@
 """Проверки сохранения данных и результатов после оптимизации."""
 import csv
+import json
 import tempfile
 import unittest
 from collections import Counter
@@ -66,7 +67,9 @@ class SpeedTests(unittest.TestCase):
             root = Path(tmp)
             pq.write_table(pa.table({'question': questions}), root / 'test.parquet')
             # Подмена только генерации: проверяем токенизацию, сортировку и запись.
+            calls = []
             def generate(model, input_ids, **kwargs):
+                calls.append(kwargs)
                 return input_ids.repeat_interleave(kwargs.get('num_return_sequences', 1), dim=0)
             with patch('transformers.T5ForConditionalGeneration.generate', generate):
                 count, _ = generate_predictions(Path('homeworks/hw2/model'), root/'out.csv', root,
@@ -78,6 +81,13 @@ class SpeedTests(unittest.TestCase):
                 skip_special_tokens=True, clean_up_tokenization_spaces=False)
             self.assertEqual(count, 4)
             self.assertEqual(actual, expected)
+            # These text outputs include invalid Python; strict greedy must
+            # preserve them instead of silently making a beam-search retry.
+            self.assertEqual(len(calls), 2)
+            self.assertTrue(all(c['num_beams'] == 1 and not c['do_sample'] for c in calls))
+            evidence = json.loads((root/'out.provenance.json').read_text())
+            self.assertEqual(evidence['syntax_retry_beams'], 0)
+            self.assertEqual(evidence['selection'], 'greedy')
 
 
 if __name__ == '__main__':

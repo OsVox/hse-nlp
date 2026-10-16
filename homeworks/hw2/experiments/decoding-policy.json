@@ -1,0 +1,12 @@
+{
+  "selected": "strict_greedy",
+  "requested_at": "2026-10-16",
+  "num_beams": 1,
+  "do_sample": false,
+  "syntax_retry": false,
+  "execution_voting": false,
+  "source_commit": "8dcb74d2164a30c7b3169dcf7adf76114139761f",
+  "training_continues": true,
+  "automatic_training_exports": "Historical greedy-plus-syntax-retry; regenerate with greedy_export before submission",
+  "best_historical_result": "Keep current-best.json as historical; do not call voting the selected policy"
+}

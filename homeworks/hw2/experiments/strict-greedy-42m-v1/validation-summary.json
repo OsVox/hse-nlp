@@ -1,0 +1,14 @@
+{
+  "unit_test": "test_inference_preserves_order_and_duplicates",
+  "unit_test_passed": true,
+  "invalid_python_preserved": true,
+  "cpu_run_returncode": 0,
+  "rows": 1919,
+  "generation_seconds": 99.66642401800027,
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "invalid_before_retry": 3,
+  "beam_repaired": 0,
+  "jsonl_sha256": "608ae67ffde269773f423ccb37f91439843917054fbfac0bd457cab7a8bc9d7c",
+  "source_commit": "8dcb74d2164a30c7b3169dcf7adf76114139761f"
+}
