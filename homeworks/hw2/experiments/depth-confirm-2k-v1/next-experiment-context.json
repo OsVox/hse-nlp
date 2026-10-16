@@ -1,0 +1,18 @@
+{
+  "after_confirmation": "Use the current second-seed result to choose whether decoder depth joins the replicated Muon recipe.",
+  "next_decision": "Run bounded learning-curve and model-size comparisons before any full training; preserve checkpoints and compare executed-answer accuracy per GPU minute.",
+  "candidate_model_sizes": [
+    17580480,
+    42481152,
+    78146112
+  ],
+  "size_basis": "Exploratory range, not a proven scaling-law optimum.",
+  "constraints": [
+    "Own scratch encoder-decoder Transformer only",
+    "Original course examples and reference programs only",
+    "Greedy decoding, no answer repairs",
+    "Measure hardware before changing GPUs",
+    "No automatic long training",
+    "Save code, checkpoints, outputs and bot receipts to Drive"
+  ]
+}

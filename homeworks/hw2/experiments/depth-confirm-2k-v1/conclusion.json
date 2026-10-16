@@ -1,0 +1,8 @@
+{
+  "decision": "The 4-encoder/6-decoder candidate did not replicate its first-seed held-out improvement: seed 1042 gained 3/245 on the pilot subset, lost 5/493 on confirmation, and added 2 execution failures in total. Public bot scores were 102/960 for the 6/4 control and 109/960 for 4/6, but the predeclared held-out gate failed. Keep 6/4 for the next screen; do not start a long depth-change run. The mature 575/960 checkpoint remains the best. A repeated seed-1042 6/4 control varied from an earlier 115/960 to 102/960 despite matching recorded configuration and initial body hash; the cause is not isolated. Small gains remain uncertain.",
+  "compute": "The complete two-arm driver took 595.30 seconds (9.92 minutes), including dataset restoration, training and evaluation. Control process time was 202.43 seconds and deeper-decoder time 237.66 seconds (17.4% longer), with equal 262,136 examples per arm. Whole-driver GPU activity had median 95%, mean 66.19%, and peak memory 21,113 MiB. Both complete model files were downloaded from Drive and checksum-verified. Colab release was verified after automatic disconnection.",
+  "next_task": "User requested prompt-length and shorter-context audit only after encoder/decoder tests are finished. Both arms are now scored and checkpoints verified. Perform CPU-only length measurements next.",
+  "confirmed": false,
+  "long_run_started": false,
+  "all_checkpoints_scored": true
+}

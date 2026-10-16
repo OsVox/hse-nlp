@@ -1,0 +1,16 @@
+[
+  {
+    "arm": "control",
+    "id": "1utmGZIfa4T5XYnE2C3dRsS_-nLYvVfSb",
+    "bytes": 169938176,
+    "sha256": "c899cf5041e451792c441b55d3134cd58c73188d9a5dc76d89ce8d7ec5cfbe50",
+    "download_verified": true
+  },
+  {
+    "arm": "decoder_heavy",
+    "id": "1AIxuKFDHQghUNKJaRT-VHBvA8LdlluGz",
+    "bytes": 170467752,
+    "sha256": "f81cef856fd0d2f303a033118333dfddef54ed00cc98a747a08b8fc65f9c6201",
+    "download_verified": true
+  }
+]

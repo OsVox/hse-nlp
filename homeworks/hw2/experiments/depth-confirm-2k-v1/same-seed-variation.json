@@ -1,0 +1,29 @@
+{
+  "prior_run": "optimizer-confirm-2k-v1/muon_low",
+  "current_run": "depth-confirm-2k-v1/control",
+  "seed": 1042,
+  "initial_body_hash_equal": true,
+  "config_differences": {
+    "drive_root": [
+      "/content/drive/MyDrive/HSE_NLP_HW2/runs/optimizer-confirm-2k-v1/muon_low",
+      "/content/drive/MyDrive/HSE_NLP_HW2/runs/depth-confirm-2k-v1/control"
+    ],
+    "output_dir": [
+      "/content/tokenizer-pilot-training/muon_low",
+      "/content/tokenizer-pilot-training/control"
+    ]
+  },
+  "prior_public_correct": 115,
+  "current_public_correct": 102,
+  "current_heldout": {
+    "pilot": {
+      "correct": 24,
+      "failures": 58
+    },
+    "confirmation": {
+      "correct": 47,
+      "failures": 87
+    }
+  },
+  "note": "Observed variation despite matching seed and initial body; only output paths differ in recorded run configuration. Cause has not been isolated. Do not claim bitwise training reproducibility or treat small screening gains as statistically established."
+}

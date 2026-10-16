@@ -669,6 +669,19 @@ def build():
             p('A candidate must improve both held-out subsets with no extra total execution failures versus the newly trained 6/4 Muon control, then repeat that gain on another seed. This changes depth balance and compensating feed-forward width together. Equal parameters and examples do not imply equal compute; architecture-specific learning rates were not tuned. Public scores are recorded separately and do not select candidates.'),
             p(conclusion['decision']),p(conclusion['compute']),
             p('CPU preflight found that Transformers 4.57.6 inferred the default T5 cache depth from encoder num_layers, raising IndexError for the 4/6 model. Deeper-decoder models now save native dynamic_full caching in generation_config. Cached and uncached greedy IDs agree in the focused regression test, including after save/reload. Full-size finite-gradient and cached-generation checks pass for all three shapes; 13 focused checks passed before allocation. No GPU was used for this fix. Source: f6fc269034b3e42ec3e3e8850ecab63d1e726d76. Evidence: experiments/depth-muon-2k-v1.','SmallText')]
+    depth_confirm = ROOT/'experiments/depth-confirm-2k-v1'
+    if (depth_confirm/'conclusion.json').exists():
+        conclusion=json.loads((depth_confirm/'conclusion.json').read_text())
+        r=json.loads((depth_confirm/'selection.json').read_text())
+        rows=[['Seed 1042 model','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,stages in r['results'].items():
+            receipt=json.loads((depth_confirm/name/'step-002048/bot_receipt.json').read_text())
+            rows.append(['6 / 4 control' if name=='control' else '4 / 6 candidate',stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),receipt['public_correct']])
+        story += [PageBreak(),p('Second-seed depth confirmation','Title'),
+            p('Repeat the 6/4 control versus 4/6 encoder/decoder candidate using seed 1042. The original tokenizer, examples, unmodified target programs, batch 128, 2,048 updates and Muon/AdamW rates remain fixed. All model parameters are trained from scratch. The original seed-42 selection is checksum-verified before the confirmation run. This repeats the same nearly matched-parameter architecture comparison; shapes and compensating feed-forward width differ.'),
+            table(rows,[46*mm,29*mm,35*mm,25*mm,35*mm]),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('The candidate must improve both held-out subsets with no extra total execution failures in both seeds. The public bot score is logged separately. Reused validation makes this exploratory; replication does not establish eventual mature-model accuracy or statistical significance. Fifteen focused CPU checks passed before allocation; prior full-size finite-gradient and cache checks were reused because the model, optimizer, input and evaluation implementations are unchanged. Each checkpoint and exact greedy output was saved to Drive before export and bot submission. Source: 10520ebb061a9d7b4353bc1f1fa53664030b128b. Evidence: experiments/depth-confirm-2k-v1.','SmallText')]
     speed_comparison = ROOT/'experiments/muon-batch-probe-v1/comparison.json'
     if speed_comparison.exists():
         c=json.loads(speed_comparison.read_text())

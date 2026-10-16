@@ -37,5 +37,12 @@
     "observed_at": "2026-10-16T17:07:00+03:00",
     "leader_percent": 78.33,
     "evidence": "optimizer-confirm-2k-v1/leaderboard-observation.json"
+  },
+  "latest_depth_confirmation_observation": {
+    "timestamp": "2026-10-16T18:10:00+03:00",
+    "rank": 10,
+    "participants": 16,
+    "best_public_correct": 575,
+    "note": "Bot rank is based on best retained submission; new short pilot scored 109/960."
   }
 }
