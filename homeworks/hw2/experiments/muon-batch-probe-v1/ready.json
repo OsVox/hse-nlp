@@ -1,0 +1,43 @@
+{
+  "cpu_verified": true,
+  "base_source_commit": "f6fc269034b3e42ec3e3e8850ecab63d1e726d76",
+  "benchmark_source_sha256": "f22d9fac6e1ba77f5ca53ae8e13aeecbc616ab89769f1412a748aec8f61287d9",
+  "inputs_sha256": "774eff83f5e22788affaa33fd5688288d55e78c31c844d9c1676a57bfbdf32fd",
+  "launcher_sha256": "6f64ae9b5faffeb045f1aa00efbb11af661e99cc6f81465b4ce42da860f0ff8a",
+  "gate": {
+    "cpu_verified": true,
+    "pool_sha256": "c92e958873eea70da30aabbaf6bd86c46fe3481c08c5f198d417dd5057dcbd40",
+    "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+    "counts": [
+      {
+        "batch_size": 128,
+        "examples": 8192,
+        "source_tokens": 358777,
+        "target_tokens": 542190,
+        "padded_tokens": 1674368
+      },
+      {
+        "batch_size": 256,
+        "examples": 8192,
+        "source_tokens": 358777,
+        "target_tokens": 542190,
+        "padded_tokens": 1748736
+      },
+      {
+        "batch_size": 512,
+        "examples": 8192,
+        "source_tokens": 358777,
+        "target_tokens": 542190,
+        "padded_tokens": 1827840
+      },
+      {
+        "batch_size": 1024,
+        "examples": 8192,
+        "source_tokens": 358777,
+        "target_tokens": 542190,
+        "padded_tokens": 1952768
+      }
+    ]
+  },
+  "note": "Original shard0 training rows excluding held-out questions; disposable speed probe, no saved training weights."
+}

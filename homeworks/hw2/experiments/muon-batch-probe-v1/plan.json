@@ -1,0 +1,17 @@
+{
+  "batch_sizes": [
+    128,
+    256,
+    512,
+    1024
+  ],
+  "examples_per_measurement": 8192,
+  "repeats": 2,
+  "order": "ascending then descending",
+  "warmup_updates": 3,
+  "training_budget_seconds": 240,
+  "discard_weights": true,
+  "quality_validation_required": true,
+  "source_rows": "First 8192 eligible original shard0 rows excluding held-out questions",
+  "limitation": "Short single-shard throughput screen. Does not establish learning quality or full-dataset peak memory."
+}

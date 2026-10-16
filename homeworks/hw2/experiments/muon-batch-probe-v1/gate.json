@@ -1,0 +1,35 @@
+{
+  "cpu_verified": true,
+  "pool_sha256": "c92e958873eea70da30aabbaf6bd86c46fe3481c08c5f198d417dd5057dcbd40",
+  "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+  "counts": [
+    {
+      "batch_size": 128,
+      "examples": 8192,
+      "source_tokens": 358777,
+      "target_tokens": 542190,
+      "padded_tokens": 1674368
+    },
+    {
+      "batch_size": 256,
+      "examples": 8192,
+      "source_tokens": 358777,
+      "target_tokens": 542190,
+      "padded_tokens": 1748736
+    },
+    {
+      "batch_size": 512,
+      "examples": 8192,
+      "source_tokens": 358777,
+      "target_tokens": 542190,
+      "padded_tokens": 1827840
+    },
+    {
+      "batch_size": 1024,
+      "examples": 8192,
+      "source_tokens": 358777,
+      "target_tokens": 542190,
+      "padded_tokens": 1952768
+    }
+  ]
+}

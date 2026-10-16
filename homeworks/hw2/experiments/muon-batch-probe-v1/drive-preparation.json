@@ -1,0 +1,21 @@
+{
+  "folder": "19rpI-Je9AS7G40zRKiT35Fs-7vyUK_C1",
+  "files": [
+    {
+      "id": "1Gmwy0vU2wJpC1ZP76XtMQfMTJ_NPldcr",
+      "name": "ready.json",
+      "sha256": "007b1ab14516f795bf5903a3a83d8670788e39f02a3ae2ae8f2e80d04ffad26c"
+    },
+    {
+      "id": "1HAPDL6zPLEANF3oD4PK5dgKh0QNQO28P",
+      "name": "launch.py",
+      "sha256": "6f64ae9b5faffeb045f1aa00efbb11af661e99cc6f81465b4ce42da860f0ff8a"
+    },
+    {
+      "id": "13rTwsXvbCdtrYKnDsmcv2v6_4bCmXIHv",
+      "name": "inputs.tar",
+      "sha256": "774eff83f5e22788affaa33fd5688288d55e78c31c844d9c1676a57bfbdf32fd"
+    }
+  ],
+  "byte_verified": true
+}
