@@ -160,10 +160,14 @@ def main():
     parser.add_argument('--beams', type=int, default=1)
     parser.add_argument('--cpu-threads', type=int, default=None)
     parser.add_argument('--examples-file', type=Path, default=None)
+    parser.add_argument('--max-input-tokens', type=int, default=128, help='Zero keeps complete questions')
+    parser.add_argument('--max-new-tokens', type=int, default=192)
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument('--generate-only', action='store_true')
     modes.add_argument('--score-only', action='store_true')
     args = parser.parse_args()
+    if args.max_input_tokens < 0 or args.max_new_tokens < 1:
+        raise ValueError('Invalid generation limits')
     if args.score_only:
         print(json.dumps(score_saved_generation(args.output),indent=2))
         return
@@ -180,16 +184,20 @@ def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = T5ForConditionalGeneration.from_pretrained(args.model_dir).to(device).eval()
     predictions = []
+    generation_limit_hits = 0
     if device == 'cuda':
         torch.cuda.synchronize()
     started = time.perf_counter()
     with torch.inference_mode():
         for start in range(0, len(examples), 64):
             batch = tokenizer([r['question'] for r in examples[start:start + 64]],
-                              padding=True, truncation=True, max_length=128,
+                              padding=True, **({'truncation':True,'max_length':args.max_input_tokens}
+                              if args.max_input_tokens else {'truncation':False}),
                               return_tensors='pt', return_token_type_ids=False).to(device)
-            ids = model.generate(**batch, max_new_tokens=192, num_beams=args.beams,
+            ids = model.generate(**batch, max_new_tokens=args.max_new_tokens, num_beams=args.beams,
                                  do_sample=False)
+            generation_limit_hits += sum(len(row)==args.max_new_tokens+1 and tokenizer.eos_token_id not in row[1:]
+                                         for row in ids.tolist())
             predictions.extend(tokenizer.batch_decode(ids, skip_special_tokens=True,
                                                       clean_up_tokenization_spaces=False))
     if device == 'cuda':
@@ -198,7 +206,8 @@ def main():
     metadata = dict(model_dir=str(args.model_dir), offset=args.offset, beams=args.beams,
                   device=device, precision=str(next(model.parameters()).dtype),
                   cpu_threads=torch.get_num_threads(), generation_seconds=generation_seconds,
-                  batch_size=64, max_input_tokens=128, max_new_tokens=192,
+                  batch_size=64, max_input_tokens=args.max_input_tokens or None, max_new_tokens=args.max_new_tokens,
+                  generation_limit_hits=generation_limit_hits,
                   model_sha256=hashlib.sha256((args.model_dir/'model.safetensors').read_bytes()).hexdigest(),
                   evaluator_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   questions_sha256=hashlib.sha256(json.dumps([r['question'] for r in examples],ensure_ascii=False).encode()).hexdigest(),

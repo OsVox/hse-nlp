@@ -25,6 +25,7 @@ def generate_predictions(
     *,
     batch_size: int = 64,
     max_new_tokens: int = 192,
+    max_input_tokens: int = 128,
     num_beams: int = 1,
     syntax_retry: bool = False,
     precision: str = "fp32",
@@ -32,7 +33,7 @@ def generate_predictions(
     tokenizer: PreTrainedTokenizerFast | None = None,
 ) -> tuple[int, float]:
     """Keep test order, save a CSV, and return (row count, generation seconds)."""
-    if batch_size < 1 or max_new_tokens < 1 or num_beams < 1:
+    if batch_size < 1 or max_new_tokens < 1 or num_beams < 1 or max_input_tokens < 0:
         raise ValueError("batch_size, max_new_tokens and num_beams must be positive")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if device.type != "cuda":
@@ -56,7 +57,8 @@ def generate_predictions(
     started = time.monotonic()
     # Include sorting, tokenization, generation, and CSV writing in the timing.
     # Токенизируем один раз; сортировка и повторная генерация используют эти же ID.
-    encoded = tokenizer(questions, truncation=True, max_length=128,
+    encoded = tokenizer(questions, **({'truncation':True,'max_length':max_input_tokens}
+                        if max_input_tokens else {'truncation':False}),
                         return_token_type_ids=False)
     lengths = [len(ids) for ids in encoded["input_ids"]]
 
@@ -148,6 +150,9 @@ def generate_predictions(
         "num_beams": num_beams, "syntax_retry_beams": 4 if syntax_retry else 0,
         "do_sample": False, "selection": "greedy" if num_beams == 1 and not syntax_retry else "beam_or_retry",
         "max_new_tokens": max_new_tokens, "handwritten_repairs": 0,
+        "max_input_tokens": max_input_tokens or None,
+        "generation_limit_hits": sum(len(ids)==max_new_tokens+1 and tokenizer.eos_token_id not in ids[1:]
+                                      for ids in selected_tokens),
         "selected_token_ids": selected_tokens,
     }
     output_file.with_suffix(".provenance.json").write_text(json.dumps(provenance), encoding="utf-8")
@@ -164,11 +169,13 @@ if __name__ == "__main__":
     parser.add_argument("--precision", choices=["auto", "fp32", "fp16", "bf16"], default="fp32")
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--max-new-tokens", type=int, default=192)
+    parser.add_argument('--max-input-tokens', type=int, default=128, help='Zero keeps complete questions')
     parser.add_argument("--num-beams", type=int, default=1)
     parser.add_argument("--syntax-retry", action="store_true", help="Opt in to the historical beam fallback")
     args = parser.parse_args()
     generate_predictions(
         args.model_dir, args.output_file, args.cache_dir,
         batch_size=args.batch_size, max_new_tokens=args.max_new_tokens, precision=args.precision,
+        max_input_tokens=args.max_input_tokens,
         num_beams=args.num_beams, syntax_retry=args.syntax_retry,
     )

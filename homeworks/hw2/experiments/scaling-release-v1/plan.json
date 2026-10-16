@@ -29,8 +29,9 @@
     },
     {
       "id": "learning_curve_confirmation",
-      "status": "pending",
-      "next": "Compare surviving size/recipe candidates at matched measured GPU-time budgets, capped at 10 training minutes per arm, with multiple checkpoints. Confirm the winner with another seed before an expensive run; retain AdamW for mature-checkpoint continuation because Muon transfer failed."
+      "status": "cpu_preparation",
+      "next": "Compare AdamW42, Muon42 and Muon78 at600 measured training seconds each, two checkpoints per arm. The longer horizon is a distinct test from the prior2048-step screen. Repeat a winning alternative versus AdamW42 with a second seed, then proceed to the authorized full pass.",
+      "evidence": "../matched-curve-v1/plan.json"
     }
   ],
   "scope_boundary": "Finish this finite priority list. Reopen rejected methods only for a concrete new diagnosis. Do not claim all conceivable optimizations are exhausted.",
@@ -42,7 +43,7 @@
       "trajectory stability"
     ],
     "caveat": "The existing held-out subsets have been reused; results are exploratory. Reserve fresh question groups and exclude them from training before final recipe confirmation. Public leaderboard results are reporting outcomes, not recipe-selection targets.",
-    "fresh_holdout_preparation": "fresh-holdout-v1 reserves 2048 groups from shard59; no model has used it. Clean only for new scratch runs with derived exclusions. Its corpus representativeness is not established."
+    "fresh_holdout_preparation": "fresh-holdout-v2:2048 fixed groups balanced across59 source shards. v1 was retired before model evaluation. Only future scratch models with the v2 exclusion index are cleanly held out."
   },
   "long_run": {
     "status": "not_started",

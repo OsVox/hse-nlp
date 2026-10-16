@@ -107,10 +107,22 @@
     "reference_parameters": 42481152
   },
   "fresh_holdout": {
-    "evidence": "fresh-holdout-v1",
+    "evidence": "fresh-holdout-v2",
     "questions": 2048,
-    "eligible_rows": 11833861,
+    "source_shards": 59,
+    "eligible_rows": 11834223,
     "historical_checkpoints_may_have_seen_questions": true,
-    "representativeness_verified": false
+    "representativeness_verified": false,
+    "selection_before_model_evaluation": true
+  },
+  "matched_compute_comparison": {
+    "evidence": "matched-curve-v1",
+    "status": "cpu_preparation",
+    "training_seconds_per_arm": 600,
+    "arms": [
+      "adamw42",
+      "muon42",
+      "muon78"
+    ]
   }
 }

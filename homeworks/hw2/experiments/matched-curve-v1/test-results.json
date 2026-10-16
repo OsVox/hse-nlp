@@ -1,0 +1,8 @@
+{
+  "cpu_only": true,
+  "focused_suite_passed": 39,
+  "focused_suite_seconds": 6.85,
+  "strengthened_resume_tests_passed": 4,
+  "strengthened_resume_seconds": 3.17,
+  "exact_cpu_resumed_weights_equal": true
+}

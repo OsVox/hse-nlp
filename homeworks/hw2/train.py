@@ -26,6 +26,7 @@ from .checkpoint_io import archive_checkpoint, drive_preflight, package_jsonl, s
 from .input_pipeline import encoded_batches, prefetch_batches, to_device
 from .digit_tokenization import load_training_tokenizer
 from .token_weighting import token_weights, weighted_loss
+from .training_budget import TrainingClock, capture_rng, restore_rng
 
 SOURCE_LENGTH = 128
 TARGET_LENGTH = 192
@@ -158,7 +159,7 @@ def save_checkpoint(
     model: T5ForConditionalGeneration, optimizer: torch.optim.Optimizer,
     scheduler: torch.optim.lr_scheduler.LambdaLR, scaler: torch.amp.GradScaler,
     step: int, tokenizer: PreTrainedTokenizerFast, directory: Path,
-    *, coverage=None,
+    *, coverage=None, decoder_generator=None,
 ) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     model.save_pretrained(directory, safe_serialization=True)
@@ -168,6 +169,8 @@ def save_checkpoint(
         "optimizer": optimizer.state_dict(),
         "scheduler": scheduler.state_dict(),
         "scaler": scaler.state_dict(),
+        "rng": capture_rng(),
+        "decoder_generator": decoder_generator.get_state() if decoder_generator is not None else None,
     }, directory / "training_state.pt")
     (directory / "step.json").write_text(json.dumps({"step": step}))
     if coverage is not None:
@@ -230,6 +233,10 @@ def main() -> None:
     parser.add_argument('--initialization-vocab-size', type=int, default=None,
                         help='Initialize at a common vocabulary size, then shrink; fresh matched trials only')
     parser.add_argument("--steps", type=int, default=30_000)
+    parser.add_argument('--max-training-seconds', type=float, default=None,
+                        help='Stop after a completed update; excludes checkpoint/evaluation work')
+    parser.add_argument('--checkpoint-training-seconds', type=float, default=None,
+                        help='Retain checkpoints at measured training-time intervals')
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--accumulation", type=int, default=4)
     parser.add_argument("--max-shards", type=int, default=SHARDS)
@@ -277,11 +284,17 @@ def main() -> None:
                         help="Save model-generated test JSONL for every archived checkpoint")
     parser.add_argument('--prediction-batch-size', type=int, default=64,
                         help='Generation batch for checkpoint exports; does not change training batches')
+    parser.add_argument('--prediction-max-input-tokens', type=int, default=128)
+    parser.add_argument('--prediction-max-new-tokens', type=int, default=192)
     parser.add_argument('--resume-from', type=Path, default=None,
                         help='Verified checkpoint from our own earlier run; use a new output directory')
     parser.add_argument('--restart-schedule', action='store_true',
                         help='Retain optimizer moments but warm up a new schedule over the remaining updates')
     args = parser.parse_args()
+    try:
+        training_clock = TrainingClock(args.max_training_seconds, args.checkpoint_training_seconds)
+    except ValueError as error:
+        parser.error(str(error))
     if args.muon_learning_rate is not None and (args.optimizer != 'muon' or
             not math.isfinite(args.muon_learning_rate) or args.muon_learning_rate <= 0):
         parser.error('Positive Muon learning rate requires --optimizer muon')
@@ -334,6 +347,8 @@ def main() -> None:
         parser.error('--predict-at-checkpoint requires --drive-root')
     if args.prediction_batch_size < 1:
         parser.error('--prediction-batch-size must be positive')
+    if args.prediction_max_input_tokens < 0 or args.prediction_max_new_tokens < 1:
+        parser.error('Prediction limits require nonnegative input and positive output lengths')
     if args.restart_schedule and args.resume_from is None:
         parser.error('--restart-schedule requires --resume-from')
     if args.reset_optimizer and not (args.resume_from is not None and args.restart_schedule):
@@ -370,6 +385,9 @@ def main() -> None:
     tokenizer = load_training_tokenizer(tokenizer_path, individual_digits=args.individual_digits)
     previous_config_path = load_checkpoint / 'run_config.json'
     previous_config = json.loads(previous_config_path.read_text()) if previous_config_path.exists() else {}
+    if args.max_training_seconds is not None and previous_config and not args.restart_schedule:
+        if any(getattr(args,key) != previous_config[key] for key in ('steps','warmup','learning_rate')):
+            parser.error('Timed resume must preserve the original full-run learning-rate schedule')
     coverage = None
     if previous_config.get('coverage_index') and args.coverage_index is None:
         parser.error('Resume must preserve the full-coverage stream')
@@ -463,10 +481,16 @@ def main() -> None:
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, multiplier)
     scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda" and dtype == torch.float16)
     start_step = 0
+    resume_rng = None
+    resume_decoder_rng = None
     if (load_checkpoint / "training_state.pt").exists():
         state = torch.load(load_checkpoint / "training_state.pt", map_location="cpu", weights_only=False)
         start_step = restore_training_state(state, optimizer, scheduler, scaler,
                                             reset=args.reset_optimizer)
+        resume_rng = state.get('rng')
+        resume_decoder_rng = state.get('decoder_generator')
+        if args.max_training_seconds is not None and not args.reset_optimizer and resume_rng is None:
+            raise ValueError('Timed resume requires a checkpoint with saved RNG state')
         print(f"resumed_at_step={start_step} optimizer_reset={args.reset_optimizer}", flush=True)
     if args.restart_schedule:
         scheduler = continuation_scheduler(
@@ -516,10 +540,20 @@ def main() -> None:
     if args.decoder_input_dropout:
         from .decoder_dropout import decoder_dropout_inputs
         decoder_generator = torch.Generator(device=device).manual_seed(args.seed + start_step + 2026101604)
+        if resume_decoder_rng is not None:
+            decoder_generator.set_state(resume_decoder_rng)
+    if resume_rng is not None and not args.reset_optimizer:
+        restore_rng(resume_rng)
+    if start_step >= args.steps:
+        raise ValueError('Training budget must exceed the saved step')
     start_time = time.monotonic()
     examples_processed = 0
     tokens_processed = torch.zeros(2, dtype=torch.int64, device=device)
+    last_step = start_step
+    saved_steps = []
+    stop_reason = 'step_budget'
     for step in range(start_step + 1, args.steps + 1):
+        training_clock.begin_update()
         score = None
         optimizer.zero_grad(set_to_none=True)
         # Не копируем loss на CPU после каждого микробатча: это ждёт GPU.
@@ -564,6 +598,10 @@ def main() -> None:
         for receipt in coverage_receipts:
             coverage.commit(receipt)
         scheduler.step()
+        last_step = step
+        if args.max_training_seconds is not None and device.type == 'cuda':
+            torch.cuda.synchronize()
+        timed_checkpoint, time_exhausted = training_clock.end_update()
         if step == 1 or step % 50 == 0:
             elapsed = time.monotonic() - start_time
             print(f"step={step} train_loss={running_loss:.4f} elapsed_s={elapsed:.1f}", flush=True)
@@ -574,9 +612,10 @@ def main() -> None:
                 best_loss = score
                 save_best_model(model, tokenizer, step, score, best_directory)
                 print(f"best_step={step} best_val_token_loss={score:.4f}", flush=True)
-        if step % args.save_every == 0 or step == args.steps:
+        if step % args.save_every == 0 or step == args.steps or timed_checkpoint or time_exhausted:
             save_checkpoint(model, optimizer, scheduler, scaler, step, tokenizer, checkpoint,
-                            coverage=coverage)
+                            coverage=coverage, decoder_generator=decoder_generator)
+            saved_steps.append(step)
             (checkpoint / 'run_config.json').write_text((args.output_dir / 'run_config.json').read_text())
             if coverage is not None:
                 print('coverage='+json.dumps(coverage.checkpoint()['report']), flush=True)
@@ -593,7 +632,9 @@ def main() -> None:
                     output = archived / 'predictions.csv'
                     generate_predictions(archived, output, args.cache_dir,
                                          model=model, tokenizer=tokenizer, precision='fp32',
-                                         batch_size=args.prediction_batch_size)
+                                         batch_size=args.prediction_batch_size,
+                                         max_input_tokens=args.prediction_max_input_tokens,
+                                         max_new_tokens=args.prediction_max_new_tokens)
                     digest = package_jsonl(output, archived / 'predictions.jsonl')
                     (archived / 'results.complete.json').write_text(json.dumps({
                         'step': step, 'jsonl_sha256': digest,
@@ -602,14 +643,20 @@ def main() -> None:
                     }, indent=2))
                     model.train()
                     print(f'checkpoint_ready_for_bot={archived} jsonl_sha256={digest}', flush=True)
+        if time_exhausted:
+            stop_reason = 'training_time_budget'
+            break
     if hasattr(batches, 'close'):
         batches.close()
-    print(f"finished_steps={args.steps}", flush=True)
+    print(f"finished_steps={last_step}", flush=True)
     if device.type == 'cuda':
         torch.cuda.synchronize()
     source_tokens, target_tokens = tokens_processed.tolist()
     budget = dict(examples_processed=examples_processed, source_tokens=source_tokens,
-        target_tokens=target_tokens, updates=args.steps-start_step,
+        target_tokens=target_tokens, updates=last_step-start_step,
+        final_step=last_step, planned_final_step=args.steps, stop_reason=stop_reason,
+        training_seconds=training_clock.elapsed, max_training_seconds=args.max_training_seconds,
+        checkpoint_steps=saved_steps,
         loop_seconds_including_checkpoint_evaluation=time.monotonic()-start_time,
         process_seconds_including_setup=time.monotonic()-script_started,
         torch_version=torch.__version__, optimizer=args.optimizer)

@@ -18,3 +18,14 @@ def test_removes_all_reserved_copies_without_reintroducing_old_exclusions():
     filtered=exclude_indices(['old','a','b','a','c','d'],original,{'a','c'})
     assert filtered.tolist()==[2,5]
     assert original.tolist()==[1,2,3,5]
+
+
+def test_stratified_selection_balances_sources_excludes_duplicate_groups_and_ignores_answers():
+    from homeworks.hw2.fresh_holdout import choose_stratified
+    shards=[(i,[dict(question=q,code=str(j)) for j,q in enumerate(['forbidden','shared']+[f'{i}-{j}' for j in range(20)])]) for i in range(1,4)]
+    selected=choose_stratified(shards,{'forbidden'},count=8)
+    assert [sum(s==i for s,_,_ in selected) for i in range(1,4)]==[3,3,2]
+    questions=[r['question'] for _,_,r in selected]
+    assert len(set(questions))==8 and 'forbidden' not in questions
+    changed=[(s,[dict(r,code='changed') for r in rows]) for s,rows in shards]
+    assert [(s,i) for s,i,_ in selected]==[(s,i) for s,i,_ in choose_stratified(changed,{'forbidden'},count=8)]
