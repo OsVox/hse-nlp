@@ -1,0 +1,34 @@
+{
+  "gpu_used": false,
+  "parent_manifest_verified": true,
+  "parent_model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "arms": {
+    "control": {
+      "finite_forward_backward_update": true,
+      "retained_step": 73024,
+      "reset_optimizer": false,
+      "loss": 1.4523062705993652
+    },
+    "adamw_reset": {
+      "finite_forward_backward_update": true,
+      "retained_step": 73024,
+      "reset_optimizer": true,
+      "loss": 1.4013944864273071
+    },
+    "muon_low": {
+      "finite_forward_backward_update": true,
+      "retained_step": 73024,
+      "reset_optimizer": true,
+      "loss": 1.3311877250671387
+    },
+    "muon_high": {
+      "finite_forward_backward_update": true,
+      "retained_step": 73024,
+      "reset_optimizer": true,
+      "loss": 1.4615442752838135
+    }
+  },
+  "seconds": 178.7738808330032,
+  "torch_version": "2.9.0",
+  "note": "Two original rows, CPU FP32; verifies restore/reset and finite updates, not quality or BF16 speed."
+}

@@ -1,0 +1,6 @@
+{
+  "command": "pytest homeworks/hw2/tests/test_optimizers.py homeworks/hw2/tests/test_continuation.py homeworks/hw2/tests/test_muon_transfer.py -q",
+  "passed": 11,
+  "seconds": 3.09,
+  "scope": "Optimizer partition/state, explicit reset, continuation schedule, transfer gate and run budget."
+}

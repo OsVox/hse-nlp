@@ -230,6 +230,8 @@ def main() -> None:
     parser.add_argument("--learning-rate", type=float, default=3e-4)
     parser.add_argument('--optimizer', choices=['adamw', 'muon'], default='adamw')
     parser.add_argument('--muon-learning-rate', type=float, default=None)
+    parser.add_argument('--reset-optimizer', action='store_true',
+                        help='Explicit new continuation: retain weights/step, reset optimizer, scaler and schedule')
     parser.add_argument('--numeric-token-weight', type=float, default=1.0,
                         help='Experimental loss weight for numeric/operator pieces; original targets stay unchanged')
     parser.add_argument('--label-smoothing', type=float, default=0.0)
@@ -298,6 +300,8 @@ def main() -> None:
         parser.error('--prediction-batch-size must be positive')
     if args.restart_schedule and args.resume_from is None:
         parser.error('--restart-schedule requires --resume-from')
+    if args.reset_optimizer and not (args.resume_from is not None and args.restart_schedule):
+        parser.error('--reset-optimizer requires --resume-from and --restart-schedule')
     parent = None
     if args.resume_from is not None:
         if args.output_dir.exists():
@@ -378,9 +382,9 @@ def main() -> None:
         'initial_nonembedding_sha256': initial_nonembedding_sha256,
     }, indent=2))
 
-    from .optimizers import make_optimizer
-    if (load_checkpoint / 'training_state.pt').exists() and previous_config.get('optimizer', 'adamw') != args.optimizer:
-        parser.error('Changing optimizer requires a fresh run; moments cannot be reused across optimizer types')
+    from .optimizers import make_optimizer, restore_training_state
+    if (load_checkpoint / 'training_state.pt').exists() and previous_config.get('optimizer', 'adamw') != args.optimizer and not args.reset_optimizer:
+        parser.error('Changing optimizer requires --reset-optimizer; moments cannot be reused across optimizer types')
     optimizer = make_optimizer(model, args.optimizer, learning_rate=args.learning_rate,
                                muon_learning_rate=args.muon_learning_rate)
 
@@ -395,12 +399,9 @@ def main() -> None:
     start_step = 0
     if (load_checkpoint / "training_state.pt").exists():
         state = torch.load(load_checkpoint / "training_state.pt", map_location="cpu", weights_only=False)
-        optimizer.load_state_dict(state["optimizer"])
-        scheduler.load_state_dict(state["scheduler"])
-        if scaler.is_enabled() and state["scaler"]:
-            scaler.load_state_dict(state["scaler"])
-        start_step = state["step"]
-        print(f"resumed_at_step={start_step}", flush=True)
+        start_step = restore_training_state(state, optimizer, scheduler, scaler,
+                                            reset=args.reset_optimizer)
+        print(f"resumed_at_step={start_step} optimizer_reset={args.reset_optimizer}", flush=True)
     if args.restart_schedule:
         scheduler = continuation_scheduler(
             optimizer, learning_rate=args.learning_rate, start_step=start_step,
@@ -417,8 +418,10 @@ def main() -> None:
         for group, lr in zip(optimizer.param_groups, scheduler.get_last_lr()):
             group['lr'] = lr
 
+    if (load_checkpoint / 'training_state.pt').exists():
+        del state
     # A resumed run uses a new deterministic stream of the supplied train split.
-    # Its optimizer state continues; it does not claim exact batch replay.
+    # Optimizer state continues unless explicitly reset; no exact batch replay.
     batches = training_batches(
         args.cache_dir, args.batch_size, seed=args.seed + start_step,
         max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,

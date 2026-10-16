@@ -77,3 +77,13 @@ def make_optimizer(model, name, *, learning_rate, muon_learning_rate=None):
         return MuonAdamW(model, lr=learning_rate,
                          muon_lr=muon_learning_rate or learning_rate)
     raise ValueError(name)
+
+
+def restore_training_state(state, optimizer, scheduler, scaler, *, reset=False):
+    """Retain the model's update count; optionally start fresh optimizer state."""
+    if not reset:
+        optimizer.load_state_dict(state['optimizer'])
+        scheduler.load_state_dict(state['scheduler'])
+        if scaler.is_enabled() and state['scaler']:
+            scaler.load_state_dict(state['scaler'])
+    return state['step']

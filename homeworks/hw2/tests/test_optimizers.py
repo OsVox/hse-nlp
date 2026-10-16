@@ -64,3 +64,34 @@ def test_default_adamw_remains_exact():
     ref=torch.optim.AdamW(b.parameters(),lr=.001,weight_decay=.01)
     gradients(a);gradients(b);opt.step();ref.step()
     for x,y in zip(a.parameters(),b.parameters()):torch.testing.assert_close(x,y,rtol=0,atol=0)
+
+
+@pytest.mark.parametrize('kind', ['adamw', 'muon'])
+def test_explicit_reset_retains_step_and_weights_without_loading_old_moments(kind):
+    from homeworks.hw2.optimizers import restore_training_state
+    model=tiny();old=make_optimizer(model,'adamw',learning_rate=.001)
+    old_sch=torch.optim.lr_scheduler.LambdaLR(old,lambda s:1.)
+    gradients(model);old.step();old_sch.step()
+    before=[p.detach().clone() for p in model.parameters()]
+    state=dict(step=73024,optimizer=copy.deepcopy(old.state_dict()),
+               scheduler=old_sch.state_dict(),scaler=None)
+    opt=make_optimizer(model,kind,learning_rate=.00003,muon_learning_rate=.0001)
+    sch=torch.optim.lr_scheduler.LambdaLR(opt,lambda s:1.)
+    scaler=torch.amp.GradScaler('cuda',enabled=False)
+    assert restore_training_state(state,opt,sch,scaler,reset=True)==73024
+    assert not opt.state
+    if kind=='muon':assert not opt.muon.state and not opt.adamw.state
+    for x,y in zip(model.parameters(),before):assert torch.equal(x,y)
+    sch=continuation_scheduler(opt,learning_rate=.00003,start_step=73024,end_step=74048,warmup=50)
+    gradients(model);opt.step();sch.step()
+    assert all(torch.isfinite(p).all() for p in model.parameters())
+    if kind=='muon':assert opt.param_groups[0]['lr']/opt.param_groups[1]['lr']==pytest.approx(10/3)
+
+
+def test_unreset_transfer_rejects_adamw_moments():
+    from homeworks.hw2.optimizers import restore_training_state
+    model=tiny();opt=make_optimizer(model,'muon',learning_rate=.00003,muon_learning_rate=.0001)
+    sch=torch.optim.lr_scheduler.LambdaLR(opt,lambda s:1.)
+    state=dict(step=73024,optimizer=torch.optim.AdamW(model.parameters()).state_dict())
+    with pytest.raises(ValueError,match='Cannot reinterpret'):
+        restore_training_state(state,opt,sch,torch.amp.GradScaler('cuda',enabled=False))
