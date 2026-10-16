@@ -1,0 +1,18 @@
+{
+  "status": "preregistered",
+  "model": "Best verified scratch-trained 42.48M encoder-decoder checkpoint",
+  "rows": "Reserved training shard 0 rows 0:256",
+  "device": "cpu",
+  "training": false,
+  "public_test_used": false,
+  "hypothesis": "Some number-piece errors may be recoverable by a learned source-copy distribution. Measure availability and existing cross-attention alignment before changing architecture.",
+  "measurements": [
+    "Original teacher-forced next-token accuracy",
+    "Exact source token-ID coverage of supplied reference number/operator pieces",
+    "Number of wrong reference tokens that exist in the source",
+    "All-head-average and individual-head source-copy accuracy; descriptive only"
+  ],
+  "decision": "Do not infer an achievable score gain from oracle availability. If opportunities exist, consider a learned mixture trained only on original supplied targets and evaluated against a matched control. Do not select a head or rewrite outputs using this audit.",
+  "reference": "https://aclanthology.org/P17-1099/",
+  "previous_goal_turn": "Progress: three matched dropout runs completed, negative held-out/bot evidence recorded, best retained, runtime released."
+}
