@@ -1,0 +1,12 @@
+{
+  "source_commit": "1d7ce0c3ec3ceae7d65e8d5153d308d5a5f69b8f",
+  "driver_returncode": 1,
+  "driver_log_bytes": 0,
+  "observed_finalizer_error": "OSError(107, 'Transport endpoint is not connected')",
+  "driver_exception": "Unavailable: Drive log was empty",
+  "diagnostic_error": "Flushing the already closed log raised ValueError; finally requested runtime release",
+  "training_checkpoints": 0,
+  "release_verified": "Colab Manage Sessions: no active sessions",
+  "approximate_gpu_allocation": "2026-10-16 14:29-14:32 +03:00; minute precision",
+  "fix": "Use local driver log, always release in outer finally, preserve status and local log tail if Drive export fails, verify Drive before staging inputs"
+}

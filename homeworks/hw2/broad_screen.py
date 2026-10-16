@@ -57,7 +57,10 @@ try:
     assert (work/'source_commit.txt').read_text().strip()==ready['source_commit']
     os.environ['USE_TF']='0';os.environ['USE_FLAX']='0'
     subprocess.run([sys.executable,'-m','pip','-q','install','transformers==4.57.6','pyarrow>=18','requests>=2.31'],check=True,timeout=180)
-    full_log=(prepared/'execution.log').open('w')
+    sys.path.insert(0,str(work))
+    from homeworks.hw2.runtime_guard import finalize_run
+    local_log=work/'execution.log'
+    full_log=local_log.open('w')
     full_process=subprocess.Popen([sys.executable,'-u','-m','homeworks.hw2.broad_screen','--gpu'],cwd=work,stdout=full_log,stderr=subprocess.STDOUT,start_new_session=True)
     async def finish_full(full_process=full_process, full_log=full_log, prepared=prepared):
         status={'pid':full_process.pid,'started_utc':time.time()}
@@ -71,9 +74,7 @@ try:
                 try:await asyncio.wait_for(asyncio.to_thread(full_process.wait),timeout=10)
                 except asyncio.TimeoutError:os.killpg(full_process.pid,signal.SIGKILL)
         finally:
-            full_log.close();status['finished_utc']=time.time()
-            try:(prepared/'execution.complete.json').write_text(json.dumps(status,indent=2))
-            finally:runtime.unassign()
+            finalize_run(full_log,status,prepared,local_log,runtime.unassign)
     full_task=asyncio.create_task(finish_full())
     print('SHORT_SCREEN_STARTED',full_process.pid,'Hard bound 2400 seconds; eight matched 1k arms only.')
 except BaseException:

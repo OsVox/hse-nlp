@@ -110,6 +110,7 @@ def prepare():
 def run():
     import torch
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
+    drive_preflight(ROOT)
     ready=json.loads((PREPARED/'ready.json').read_text())
     assert ready['cpu_verified'] and ready['plan']==PLAN
     assert Path('source_commit.txt').read_text().strip()==ready['source_commit']
