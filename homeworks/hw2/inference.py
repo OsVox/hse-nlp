@@ -26,6 +26,7 @@ def generate_predictions(
     batch_size: int = 64,
     max_new_tokens: int = 192,
     num_beams: int = 1,
+    syntax_retry: bool = False,
     precision: str = "fp32",
     model: T5ForConditionalGeneration | None = None,
     tokenizer: PreTrainedTokenizerFast | None = None,
@@ -93,7 +94,7 @@ def generate_predictions(
             except SyntaxError:
                 invalid.append(index)
         repaired = 0
-        for offset in range(0, len(invalid), batch_size):
+        for offset in range(0, len(invalid) if syntax_retry else 0, batch_size):
             indices = invalid[offset:offset + batch_size]
             batch = make_batch(indices)
             generated = model.generate(
@@ -144,7 +145,8 @@ def generate_predictions(
         "generation_seconds": elapsed,
         "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else None,
         "precision": str(dtype), "batch_size": batch_size,
-        "num_beams": num_beams, "syntax_retry_beams": 4,
+        "num_beams": num_beams, "syntax_retry_beams": 4 if syntax_retry else 0,
+        "do_sample": False, "selection": "greedy" if num_beams == 1 and not syntax_retry else "beam_or_retry",
         "max_new_tokens": max_new_tokens, "handwritten_repairs": 0,
         "selected_token_ids": selected_tokens,
     }
@@ -163,9 +165,10 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--max-new-tokens", type=int, default=192)
     parser.add_argument("--num-beams", type=int, default=1)
+    parser.add_argument("--syntax-retry", action="store_true", help="Opt in to the historical beam fallback")
     args = parser.parse_args()
     generate_predictions(
         args.model_dir, args.output_file, args.cache_dir,
         batch_size=args.batch_size, max_new_tokens=args.max_new_tokens, precision=args.precision,
-        num_beams=args.num_beams,
+        num_beams=args.num_beams, syntax_retry=args.syntax_retry,
     )
