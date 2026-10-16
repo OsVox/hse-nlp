@@ -72,3 +72,11 @@ and verify it locally. The GPU notebook restores those bundles even after a
 fresh runtime; each 2,000-update checkpoint saves weights, optimizer state,
 validation loss and exact model-generated JSONL in its own Drive folder.
 Bot receipts are recorded beside each evaluated JSONL; pending is not a score.
+
+Download finished artifacts directly with an authenticated local `gdrive` CLI;
+do not allocate or reconnect a Colab runtime just to export files. Check
+`gdrive account current`, locate the run with `gdrive files list --parent FOLDER_ID`,
+then use `gdrive files download FILE_ID --destination LOCAL_DIRECTORY`.
+Verify the downloaded archive's SHA-256 against the saved run record, and run
+`verify_export.py` on each checkpoint before submitting. Authentication stays
+in the CLI's local credential store, outside this repository.

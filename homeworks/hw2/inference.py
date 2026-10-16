@@ -25,13 +25,14 @@ def generate_predictions(
     *,
     batch_size: int = 64,
     max_new_tokens: int = 192,
+    num_beams: int = 1,
     precision: str = "fp32",
     model: T5ForConditionalGeneration | None = None,
     tokenizer: PreTrainedTokenizerFast | None = None,
 ) -> tuple[int, float]:
     """Keep test order, save a CSV, and return (row count, generation seconds)."""
-    if batch_size < 1 or max_new_tokens < 1:
-        raise ValueError("batch_size and max_new_tokens must be positive")
+    if batch_size < 1 or max_new_tokens < 1 or num_beams < 1:
+        raise ValueError("batch_size, max_new_tokens and num_beams must be positive")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if device.type != "cuda":
         print("Timing is not a T4 result: CUDA is unavailable")
@@ -71,7 +72,7 @@ def generate_predictions(
             generated = model.generate(
                 **batch,
                 max_new_tokens=max_new_tokens,
-                num_beams=1,
+                num_beams=num_beams,
                 do_sample=False,
                 use_cache=True,
             )
@@ -81,7 +82,7 @@ def generate_predictions(
                 selected_tokens[index] = token_ids
 
         # Give malformed answers a second chance. The fallback only changes
-        # programs that already fail Python parsing, so valid greedy outputs
+        # programs that already fail Python parsing, so valid primary outputs
         # keep their original decoding.
         invalid = []
         for index, answer in enumerate(answers):
@@ -143,6 +144,7 @@ def generate_predictions(
         "generation_seconds": elapsed,
         "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else None,
         "precision": str(dtype), "batch_size": batch_size,
+        "num_beams": num_beams, "syntax_retry_beams": 4,
         "max_new_tokens": max_new_tokens, "handwritten_repairs": 0,
         "selected_token_ids": selected_tokens,
     }
@@ -160,8 +162,10 @@ if __name__ == "__main__":
     parser.add_argument("--precision", choices=["auto", "fp32", "fp16", "bf16"], default="fp32")
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--max-new-tokens", type=int, default=192)
+    parser.add_argument("--num-beams", type=int, default=1)
     args = parser.parse_args()
     generate_predictions(
         args.model_dir, args.output_file, args.cache_dir,
         batch_size=args.batch_size, max_new_tokens=args.max_new_tokens, precision=args.precision,
+        num_beams=args.num_beams,
     )

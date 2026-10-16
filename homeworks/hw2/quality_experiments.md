@@ -420,3 +420,18 @@ a production-pipeline batch-speed probe, equal-example quality pilots only
 if the batch changes, and a 20k-equivalent continuation stage. This is a plan,
 not a completed result. All checkpoints must be saved to Drive and evaluated
 in the bot; the session is capped at 45 minutes. No full-corpus run is started.
+
+### Planned step-180k decoding check after measured T4 speedup
+
+The actual T4 batch-256 baseline now takes about 10.6 seconds for all 1,919
+questions. Revisit four-beam search on the unchanged established 180k model:
+the older 120k held-out comparison gained 5/245 correct numeric answers, but
+its T4 cost had been unknown. Compare greedy and four beams on the same
+reserved training questions before any public submission. Keep weights,
+precision, token limits, exact decoding, and syntax-only retry unchanged.
+Record the primary beam count explicitly in prediction provenance. Prepare
+and verify inputs on CPU; only run the full official test on T4 if the held-out
+comparison improves. Require the full measured generation to remain below
+180 seconds, then submit that one new exact JSONL and preserve its bot receipt.
+The current grouped training job remains on its pinned source; this change
+only prepares a later decoding experiment.
