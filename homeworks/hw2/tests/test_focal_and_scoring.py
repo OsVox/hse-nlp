@@ -57,6 +57,27 @@ def test_saved_scoring_matches_direct_and_rejects_tampering(tmp_path):
     with pytest.raises(AssertionError):score_saved_generation(output)
 
 
+def test_focal_confirmation_requires_both_seeds_and_subsets():
+    from copy import deepcopy
+    from homeworks.hw2.focal_confirmation import PLAN, LAUNCH, paired_selection
+    def arm(a,b,f=1):
+        return {s:{'numeric_correct':v,'prediction_failures':f} for s,v in [('pilot',a),('confirmation',b)]}
+    previous={'results':{'control':arm(10,20), 'focal1':arm(11,21)}}
+    current={'control':arm(12,22), 'focal1':arm(13,23)}
+    assert paired_selection(current,previous)['confirmed']
+    current['focal1']=arm(12,24)
+    assert not paired_selection(current,previous)['confirmed']
+    current['focal1']=arm(13,23,2)
+    assert not paired_selection(current,previous)['confirmed']
+    current['focal1']=arm(13,23)
+    failed_previous=deepcopy(previous)
+    failed_previous['results']['focal1']=arm(9,24)
+    assert not paired_selection(current,failed_previous)['confirmed']
+    assert all(a['seed']==1042 for a in PLAN['arms'].values())
+    assert PLAN['final_step']-PLAN['parent_step']==1024
+    compile(LAUNCH,'launch.py','exec')
+
+
 def test_cpu_scoring_process_has_no_torch_and_propagates_failure(tmp_path):
     output=tmp_path/'pilot.json'
     save_generation(output,['def solve():\n return 9'],['def solve():\n return 9'],{'offset':256})

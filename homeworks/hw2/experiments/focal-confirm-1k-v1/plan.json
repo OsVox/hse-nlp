@@ -1,0 +1,37 @@
+{
+  "status": "prepared_not_launched",
+  "parent_step": 70000,
+  "final_step": 71024,
+  "batch_size": 128,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "save_every": 71024,
+  "eval_every": 71024,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "arms": {
+    "control": {
+      "seed": 1042
+    },
+    "focal1": {
+      "seed": 1042,
+      "focal_gamma": 1.0
+    }
+  },
+  "added_example_presentations_per_arm": 131072,
+  "training_timeout_seconds": 400,
+  "outer_timeout_seconds": 900,
+  "hypothesis": "Repeat the shortlisted gamma-one loss with a second matched data/dropout seed.",
+  "limitations": "Both seeds reuse the same held-out questions; this is a robustness check, not independent validation or statistical significance. Focal modulation also changes gradient scale.",
+  "selection": "Require strictly positive gain in both held-out subsets for both seeds and no increase in total execution failures in either seed. No automatic long run.",
+  "expansion": "Persist every checkpoint and strict greedy test output to Drive; export and evaluate every checkpoint in bot. Public feedback is recorded separately.",
+  "training_updates_per_arm": 1024,
+  "overlap_cpu_scoring": true,
+  "research": "https://openaccess.thecvf.com/content_iccv_2017/html/Lin_Focal_Loss_for_ICCV_2017_paper.html; mechanism from detection, not evidence of benefit here",
+  "prior_seed": 42,
+  "confirmation_seed": 1042
+}
