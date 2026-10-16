@@ -1,0 +1,9 @@
+{
+  "hypothesis": "Duplicate question groups and variation in original program length may make supervision less efficient",
+  "scan": "All 60 original train shards; exclude all exact held-out question copies",
+  "sample": "2048 random original pairs per shard; seed 20261016+shard",
+  "gpu": false,
+  "creates_training_targets": false,
+  "source_commit": "6add585",
+  "next_decision": "Use measured duplication and length distributions to decide whether a short original-row sampling experiment is warranted. No automatic training."
+}

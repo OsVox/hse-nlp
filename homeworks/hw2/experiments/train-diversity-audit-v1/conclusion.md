@@ -1,0 +1,3 @@
+All 60 shards scanned on CPU. 11,836,444 eligible rows contain 10,920,597 distinct exact question hashes. Excess duplicates are 7.74%; 13.48% of rows belong to repeated questions. Among 122,880 sampled pairs, 0.173% of inputs exceed 128 tokens and 1.946% of targets exceed 192. This descriptive audit does not establish a causal benefit for filtering. Do not launch a large deduplication or target-cleaning run on this evidence.
+
+Next: a matched two-seed test of shuffled length-grouped batch order, preserving original data and padding cost. Optional implementation passed 13 focused checks; no training or score improvement claimed yet. GPU stayed off during the audit, and Colab showed no active sessions after completion.

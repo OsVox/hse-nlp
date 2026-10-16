@@ -1,0 +1,29 @@
+{
+  "status": "prepared_for_CPU_preflight_not_launched",
+  "parent_step": 70000,
+  "parent_model_sha256": "724b4c72914828f6f3facf72c1e7185953cd257df0cb29597f4b3bca5f24c0ac",
+  "training_steps_per_arm": 1024,
+  "final_step": 71024,
+  "batch_size": 128,
+  "example_presentations_per_arm": 131072,
+  "group_window": 32,
+  "seeds": [
+    42,
+    1042
+  ],
+  "arms": [
+    "ascending_control",
+    "shuffled_groups"
+  ],
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "precision": "bf16",
+  "save_every": 71024,
+  "eval_every": 71024,
+  "hypothesis": "Break deterministic short-to-long update cycles while preserving exact batch membership and padding cost",
+  "paired_controls": "Same parent weights and Adam moments; same example stream within each seed; only shuffle complete grouped batches",
+  "selection": "Require positive total held-out gain in each seed, nonnegative gain in each validation subset in each seed, and no increase in execution failures pooled across seeds. Reused validation is exploratory. No automatic long run.",
+  "decoding": "Strict greedy; exact saved output for all 1919 test questions, one bot submission per unique checkpoint output",
+  "durability": "CPU preflight first; Drive checkpoints and results before export; verify token decodes, source, hashes and question order; release GPU automatically",
+  "outer_budget_seconds": 1200
+}

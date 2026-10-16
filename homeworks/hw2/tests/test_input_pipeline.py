@@ -56,3 +56,23 @@ def test_closing_consumer_releases_full_queue_worker():
     while any(t.name == 'hw2-input-prefetch' for t in threads()) and time.monotonic() < deadline:
         time.sleep(.01)
     assert not any(t.name == 'hw2-input-prefetch' for t in threads())
+
+
+def test_shuffled_batch_order_preserves_exact_groups_and_is_reproducible():
+    tokenizer = PreTrainedTokenizerFast.from_pretrained('homeworks/hw2/tokenizer')
+    rows = [{'question': 'number ' * n, 'code': f'def solve():\n    return {n}\n'}
+            for n in range(1, 21)]
+    raw = [rows[i:i+2] for i in range(0, len(rows), 2)]
+
+    def batches(seed):
+        return list(encoded_batches(raw, tokenizer, 2, 5, shuffle_batch_seed=seed))
+
+    def identity(batch):
+        return tuple((k, tuple(v.shape), tuple(v.flatten().tolist())) for k, v in sorted(batch.items()))
+
+    original = [identity(b) for b in batches(None)]
+    shuffled = [identity(b) for b in batches(42)]
+    assert shuffled == [identity(b) for b in batches(42)]
+    assert shuffled != original
+    for start in (0, 5):
+        assert sorted(shuffled[start:start+5]) == sorted(original[start:start+5])

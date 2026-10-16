@@ -4,6 +4,7 @@ The reference text, sampling stream, grouping order, truncation, stop-token rule
 and loss mask match the original training path. No target text is rewritten.
 """
 from itertools import islice
+import random
 from queue import Empty, Full, Queue
 from threading import Event, Thread
 
@@ -25,13 +26,15 @@ def collate_tokens(sources, targets, *, pad_id, eos_id):
     return {'input_ids': inputs, 'attention_mask': mask, 'labels': labels}
 
 
-def encoded_batches(batches, tokenizer, batch_size, window, *, skip_truncated_targets=False):
+def encoded_batches(batches, tokenizer, batch_size, window, *, skip_truncated_targets=False,
+                    shuffle_batch_seed=None):
     if window < 1 or batch_size < 1:
         raise ValueError('batch size and grouping window must be positive')
     if tokenizer.padding_side != 'right':
         raise ValueError('This model pipeline requires right padding')
     batches = iter(batches)
     carry = []
+    order_rng = random.Random(shuffle_batch_seed)
     while chunk := list(islice(batches, window)):
         rows = [row for batch in chunk for row in batch]
         if not rows:
@@ -52,7 +55,11 @@ def encoded_batches(batches, tokenizer, batch_size, window, *, skip_truncated_ta
             groups = [list(range(len(rows)))]
         else:
             order = sorted(range(len(rows)), key=lambda i: (len(source[i]), len(target[i])))
-            groups = (order[start:start + batch_size] for start in range(0, len(order), batch_size))
+            groups = [order[start:start + batch_size] for start in range(0, len(order), batch_size)]
+        if shuffle_batch_seed is not None:
+            # Preserve the exact examples, batch membership and padding cost.
+            # Change only the short-to-long update order within each window.
+            order_rng.shuffle(groups)
         for indices in groups:
             yield collate_tokens([source[i] for i in indices], [target[i] for i in indices],
                                  pad_id=tokenizer.pad_token_id, eos_id=tokenizer.eos_token_id)

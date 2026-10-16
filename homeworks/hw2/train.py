@@ -175,6 +175,8 @@ def main() -> None:
                         help='Reuse grouping token IDs instead of tokenizing each batch again')
     parser.add_argument('--prefetch-batches', type=int, default=0,
                         help='Bounded CPU preparation queue; requires the encoded pipeline')
+    parser.add_argument('--shuffle-batch-order', action='store_true',
+                        help='Shuffle completed length-grouped batches within each window')
     parser.add_argument("--steps", type=int, default=30_000)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--accumulation", type=int, default=4)
@@ -214,6 +216,8 @@ def main() -> None:
         parser.error('continuation dropout requires a parent and a value in [0, 1)')
     if args.skip_truncated_targets and args.input_pipeline != 'encoded':
         parser.error('target filtering requires encoded pipeline')
+    if args.shuffle_batch_order and args.input_pipeline != 'encoded':
+        parser.error('batch-order shuffling requires encoded pipeline')
     if min(args.steps, args.batch_size, args.accumulation, args.max_shards) < 1:
         parser.error("steps, batch size, accumulation and max shards must be positive")
     if args.batches_per_shard is not None and args.batches_per_shard < 1:
@@ -350,7 +354,8 @@ def main() -> None:
         input_tokenizer = (PreTrainedTokenizerFast.from_pretrained(
             args.resume_from or 'homeworks/hw2/tokenizer') if args.prefetch_batches else tokenizer)
         batches = encoded_batches(batches, input_tokenizer, args.batch_size, args.group_window,
-                                  skip_truncated_targets=args.skip_truncated_targets)
+                                  skip_truncated_targets=args.skip_truncated_targets,
+                                  shuffle_batch_seed=(args.seed + start_step if args.shuffle_batch_order else None))
         batches = prefetch_batches(batches, args.prefetch_batches, pin_memory=device.type == 'cuda')
     else:
         batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)

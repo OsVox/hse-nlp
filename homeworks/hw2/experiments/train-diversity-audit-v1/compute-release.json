@@ -1,0 +1,6 @@
+{
+  "gpu_allocated": false,
+  "observed_state": "No active sessions",
+  "source": "Colab Manage Sessions UI",
+  "audit_process_returncode": 0
+}

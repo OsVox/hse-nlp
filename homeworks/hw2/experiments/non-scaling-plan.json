@@ -1,8 +1,14 @@
 {
   "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
-  "current_action": "Eight matched 1000-step trials completed; none passed the predefined shortlist gate; no combination or long run launched",
+  "current_action": "Completed CPU audit of all 60 training shards; implement and test optional grouped-batch shuffling, then run a matched two-seed short comparison",
   "gpu_state": "Released; Colab Manage Sessions reports no active sessions",
   "next_candidates": [
+    {
+      "name": "Shuffle grouped batch order",
+      "hypothesis": "Break repeated shortest-to-longest update cycles without changing the example pool, groups, or padding cost",
+      "status": "Implemented, 13 focused checks passed; four 1024-update arms across two seeds planned but not launched",
+      "plan": "batch-order-1k-v1/plan.json"
+    },
     {
       "name": "Question-balanced sampling",
       "hypothesis": "Repeated question texts may overweight some problems. Sample question groups more evenly while preserving their original programs.",
@@ -47,6 +53,7 @@
     "baseline_70k_public": "554/960, 57.71%, greedy, rank 8/15",
     "syntax_audit": "0 invalid syntax among 10473 original programs from shard 0; not a correctness guarantee",
     "numeric_weighting": "Best public score 59.69%; 11 more correct than matched control; mixed held-out evidence",
-    "broad_screen": "Eight 1000-step arms; none passed positive gain on both subsets with no added total execution failures"
+    "broad_screen": "Eight 1000-step arms; none passed positive gain on both subsets with no added total execution failures",
+    "full_training_audit": "10,920,597 exact question hashes; 7.74% excess duplicate rows; 0.173% input and 1.946% target truncation in 122,880 sampled original pairs; no GPU allocated"
   }
 }

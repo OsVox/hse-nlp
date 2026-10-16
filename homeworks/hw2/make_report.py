@@ -369,7 +369,24 @@ def build():
         if (screen/'execution.json').exists():
             execution=json.loads((screen/'execution.json').read_text())
             story += [p(f"Driver duration: {execution['elapsed_seconds']/60:.2f} minutes, including data restore, training, evaluation and saves. Colab allocation and Drive sign-in occur before this timer. No long run is launched automatically.")]
-    doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
+    audit = ROOT/'experiments/train-diversity-audit-v1'
+    if (audit/'results.json').exists():
+        r=json.loads((audit/'results.json').read_text())
+        story += [PageBreak(),p('Training distribution audit','Title'),
+            p('Before another GPU experiment, scan all 60 original training shards on CPU and exclude every exact copy of the 1,024 held-out question texts. Count exact questions using BLAKE2b-128 hashes and draw a fixed sample of 2,048 original pairs per shard for tokenizer statistics. No training targets are created or rewritten.'),
+            table([['Measurement','Observed'],
+                ['Eligible original rows',f"{r['total_retained_rows']:,}"],
+                ['Distinct question hashes',f"{r['unique_question_hashes']:,}"],
+                ['Excess duplicate rows',f"{100*r['excess_duplicate_row_fraction']:.2f}%"],
+                ['Rows belonging to repeated questions',f"{100*r['rows_from_repeated_questions_fraction']:.2f}%"],
+                ['Sample size',f"{r['sample_rows']:,}"],
+                ['Questions exceeding 128 tokens',f"{100*r['source_over_128']/r['sample_rows']:.3f}%"],
+                ['Programs exceeding 192 tokens',f"{100*r['target_over_192']/r['sample_rows']:.3f}%"],
+                ['Median / mean program tokens',f"{r['target_tokens']['median']:.0f} / {r['target_tokens']['mean']:.2f}"]],[105*mm,65*mm]),
+            p('Exact duplication and truncation affect a minority of rows. This does not prove filtering cannot help, but it does not establish a large data-cleaning opportunity. The audit is descriptive: it does not assess semantic correctness, normalized paraphrases, or the effect of changing the training distribution.'),
+            p('A separate code inspection found that grouped batches always run in ascending input-length order within each window. An optional deterministic shuffle now changes only batch order, preserving every batch tensor and its padding cost. Thirteen focused checks passed, including unchanged default behavior and exact shuffled batch membership. This option is prepared for a short two-seed comparison; no score gain or completed training run is claimed.'),
+            p(f"Audit computation: {r['elapsed_seconds']:.2f} seconds; CPU process, input restore and setup: 85.97 seconds. No GPU was allocated. Colab confirmed no active sessions after automatic release. The contemporaneous public leaderboard remains 8/15: 59.69% versus 78.33% for first place. Evidence: experiments/train-diversity-audit-v1; audit source: 6add585. The first-place objective remains unmet.",'SmallText')]
+    doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
 
