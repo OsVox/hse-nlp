@@ -1,0 +1,23 @@
+{
+  "samples": 440,
+  "driver_utilization_mean_percent": 69.5840909090909,
+  "driver_utilization_median_percent": 90.0,
+  "peak_memory_mib": 18681.0,
+  "scope": "Whole driver including setup, both training arms and evaluation",
+  "steady_training": {
+    "control": {
+      "start_step": 100,
+      "end_step": 2000,
+      "seconds": 181.5,
+      "examples_per_second": 1339.9449035812672,
+      "scope": "Logged interval including intermediate validation; excludes startup and final export"
+    },
+    "swiglu": {
+      "start_step": 100,
+      "end_step": 2000,
+      "seconds": 142.9,
+      "examples_per_second": 1701.889433170049,
+      "scope": "Logged interval including intermediate validation; excludes startup and final export"
+    }
+  }
+}

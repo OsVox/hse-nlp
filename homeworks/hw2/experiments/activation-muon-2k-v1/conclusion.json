@@ -1,0 +1,14 @@
+{
+  "decision": "SwiGLU fails the predeclared early-quality gate: held-out gains are -6/245 and +4/493, with +32 execution failures versus gated GELU. Public scores are 108/960 versus 107/960. Keep gated GELU; no second-seed quality confirmation or long run is triggered. Faster short training is a useful observation, but this unequal-time test does not establish accuracy at matched compute. The retained mature best stays 575/960; current public rank is 10/16 at 22:47 (+03:00).",
+  "compute": "Driver duration 447.17 seconds (7.45 minutes), including restoration, both arms and evaluation. Training-process times were 209.49 and 166.92 seconds. Logged training throughput was 1339.9 versus 1701.9 examples/s. Whole-driver GPU utilization averaged 69.58% (median 90%); peak memory 18681 MiB. Allocation, Drive sign-in and installation are outside driver timing.",
+  "shortlist": [],
+  "all_checkpoints_scored": true,
+  "long_run_started": false,
+  "completed_training_full_pass": false,
+  "all_optimizations_exhausted": false,
+  "next": [
+    "Run the CPU-prepared bounded complete-sequence memory/throughput probe.",
+    "Use complete original sequences and consumed-data accounting in the next bounded learning curve.",
+    "Require full-pass evidence before claiming all eligible examples were trained."
+  ]
+}

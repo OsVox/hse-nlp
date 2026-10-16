@@ -91,5 +91,16 @@
       "target384": 570
     },
     "evidence": "target-length-1k-v1/conclusion.json"
+  },
+  "latest_activation_observation": {
+    "timestamp": "2026-10-16T22:47:00+03:00",
+    "rank": 10,
+    "participants": 16,
+    "best_public_correct": 575,
+    "candidate_scores": {
+      "control": 107,
+      "swiglu": 108
+    },
+    "evidence": "activation-muon-2k-v1/conclusion.json"
   }
 }

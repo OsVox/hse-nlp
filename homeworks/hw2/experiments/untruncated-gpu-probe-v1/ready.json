@@ -1,0 +1,64 @@
+{
+  "cpu_verified": true,
+  "source_commit": "a88585879408275e8060b64d851ca5b8b74e3a11",
+  "files": {
+    "source.tar": "2fb61ef4eff6cb6591fc07e3c91ead26ef5fbac5464c13fa5901ce0d5b954aa5",
+    "pool.json": "e34e56375e18c763206629e71d6d7cf70eaf0eca3b4e590a3c6d34266f9b1d36",
+    "gate.json": "a9e6791dba4e17fe847f8ced4773eafd058cd7ca8e10f4ce44672764980d4dbe",
+    "launch.py": "76a84b5691330419d2189e181432b619d2581e9867b06657a7740935cb87dbaf"
+  },
+  "plan": {
+    "hypothesis": "Can the complete-sequence path handle all observed length extremes within memory, and what is its short throughput cost?",
+    "parameters": 42481152,
+    "precision": "bf16",
+    "optimizer": "Muon .001 / AdamW .0003",
+    "numeric_token_weight": 2,
+    "regular_examples": 4096,
+    "extreme_examples": 130,
+    "batch_size": 128,
+    "measured_updates": 32,
+    "warmup_updates": 3,
+    "variant_orders": [
+      [
+        "capped",
+        "complete"
+      ],
+      [
+        "complete",
+        "capped"
+      ]
+    ],
+    "budgets": {
+      "token_budget": 40960,
+      "attention_budget": 9961472
+    },
+    "worker_timeout_seconds": 360,
+    "training_quality_claim": false,
+    "weights_discarded": true,
+    "checkpoint_retained": false,
+    "source": "Original eligible rows only, corpus and index hashes verified on CPU.",
+    "timing_scope": "Pretokenized CPU batches, device transfers, forward/backward and optimizer updates. Tokenization timing is separate; no loader-prefetch speed claim.",
+    "gate": "Require all runs finite, including long-example stress, within memory. Report observed throughput and peak memory, without selecting a training recipe from a speed-only probe."
+  },
+  "cpu_tests": {
+    "passed": 24,
+    "seconds": 8.19,
+    "cpu_only": true,
+    "tests": [
+      "test_long_sequences.py",
+      "test_full_coverage.py",
+      "test_activation_pilot.py"
+    ],
+    "covered": [
+      "Untruncated original token IDs and unchanged logical row order",
+      "Exact consumed-row and token resume accounting",
+      "Split versus unsplit dropout-free T5 gradients for native, numeric-weighted, example-balanced, smoothed and focal loss",
+      "Tiny-model training, checkpoint archival and resume",
+      "Explicit oversized-single-row failure before transfer"
+    ],
+    "development_failures": [
+      "A synthetic question fixture was exactly 128 tokens instead of greater than 128; extended it.",
+      "Real-data preflight initially passed a string to the Path-only hash helper; corrected the call."
+    ]
+  }
+}

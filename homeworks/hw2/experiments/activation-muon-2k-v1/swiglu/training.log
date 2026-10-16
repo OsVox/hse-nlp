@@ -1,0 +1,57 @@
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+step=1 train_loss=10.5314 elapsed_s=5.9
+step=50 train_loss=7.5829 elapsed_s=9.2
+step=100 train_loss=4.0182 elapsed_s=12.9
+step=150 train_loss=3.5832 elapsed_s=16.3
+step=200 train_loss=2.7670 elapsed_s=20.0
+step=250 train_loss=3.1209 elapsed_s=23.5
+step=300 train_loss=2.4763 elapsed_s=27.0
+step=350 train_loss=2.9613 elapsed_s=30.8
+step=400 train_loss=2.2845 elapsed_s=34.3
+step=450 train_loss=1.3925 elapsed_s=38.1
+step=500 train_loss=2.2153 elapsed_s=41.4
+step=512 val_token_loss=2.1619
+best_step=512 best_val_token_loss=2.1619
+step=550 train_loss=1.7106 elapsed_s=45.5
+step=600 train_loss=2.1214 elapsed_s=49.1
+step=650 train_loss=1.7437 elapsed_s=52.7
+step=700 train_loss=2.2360 elapsed_s=56.4
+step=750 train_loss=1.7245 elapsed_s=59.9
+step=800 train_loss=2.6450 elapsed_s=63.8
+step=850 train_loss=1.9309 elapsed_s=67.2
+step=900 train_loss=1.3577 elapsed_s=70.8
+step=950 train_loss=2.1190 elapsed_s=74.3
+step=1000 train_loss=1.5128 elapsed_s=77.9
+step=1024 val_token_loss=1.6910
+best_step=1024 best_val_token_loss=1.6910
+step=1050 train_loss=2.0531 elapsed_s=81.9
+step=1100 train_loss=1.5634 elapsed_s=85.4
+step=1150 train_loss=2.0928 elapsed_s=88.9
+step=1200 train_loss=1.7262 elapsed_s=92.6
+step=1250 train_loss=0.9757 elapsed_s=96.2
+step=1300 train_loss=1.6128 elapsed_s=99.8
+step=1350 train_loss=1.1381 elapsed_s=103.4
+step=1400 train_loss=1.8061 elapsed_s=107.0
+step=1450 train_loss=1.2250 elapsed_s=110.7
+step=1500 train_loss=1.9459 elapsed_s=114.3
+step=1536 val_token_loss=1.4611
+best_step=1536 best_val_token_loss=1.4611
+step=1550 train_loss=1.3017 elapsed_s=118.2
+step=1600 train_loss=2.2686 elapsed_s=121.9
+step=1650 train_loss=1.6006 elapsed_s=125.5
+step=1700 train_loss=0.9992 elapsed_s=129.1
+step=1750 train_loss=1.5363 elapsed_s=132.6
+step=1800 train_loss=1.1676 elapsed_s=136.4
+step=1850 train_loss=1.7152 elapsed_s=140.0
+step=1900 train_loss=1.3151 elapsed_s=143.7
+step=1950 train_loss=1.8685 elapsed_s=152.1
+step=2000 train_loss=1.4311 elapsed_s=155.8
+step=2048 val_token_loss=1.3770
+best_step=2048 best_val_token_loss=1.3770
+coverage={"eligible_rows": 11836444, "eligible_by_shard": [198952, 199974, 199983, 199983, 199977, 199977, 199977, 199976, 199977, 199976, 199969, 199975, 199981, 199977, 199988, 199992, 199993, 199994, 199991, 199994, 199996, 199998, 199992, 199996, 199996, 199993, 199998, 199988, 199992, 199999, 200000, 200000, 200000, 200000, 200000, 200000, 199997, 199990, 199985, 199995, 199991, 199990, 199993, 199991, 199994, 199995, 199992, 199998, 199995, 199995, 199993, 199993, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 38003], "excluded_by_shard": [1048, 26, 17, 17, 23, 23, 23, 24, 23, 24, 31, 25, 19, 23, 12, 8, 7, 6, 9, 6, 4, 2, 8, 4, 4, 7, 2, 12, 8, 1, 0, 0, 0, 0, 0, 0, 3, 10, 15, 5, 9, 10, 7, 9, 6, 5, 8, 2, 5, 5, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0], "unique_visited_by_shard": [4367, 4366, 4368, 4358, 4370, 4372, 4360, 4379, 4384, 4386, 4343, 4372, 4369, 4376, 4360, 4361, 4349, 4370, 4362, 4361, 4369, 4366, 4373, 4363, 4349, 4356, 4371, 4369, 4374, 4372, 4378, 4368, 4346, 4399, 4393, 4330, 4369, 4373, 4375, 4368, 4358, 4395, 4351, 4400, 4400, 4390, 4380, 4367, 4373, 4375, 4367, 4391, 4376, 4355, 4361, 4388, 4342, 4377, 4349, 4355], "presentations_by_shard": [4367, 4366, 4368, 4358, 4370, 4372, 4360, 4379, 4384, 4386, 4343, 4372, 4369, 4376, 4360, 4361, 4349, 4370, 4362, 4361, 4369, 4366, 4373, 4363, 4349, 4356, 4371, 4369, 4374, 4372, 4378, 4368, 4346, 4399, 4393, 4330, 4369, 4373, 4375, 4368, 4358, 4395, 4351, 4400, 4400, 4390, 4380, 4367, 4373, 4375, 4367, 4391, 4376, 4355, 4361, 4388, 4342, 4377, 4349, 4355], "visited_current_epoch_by_shard": [4367, 4366, 4368, 4358, 4370, 4372, 4360, 4379, 4384, 4386, 4343, 4372, 4369, 4376, 4360, 4361, 4349, 4370, 4362, 4361, 4369, 4366, 4373, 4363, 4349, 4356, 4371, 4369, 4374, 4372, 4378, 4368, 4346, 4399, 4393, 4330, 4369, 4373, 4375, 4368, 4358, 4395, 4351, 4400, 4400, 4390, 4380, 4367, 4373, 4375, 4367, 4391, 4376, 4355, 4361, 4388, 4342, 4377, 4349, 4355], "completed_full_passes": 0, "unique_rows_since_tracking_started": 262144, "coverage_percent": 2.214719218035417, "presentations": 262144, "repeated_presentations_since_tracking_started": 0, "historical_coverage_before_start_step": "unknown", "start_step": 0, "source_length": 128, "target_length": 192, "grouping_target_length": 192, "note": "Original row IDs, not distinct question texts; row coverage does not prove untruncated token coverage."}
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/activation-muon-2k-v1/swiglu/step-002048
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=3.86 device=cuda:0 precision=torch.float32 invalid_before_retry=40 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/activation-muon-2k-v1/swiglu/step-002048 jsonl_sha256=5e5349d60243a7bb6dbe13cdf37ab6fe3d9a43221e58754e13558fa040db4da2
+finished_steps=2048

@@ -1,0 +1,9 @@
+{
+  "arm": "swiglu",
+  "arm_folder": "1Mske84zWnj3dhljBBQ-vmSC6dt3-ezGU",
+  "checkpoint_folder": "1n2n6l6WW129mYvGZ6m5Vf6ypN7qF8GER",
+  "model_id": "1WDoiznNv6eIR0tNctNGs76P_Yg4POQ4T",
+  "model_bytes": 169938176,
+  "model_sha256": "5e17da9eb33a24e9dd58e4d06fdc22b880a217611b5141409df911a0df17c65f",
+  "remote_model_download_verified": true
+}

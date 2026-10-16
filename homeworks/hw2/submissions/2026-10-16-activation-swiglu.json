@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T22:47:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "activation-swiglu-002048.jsonl",
+  "jsonl_sha256": "5e5349d60243a7bb6dbe13cdf37ab6fe3d9a43221e58754e13558fa040db4da2",
+  "source_commit": "2735e1e29779849bdaa359c92d2b62f75650dd36",
+  "model_sha256": "5e17da9eb33a24e9dd58e4d06fdc22b880a217611b5141409df911a0df17c65f",
+  "run": "activation-muon-2k-v1",
+  "variant": "swiglu",
+  "step": 2048,
+  "status": "scored",
+  "public_correct": 108,
+  "public_total": 960,
+  "public_percent": 11.25,
+  "reported_rank": 10,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 789051,
+    "accepted": 789052,
+    "score": 789053,
+    "rank": 789054
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1n2n6l6WW129mYvGZ6m5Vf6ypN7qF8GER",
+  "training": true,
+  "public_test_used_for_selection": false
+}
