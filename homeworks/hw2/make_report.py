@@ -444,6 +444,26 @@ def build():
             e=json.loads((focal/'execution.json').read_text())
             story += [p('Focal1 gains four held-out agreements with one fewer execution failure, but its public score is two answers below control. Focal2 fails the held-out gate. No long run is justified; focal1 is only a candidate for short second-seed confirmation. The best remains 573/960 (59.69%), rank 8/15.'),
                 p(f"Driver duration: {e['elapsed_seconds']/60:.2f} minutes, excluding allocation and Drive authorization. Median GPU activity was 97%, mean 65.68%. Only 3 of 34 samples during CPU scoring show nonzero GPU activity, none at 90%: overlap was mostly with setup, and speedup is not established. Colab confirmed no active sessions. All three bot receipts are saved and verified in Drive. T4 timing remains unverified.")]
+    confirmation = ROOT/'experiments/focal-confirm-1k-v1'
+    if (confirmation/'selection.json').exists():
+        r=json.loads((confirmation/'selection.json').read_text())
+        rows=[['Seed / loss','Pilot /245','Confirm /493','Failures','Public /960']]
+        for seed, folder in [(42,focal),(1042,confirmation)]:
+            values=json.loads((folder/'selection.json').read_text())['results']
+            for name in ['control','focal1']:
+                stages=values[name]
+                receipt=folder/name/'step-071024/bot_receipt.json'
+                public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+                rows.append([f'{seed} / {name}',stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(s['prediction_failures'] for s in stages.values()),public])
+        story += [PageBreak(),p('Focal loss: second-seed confirmation','Title'),
+            p('The gamma-one candidate alone is repeated against control with seed 1042. Both new arms start from the original own 70k parent and Adam state, not from the first-seed results. Each receives 1,024 updates with the same batch size, learning-rate schedule, data pipeline and strict greedy decoding. Seed 42 results are reused without retraining.'),
+            table(rows,[49*mm,29*mm,35*mm,25*mm,32*mm]),
+            p('The predefined confirmation gate requires positive gains on both held-out subsets in each seed, with no increase in total execution failures in either seed. Confirmed: '+str(r['confirmed'])+'. Public scores do not enter this gate. The same held-out questions are reused across seeds, so this is a robustness check rather than an independent validation set.'),
+            p('Twenty-one focused checks passed, including rejection of zero subset gains, extra execution failures and a failing first seed. The source archive includes the exact first-seed selection evidence and records its hash. Unchanged data and parent archives reuse the earlier CPU preflight; source and launcher are uploaded and read back before GPU allocation. Each new checkpoint and its predictions are saved to Drive before export and bot evaluation.','SmallText'),
+            p('Source: bbf58a9376348573d28a72b798113fa0d6bab6a9. Evidence: experiments/focal-confirm-1k-v1. No additional training examples, target rewrites or handwritten output repairs are used. No long run starts automatically. T4 timing remains deferred.','SmallText')]
+        if (confirmation/'conclusion.json').exists():
+            conclusion=json.loads((confirmation/'conclusion.json').read_text())
+            story += [p(conclusion['decision']),p(conclusion['compute'])]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T12:56:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "focal-confirm-focal1-071024.jsonl",
+  "jsonl_sha256": "a87494f52b953a115999cc0aec296a45e793f0659a92c4e1168cecf184d2a8b1",
+  "source_commit": "bbf58a9376348573d28a72b798113fa0d6bab6a9",
+  "model_sha256": "32de577ec1f251b40bd995f5215d271824878fdf42f59741820461e7719cca21",
+  "run": "focal-confirm-1k-v1",
+  "variant": "focal1",
+  "step": 71024,
+  "status": "scored",
+  "public_correct": 563,
+  "public_total": 960,
+  "public_percent": 58.65,
+  "reported_rank": 8,
+  "participants": 15,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 788781,
+    "accepted": 788782,
+    "score": 788783,
+    "rank": 788784
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "selection": "greedy",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1liGWL6Wf4N0NF5Lrrn8CFvPG1EVSDJC9",
+  "heldout_extension_gate_passed": null
+}

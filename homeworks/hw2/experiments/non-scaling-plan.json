@@ -1,6 +1,6 @@
 {
   "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
-  "current_action": "Completed three focal-loss 1024-update trials; focal1 passes exploratory held-out gate (+4/738, one fewer failure) but public is 559/960 vs control 561/960. Candidate for short second-seed confirmation only; no long run.",
+  "current_action": "Completed second-seed focal confirmation: held-out gain +2/738, one fewer failure, but pilot subset tied. Failed predefined confirmation gate; no long extension. Next: CPU audit of consistency among original duplicate-question programs.",
   "gpu_state": "Released; Colab Manage Sessions reports no active sessions",
   "next_candidates": [
     {
@@ -25,7 +25,8 @@
       "name": "Training-target quality",
       "hypothesis": "Truncated or malformed original targets can teach incomplete programs.",
       "first_check": "Audit syntax and target-length rates; do not equate unsupported sandbox execution with incorrect data.",
-      "status": "Tested original-target length filtering: 423/738 vs control 416/738, but 45 vs 40 execution failures; failed gate"
+      "status": "Tested original-target length filtering: 423/738 vs control 416/738, but 45 vs 40 execution failures; failed gate",
+      "next_check": "CPU-only audit of numerical agreement among original programs sharing an exact question. Sample without public/test failures; distinguish disagreement from truth and unsupported execution from invalid targets. No generated targets."
     },
     {
       "name": "Individual digit boundaries",
@@ -36,8 +37,8 @@
     {
       "name": "Focal token loss",
       "hypothesis": "Downweight easy original target tokens without rewriting programs",
-      "status": "gamma1 shortlisted on held-out data; gamma2 rejected. No public gain, no long extension.",
-      "evidence": "focal-screen-1k-v1/comparison.md"
+      "status": "Second-seed gains 0/+2 by subset; no extra failures, but strict confirmation gate failed. No long extension.",
+      "evidence": "focal-confirm-1k-v1/comparison.md"
     }
   ],
   "future_training_comparison": {
@@ -79,7 +80,8 @@
       "scoring_samples_gpu_above_zero": 3,
       "scoring_samples_gpu_at_least_90_percent": 0,
       "note": "One-second telemetry samples within actual CPU scoring timestamps. Demonstrates overlap only, not a controlled estimate of wall-time savings."
-    }
+    },
+    "focal_confirmation": "Seed1042 control422/738 vs focal424/738; failures47 vs46. Both-seed strict subset-improvement gate failed; no extension. Public560 vs563; prior seed561 vs559. Best573 retained."
   },
   "preparation_policy": "CPU use is explicitly approved. Use it for meaningful data/preflight checks before GPU; reuse already verified data and parent checkpoint archives when unchanged to avoid unnecessary repeated transfers and setup. Revalidate artifact hashes during restore."
 }
