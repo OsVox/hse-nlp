@@ -1,0 +1,85 @@
+{
+  "source_commit": "6d39e21",
+  "model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "rows": 256,
+  "data": "Original train shard 0, reserved rows 0:256; no public test examples",
+  "examples_sha256": "edfa909b7ec00b2fa1c56287fedef5961a17b795b6d1ad395a9b5909d358570d",
+  "shard_sha256": "91831d582faa12d73b1a6b3878e496446cd5df074f17ee4ffea8cc2887c708ec",
+  "device": "cpu",
+  "training": false,
+  "precision": "float32",
+  "batch_size": 8,
+  "seconds": 15.19507854100084,
+  "conditions": {
+    "original": {
+      "all": {
+        "tokens": 17445,
+        "loss_sum": 7074.376327514648,
+        "correct": 15480,
+        "mean_loss": 0.40552458168613637,
+        "accuracy": 0.8873602751504729
+      },
+      "numeric_operator": {
+        "tokens": 2191,
+        "loss_sum": 1111.76517868042,
+        "correct": 1870,
+        "mean_loss": 0.5074236324419991,
+        "accuracy": 0.8534915563669557
+      },
+      "other": {
+        "tokens": 15254,
+        "loss_sum": 5962.61116027832,
+        "correct": 13610,
+        "mean_loss": 0.3908883676595201,
+        "accuracy": 0.8922249901665137
+      }
+    },
+    "permuted_question": {
+      "all": {
+        "tokens": 17445,
+        "loss_sum": 29045.74005126953,
+        "correct": 12176,
+        "mean_loss": 1.664989398181114,
+        "accuracy": 0.6979650329607338
+      },
+      "numeric_operator": {
+        "tokens": 2191,
+        "loss_sum": 6772.880920410156,
+        "correct": 826,
+        "mean_loss": 3.0912281699726867,
+        "accuracy": 0.3769968051118211
+      },
+      "other": {
+        "tokens": 15254,
+        "loss_sum": 22272.85919189453,
+        "correct": 11350,
+        "mean_loss": 1.4601323713055285,
+        "accuracy": 0.7440671299331323
+      }
+    },
+    "no_code_prefix": {
+      "all": {
+        "tokens": 17445,
+        "loss_sum": 157532.54028320312,
+        "correct": 540,
+        "mean_loss": 9.030240199667706,
+        "accuracy": 0.030954428202923472
+      },
+      "numeric_operator": {
+        "tokens": 2191,
+        "loss_sum": 20710.246154785156,
+        "correct": 1,
+        "mean_loss": 9.452417231759542,
+        "accuracy": 0.00045641259698767686
+      },
+      "other": {
+        "tokens": 15254,
+        "loss_sum": 136822.29321289062,
+        "correct": 539,
+        "mean_loss": 8.96960097108238,
+        "accuracy": 0.03533499409990822
+      }
+    }
+  },
+  "limitation": "Teacher-forced token diagnostics are not program correctness. Unequal interventions do not estimate causal contribution shares or prove that dropout will help."
+}

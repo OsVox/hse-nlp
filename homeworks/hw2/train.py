@@ -230,6 +230,8 @@ def main() -> None:
                         help='Downweight easily predicted original target tokens; zero preserves CE')
     parser.add_argument('--example-balanced-loss', action='store_true')
     parser.add_argument('--continuation-dropout', type=float, default=None)
+    parser.add_argument('--decoder-input-dropout', type=float, default=0.0,
+                        help='Training-only whole decoder embedding dropout; reference labels stay unchanged')
     parser.add_argument('--skip-truncated-targets', action='store_true')
     parser.add_argument("--warmup", type=int, default=500)
     parser.add_argument("--save-every", type=int, default=1_000)
@@ -255,6 +257,8 @@ def main() -> None:
         parser.error('Nonnegative focal gamma requires zero label smoothing')
     if args.continuation_dropout is not None and (args.resume_from is None or not 0 <= args.continuation_dropout < 1):
         parser.error('continuation dropout requires a parent and a value in [0, 1)')
+    if not math.isfinite(args.decoder_input_dropout) or not 0 <= args.decoder_input_dropout < 1:
+        parser.error('decoder input dropout must be in [0, 1)')
     if args.skip_truncated_targets and args.input_pipeline != 'encoded':
         parser.error('target filtering requires encoded pipeline')
     if args.shuffle_batch_order and args.input_pipeline != 'encoded':
@@ -422,6 +426,10 @@ def main() -> None:
     else:
         batches = group_batches(batches, tokenizer, args.batch_size, args.group_window)
     validation = validation_examples(args.cache_dir)[:256]
+    decoder_generator = None
+    if args.decoder_input_dropout:
+        from .decoder_dropout import decoder_dropout_inputs
+        decoder_generator = torch.Generator(device=device).manual_seed(args.seed + start_step + 2026101604)
     start_time = time.monotonic()
     for step in range(start_step + 1, args.steps + 1):
         score = None
@@ -433,7 +441,10 @@ def main() -> None:
                      else encode_batch(next(batches), tokenizer, device))
             autocast = torch.autocast("cuda", dtype=dtype) if device.type == "cuda" and dtype != torch.float32 else nullcontext()
             with autocast:
-                output = model(**batch, use_cache=False)
+                decoder_options = (decoder_dropout_inputs(model, batch['labels'],
+                    args.decoder_input_dropout, generator=decoder_generator)
+                    if args.decoder_input_dropout else {})
+                output = model(**batch, **decoder_options, use_cache=False)
                 loss = (output.loss if loss_weights is None else
                         weighted_loss(output.logits, batch['labels'], loss_weights,
                                       smoothing=args.label_smoothing,

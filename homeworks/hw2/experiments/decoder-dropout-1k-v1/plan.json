@@ -1,0 +1,54 @@
+{
+  "status": "preregistered_not_launched",
+  "parent_step": 72000,
+  "parent_model_sha256": "878683b76cfb5fc768d1e13c1b060b3fb9ae6007010cda744870fd24184bbe88",
+  "parent_drive_folder": "16QXNLZ81uS-nAmflYHSGqHLabLpJ19yO",
+  "parent_mount_path": "/content/drive/MyDrive/HSE_NLP_HW2/runs/numeric-loss-2k-v1/numeric2/step-072000",
+  "final_step": 73024,
+  "training_updates_per_arm": 1024,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 42,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "numeric_token_weight": 2.0,
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "precision": "bf16",
+  "prediction_batch_size": 256,
+  "arms": {
+    "control": {
+      "numeric_token_weight": 2.0,
+      "decoder_input_dropout": 0.0
+    },
+    "drop010": {
+      "numeric_token_weight": 2.0,
+      "decoder_input_dropout": 0.1
+    },
+    "drop020": {
+      "numeric_token_weight": 2.0,
+      "decoder_input_dropout": 0.2
+    }
+  },
+  "selection": "Strictly positive executed-answer gain on each held-out subset with no increase in total execution failures versus control. Confirm survivors with another seed; no automatic longer training.",
+  "hypothesis": "Training-time dropout of entire preceding-token embeddings may improve robustness when greedy generation makes a mistake. Keep every supplied question and target string unchanged; no additional targets or teachers.",
+  "cpu_requirements": [
+    "Reuse verified 72k parent weights and optimizer, dataset archive and tokenizer; verify hashes during restoration",
+    "Five focused tests passed for zero-rate identity, evaluation no-op, exact labels, special-token handling, isolated randomness, finite gradients and runtime finalization",
+    "Verify source, launcher and ready files from Drive before GPU"
+  ],
+  "limitations": "The CPU source-permutation audit shows substantial question dependence; it does not demonstrate excessive reliance on preceding code or predict dropout improvement. This is an exploratory robustness test on reused validation rows.",
+  "decoding": "Strict greedy; no repairs",
+  "save": "Every final checkpoint and predictions in Drive; export, verify and submit every unique model output once",
+  "training_timeout_seconds": 400,
+  "outer_timeout_seconds": 1200,
+  "save_every": 73024,
+  "eval_every": 73024,
+  "overlap_cpu_scoring": true,
+  "parent_archive_path": "/content/drive/MyDrive/HSE_NLP_HW2/prepared/frequency-screen-1k-v1/parent.tar",
+  "previous_goal_turn": "Progress: longer-limit CPU inference completed, exported and bot-evaluated; no score gain, retained baseline, compute released.",
+  "reference": "https://aclanthology.org/2020.coling-main.379/",
+  "implementation": "Training-only inverted dropout on whole decoder token embeddings, preserving start/end/padding; separate RNG. No auxiliary objective or modified targets from the cited paper is used."
+}
