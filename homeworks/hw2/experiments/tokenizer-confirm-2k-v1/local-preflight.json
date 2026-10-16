@@ -1,0 +1,5 @@
+{
+  "passed_tests": 18,
+  "reused_preflight": "representation-pilot-2k-v1: same original dataset, tokenizers, model shape and verified first-seed results",
+  "prior_selection_sha256": "837227d6f02023882f08b846f958573d26746546230b5291861312249e348e35"
+}

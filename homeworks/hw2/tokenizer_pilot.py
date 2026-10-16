@@ -48,7 +48,8 @@ def select(results):
     return result
 
 
-def run():
+def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select):
+    PREPARED, RUN, PLAN, select = prepared, run_dir, plan, selection_fn
     import torch
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
     assert torch.cuda.get_device_properties(0).total_memory>=40*1024**3
