@@ -1,0 +1,20 @@
+{
+  "checkpoint_step": 30000,
+  "notebook_sha256": "d6df0aa1c78fd87029d54ee44990497b1d791d70acefa8123c0094b94deaf9ba",
+  "syntax_checked": true,
+  "executed": false,
+  "candidate_promoted": false,
+  "decoding": {
+    "batch_size": 64,
+    "max_input_tokens": null,
+    "max_new_tokens": 1280,
+    "num_beams": 1,
+    "syntax_retry_beams": 0,
+    "do_sample": false,
+    "precision": "torch.float32",
+    "handwritten_repairs": 0
+  },
+  "drive_id": "1hJhMxqrojbrGMA1fVbt0-N8pcVKnFCdy",
+  "download_verified": true,
+  "purpose": "Candidate reproduction only; not the retained best and not run during training."
+}

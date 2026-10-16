@@ -24,5 +24,7 @@
   ],
   "candidate_promoted": false,
   "notebook_changed": false,
-  "inference_executed": false
+  "inference_executed": false,
+  "candidate_notebook_preparation": "candidate-inference-notebook-verification.json",
+  "candidate_notebook_executed": false
 }
