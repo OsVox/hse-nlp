@@ -1,0 +1,30 @@
+{
+  "status": "not trained",
+  "models": {
+    "small": {
+      "d_model": 320,
+      "d_ff": 960,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "num_heads": 5,
+      "parameters": 17580480
+    },
+    "baseline": {
+      "d_model": 512,
+      "d_ff": 1536,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "num_heads": 8,
+      "parameters": 42481152
+    },
+    "large": {
+      "d_model": 704,
+      "d_ff": 2112,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "num_heads": 11,
+      "parameters": 78146112
+    }
+  },
+  "design": "Keep encoder/decoder depth and feed-forward width ratio fixed; scale width only. Approximate 20M/40M/80M range, actual counts below. Confirm architecture balance first; recalculate these if winning depth changes."
+}

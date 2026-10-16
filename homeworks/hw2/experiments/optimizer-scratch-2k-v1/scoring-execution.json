@@ -1,0 +1,50 @@
+[
+  {
+    "arm": "control",
+    "stage": "pilot",
+    "started_utc": 1792158080.2035418,
+    "collected_utc": 1792158087.4362545
+  },
+  {
+    "arm": "control",
+    "stage": "confirmation",
+    "started_utc": 1792158087.4358528,
+    "collected_utc": 1792158283.1658885
+  },
+  {
+    "arm": "adamw_high",
+    "stage": "pilot",
+    "started_utc": 1792158275.9323351,
+    "collected_utc": 1792158283.1661665
+  },
+  {
+    "arm": "adamw_high",
+    "stage": "confirmation",
+    "started_utc": 1792158283.1654952,
+    "collected_utc": 1792158501.030466
+  },
+  {
+    "arm": "muon_low",
+    "stage": "pilot",
+    "started_utc": 1792158493.5436587,
+    "collected_utc": 1792158501.0308642
+  },
+  {
+    "arm": "muon_low",
+    "stage": "confirmation",
+    "started_utc": 1792158501.0299325,
+    "collected_utc": 1792158721.1488461
+  },
+  {
+    "arm": "muon_high",
+    "stage": "pilot",
+    "started_utc": 1792158713.9147418,
+    "collected_utc": 1792158721.1491582
+  },
+  {
+    "arm": "muon_high",
+    "stage": "confirmation",
+    "started_utc": 1792158721.1484017,
+    "collected_utc": 1792158728.5754101
+  }
+]

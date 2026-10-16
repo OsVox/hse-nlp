@@ -1,0 +1,32 @@
+{
+  "results": {
+    "control": {
+      "seconds_per_step": 0.10375856825001506,
+      "estimated_training_seconds": 212.49754777603084,
+      "input_shape": [
+        128,
+        103
+      ],
+      "target_shape": [
+        128,
+        185
+      ]
+    },
+    "muon_low": {
+      "seconds_per_step": 0.11496994549999329,
+      "estimated_training_seconds": 235.45844838398625,
+      "input_shape": [
+        128,
+        103
+      ],
+      "target_shape": [
+        128,
+        185
+      ]
+    }
+  },
+  "torch_version": "2.11.0+cu130",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "updates_per_optimizer": 11,
+  "scope": "Discarded timing probe on original train examples; no checkpoint or accuracy result. Fixed-batch throughput is an estimate, not full-run time."
+}

@@ -1,0 +1,7 @@
+{
+  "torch_version": "2.11.0+cpu",
+  "native_muon_available": true,
+  "gpu_allocated": false,
+  "cell_id": "v_nfigIW6F23",
+  "runtime_release_requested": true
+}

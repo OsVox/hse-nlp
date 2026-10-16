@@ -1,0 +1,8 @@
+{
+  "samples": 887,
+  "driver_gpu_utilization_mean_percent": 75.35625704622322,
+  "driver_gpu_utilization_median_percent": 96.0,
+  "samples_at_least_90_percent": 641,
+  "peak_memory_mib": 20714.0,
+  "scope": "Entire driver at 1-second intervals, including data preparation, loading, saving and evaluation. Not training-only utilization."
+}

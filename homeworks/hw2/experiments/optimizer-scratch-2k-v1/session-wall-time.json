@@ -1,0 +1,11 @@
+{
+  "gpu_request_lower_time_bound_unix": 1792157605.0387328,
+  "gpu_request_lower_time_bound_utc": "2026-10-16T13:33:25.038733+00:00",
+  "basis": "File timestamp written after G4 was selected but before run_code_cell allocated GPU. End at verified-release screenshot timestamp yields a conservative whole-session wall-time bound, including allocation, authentication and setup.",
+  "observed_launch_setup_lower_bound_seconds": 200,
+  "setup_observation": "Colab displayed execution 3 min 20 sec while Drive was mounted and the driver had not yet started.",
+  "release_verified_upper_bound_unix": 1792158776.9652643,
+  "release_verified_upper_bound_utc": "2026-10-16T13:52:56.965264+00:00",
+  "whole_session_upper_bound_seconds": 1171.9265315532684,
+  "compute_released": true
+}

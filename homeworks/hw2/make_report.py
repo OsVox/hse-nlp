@@ -621,6 +621,22 @@ def build():
             p('Use 4,096 original examples from supplied training shard zero, excluding all questions in the first 1,024 held-out rows. Fit for 512 small updates with the existing numeric/operator weight 2. Save and checksum-verify the custom CopyT5 checkpoint on Drive before generation, then reload the identical local weights; verify that every base parameter is unchanged. Compare copying enabled versus disabled on the same saved model and held-out subsets. Export all 1,919 test predictions in official order for bot evaluation.'),
             p(conclusion['decision']),p(conclusion['compute']),
             p('Eleven focused pytest checks passed, including cached greedy generation, save/reload, copying normalization, gradient flow, disabled equivalence and runtime finalization. Real-checkpoint CPU preflight confirmed finite adapter gradients and no base gradients. Source: 0938a6265db552fd794e8e691cb30d646069ea60. Evidence: experiments/copyability-audit-cpu-v1 and experiments/copy-adapter-cpu-v1. Pointer-generator reference: See, Liu and Manning (2017), https://aclanthology.org/P17-1099/. Reused validation is exploratory; no long run is automatic.','SmallText')]
+    optimizer_run = ROOT/'experiments/optimizer-scratch-2k-v1'
+    if (optimizer_run/'conclusion.json').exists():
+        conclusion=json.loads((optimizer_run/'conclusion.json').read_text())
+        r=json.loads((optimizer_run/'selection.json').read_text())
+        rows=[['Optimizer / rate','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,stages in r['results'].items():
+            receipt=optimizer_run/name/'step-002048/bot_receipt.json'
+            public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            label={'control':'AdamW 0.0003','adamw_high':'AdamW 0.001','muon_low':'Muon 0.001','muon_high':'Muon 0.003'}[name]
+            rows.append([label,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),public])
+        story += [PageBreak(),p('Full-model optimizer comparison from scratch','Title'),
+            p('Four 42.48M Transformers start from identical random weights, with the same original 8k tokenizer, original example stream, seed 42, batch 128 and 2,048 updates. Every parameter trains. AdamW uses rates 0.0003 and 0.001. Muon uses rates 0.001 and 0.003 on hidden matrices; its embeddings and vectors use AdamW at 0.0003. Native PyTorch Muon uses five Newton-Schulz iterations, momentum 0.95 and match_rms_adamw scaling. Tied output/input embeddings and relative-position embeddings are excluded from Muon.'),
+            table(rows,[46*mm,29*mm,35*mm,25*mm,35*mm]),
+            p('Choose the stronger AdamW rate by summed held-out agreements, breaking ties by fewer failures then lower rate. Muon must improve both subsets without extra failures. Each survivor requires another seed before any longer or combined run. This compares early fresh-model learning; it does not test switching optimizers on the mature model, and it does not establish optimal rates or model size. Public feedback is recorded separately.'),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('Twelve focused CPU checks passed, plus four discarded full-size one-step CPU preflights with identical initial loss and finite gradients for every model parameter. Colab CPU confirmed native Muon before GPU allocation. A discarded GPU timing probe estimated 0.104 seconds/step for AdamW and 0.115 for Muon on the same 128-example batch. Source: bb3c316097764701dc0eaa822b3eafc5decaf9b1. Native implementation: https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html. Inspiration: https://github.com/KellerJordan/modded-nanogpt; its language-model speedrun results do not imply gains on this task.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

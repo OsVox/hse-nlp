@@ -1,0 +1,27 @@
+{
+  "step": 2048,
+  "rows": 1919,
+  "jsonl_sha256": "b9523ff701b3894ce193baa830550636bf3700e7954c090511d6d44b34bc8e67",
+  "model_sha256": "739798b666bf2c0a5a97302a39cb8b1c0bc7b6c67fc2aa3fb732607ec574dfeb",
+  "source_commit": "bb3c316097764701dc0eaa822b3eafc5decaf9b1",
+  "questions_sha256": "214746f8d4bc918b6fa1fde8ca3185a518a60637f239a2c45efa9a8143f612d3",
+  "status": "sent_waiting_for_bot_acknowledgement",
+  "generation_seconds": 4.686758377999922,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "t4_timing_verified": false,
+  "telegram_message_ids": {
+    "file": 788873
+  },
+  "filename": "optimizer-scratch-control-002048.jsonl",
+  "timestamp": "2026-10-16T16:42:00+03:00",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "public_correct": null,
+  "public_total": 960,
+  "run": "optimizer-scratch-2k-v1",
+  "variant": "control",
+  "drive_checkpoint_folder": "1hVGs9Ij5Kzz_ji8gPvvbQXRvIpNstvgP",
+  "export_verified": true,
+  "delivery_note": "Telegram outgoing message displays delivered/read icon. No bot acknowledgement yet; do not duplicate.",
+  "superseded_by": "bot_receipt.json",
+  "resolution": "scored 70/960, message 788875, 16:46 +03:00"
+}

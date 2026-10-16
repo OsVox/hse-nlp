@@ -1,0 +1,9 @@
+{
+  "decision": "Muon at rate 0.001 passes the first exploratory screen: held-out gains are +4/245 and +6/493 over the better AdamW rate (0.0003), with 31 fewer total execution failures. Muon at 0.003 and AdamW at 0.001 regress. Repeat the selected low-rate Muon recipe and AdamW control with seed 1042 before any extension; the result is not yet replicated. All weights trained from scratch. This is not a continuation of the 73k best checkpoint and does not replace it. The original best remains 575/960 (59.90%).",
+  "compute": "Each arm processed exactly 262,134 original examples, 12,278,660 source tokens and 19,293,376 target tokens in 2,048 updates. Training process times including setup/checkpoint generation were 177.76, 177.45, 201.15 and 201.47 seconds (AdamW low/high, Muon low/high). Low-rate Muon costs 13.16% more than control at matched examples. Total driver time including data restore, probe and held-out evaluation was 892.81 seconds (14.88 minutes); the conservative allocation-to-release wall-time bound is 1,171.93 seconds (19.53 minutes), not an exact billing measurement. GPU utilization over the whole driver averaged 75.36%, median 96%, peak memory 20,714 MiB. All four checkpoints and exact greedy outputs were saved to Drive, exported and verified. No active Colab session remains. T4 inference timing is unverified.",
+  "source_commit": "bb3c316097764701dc0eaa822b3eafc5decaf9b1",
+  "heldout_extension_gate_passed": true,
+  "second_seed_required": true,
+  "long_run_started": false,
+  "best_changed": false
+}

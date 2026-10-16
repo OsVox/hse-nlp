@@ -1,0 +1,53 @@
+{
+  "status": "planned_not_executed",
+  "replication": {
+    "seed": 1042,
+    "arms": [
+      "control",
+      "muon_low"
+    ],
+    "updates_per_arm": 2048,
+    "matched": "same examples, random initialization, batch and loss; record GPU seconds",
+    "gate": "Muon must again improve both held-out subsets without extra execution failures; then perform equal-time or learning-curve confirmation before a long run"
+  },
+  "architecture_balance": {
+    "status": "CPU parameter counts only; no trained accuracy results",
+    "baseline": {
+      "encoder": 6,
+      "decoder": 4,
+      "d_ff": 1536,
+      "parameters": 42481152
+    },
+    "encoder_heavy": {
+      "encoder": 8,
+      "decoder": 2,
+      "d_ff": 1664,
+      "parameters": 42349056
+    },
+    "decoder_heavy": {
+      "encoder": 4,
+      "decoder": 6,
+      "d_ff": 1408,
+      "parameters": 42613248
+    },
+    "limitations": "Depth balance changes feed-forward width to match parameter counts; throughput must be measured."
+  },
+  "size_screen": {
+    "status": "planned",
+    "widths": [
+      320,
+      512,
+      704
+    ],
+    "parameters": [
+      17580480,
+      42481152,
+      78146112
+    ],
+    "encoder": 6,
+    "decoder": 4,
+    "budget": "Matched measured GPU time with interim checkpoints; size optimality unresolved"
+  },
+  "full_model_continuation": "Useful for loss/data changes and optimizer-switch experiment; reset Muon-incompatible moments and include reset-AdamW control. Changing architecture generally needs fresh training. Frozen copying result does not settle joint training.",
+  "rl": "Deferred: training rollouts and execution rewards may help, but original references are noisy and the assignment prohibits extra examples/targets. Clarify allowed reward construction before implementation; never use public-test feedback as a training reward."
+}
