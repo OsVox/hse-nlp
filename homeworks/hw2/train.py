@@ -23,6 +23,7 @@ from .data import SHARDS, training_batches, validation_examples
 from .speed import group_batches, precision_dtype
 from .checkpoint_io import archive_checkpoint, drive_preflight, package_jsonl, sha256
 from .input_pipeline import encoded_batches, prefetch_batches, to_device
+from .token_weighting import token_weights, weighted_loss
 
 SOURCE_LENGTH = 128
 TARGET_LENGTH = 192
@@ -170,6 +171,8 @@ def main() -> None:
                         help="Mix a fresh random sample from all shards each epoch")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--learning-rate", type=float, default=3e-4)
+    parser.add_argument('--numeric-token-weight', type=float, default=1.0,
+                        help='Experimental loss weight for numeric/operator pieces; original targets stay unchanged')
     parser.add_argument("--warmup", type=int, default=500)
     parser.add_argument("--save-every", type=int, default=1_000)
     parser.add_argument("--eval-every", type=int, default=500)
@@ -186,6 +189,8 @@ def main() -> None:
     parser.add_argument('--restart-schedule', action='store_true',
                         help='Retain optimizer moments but warm up a new schedule over the remaining updates')
     args = parser.parse_args()
+    if not math.isfinite(args.numeric_token_weight) or args.numeric_token_weight < 1:
+        parser.error('numeric token weight must be finite and at least one')
     if min(args.steps, args.batch_size, args.accumulation, args.max_shards) < 1:
         parser.error("steps, batch size, accumulation and max shards must be positive")
     if args.batches_per_shard is not None and args.batches_per_shard < 1:
@@ -257,6 +262,8 @@ def main() -> None:
             ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']
             if getattr(args, name) is not None})
     model.to(device)
+    loss_weights = (token_weights(tokenizer, args.numeric_token_weight).to(device)
+                    if args.numeric_token_weight != 1 else None)
     model.train()
     print(f"parameters={sum(p.numel() for p in model.parameters()):,}", flush=True)
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -333,7 +340,9 @@ def main() -> None:
                      else encode_batch(next(batches), tokenizer, device))
             autocast = torch.autocast("cuda", dtype=dtype) if device.type == "cuda" and dtype != torch.float32 else nullcontext()
             with autocast:
-                loss = model(**batch, use_cache=False).loss / args.accumulation
+                output = model(**batch, use_cache=False)
+                loss = (output.loss if loss_weights is None else
+                        weighted_loss(output.logits, batch['labels'], loss_weights)) / args.accumulation
             scaler.scale(loss).backward()
             running_loss += loss.detach()
         scaler.unscale_(optimizer)
