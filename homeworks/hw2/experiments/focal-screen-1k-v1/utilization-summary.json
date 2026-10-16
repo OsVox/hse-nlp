@@ -1,0 +1,10 @@
+{
+  "samples": 371,
+  "mean_utilization_percent": 65.6765498652291,
+  "median_utilization_percent": 97.0,
+  "peak_memory_mib": 21077.0,
+  "samples_during_cpu_scoring": 34,
+  "scoring_samples_gpu_above_zero": 3,
+  "scoring_samples_gpu_at_least_90_percent": 0,
+  "note": "One-second telemetry samples within actual CPU scoring timestamps. Demonstrates overlap only, not a controlled estimate of wall-time savings."
+}

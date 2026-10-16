@@ -425,6 +425,25 @@ def build():
         if (digits/'execution.json').exists():
             e=json.loads((digits/'execution.json').read_text())
             story += [p(f"GPU driver duration: {e['elapsed_seconds']/60:.2f} minutes, excluding allocation and authorization. CPU preparation took 149.47 seconds, including the 65.65-second tokenizer audit. Colab confirmed no active sessions after automatic release; T4 timing remains unverified.")]
+    focal = ROOT/'experiments/focal-screen-1k-v1'
+    if (focal/'selection.json').exists():
+        r=json.loads((focal/'selection.json').read_text())
+        rows=[['Loss','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name, stages in r['results'].items():
+            f=focal/name/'step-071024/bot_receipt.json'
+            public=json.loads(f.read_text())['public_correct'] if f.exists() else 'pending'
+            rows.append([name,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(s['prediction_failures'] for s in stages.values()),public])
+        story += [PageBreak(),p('Focal token loss: short matched screen','Title'),
+            p('Three continuations start from the same own 70k model and Adam state. Each receives 1,024 updates, batch 128, peak learning rate .00003, 50 warmup updates and unchanged original data, vocabulary and programs. The control uses cross-entropy. Focal1 and focal2 multiply each original target-token loss by (1-p) raised to gamma=1 or 2, where p is its predicted probability. The gradient includes this factor; alpha=1. The denominator remains the original valid-token weight. Greedy decoding is unchanged.'),
+            table(rows,[49*mm,29*mm,35*mm,25*mm,32*mm]),
+            p('The predefined gate requires improvement on both held-out subsets without more total execution failures. Shortlisted for second-seed confirmation: '+(', '.join(r['shortlist']) or 'none')+'. No automatic combination or long run. Focal modulation changes gradient magnitude as well as emphasis, so identical nominal learning rates do not imply identical effective steps. Reused validation remains exploratory.'),
+            p('Evaluation now saves the exact generated programs and original references before scoring. Separate CPU-only scorers run while later GPU work proceeds. Payload hashes and row order are verified before scoring; the scoring branch imports no torch and does not load model weights. Process failures propagate to the driver, and pending processes are cleaned up. Twenty focused checks passed, including focal values/gradients, padding, score preservation and failure handling.'),
+            p('The verified dataset and parent archive from the earlier CPU preflight are reused; new source and launch files are uploaded to Drive and read back before GPU allocation. Archive hashes are rechecked on restore. Checkpoints and original test outputs are saved to Drive before export and bot scoring. Source: 86c3bfb603eeb2f20c7e3b4cf7dd3f246b084d93; evidence: experiments/focal-screen-1k-v1.','SmallText'),
+            p('Motivation: Lin et al., Focal Loss for Dense Object Detection, ICCV 2017. Its object-detection results do not establish a benefit for this sequence-generation task. No external examples or additional training targets are used.','SmallText')]
+        if (focal/'execution.json').exists():
+            e=json.loads((focal/'execution.json').read_text())
+            story += [p('Focal1 gains four held-out agreements with one fewer execution failure, but its public score is two answers below control. Focal2 fails the held-out gate. No long run is justified; focal1 is only a candidate for short second-seed confirmation. The best remains 573/960 (59.69%), rank 8/15.'),
+                p(f"Driver duration: {e['elapsed_seconds']/60:.2f} minutes, excluding allocation and Drive authorization. Median GPU activity was 97%, mean 65.68%. Only 3 of 34 samples during CPU scoring show nonzero GPU activity, none at 90%: overlap was mostly with setup, and speedup is not established. Colab confirmed no active sessions. All three bot receipts are saved and verified in Drive. T4 timing remains unverified.")]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

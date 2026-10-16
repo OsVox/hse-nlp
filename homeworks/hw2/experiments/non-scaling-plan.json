@@ -1,6 +1,6 @@
 {
   "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
-  "current_action": "Completed digit-screen-1k-v1; clear held-out and public regression, no extension. Preserve best numeric2 and prepare another distinct cheap hypothesis.",
+  "current_action": "Completed three focal-loss 1024-update trials; focal1 passes exploratory held-out gate (+4/738, one fewer failure) but public is 559/960 vs control 561/960. Candidate for short second-seed confirmation only; no long run.",
   "gpu_state": "Released; Colab Manage Sessions reports no active sessions",
   "next_candidates": [
     {
@@ -32,6 +32,12 @@
       "hypothesis": "Make numeric literals easier to copy using the original vocabulary",
       "status": "Tested for 1024 updates against matched control; clear regression; no extension",
       "evidence": "digit-screen-1k-v1/comparison.md"
+    },
+    {
+      "name": "Focal token loss",
+      "hypothesis": "Downweight easy original target tokens without rewriting programs",
+      "status": "gamma1 shortlisted on held-out data; gamma2 rejected. No public gain, no long extension.",
+      "evidence": "focal-screen-1k-v1/comparison.md"
     }
   ],
   "future_training_comparison": {
@@ -62,7 +68,18 @@
     "broad_screen": "Eight 1000-step arms; none passed positive gain on both subsets with no added total execution failures",
     "full_training_audit": "10,920,597 exact question hashes; 7.74% excess duplicate rows; 0.173% input and 1.946% target truncation in 122,880 sampled original pairs; no GPU allocated",
     "batch_order": "Seed gains +3 and -1 held-out; pooled failures +3; public shuffled 550/549 vs controls 561/560; rejected",
-    "digit_tokenization": "Individual-digit adaptation: held-out 363/738 vs 418/738; failures 47 vs 41; public 511/960 vs 561/960. Rejected."
+    "digit_tokenization": "Individual-digit adaptation: held-out 363/738 vs 418/738; failures 47 vs 41; public 511/960 vs 561/960. Rejected.",
+    "focal_loss": "control/focal1/focal2 held-out 418/422/416 of738; failures41/40/42; public561/559/561 of960. Best retained573/960.",
+    "cpu_scoring_overlap": {
+      "samples": 371,
+      "mean_utilization_percent": 65.6765498652291,
+      "median_utilization_percent": 97.0,
+      "peak_memory_mib": 21077.0,
+      "samples_during_cpu_scoring": 34,
+      "scoring_samples_gpu_above_zero": 3,
+      "scoring_samples_gpu_at_least_90_percent": 0,
+      "note": "One-second telemetry samples within actual CPU scoring timestamps. Demonstrates overlap only, not a controlled estimate of wall-time savings."
+    }
   },
   "preparation_policy": "CPU use is explicitly approved. Use it for meaningful data/preflight checks before GPU; reuse already verified data and parent checkpoint archives when unchanged to avoid unnecessary repeated transfers and setup. Revalidate artifact hashes during restore."
 }

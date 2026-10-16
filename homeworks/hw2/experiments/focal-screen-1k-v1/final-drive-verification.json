@@ -1,0 +1,38 @@
+[
+  {
+    "file": "comparison.md",
+    "id": "1cGL2x5TtppoCeKB_md1wCDeXIxafHfY7",
+    "sha256": "de6b4d302aae48fdf25bb77f8b4ed080577a44deeaae58af2274f5d8ff16fb85",
+    "byte_verified": true
+  },
+  {
+    "file": "utilization-summary.json",
+    "id": "1ZP8-QaP0vini-wULMmeq5-dSjGjQtptB",
+    "sha256": "aba3a1ac3ab0fe125e3a187a0ae1578686af5aac03277d5d295da54690dfcc4d",
+    "byte_verified": true
+  },
+  {
+    "file": "runtime-release.json",
+    "id": "1RghNqkGBf_FvmdrUq2LWtpYBNnoljrzy",
+    "sha256": "7530863e109c96789a0613239cab65866fdbe4ea57cb596eb5b85841b70135fe",
+    "byte_verified": true
+  },
+  {
+    "file": "gpu-released.png",
+    "id": "1Ip2TBHiXTy5HNVsfsFNw6WhyFgj82um7",
+    "sha256": "6659055bfb17b1f60eaa14570aca98704f5a344348c12b157f3891e057e8fc50",
+    "byte_verified": true
+  },
+  {
+    "file": "focal2-bot-receipt.png",
+    "id": "1LVt0I6sTNspFVlc4x-vwCNI68fCriZCe",
+    "sha256": "42f0df778b1fc14375384a29e1603a95d9abf8d5f8382c0e20a2e8506cb00c2f",
+    "byte_verified": true
+  },
+  {
+    "file": "report.pdf",
+    "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "sha256": "42a70f01791d84d61d281498fa7f0e3b9c6c01c1feeca96b641e179a57bd5f05",
+    "byte_verified": true
+  }
+]

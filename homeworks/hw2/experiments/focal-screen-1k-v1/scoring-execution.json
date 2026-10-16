@@ -1,0 +1,38 @@
+[
+  {
+    "arm": "control",
+    "stage": "pilot",
+    "started_utc": 1792143290.6027343,
+    "collected_utc": 1792143297.2397869
+  },
+  {
+    "arm": "control",
+    "stage": "confirmation",
+    "started_utc": 1792143297.239306,
+    "collected_utc": 1792143408.3943636
+  },
+  {
+    "arm": "focal1",
+    "stage": "pilot",
+    "started_utc": 1792143400.948476,
+    "collected_utc": 1792143408.3946993
+  },
+  {
+    "arm": "focal1",
+    "stage": "confirmation",
+    "started_utc": 1792143408.3939395,
+    "collected_utc": 1792143518.3189516
+  },
+  {
+    "arm": "focal2",
+    "stage": "pilot",
+    "started_utc": 1792143511.1853127,
+    "collected_utc": 1792143518.3192756
+  },
+  {
+    "arm": "focal2",
+    "stage": "confirmation",
+    "started_utc": 1792143518.3184917,
+    "collected_utc": 1792143525.6966648
+  }
+]
