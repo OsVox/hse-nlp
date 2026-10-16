@@ -1,0 +1,60 @@
+{
+  "status": "authorized_after_remaining_tests",
+  "user_instruction": "after all the tests, scale up the best model with best practices",
+  "authorization": "Proceed to longer training once the finite checks below are completed; no repeat permission request for that transition.",
+  "current_best": {
+    "parameters": 42481152,
+    "step": 75776,
+    "public_correct": 583,
+    "public_total": 960
+  },
+  "remaining_tests": [
+    {
+      "id": "checkpoint_stability",
+      "status": "paired_CPU_audit_complete",
+      "evidence": "checkpoint-stability.json",
+      "next": "One bounded adjacent-checkpoint averaging screen using the complete-sequence curve; select on held-out questions, never combine answers. Preserve all parent models. Do not transfer optimizer moments to averaged weights without a separate training test."
+    },
+    {
+      "id": "batch_efficiency",
+      "status": "pending",
+      "next": "Short measured memory-budget comparison at fixed effective batch and identical original examples. Verify complete tokens, finite gradients and consumed-row accounting. Choose throughput per GPU-second, not memory occupancy."
+    },
+    {
+      "id": "size_confirmation",
+      "status": "pending",
+      "next": "Replicate the shortlisted 17.58M versus 42.48M Muon size comparison with a second seed. The 78.15M arm failed the initial held-out gate; do not designate it best from its public score."
+    },
+    {
+      "id": "learning_curve_confirmation",
+      "status": "pending",
+      "next": "Compare surviving size/recipe candidates at matched measured GPU-time budgets, capped at 10 training minutes per arm, with multiple checkpoints. Confirm the winner with another seed before an expensive run; retain AdamW for mature-checkpoint continuation because Muon transfer failed."
+    }
+  ],
+  "scope_boundary": "Finish this finite priority list. Reopen rejected methods only for a concrete new diagnosis. Do not claim all conceivable optimizations are exhausted.",
+  "selection": {
+    "primary": "Greedy executed-answer accuracy on held-out original training questions, checked separately on both subsets",
+    "secondary": [
+      "execution failure count",
+      "measured GPU time",
+      "trajectory stability"
+    ],
+    "caveat": "The existing held-out subsets have been reused; results are exploratory. Reserve fresh question groups and exclude them from training before final recipe confirmation. Public leaderboard results are reporting outcomes, not recipe-selection targets."
+  },
+  "long_run": {
+    "status": "not_started",
+    "model": "Best confirmed model and recipe; increase parameter count only if the comparison supports it.",
+    "first_stage": "Train through one verified complete pass of eligible original rows, with exact resumable row/token accounting. Define and record any newly reserved validation exclusions before launch.",
+    "coverage": "Never infer exposure from steps or shard availability. Preserve traversal cursor on resume and count only optimizer-consumed batches.",
+    "schedule": "Set the learning-rate schedule for the intended full-pass budget instead of restarting a short cosine cycle at every checkpoint.",
+    "checkpoints": "Persist model, optimizer, scheduler, RNG state, coverage cursor, configuration, hashes and metrics to Drive at bounded intervals; generate 1919 strict-greedy programs in official order, export from Drive, verify hashes, and evaluate every retained checkpoint in the bot.",
+    "efficiency": [
+      "CPU preparation and hash verification before GPU allocation",
+      "Measured memory-budgeted batches without truncated questions or targets",
+      "Existing mixed precision, clipping, length grouping and prefetching where supported",
+      "Record GPU utilization and total elapsed time including setup"
+    ],
+    "stop": "Stop immediately on nonfinite updates, corrupted checkpoints, or coverage failures. Evaluate the full-pass checkpoint before authorizing further passes automatically; do not extend indefinitely on a flat or declining held-out trajectory.",
+    "delivery": "Keep the strongest verified checkpoint; update reproducible inference notebook and PDF. Final T4 timing remains a separate required validation."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "device": "CPU",
+  "training_updates": 0,
+  "public_test_used": false,
+  "rows": 768,
+  "usable_references": 738,
+  "correct": {
+    "73728": 424,
+    "74752": 431,
+    "75776": 430,
+    "76800": 428
+  },
+  "failures": {
+    "73728": 38,
+    "74752": 42,
+    "75776": 43,
+    "76800": 43
+  },
+  "source_sha256": {
+    "73728/pilot": "8aec4c9bafd268e60eedeb2d6674cb1a31cf9045d650ea5a01b6d1690dadbf84",
+    "73728/confirmation": "fbdbecf0a207f3f84c3269e4ba6217583c3c21fa950f5714b97419b86a657d55",
+    "74752/pilot": "fd69e30e234e10e7146b92a0f3ab84d07458efbaf65b3cd84bad626c8014856a",
+    "74752/confirmation": "538bc6cd615cb4d2e39025f41b0579e89e06c02dfad2caa80754970821960964",
+    "75776/pilot": "645f14808358c148e2ef7d9d0ae8c1b859bf58db84111637806e12715a7b3c4f",
+    "75776/confirmation": "ea24a450b82d5b7f5dbd1c496f80f0f37fd80e43d6b4823b46b4270c10420f0d",
+    "76800/pilot": "fb0408827d2f3d32e6a8818957507eebf91eb85bf75a7d7b9845bce7d558379a",
+    "76800/confirmation": "8068d64bf66936b0ee9d0f9e7cedd36e7601a471c8caf78bc04d5a74e75e1fae"
+  },
+  "pairs": [
+    {
+      "earlier": 73728,
+      "later": 74752,
+      "gained": 23,
+      "lost": 16,
+      "both_correct": 408,
+      "neither_correct": 291
+    },
+    {
+      "earlier": 73728,
+      "later": 75776,
+      "gained": 20,
+      "lost": 14,
+      "both_correct": 410,
+      "neither_correct": 294
+    },
+    {
+      "earlier": 73728,
+      "later": 76800,
+      "gained": 19,
+      "lost": 15,
+      "both_correct": 409,
+      "neither_correct": 295
+    },
+    {
+      "earlier": 74752,
+      "later": 75776,
+      "gained": 16,
+      "lost": 17,
+      "both_correct": 414,
+      "neither_correct": 291
+    },
+    {
+      "earlier": 74752,
+      "later": 76800,
+      "gained": 15,
+      "lost": 18,
+      "both_correct": 413,
+      "neither_correct": 292
+    },
+    {
+      "earlier": 75776,
+      "later": 76800,
+      "gained": 9,
+      "lost": 11,
+      "both_correct": 419,
+      "neither_correct": 299
+    }
+  ],
+  "interpretation": "Paired disagreement diagnoses instability only. It does not demonstrate that weight averaging improves accuracy; no answers are combined or repaired."
+}

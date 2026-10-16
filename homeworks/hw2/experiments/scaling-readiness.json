@@ -41,9 +41,9 @@
     "all_fused_attention_implementations_ruled_out": false
   },
   "remaining_priorities": [
-    "Cheap checkpoint-stability screen on held-out results before a longer continuation.",
-    "Retain exact consumed-row/token accounting and require a completed full-pass receipt.",
-    "Reassess model size only after data coverage and prioritized optimization evidence."
+    "Finish the finite tests in scaling-release-v1/plan.json.",
+    "Then scale training of the confirmed winner through a verified complete data pass.",
+    "Evaluate subsequent passes from held-out learning curves; preserve Drive-first checkpoints and bot receipts."
   ],
   "constraints": [
     "Only original allowed data and own scratch encoder-decoder Transformer; no extra teacher targets.",
@@ -89,5 +89,7 @@
     "final_checkpoint_unique_rows": 483328,
     "full_pass": false,
     "automatic_extension": false
-  }
+  },
+  "long_training_authorized_after_tests": true,
+  "execution_plan": "scaling-release-v1/plan.json"
 }
