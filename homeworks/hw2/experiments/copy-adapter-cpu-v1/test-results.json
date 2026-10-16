@@ -1,0 +1,8 @@
+{
+  "command": "python -m pytest -q test_copy_adapter.py test_copyability_audit.py test_decoder_dropout.py test_continuation.py test_runtime_guard.py",
+  "passed": 11,
+  "seconds": 3.9,
+  "new_copy_and_audit_tests": 4,
+  "runtime_guard_tests": 2,
+  "prior_dropout_and_continuation_tests": 5
+}

@@ -1,0 +1,11 @@
+{
+  "cpu_verified": true,
+  "model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "base_parameter_sha256": "6a2ebcac4a6d7606988b9ce354ae7219ef6530cccf87ae1e38c31503ee6675d2",
+  "trainable_parameters": 545,
+  "base_gradients_absent": true,
+  "copy_gradients_finite": true,
+  "loss": 0.5088697671890259,
+  "seconds": 0.9737640420207754,
+  "scope": "Forward/backward preflight only. No optimizer update or checkpoint created; reserved examples remain evaluation only."
+}

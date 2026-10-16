@@ -1,0 +1,4 @@
+{
+  "correction": "The earlier unittest invocation ran three decoder-dropout and two continuation checks; module-level pytest runtime checks were not discovered by unittest. They were tested previously and have now been rerun explicitly with pytest.",
+  "dropout_continuation_runtime_tests_now_passed": 7
+}
