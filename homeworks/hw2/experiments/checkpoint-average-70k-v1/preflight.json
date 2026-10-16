@@ -1,0 +1,18 @@
+{
+  "unit_tests_passed": 3,
+  "pilot": "Average own 60k+70k and own 50k+60k+70k weights; compare with own 70k",
+  "training_added": 0,
+  "selection_rows": [
+    512,
+    768
+  ],
+  "confirmation_rows": [
+    768,
+    1024
+  ],
+  "gate": "Strict numeric improvement and no increase in execution failures in both stages",
+  "decoding": "strict greedy",
+  "hardware": "CPU only",
+  "motivation": "User requested improvements beyond scaling; no extension to 100k",
+  "source": "https://arxiv.org/html/1706.03762v7#S6.SS1"
+}

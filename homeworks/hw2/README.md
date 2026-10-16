@@ -45,12 +45,14 @@ at 09:26 (+03:00), matching the earlier retry-enabled score. Save outputs
 to Drive before export. Strict greedy at 60k scored 56.25% (540/960),
 21 more correct than 50k.
 
-The active training process keeps its original immutable source. Its automatic
-checkpoint predictions still allow syntax retries. Use `greedy_export.py` on
-saved checkpoints before further submissions; no training restart is needed.
+The completed training process used its original immutable source, whose automatic
+checkpoint predictions allow syntax retries. Use `greedy_export.py` on saved
+checkpoints before further submissions.
 
-The selected 42.48M model is continuing from 20,000 toward 100,000 updates
-at batch 128 and BF16 on G4. Its CPU checks verified the original dataset,
+The selected 42.48M model was intentionally stopped at its durable 70,000-step
+checkpoint after the user requested improvements beyond scaling. The GPU
+session was released; no additional training is planned. The run had targeted
+100,000 updates at batch 128 and BF16 on G4. Its CPU checks verified the original dataset,
 model weights and Adam optimizer state before GPU allocation. It saves
 weights, optimizer state, exact predictions and validation results every
 10,000 steps. Each completed checkpoint must be exported from Drive,
@@ -98,3 +100,14 @@ then use `gdrive files download FILE_ID --destination LOCAL_DIRECTORY`.
 Verify the downloaded archive's SHA-256 against the saved run record, and run
 `verify_export.py` on each checkpoint before submitting. Authentication stays
 in the CLI's local credential store, outside this repository.
+
+## Improvements beyond scaling
+
+`average_pilot.py` tests arithmetic means of our own 60k/70k and 50k/60k/70k
+checkpoints on CPU. It compares strict greedy numeric agreement on held-out
+rows 512:768 and confirms a selected winner on rows 768:1024. Both stages
+require strictly more correct results and no extra execution failures. Only
+a confirmed average gets a full test export; no new training data or targets
+are created. The 70k baseline is exported separately. This pilot is pending;
+prepared source and three passing unit tests are recorded in
+`experiments/checkpoint-average-70k-v1`.
