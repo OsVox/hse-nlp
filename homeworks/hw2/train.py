@@ -72,6 +72,10 @@ def new_model(tokenizer: PreTrainedTokenizerFast, *, d_model=256, d_ff=768,
         use_cache=True,
     )
     model = T5ForConditionalGeneration(config)
+    # Transformers 4.57 infers T5's cache depth from encoder num_layers.
+    # A lazy full cache grows to the actual decoder depth and survives reload.
+    if decoder_layers > encoder_layers:
+        model.generation_config.cache_implementation = 'dynamic_full'
     if model.config.vocab_size != len(tokenizer):
         model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
     return model

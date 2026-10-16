@@ -48,6 +48,12 @@ def select(results):
     return result
 
 
+def verify_initializations(hashes, plan):
+    assert hashes and all(hashes.values())
+    if plan.get('require_identical_initialization', True):
+        assert len(set(hashes.values())) == 1
+
+
 def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select,
         runtime_preflight_fn=None):
     PREPARED, RUN, PLAN, select = prepared, run_dir, plan, selection_fn
@@ -87,7 +93,7 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select,
                 checkpoint=arm/'step-002048'
                 assert (checkpoint/'results.complete.json').exists()
                 initial_hashes[arm_name]=json.loads((checkpoint/'run_config.json').read_text())['initial_nonembedding_sha256']
-                assert initial_hashes[arm_name] and len(set(initial_hashes.values()))==1
+                verify_initializations(initial_hashes, PLAN)
                 provenance=json.loads((checkpoint/'predictions.provenance.json').read_text())
                 assert provenance['num_beams']==1 and provenance['syntax_retry_beams']==0
                 results[arm_name]={}
@@ -101,7 +107,7 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select,
                 (RUN/'progress.json').write_text(json.dumps({'results':results,'initial_body_hashes':initial_hashes},indent=2))
             scoring.collect(results,wait=True)
             (RUN/'selection.json').write_text(json.dumps(select(results),indent=2))
-            (RUN/'initialization.json').write_text(json.dumps({'body_hashes':initial_hashes,'all_equal':len(set(initial_hashes.values()))==1},indent=2))
+            (RUN/'initialization.json').write_text(json.dumps({'body_hashes':initial_hashes,'all_equal':len(set(initial_hashes.values()))==1,'identical_required':PLAN.get('require_identical_initialization',True)},indent=2))
             status['completed']=True
         finally:
             scoring.close();monitor.terminate();monitor.wait(timeout=10)

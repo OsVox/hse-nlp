@@ -1,0 +1,6 @@
+{
+  "first_preflight": "IndexError in Transformers 4.57.6 generation cache when decoder_layers exceeds encoder_layers; detected on CPU before allocation",
+  "fix": "Set saved generation_config.cache_implementation=dynamic_full only for deeper-decoder models. This uses the native lazy full cache rather than inferring its depth from encoder num_layers.",
+  "verification": "Tiny deeper-decoder cached vs uncached greedy IDs identical; save/reload identical. Full-size forward/backward and cached generation pass for all three candidate shapes.",
+  "gpu_used_for_fix": false
+}

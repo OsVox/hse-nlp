@@ -1,0 +1,40 @@
+{
+  "cpu_verified": true,
+  "torch_version": "2.9.0",
+  "results": {
+    "control": {
+      "parameters": 42481152,
+      "initial_body_sha256": "7443d8b4bfe57020391f882da5bbf5093a74a41d5b1553c7f29c710fc0e59b7b",
+      "loss": 10.441102981567383,
+      "seconds": 0.20051266701193526,
+      "all_parameter_gradients_finite": true,
+      "original_labels_unchanged": true,
+      "cached_greedy_generation_passed": true,
+      "muon_parameters": 38273024,
+      "adamw_parameters": 4208128
+    },
+    "encoder_heavy": {
+      "parameters": 42349056,
+      "initial_body_sha256": "1c38e41f2087297734b49409dc8c49899c9eddd0cdf9236495acac9ecd06ede0",
+      "loss": 12.324155807495117,
+      "seconds": 0.12204362501506694,
+      "all_parameter_gradients_finite": true,
+      "original_labels_unchanged": true,
+      "cached_greedy_generation_passed": true,
+      "muon_parameters": 38141952,
+      "adamw_parameters": 4207104
+    },
+    "decoder_heavy": {
+      "parameters": 42613248,
+      "initial_body_sha256": "a4bd50b8d55f418c42c101164dad34f4506136ac08261af8f2b21288dbca3761",
+      "loss": 9.703536987304688,
+      "seconds": 0.1623225839866791,
+      "all_parameter_gradients_finite": true,
+      "original_labels_unchanged": true,
+      "cached_greedy_generation_passed": true,
+      "muon_parameters": 38404096,
+      "adamw_parameters": 4209152
+    }
+  },
+  "scope": "Discarded full-size CPU forward/backward and cached greedy checks on two original examples per architecture. No training checkpoint or accuracy claim. Native optimizer updates were covered by the unchanged optimizer tests and previous full-size preflight."
+}
