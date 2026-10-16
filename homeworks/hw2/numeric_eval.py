@@ -99,10 +99,42 @@ def score_programs(predictions: list[str], references: list[str]) -> dict:
     }
 
 
+def save_generation(output, predictions, references, metadata):
+    """Persist an unchanged evaluation payload before a CPU scorer consumes it."""
+    output.parent.mkdir(parents=True, exist_ok=True)
+    prediction_path = output.with_suffix('.predictions.jsonl')
+    prediction_path.write_text(''.join(json.dumps({'row':metadata['offset']+i,'code':code},
+                                               ensure_ascii=False)+'\n'
+                                       for i,code in enumerate(predictions)))
+    metadata = dict(metadata, predictions_sha256=hashlib.sha256(prediction_path.read_bytes()).hexdigest())
+    reference_text = json.dumps(references, ensure_ascii=False)
+    bundle = dict(version=1, metadata=metadata, references=references,
+                  references_sha256=hashlib.sha256(reference_text.encode()).hexdigest())
+    output.with_suffix('.generation.json').write_text(json.dumps(bundle,ensure_ascii=False))
+
+
+def score_saved_generation(output):
+    """CPU-only entry point: never imports torch or loads model weights."""
+    began = time.monotonic()
+    started_utc = time.time()
+    bundle = json.loads(output.with_suffix('.generation.json').read_text())
+    assert bundle['version'] == 1
+    metadata = bundle['metadata']
+    prediction_path = output.with_suffix('.predictions.jsonl')
+    assert hashlib.sha256(prediction_path.read_bytes()).hexdigest() == metadata['predictions_sha256']
+    references = bundle['references']
+    assert hashlib.sha256(json.dumps(references,ensure_ascii=False).encode()).hexdigest() == bundle['references_sha256']
+    rows = [json.loads(line) for line in prediction_path.read_text().splitlines()]
+    assert [r['row'] for r in rows] == list(range(metadata['offset'],metadata['offset']+len(references)))
+    result = dict(score_programs([r['code'] for r in rows], references), **metadata)
+    result['scoring_seconds'] = time.monotonic()-began
+    result['scoring_started_utc'] = started_utc
+    result['scoring_finished_utc'] = time.time()
+    output.write_text(json.dumps(result,indent=2))
+    return result
+
+
 def main():
-    import torch
-    from transformers import PreTrainedTokenizerFast, T5ForConditionalGeneration
-    from .data import validation_examples
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model-dir', type=Path, required=True)
@@ -112,7 +144,16 @@ def main():
     parser.add_argument('--rows', type=int, default=256)
     parser.add_argument('--beams', type=int, default=1)
     parser.add_argument('--cpu-threads', type=int, default=None)
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument('--generate-only', action='store_true')
+    modes.add_argument('--score-only', action='store_true')
     args = parser.parse_args()
+    if args.score_only:
+        print(json.dumps(score_saved_generation(args.output),indent=2))
+        return
+    import torch
+    from transformers import PreTrainedTokenizerFast, T5ForConditionalGeneration
+    from .data import validation_examples
     if args.cpu_threads is not None:
         if args.cpu_threads < 1:
             raise ValueError('CPU thread count must be positive')
@@ -139,23 +180,19 @@ def main():
     if device == 'cuda':
         torch.cuda.synchronize()
     generation_seconds = time.perf_counter() - started
-    result = score_programs(predictions, [r['code'] for r in examples])
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    prediction_path = args.output.with_suffix('.predictions.jsonl')
-    prediction_path.write_text(''.join(json.dumps({'row':args.offset+i,'code':code},
-                                               ensure_ascii=False)+'\n'
-                                       for i,code in enumerate(predictions)))
-    result.update(model_dir=str(args.model_dir), offset=args.offset, beams=args.beams,
+    metadata = dict(model_dir=str(args.model_dir), offset=args.offset, beams=args.beams,
                   device=device, precision=str(next(model.parameters()).dtype),
                   cpu_threads=torch.get_num_threads(), generation_seconds=generation_seconds,
                   batch_size=64, max_input_tokens=128, max_new_tokens=192,
                   model_sha256=hashlib.sha256((args.model_dir/'model.safetensors').read_bytes()).hexdigest(),
                   evaluator_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   questions_sha256=hashlib.sha256(json.dumps([r['question'] for r in examples],ensure_ascii=False).encode()).hexdigest(),
-                  predictions_sha256=hashlib.sha256(prediction_path.read_bytes()).hexdigest(),
                   handwritten_repairs=0)
-    args.output.write_text(json.dumps(result, indent=2))
-    print(json.dumps(result, indent=2))
+    save_generation(args.output,predictions,[r['code'] for r in examples],metadata)
+    if args.generate_only:
+        print('GENERATION_SAVED',str(args.output.with_suffix('.generation.json')))
+    else:
+        print(json.dumps(score_saved_generation(args.output), indent=2))
 
 
 if __name__ == '__main__':

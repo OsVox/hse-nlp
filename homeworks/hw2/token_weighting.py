@@ -21,12 +21,20 @@ def token_weights(tokenizer, factor):
     return weights
 
 
-def weighted_loss(logits, labels, weights, *, smoothing=0.0, example_balanced=False):
+def weighted_loss(logits, labels, weights, *, smoothing=0.0, example_balanced=False,
+                  focal_gamma=0.0):
     """Normalize by valid-token weight; ignored padding adds no loss/gradient."""
     flat = labels.reshape(-1)
     valid = flat.ne(-100)
     per_token = F.cross_entropy(logits.float().reshape(-1, logits.shape[-1]),
                                 flat, reduction='none', ignore_index=-100, label_smoothing=smoothing)
+    if not math.isfinite(focal_gamma) or focal_gamma < 0 or (focal_gamma and smoothing):
+        raise ValueError('Focal gamma must be nonnegative and cannot combine with smoothing')
+    if focal_gamma:
+        # Standard focal modulation, including its gradient, with alpha=1.
+        # The denominator stays the original valid-token weight, not focal weight.
+        modulation = (-torch.expm1(-per_token)).clamp_min(torch.finfo(per_token.dtype).tiny)
+        per_token = per_token * modulation.pow(focal_gamma)
     selected = weights[flat.clamp_min(0)] * valid
     if example_balanced:
         numerator = (per_token * selected).reshape(labels.shape).sum(dim=1)

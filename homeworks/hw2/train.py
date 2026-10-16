@@ -192,6 +192,8 @@ def main() -> None:
     parser.add_argument('--numeric-token-weight', type=float, default=1.0,
                         help='Experimental loss weight for numeric/operator pieces; original targets stay unchanged')
     parser.add_argument('--label-smoothing', type=float, default=0.0)
+    parser.add_argument('--focal-gamma', type=float, default=0.0,
+                        help='Downweight easily predicted original target tokens; zero preserves CE')
     parser.add_argument('--example-balanced-loss', action='store_true')
     parser.add_argument('--continuation-dropout', type=float, default=None)
     parser.add_argument('--skip-truncated-targets', action='store_true')
@@ -215,6 +217,8 @@ def main() -> None:
         parser.error('numeric token weight must be finite and at least one')
     if not 0 <= args.label_smoothing < 1:
         parser.error('label smoothing must be in [0, 1)')
+    if not math.isfinite(args.focal_gamma) or args.focal_gamma < 0 or (args.focal_gamma and args.label_smoothing):
+        parser.error('Nonnegative focal gamma requires zero label smoothing')
     if args.continuation_dropout is not None and (args.resume_from is None or not 0 <= args.continuation_dropout < 1):
         parser.error('continuation dropout requires a parent and a value in [0, 1)')
     if args.skip_truncated_targets and args.input_pipeline != 'encoded':
@@ -296,7 +300,7 @@ def main() -> None:
         override_dropout(model, args.continuation_dropout)
     model.to(device)
     loss_weights = (token_weights(tokenizer, args.numeric_token_weight).to(device)
-                    if args.numeric_token_weight != 1 or args.label_smoothing or args.example_balanced_loss else None)
+                    if args.numeric_token_weight != 1 or args.label_smoothing or args.example_balanced_loss or args.focal_gamma else None)
     model.train()
     print(f"parameters={sum(p.numel() for p in model.parameters()):,}", flush=True)
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -379,7 +383,8 @@ def main() -> None:
                 loss = (output.loss if loss_weights is None else
                         weighted_loss(output.logits, batch['labels'], loss_weights,
                                       smoothing=args.label_smoothing,
-                                      example_balanced=args.example_balanced_loss)) / args.accumulation
+                                      example_balanced=args.example_balanced_loss,
+                                      focal_gamma=args.focal_gamma)) / args.accumulation
             scaler.scale(loss).backward()
             running_loss += loss.detach()
         scaler.unscale_(optimizer)

@@ -10,6 +10,7 @@ import zipfile
 
 from .checkpoint_io import drive_preflight, sha256
 from .short_pilots import ROOT, CACHE, copy_verified, restore_data
+from .async_scoring import ScoringJobs
 
 NAME = 'broad-screen-1k-v1'
 PREPARED = ROOT/'prepared'/NAME
@@ -158,12 +159,14 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=None):
     assert Path('source_commit.txt').read_text().strip()==ready['source_commit']
     RUN.mkdir(parents=True);copy_verified(PREPARED/'ready.json',RUN/'plan.json')
     began=time.monotonic();status=dict(completed=False,gpu=torch.cuda.get_device_name())
+    scoring = ScoringJobs()
     with (RUN/'gpu-utilization.csv').open('w') as telemetry:
         monitor=subprocess.Popen(['nvidia-smi','--query-gpu=timestamp,utilization.gpu,memory.used,power.draw','--format=csv,noheader,nounits','--loop=1'],stdout=telemetry)
         try:
             restore_data(ready['dataset'])
             local=Path('/content/broad-screen-inputs');local.mkdir(exist_ok=False)
-            copy_verified(PREPARED/'parent.tar',local/'parent.tar')
+            parent_archive = Path(ready.get('parent_archive_path',str(PREPARED/'parent.tar')))
+            copy_verified(parent_archive,local/'parent.tar')
             assert sha256(local/'parent.tar')==ready['parent_sha256']
             with tarfile.open(local/'parent.tar') as z:z.extractall(local,filter='data')
             results = {}
@@ -187,14 +190,24 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=None):
                 results[name]={}
                 for stage,offset,rows in [('pilot',256,256),('confirmation',512,512)]:
                     output=arm/(stage+'.json')
+                    command=[sys.executable,'-m','homeworks.hw2.numeric_eval','--model-dir',str(checkpoint),'--cache-dir',str(CACHE),'--output',str(output),'--offset',str(offset),'--rows',str(rows),'--beams','1']
+                    deferred=PLAN.get('overlap_cpu_scoring',False)
                     with output.with_suffix('.log').open('w') as log:
-                        subprocess.run([sys.executable,'-m','homeworks.hw2.numeric_eval','--model-dir',str(checkpoint),'--cache-dir',str(CACHE),'--output',str(output),'--offset',str(offset),'--rows',str(rows),'--beams','1'],stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
-                    results[name][stage]=json.loads(output.read_text())
-                (RUN/'progress.json').write_text(json.dumps({'completed_arms':list(results),'results':results},indent=2))
+                        subprocess.run(command+(['--generate-only'] if deferred else []),stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
+                    if deferred:
+                        scoring.start(name,stage,command+['--score-only'],output)
+                    else:
+                        results[name][stage]=json.loads(output.read_text())
+                scoring.collect(results)
+                (RUN/'progress.json').write_text(json.dumps({'completed_arms':[a for a,s in results.items() if len(s)==2],'results':results},indent=2))
+            scoring.collect(results,wait=True)
+            (RUN/'progress.json').write_text(json.dumps({'completed_arms':list(results),'results':results},indent=2))
             selection=(selection_fn or select_candidates)(results)
             (RUN/'selection.json').write_text(json.dumps(selection,indent=2))
             status['completed']=True
         finally:
+            scoring.close()
+            (RUN/'scoring-execution.json').write_text(json.dumps(scoring.completed,indent=2))
             monitor.terminate();monitor.wait(timeout=10)
             status['elapsed_seconds']=time.monotonic()-began
             (RUN/'execution.json').write_text(json.dumps(status,indent=2))
