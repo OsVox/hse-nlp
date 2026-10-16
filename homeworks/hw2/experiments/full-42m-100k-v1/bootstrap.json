@@ -6,9 +6,16 @@
     "source.tar": "1mUDUuD_a8LWQxNMOW-R3cVLt7OwHDtnG"
   },
   "read_back_verified": true,
-  "cpu_preflight": "pending",
+  "cpu_preflight": "verified",
   "gpu_training": "not started",
   "notebook_file_id": "1MFg5g_0u7Lg5PZHKFKdnbgNm0wGrR5RD",
   "notebook_sha256": "5ecf7e010ae78b02941499280ec22b31af7d96fd1d63695de82e5a2ad846717d",
-  "notebook_read_back_verified": true
+  "notebook_read_back_verified": true,
+  "prepared_folder_id": "1QE1So4_euiFvA59ZVcmV5Fe_7e3Wfoia",
+  "prepared_files": {
+    "ready.json": "1_1JLRYvIADwr6yVBHPoZZiJG6sLei9TQ",
+    "launch.py": "1FkvjmBvilg_3va1V4QsYZPg56gPsTJCZ",
+    "source.tar": "1gQ5YAJqoQQjgmWD5Ki7uDasXFeEgKxH7"
+  },
+  "prepared_read_back_verified": true
 }
