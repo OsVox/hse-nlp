@@ -96,7 +96,8 @@ def select_candidates(results):
                 long_run_authorized_by_evidence=False)
 
 
-def prepare():
+def prepare(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, launcher=LAUNCH):
+    PREPARED, RUN, PLAN, LAUNCH = prepared, run_dir, plan, launcher
     import torch
     from transformers import T5ForConditionalGeneration
     assert not Path('/dev/nvidia0').exists() and not torch.cuda.is_available()
@@ -142,7 +143,8 @@ def prepare():
     print('SCREEN_CPU_READY',json.dumps(ready),flush=True)
 
 
-def run():
+def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=None):
+    PREPARED, RUN, PLAN = prepared, run_dir, plan
     import torch
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
     assert torch.cuda.get_device_properties(0).total_memory>=40*1024**3
@@ -185,7 +187,7 @@ def run():
                         subprocess.run([sys.executable,'-m','homeworks.hw2.numeric_eval','--model-dir',str(checkpoint),'--cache-dir',str(CACHE),'--output',str(output),'--offset',str(offset),'--rows',str(rows),'--beams','1'],stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
                     results[name][stage]=json.loads(output.read_text())
                 (RUN/'progress.json').write_text(json.dumps({'completed_arms':list(results),'results':results},indent=2))
-            selection=select_candidates(results)
+            selection=(selection_fn or select_candidates)(results)
             (RUN/'selection.json').write_text(json.dumps(selection,indent=2))
             status['completed']=True
         finally:
