@@ -1,0 +1,137 @@
+{
+  "date": "2026-10-16",
+  "gpu_allocated_by_audit": false,
+  "scaling_ready": false,
+  "source_files": {
+    "corpus": {
+      "path": "homeworks/hw2/experiments/train-diversity-audit-v1/results.json",
+      "sha256": "0e050cbf95c90f9a2de0e3a344b4cf63b6a6d3f1e20c13304963753f2a219eb8"
+    },
+    "large_budget": {
+      "path": "homeworks/hw2/experiments/size-muon-2k-v1/large/compute-budget.json",
+      "sha256": "030e84371b19e7bcb22705fdcb3dc3dccb04f5164de939066ac83627109b2426"
+    },
+    "large_config": {
+      "path": "homeworks/hw2/experiments/size-muon-2k-v1/large/step-002048/run_config.json",
+      "sha256": "58f45b1693c5dee196d4277c6274118ba9afc91ae980a6b85cc35b51680481f5"
+    },
+    "best_config": {
+      "path": "homeworks/hw2/experiments/frequency-screen-1k-v1/control/step-073024/run_config.json",
+      "sha256": "214aa88c29b981317475aa841b4b9f7e99242899906da96b10cac3a0e6c58a96"
+    },
+    "best_step": {
+      "path": "homeworks/hw2/experiments/frequency-screen-1k-v1/control/step-073024/step.json",
+      "sha256": "0db74fc31ed14c6550f2189ab2b13297158aeaefac4baa556a1a0fd2cb0f897b"
+    },
+    "loader": {
+      "path": "homeworks/hw2/data.py",
+      "sha256": "0906affdb73896f2054a92912a0d54ae21cd6a887c35a18172b667602d2b8e0b"
+    },
+    "trainer": {
+      "path": "homeworks/hw2/train.py",
+      "sha256": "2371c4f5e7b2e470c4fa3357ca5e9e21d591c9d6e6badbb105dedd90aafeda67"
+    }
+  },
+  "eligible_rows": 11836444,
+  "raw_rows": 11838003,
+  "excluded_rows": 1559,
+  "distinct_exact_question_hashes": 10920597,
+  "all_shards_available_to_sampler": true,
+  "all_eligible_rows_seen_by_large_model": false,
+  "all_eligible_rows_seen_by_best_model": false,
+  "large_78m": {
+    "updates": 2048,
+    "actual_presentations": 262134,
+    "distinct_row_coverage_upper_bound_percent": 2.214634733201965,
+    "exact_distinct_rows_consumed": null
+  },
+  "best_42m": {
+    "phases": [
+      {
+        "start_step": 0,
+        "end_step": 2000,
+        "batch_size": 128,
+        "accumulation": 1,
+        "presentation_upper_bound": 256000,
+        "max_shards": 60,
+        "mixed_rows_per_shard": 4096
+      },
+      {
+        "start_step": 2000,
+        "end_step": 6000,
+        "batch_size": 128,
+        "accumulation": 1,
+        "presentation_upper_bound": 512000,
+        "max_shards": 60,
+        "mixed_rows_per_shard": 4096
+      },
+      {
+        "start_step": 6000,
+        "end_step": 8048,
+        "batch_size": 128,
+        "accumulation": 1,
+        "presentation_upper_bound": 262144,
+        "max_shards": 60,
+        "mixed_rows_per_shard": 4096
+      },
+      {
+        "start_step": 8048,
+        "end_step": 20000,
+        "batch_size": 128,
+        "accumulation": 1,
+        "presentation_upper_bound": 1529856,
+        "max_shards": 60,
+        "mixed_rows_per_shard": 4096
+      },
+      {
+        "start_step": 20000,
+        "end_step": 70000,
+        "batch_size": 128,
+        "accumulation": 1,
+        "presentation_upper_bound": 6400000,
+        "max_shards": 60,
+        "mixed_rows_per_shard": 4096
+      },
+      {
+        "start_step": 70000,
+        "end_step": 72000,
+        "batch_size": 128,
+        "accumulation": 1,
+        "presentation_upper_bound": 256000,
+        "max_shards": 60,
+        "mixed_rows_per_shard": 4096
+      },
+      {
+        "start_step": 72000,
+        "end_step": 73024,
+        "batch_size": 128,
+        "accumulation": 1,
+        "presentation_upper_bound": 131072,
+        "max_shards": 60,
+        "mixed_rows_per_shard": 4096
+      }
+    ],
+    "presentation_upper_bound": 9347072,
+    "distinct_row_coverage_upper_bound_percent": 78.96858211807533,
+    "exact_distinct_rows_consumed": null
+  },
+  "minimum_updates_for_one_pass_at_batch128": 92473,
+  "limitations": [
+    "Corpus counts reuse the checksum-recorded full CPU scan; this audit does not rescan all Parquet bytes.",
+    "Presentation bounds are not measured unique-row coverage. Resampling and partial batches lower coverage.",
+    "The old loader samples without replacement within each shard-round but allows repeats across rounds.",
+    "Resuming changes the sampling seed; there is no saved consumed-row cursor.",
+    "Other independent experiments do not contribute experience to either checkpoint.",
+    "A full pass means all eligible original rows; held-out questions must remain excluded.",
+    "Some visited rows have truncated inputs or targets; row coverage does not prove full-token exposure."
+  ],
+  "required_before_scaling": [
+    "Implement a globally mixed traversal without repeating row IDs until all eligible rows have been visited.",
+    "Carry original shard and row IDs through grouping, and count only batches used by optimizer updates.",
+    "Persist consumed-stream state with checkpoints; do not count prefetched batches as trained.",
+    "CPU tests must cover uneven shards, partial batches, held-out exclusion, end-of-epoch and mid-window resume.",
+    "Benchmark the corrected loader against current throughput before allocating a long GPU run.",
+    "Report per-shard unique rows, repeats, exclusions and completed full passes at every checkpoint."
+  ],
+  "optimization_claim": "Not exhausted. Completed short screens only apply to their tested settings and budgets."
+}

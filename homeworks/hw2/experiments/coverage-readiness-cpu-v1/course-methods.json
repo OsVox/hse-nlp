@@ -1,0 +1,79 @@
+{
+  "review_scope": "Three local seminar notebooks and four lecture PDFs; not video recordings",
+  "items": [
+    {
+      "method": "Full eligible-row coverage and exact resume",
+      "status": "Required correction before scaling",
+      "source": "homeworks/hw2/data.py:training_batches; train.py:seed + start_step",
+      "next": "Implement and CPU-verify nonrepeating mixed traversal plus consumed-row accounting."
+    },
+    {
+      "method": "Warm-up, clipping, mixed precision, length grouping",
+      "status": "Already used",
+      "source": "week03_bert_gpt/lecture3.pdf pages 38-46; homeworks/hw2/train.py; input_pipeline.py",
+      "next": "Do not claim these as new improvements."
+    },
+    {
+      "method": "Fast tokenization and batched preparation",
+      "status": "Already used",
+      "source": "week03_bert_gpt/seminar3.ipynb cells 5-10; homeworks/hw2/input_pipeline.py",
+      "next": "Measure CPU loading overhead with the corrected sampler."
+    },
+    {
+      "method": "Cross-attention inspection and depth balance",
+      "status": "Diagnostics and depth experiments completed; 4/6 depth did not confirm",
+      "source": "week02_transformer/seminar2.ipynb cells 69-90; experiments/depth-confirm-2k-v1/conclusion.json",
+      "next": "Attention visualizations can diagnose errors but do not by themselves prove causality."
+    },
+    {
+      "method": "Beam search",
+      "status": "Deferred by user request for strict greedy",
+      "source": "week02_transformer/seminar2.ipynb cells 97-110",
+      "next": "Keep one greedy candidate in controlled experiments."
+    },
+    {
+      "method": "Pre-normalization, RMS normalization, relative positions, gated FFN, KV cache",
+      "status": "Already present in T5 architecture/inference",
+      "source": "week04_modern_llms/lecture4.pdf pages 12,19,35-36,47-52; train.py:new_model; inference.py:generate_predictions",
+      "next": "Verify exact installed implementation before any kernel substitution."
+    },
+    {
+      "method": "FlashAttention / fused attention",
+      "status": "Unmeasured opportunity",
+      "source": "week04_modern_llms/lecture4.pdf pages 6-9; https://arxiv.org/abs/2205.14135",
+      "next": "First CPU numerical/gradient/cache checks preserving T5 relative bias and mask semantics, then a short real-GPU speed probe. Short sequences may limit benefit."
+    },
+    {
+      "method": "SwiGLU versus current gated GELU",
+      "status": "Unmeasured quality hypothesis",
+      "source": "week04_modern_llms/lecture4.pdf pages 35-36; https://arxiv.org/abs/2002.05202",
+      "next": "Matched fresh scratch pilot with unchanged width/data/budget, repeat promising results. Existing gating is not a new feature."
+    },
+    {
+      "method": "RoPE, ALiBi, grouped-query attention, MoE",
+      "status": "Discussed in course; not exhausted or established helpful here",
+      "source": "week04_modern_llms/lecture4.pdf pages 13-14,22-32,37-44",
+      "next": "Lower priority than coverage and bounded kernel/activation tests; architectural changes require training and cost measurement."
+    },
+    {
+      "method": "Muon optimizer",
+      "status": "Two-seed early scratch improvement; mature optimizer transfer failed",
+      "source": "experiments/optimizer-confirm-2k-v1/conclusion.json; experiments/muon-transfer-1k-v1/conclusion.json",
+      "next": "Do not infer a mature or 78M advantage from only the early 42M result."
+    },
+    {
+      "method": "Tokenizer, comments, sampling weights, dropout, smoothing, focal loss, averaging",
+      "status": "Tested settings mostly negative or failed confirmation; not universally ruled out",
+      "source": "experiments/*/selection.json and conclusion.json",
+      "next": "Avoid repeating identical screens; require a specific new failure diagnosis before reopening."
+    }
+  ],
+  "decision": "Hold 78M continuation. First correct and verify data traversal. Optimization search is finite and budgeted, never claimed exhaustive.",
+  "short_screen_limit": "A failed 1k/2k screen does not rule out later improvements; repeated use of the same validation subset makes findings exploratory.",
+  "release_gate": [
+    "Data accounting and resume tests pass.",
+    "Corrected loader throughput measured with setup included.",
+    "Prioritized short comparisons completed; promising candidates independently confirmed.",
+    "Any longer run has checkpoint evaluation and a stopping rule."
+  ]
+}
