@@ -23,11 +23,32 @@
     ],
     "confirmation_usable": 988
   },
-  "muon42": "training",
-  "muon78": "pending",
+  "muon42": {
+    "checkpoint_steps": [
+      2686,
+      5422
+    ],
+    "public_correct": [
+      82,
+      134
+    ],
+    "public_total": 960,
+    "pilot_correct": [
+      69,
+      107
+    ],
+    "pilot_usable": 982,
+    "confirmation_correct": [
+      77,
+      129
+    ],
+    "confirmation_usable": 988,
+    "promotion_rule_passed": false
+  },
+  "muon78": "training",
   "long_run_started": false,
   "full_pass_completed": false,
-  "selection_code_commit": "3c1c7ae",
+  "selection_code_commit": "7bf3124",
   "continuation_checks": {
     "learning_curve_and_confirmation": 5,
     "selected_full_pass": 3,
@@ -35,9 +56,9 @@
   },
   "notebook_saved": {
     "drive_id": "1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
-    "cells": 157,
-    "last_cell": "ahQvQZmykXeG",
-    "sha256": "8814e7c550d31b05c43d406fe5ab8991b01dca876c695a1745be391787791460"
+    "cells": 158,
+    "last_cell": "PGMYz5pJsZu6",
+    "sha256": "62a4328a35338402d97518aa8b934453187b07c45dfcb3192a035cf1d9e459c2"
   },
   "next": "Finish remaining arms, confirm a qualifying alternative with seed1042, then resume the selected seed42 checkpoint through update92456 with exact coverage verification."
 }
