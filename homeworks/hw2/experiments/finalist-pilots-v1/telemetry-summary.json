@@ -1,0 +1,7 @@
+{
+  "samples": 583,
+  "mean_activity_percent": 72.1457975986278,
+  "median_activity_percent": 96.0,
+  "peak_memory_mib": 18631.0,
+  "note": "GPU activity includes loading, checkpoint saving and numeric evaluation; not achieved FLOPs."
+}

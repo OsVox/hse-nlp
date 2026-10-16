@@ -1,0 +1,66 @@
+[
+  {
+    "name": "small-lr1e3",
+    "train_and_export_seconds": 183.72823561999996,
+    "validation": {
+      "step": 6000,
+      "token_loss": 0.9462741163406306
+    },
+    "numeric": {
+      "rows": 256,
+      "usable_references": 245,
+      "numeric_correct": 38,
+      "numeric_agreement_on_usable": 0.15510204081632653,
+      "prediction_failures": 14,
+      "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+      "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/finalist-pilots-v1/small-lr1e3/step-006000",
+      "offset": 256,
+      "beams": 1,
+      "device": "cuda",
+      "precision": "torch.float32",
+      "cpu_threads": 24,
+      "generation_seconds": 1.6989565789999688,
+      "batch_size": 64,
+      "max_input_tokens": 128,
+      "max_new_tokens": 192,
+      "model_sha256": "77fa3952a16e7f46e23e28c2ee1bc14e593097fff3afbff11552c3615cf21bda",
+      "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+      "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+      "predictions_sha256": "c50cb7d572f402f185cb678758b3dade851a92fdc843aab2c634e6d5b94f4d43",
+      "handwritten_repairs": 0
+    },
+    "bot_status": "pending"
+  },
+  {
+    "name": "encoder6-lr3e4",
+    "train_and_export_seconds": 353.36094562900007,
+    "validation": {
+      "step": 6000,
+      "token_loss": 0.97816863556105
+    },
+    "numeric": {
+      "rows": 256,
+      "usable_references": 245,
+      "numeric_correct": 41,
+      "numeric_agreement_on_usable": 0.1673469387755102,
+      "prediction_failures": 22,
+      "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+      "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/finalist-pilots-v1/encoder6-lr3e4/step-006000",
+      "offset": 256,
+      "beams": 1,
+      "device": "cuda",
+      "precision": "torch.float32",
+      "cpu_threads": 24,
+      "generation_seconds": 1.7355511769999339,
+      "batch_size": 64,
+      "max_input_tokens": 128,
+      "max_new_tokens": 192,
+      "model_sha256": "7d0898f6595ee684df6f8ffa6231bbf914bc81aee91e95298003b1ff69b66deb",
+      "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+      "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+      "predictions_sha256": "6ed5d45ddcfb88b923458a88d710f1696a1afd91ec97a90113598af68c396517",
+      "handwritten_repairs": 0
+    },
+    "bot_status": "pending"
+  }
+]

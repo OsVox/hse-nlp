@@ -1,0 +1,29 @@
+{
+  "cpu_verified": true,
+  "pool_sha256": "8612f359a5da6123a9bf03f868773bc16d9fc4069e3f16d92b421566e7d6466e",
+  "model_sha256": "7d0898f6595ee684df6f8ffa6231bbf914bc81aee91e95298003b1ff69b66deb",
+  "tokenizer_sha256": "d9fa7b5618323be055ad10ebe760cff2801f251b39dabb7dc62188567c5a6414",
+  "examples": 32768,
+  "batches": [
+    {
+      "batch_size": 64,
+      "examples": 32768,
+      "target_tokens": 2419826
+    },
+    {
+      "batch_size": 128,
+      "examples": 32768,
+      "target_tokens": 2419826
+    },
+    {
+      "batch_size": 256,
+      "examples": 32768,
+      "target_tokens": 2419826
+    },
+    {
+      "batch_size": 512,
+      "examples": 32768,
+      "target_tokens": 2419826
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792123072.132156    6132 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1792123072.164596    6132 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792123073.394885    6132 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1792123073.395273    6132 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+resumed_at_step=2000
+new_schedule_start=2000 peak_lr=0.0003
+step=2050 train_loss=1.7912 elapsed_s=9.1
+step=2100 train_loss=1.4302 elapsed_s=13.4
+step=2150 train_loss=1.9515 elapsed_s=17.1
+step=2200 train_loss=1.4727 elapsed_s=21.0
+step=2250 train_loss=1.9595 elapsed_s=25.2
+step=2300 train_loss=1.7282 elapsed_s=29.0
+step=2350 train_loss=2.0702 elapsed_s=32.9
+step=2400 train_loss=1.6049 elapsed_s=37.0
+step=2450 train_loss=0.9094 elapsed_s=41.0
+step=2500 train_loss=1.8369 elapsed_s=44.7
+step=2500 val_token_loss=1.5399
+best_step=2500 best_val_token_loss=1.5399
+step=2550 train_loss=1.1855 elapsed_s=49.1
+step=2600 train_loss=1.6871 elapsed_s=52.8
+step=2650 train_loss=1.4962 elapsed_s=56.9
+step=2700 train_loss=1.9531 elapsed_s=60.8
+step=2750 train_loss=1.4815 elapsed_s=64.5
+step=2800 train_loss=2.2544 elapsed_s=68.9
+step=2850 train_loss=1.4561 elapsed_s=72.5
+step=2900 train_loss=1.0758 elapsed_s=76.4
+step=2950 train_loss=1.5939 elapsed_s=80.5
+step=3000 train_loss=1.2259 elapsed_s=84.3
+step=3000 val_token_loss=1.3975
+best_step=3000 best_val_token_loss=1.3975
+step=3050 train_loss=1.6627 elapsed_s=88.5
+step=3100 train_loss=1.3637 elapsed_s=92.6
+step=3150 train_loss=1.7303 elapsed_s=96.6
+step=3200 train_loss=1.3766 elapsed_s=100.6
+step=3250 train_loss=0.8102 elapsed_s=104.5
+step=3300 train_loss=1.4937 elapsed_s=108.2
+step=3350 train_loss=1.0785 elapsed_s=112.5
+step=3400 train_loss=1.4916 elapsed_s=116.3
+step=3450 train_loss=0.9574 elapsed_s=120.5
+step=3500 train_loss=1.4993 elapsed_s=124.4
+step=3500 val_token_loss=1.2409
+best_step=3500 best_val_token_loss=1.2409
+step=3550 train_loss=1.0907 elapsed_s=128.6
+step=3600 train_loss=1.8996 elapsed_s=132.9
+step=3650 train_loss=1.2808 elapsed_s=136.5
+step=3700 train_loss=0.8766 elapsed_s=140.5
+step=3750 train_loss=1.4427 elapsed_s=144.5
+step=3800 train_loss=1.0291 elapsed_s=148.4
+step=3850 train_loss=1.3196 elapsed_s=152.2
+step=3900 train_loss=0.9598 elapsed_s=156.2
+step=3950 train_loss=1.5884 elapsed_s=165.0
+step=4000 train_loss=1.1007 elapsed_s=168.8
+step=4000 val_token_loss=1.1344
+best_step=4000 best_val_token_loss=1.1344
+step=4050 train_loss=0.5893 elapsed_s=173.4
+step=4100 train_loss=1.1408 elapsed_s=177.0
+step=4150 train_loss=0.7680 elapsed_s=181.2
+step=4200 train_loss=1.2697 elapsed_s=185.1
+step=4250 train_loss=0.9882 elapsed_s=188.8
+step=4300 train_loss=1.4636 elapsed_s=193.1
+step=4350 train_loss=1.0396 elapsed_s=196.9
+step=4400 train_loss=1.6218 elapsed_s=201.3
+step=4450 train_loss=1.1513 elapsed_s=204.9
+step=4500 train_loss=0.7140 elapsed_s=208.9
+step=4500 val_token_loss=1.0714
+best_step=4500 best_val_token_loss=1.0714
+step=4550 train_loss=1.2272 elapsed_s=212.8
+step=4600 train_loss=0.8335 elapsed_s=217.0
+step=4650 train_loss=1.1900 elapsed_s=220.8
+step=4700 train_loss=0.9321 elapsed_s=224.9
+step=4750 train_loss=1.3816 elapsed_s=228.8
+step=4800 train_loss=1.0934 elapsed_s=232.5
+step=4850 train_loss=0.7183 elapsed_s=236.9
+step=4900 train_loss=1.1129 elapsed_s=240.6
+step=4950 train_loss=0.7107 elapsed_s=244.5
+step=5000 train_loss=1.1485 elapsed_s=248.6
+step=5000 val_token_loss=1.0218
+best_step=5000 best_val_token_loss=1.0218
+step=5050 train_loss=0.9332 elapsed_s=252.8
+step=5100 train_loss=1.3475 elapsed_s=256.7
+step=5150 train_loss=0.8773 elapsed_s=260.9
+step=5200 train_loss=1.5600 elapsed_s=265.0
+step=5250 train_loss=1.0841 elapsed_s=269.0
+step=5300 train_loss=0.6988 elapsed_s=272.9
+step=5350 train_loss=1.1184 elapsed_s=276.6
+step=5400 train_loss=0.6885 elapsed_s=280.7
+step=5450 train_loss=1.1630 elapsed_s=284.6
+step=5500 train_loss=0.9959 elapsed_s=288.3
+step=5500 val_token_loss=0.9993
+best_step=5500 best_val_token_loss=0.9993
+step=5550 train_loss=1.3007 elapsed_s=293.0
+step=5600 train_loss=1.0997 elapsed_s=296.8
+step=5650 train_loss=0.6125 elapsed_s=301.1
+step=5700 train_loss=1.0613 elapsed_s=304.8
+step=5750 train_loss=0.7454 elapsed_s=308.6
+step=5800 train_loss=1.0641 elapsed_s=312.4
+step=5850 train_loss=0.9000 elapsed_s=321.3
+step=5900 train_loss=1.2121 elapsed_s=325.2
+step=5950 train_loss=0.9275 elapsed_s=329.2
+step=6000 train_loss=1.4848 elapsed_s=333.3
+step=6000 val_token_loss=0.9782
+best_step=6000 best_val_token_loss=0.9782
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/finalist-pilots-v1/encoder6-lr3e4/step-006000
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=11.05 device=cuda:0 precision=torch.float32 invalid_before_retry=11 beam_repaired=11 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/finalist-pilots-v1/encoder6-lr3e4/step-006000 jsonl_sha256=93df0fca9ee39394e874ba6f17c607a7fd6a9a6ab625cb4c8315087c0a42a341
+finished_steps=6000
