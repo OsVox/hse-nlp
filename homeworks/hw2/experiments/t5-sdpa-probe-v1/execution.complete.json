@@ -1,0 +1,58 @@
+{
+  "pid": 4222,
+  "started_utc": 1792171859.9734905,
+  "ready": {
+    "source_commit": "906b42243d8e9344f7ddfaf970d7b75903d75800",
+    "inputs_sha256": "de839fa82da646a2348a53ef12b51122300828873e2fe890780d7b41634761d6",
+    "launch_sha256": "62acb6202f1a11b55cb6b6de120c935f083a8e27d3da5be3b41cc76e3d0a3c6b",
+    "cpu_gate": {
+      "status": "cpu_numerical_gate_passed",
+      "parameters": 42481152,
+      "patched_attention_modules": 14,
+      "pool_sha256": "c92e958873eea70da30aabbaf6bd86c46fe3481c08c5f198d417dd5057dcbd40",
+      "examples": 8192,
+      "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+      "adapter_sha256": "8c9eb645d96eafab72d7b4db0be07adb43a227860c0e8f1b4706b98b17ed32fd",
+      "native_loss": 10.744576454162598,
+      "sdpa_loss": 10.744575500488281,
+      "max_logit_abs_difference": 6.67572021484375e-06,
+      "max_parameter_gradient_abs_difference": 1.3690441846847534e-07,
+      "relative_bias_grad_l1": {
+        "encoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight": 0.49068528413772583,
+        "decoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight": 0.38364285230636597
+      },
+      "dropout_disabled_for_numeric_comparison": true,
+      "synthetic_training_data_used": false,
+      "greedy_cached_uncached_equal": true,
+      "counts": {
+        "examples": 8192,
+        "source_tokens": 358777,
+        "target_tokens": 542190,
+        "padded_tokens": 1674368
+      }
+    },
+    "plan": {
+      "native_vs_sdpa": true,
+      "round_order": [
+        [
+          "native",
+          "sdpa"
+        ],
+        [
+          "sdpa",
+          "native"
+        ]
+      ],
+      "batch_size": 128,
+      "examples_per_timed_run": 8192,
+      "warmup_updates": 3,
+      "hard_worker_timeout_seconds": 240,
+      "predeclared_speed_gate": "At least 5% faster median examples/s with both SDPA repetitions complete, then a separate quality pilot.",
+      "weights_discarded": true,
+      "long_run_started": false,
+      "no_score_claim": true
+    }
+  },
+  "returncode": 0,
+  "finished_utc": 1792171897.6365147
+}

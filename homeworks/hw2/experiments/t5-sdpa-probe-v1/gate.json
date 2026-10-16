@@ -1,0 +1,26 @@
+{
+  "status": "cpu_numerical_gate_passed",
+  "parameters": 42481152,
+  "patched_attention_modules": 14,
+  "pool_sha256": "c92e958873eea70da30aabbaf6bd86c46fe3481c08c5f198d417dd5057dcbd40",
+  "examples": 8192,
+  "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+  "adapter_sha256": "8c9eb645d96eafab72d7b4db0be07adb43a227860c0e8f1b4706b98b17ed32fd",
+  "native_loss": 10.744576454162598,
+  "sdpa_loss": 10.744575500488281,
+  "max_logit_abs_difference": 6.67572021484375e-06,
+  "max_parameter_gradient_abs_difference": 1.3690441846847534e-07,
+  "relative_bias_grad_l1": {
+    "encoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight": 0.49068528413772583,
+    "decoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight": 0.38364285230636597
+  },
+  "dropout_disabled_for_numeric_comparison": true,
+  "synthetic_training_data_used": false,
+  "greedy_cached_uncached_equal": true,
+  "counts": {
+    "examples": 8192,
+    "source_tokens": 358777,
+    "target_tokens": 542190,
+    "padded_tokens": 1674368
+  }
+}

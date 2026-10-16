@@ -1,0 +1,13 @@
+{
+  "decision": "Retain native attention. SDPA median 1356.30 examples/s versus native 1486.39 (-8.75%). Both reversed timing rounds agree. This adapter misses the required 5% speed gain and uses more peak allocated memory. No quality pilot or production adoption is justified for this version.",
+  "compute": "Whole benchmark process 29.35 seconds, excluding allocation, Drive mounting and installation. RTX PRO 6000 Blackwell, BF16, batch128, identical 8192 original examples in each timed run. Profile reports both efficient-attention and math kernels.",
+  "scope": "Disposable scratch model throughput only; all probe weights discarded. No new checkpoint or bot submission.",
+  "limitations": [
+    "CPU numerical equivalence is not a full GPU numerical or quality guarantee.",
+    "Short single-GPU measurements do not establish optimal kernels or inference performance.",
+    "Other fused-attention adaptations may behave differently, especially at longer sequence lengths."
+  ],
+  "production_changed": false,
+  "long_run_started": false,
+  "speed_candidate": "native"
+}

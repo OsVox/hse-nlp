@@ -1,0 +1,100 @@
+{
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "torch_version": "2.11.0+cu130",
+  "cpu_gate": {
+    "status": "cpu_numerical_gate_passed",
+    "parameters": 42481152,
+    "patched_attention_modules": 14,
+    "pool_sha256": "c92e958873eea70da30aabbaf6bd86c46fe3481c08c5f198d417dd5057dcbd40",
+    "examples": 8192,
+    "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+    "adapter_sha256": "8c9eb645d96eafab72d7b4db0be07adb43a227860c0e8f1b4706b98b17ed32fd",
+    "native_loss": 10.744576454162598,
+    "sdpa_loss": 10.744575500488281,
+    "max_logit_abs_difference": 6.67572021484375e-06,
+    "max_parameter_gradient_abs_difference": 1.3690441846847534e-07,
+    "relative_bias_grad_l1": {
+      "encoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight": 0.49068528413772583,
+      "decoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight": 0.38364285230636597
+    },
+    "dropout_disabled_for_numeric_comparison": true,
+    "synthetic_training_data_used": false,
+    "greedy_cached_uncached_equal": true,
+    "counts": {
+      "examples": 8192,
+      "source_tokens": 358777,
+      "target_tokens": 542190,
+      "padded_tokens": 1674368
+    }
+  },
+  "batch_size": 128,
+  "optimizer": "Muon .001 / AdamW .0003",
+  "precision": "bf16",
+  "source": "Official eligible original shard-0 rows; pool hash and row IDs preserved",
+  "weights_discarded": true,
+  "quality_claim": false,
+  "production_changed": false,
+  "runs": [
+    {
+      "repeat": 0,
+      "variant": "native",
+      "status": "complete",
+      "seconds": 5.5763900230000445,
+      "examples": 8192,
+      "examples_per_second": 1469.0507597588703,
+      "peak_allocated_gib": 15.63559341430664,
+      "final_loss": 4.55233907699585
+    },
+    {
+      "repeat": 0,
+      "variant": "sdpa",
+      "attention_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_attention_math",
+        "aten::_scaled_dot_product_efficient_attention",
+        "aten::_scaled_dot_product_efficient_attention_backward"
+      ],
+      "status": "complete",
+      "seconds": 6.0232734449999725,
+      "examples": 8192,
+      "examples_per_second": 1360.0577949520666,
+      "peak_allocated_gib": 16.20346450805664,
+      "final_loss": 4.548866271972656
+    },
+    {
+      "repeat": 1,
+      "variant": "sdpa",
+      "attention_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_attention_math",
+        "aten::_scaled_dot_product_efficient_attention",
+        "aten::_scaled_dot_product_efficient_attention_backward"
+      ],
+      "status": "complete",
+      "seconds": 6.056776094999918,
+      "examples": 8192,
+      "examples_per_second": 1352.5347266448869,
+      "peak_allocated_gib": 16.20346450805664,
+      "final_loss": 4.548889636993408
+    },
+    {
+      "repeat": 1,
+      "variant": "native",
+      "status": "complete",
+      "seconds": 5.447796362000076,
+      "examples": 8192,
+      "examples_per_second": 1503.7272790043185,
+      "peak_allocated_gib": 15.64023208618164,
+      "final_loss": 4.552504062652588
+    }
+  ],
+  "completed": true,
+  "elapsed_seconds": 29.35137500799999,
+  "median_examples_per_second": {
+    "native": 1486.3890193815944,
+    "sdpa": 1356.2962607984769
+  },
+  "speed_candidate": "native",
+  "quality_pilot_required": false,
+  "limitation": "Short single-GPU throughput probe, same original rows and batch membership. Dropout uses kernel-specific random masks. No trained checkpoint or score improvement is claimed."
+}

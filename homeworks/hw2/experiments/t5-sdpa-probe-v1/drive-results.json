@@ -1,0 +1,21 @@
+{
+  "folder": "1s-_hsVw5WCQXKebuSObFsdw1priJbH0D",
+  "files": {
+    "results.json": {
+      "id": "1J56wunAgTcagNbGNPNrN4Cb6aGXcEEID",
+      "sha256": "792d003a8fb0a6125e65edc2742bdd3be5c6e73244de201d4f5a222b608870b2"
+    },
+    "gpu.csv": {
+      "id": "1haDhPbtJLl1lN9qbF8Cqhz9TFNiaFOsz",
+      "sha256": "c2e441f060c396f9603421058e86eecabccd1a40027975bc4b42cafed1563d93"
+    },
+    "execution.complete.json": {
+      "id": "1uusBQTxGzJNotsNNMYV4KjEcMpz2YhVK",
+      "sha256": "42b55dc7a7bcf4e2f84cd67f4706191c8e0fef1fdfd74922837b7d240fbdedb5"
+    },
+    "execution.log": {
+      "id": "1O4Bd5tbQXkOsiAU8U3q9CLz5730iN6IF",
+      "sha256": "0a48d3609c60e2b4adbde573628c2c7a3c78d17a0c21a3230dbd932cb2c0af5b"
+    }
+  }
+}

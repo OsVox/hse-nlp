@@ -1,0 +1,36 @@
+{
+  "decision": "All 11,836,444 eligible original rows were tokenized without truncation on CPU. Mean question length 46.58, mean program length 73.76, including EOS. Current 128/192 limits cut 19,870 questions and 212,045 programs; 228,035 rows (1.927%) lose some text. 192/384 limits would reduce affected rows to 1,551 (0.013%). This is a corpus census, not proof of checkpoint training exposure or improved accuracy.",
+  "next": "Keep current production limits until isolated short quality and throughput comparisons. Test a larger output limit separately from a larger input limit, retaining original targets, exact row coverage and strict greedy decoding. No full-pass training or scaling begins from this audit alone.",
+  "all_rows_audited": true,
+  "all_rows_trained": false,
+  "all_tokens_trained": false,
+  "gpu_used": false,
+  "model_changed": false,
+  "all_optimizations_exhausted": false,
+  "max_observed_tokens": {
+    "question": 741,
+    "code": 1208
+  },
+  "special_token_counts": {
+    "question": {
+      "unknown_token_occurrences": 0,
+      "literal_pad_occurrences": 0,
+      "rows_with_internal_eos": 0
+    },
+    "code": {
+      "unknown_token_occurrences": 0,
+      "literal_pad_occurrences": 0,
+      "rows_with_internal_eos": 0
+    }
+  },
+  "source_commit": "906b422",
+  "tests": "Three focused synthetic CPU tests passed: quantiles, excluded-row/cap accounting plus verified resume, non-string rejection.",
+  "target_damage_sample": {
+    "sample_rows": 1920,
+    "original_parseable": 1920,
+    "became_unparseable": 472,
+    "parseable_but_lost_all_returns": 1344,
+    "still_parseable_with_return": 104,
+    "scope": "Equal-sized per-shard sample of original eligible targets longer than 192 tokens; not a population-weighted estimate."
+  }
+}

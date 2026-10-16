@@ -778,6 +778,45 @@ def build():
             p('Steady logged training intervals processed approximately 1,587 examples/s for control and 1,576 examples/s for coverage. A single short comparison cannot establish a small speed difference. The full GPU ledger records 131,072 distinct consumed rows across all 60 shards (1.11% of eligible rows), zero repeated presentations and zero complete passes. Historical exposure before step 73,024 remains unknown. CPU planner verification covers all 11,836,444 eligible rows exactly once; that is separate from actual training exposure.'),
             p('The predeclared engineering gate rejects a loss greater than 5/245 or 10/493, or more than five extra total execution failures. This run passes at the failure-count boundary; it does not meet a stronger claim of fewer failures or independent replication. Public scoring is recorded separately from the held-out gate. The 78M long run remains on hold. Faster attention and SwiGLU comparisons remain outstanding; no claim of exhaustive optimization is made.'),
             p('Seventeen focused CPU checks and finite-gradient checks of both full-size paths passed before GPU allocation. Source: 4ad9e1ec3a2991780bc835a65ffe710662cbb3db. Evidence: experiments/coverage-pipeline-1k-v1. Bot messages 788989 and 788994; last reported rank 10/16 at 20:20 on 16 October 2026 (+03). T4 timing is still unverified.','SmallText')]
+    attention_probe = ROOT/'experiments/t5-sdpa-probe-v1'
+    if (attention_probe/'conclusion.json').exists():
+        conclusion=json.loads((attention_probe/'conclusion.json').read_text())
+        result=json.loads((attention_probe/'results.json').read_text())
+        rows=[['Attention','Round 1 examples/s','Round 2 examples/s','Peak allocated GiB']]
+        for variant in ['native','sdpa']:
+            runs=[r for r in result['runs'] if r['variant']==variant]
+            rows.append([variant,*[f"{r['examples_per_second']:.1f}" for r in runs],f"{max(r['peak_allocated_gib'] for r in runs):.2f}"])
+        story += [PageBreak(),p('Attention implementation: bounded speed probe','Title'),
+            p('The course introduces faster attention kernels. This probe keeps the same scratch T5 architecture and original training examples, replacing its attention calculation with PyTorch scaled_dot_product_attention (SDPA). The adapter explicitly preserves T5 scale=1.0, learned relative-position bias and its gradient, padding/causal masks, cross-attention cache and evaluation dropout behavior. Native attention remains the default. Requested attention weights or masked/pruned heads use the original implementation.'),
+            p('Six synthetic CPU tests pass, covering logits, loss, gradients, cache/no-cache greedy generation, deeper decoders, save/reload, diagnostic fallback and dropout settings. A separate full 42.48M CPU test on four original examples passes: maximum logit difference 6.68e-6 and maximum parameter-gradient difference 1.37e-7. Both learned relative-bias tables receive nonzero gradients. These tests establish a limited numerical gate, not a full GPU quality guarantee.'),
+            p('Use 8,192 eligible original shard-0 examples, batch128, BF16, the original 8k tokenizer and a fresh 6/4, width512, feed-forward1536 model. Each trial starts at seed42, performs three warm-up updates, then times the same examples with Muon 0.001 and AdamW 0.0003. Two rounds reverse the native/SDPA order. A separate untimed forward/backward profiler call identifies dispatched kernels. No trained weights are retained.'),
+            table(rows,[28*mm,50*mm,50*mm,42*mm]),p(conclusion['decision']),p(conclusion['compute']),
+            p('Both SDPA profiles contain efficient-attention and ordinary math operations; this is not evidence that all layers used FlashAttention. Dropout random masks differ between implementations. The predeclared gate requires at least a 5% median speed gain before a separate quality pilot. This version fails that gate. No prediction checkpoint was produced, so there is no new bot submission or public-score claim.'),
+            p('Inputs, source, CPU checks and GPU results were saved to Drive and downloaded back. The runtime has a 240-second worker limit and released automatically; active sessions were verified as zero. Source: 906b422. Evidence: experiments/t5-sdpa-probe-v1. References: week04_modern_llms/lecture4.pdf pp.6-9; PyTorch 2.9 scaled_dot_product_attention documentation; Hugging Face Transformers v4.57.6 T5Attention source. Other implementations and longer sequence workloads remain untested.','SmallText')]
+    corpus_tokens = ROOT/'experiments/corpus-token-cpu-v1'
+    if (corpus_tokens/'conclusion.json').exists():
+        result=json.loads((corpus_tokens/'results.json').read_text())
+        conclusion=json.loads((corpus_tokens/'conclusion.json').read_text())
+        contexts=json.loads((corpus_tokens/'context-options.json').read_text())
+        lengths=[['Original text','Mean tokens','Median','99th percentile','Maximum']]
+        for key,label in [('question','Question'),('code','Program')]:
+            r=result['results'][key];q=r['quantiles']
+            lengths.append([label,f"{r['mean_tokens']:.2f}",q['0.5'],q['0.99'],q['1.0']])
+        limits=[['Input / output cap','Questions cut','Programs cut','Either cut (%)']]
+        for row in contexts.values():
+            limits.append([f"{row['source_cap']} / {row['target_cap']}",f"{row['source_cut']:,}",
+                f"{row['target_cut']:,}",f"{row['rows_cut_percent']:.3f}%"])
+        story += [PageBreak(),p('Full-corpus token coverage audit','Title'),
+            p('CPU census of every eligible question and program with the original 8k tokenizer, without truncation or padding. Counts include the end token. All 60 Parquet files and eligible indices are checksum-verified. Exclude held-out question copies; retain original duplicate rows. No test answers are read.'),
+            table(lengths,[37*mm,31*mm,27*mm,40*mm,35*mm]),
+            table(limits,[45*mm,40*mm,40*mm,45*mm]),
+            p('All 11,836,444 eligible rows were audited. Current limits cut text in 228,035 rows; 192/384 would reduce this to 1,551. These are measured counts, not an accuracy improvement.'),
+            p('Test a larger output limit separately from a larger input limit, using short quality and throughput comparisons. Retain original targets, exact row tracking and greedy decoding. Production limits remain unchanged.'),
+            p('Per-row length arrays, per-shard histograms, cap counts, hashes and package versions are retained. Audit resume verifies inputs and array hashes. Three synthetic checks cover quantiles, exclusion/cap accounting, resume and non-string rejection.'),
+            p(f"The final scan took {result['elapsed_seconds_this_invocation']:.2f} seconds on local CPU. No unknown tokens, literal pad tokens or internal end tokens were found. Larger proposed limits still cut rare outliers: complete token coverage requires accommodating the observed maxima or an explicit outlier path."),
+            p('A fixed seed selects 32 over-limit original programs per shard (1,920 total). All original programs parse. After applying the current 192-token target truncation, 472 no longer parse, 1,344 still parse but lose every return statement, and only 104 remain parseable with a return. This is an equal-sized per-shard sample conditional on being too long, not a population-weighted estimate. Parsing does not establish execution or numeric correctness. No programs are executed or rewritten.'),
+            p('A corpus census does not prove training exposure. The best checkpoint still lacks a completed full-pass receipt. Exact traversal now prevents repeats before a full pass and saves its consumed position, but the short pipeline check is not a full epoch. No optimal context limit, accuracy gain or exhaustive optimization is claimed.'),
+            p('Source: corpus_token_audit.py, tests/test_corpus_token_audit.py, commit 906b422. Evidence: experiments/corpus-token-cpu-v1. Full per-row arrays, source and summary were uploaded to Drive and verified by download. The existing best inference artifact and its public score remain unchanged.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

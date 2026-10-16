@@ -1,0 +1,43 @@
+{
+  "updated_at": "2026-10-16T20:38:00+03:00",
+  "scaling_ready": false,
+  "long_run_started": false,
+  "all_optimizations_exhausted": false,
+  "best_public_correct": 575,
+  "best_public_total": 960,
+  "data": {
+    "eligible_original_rows": 11836444,
+    "all_60_shards_hash_verified": true,
+    "cpu_full_pass_row_plan_verified": true,
+    "gpu_consumed_row_ledger_verified": true,
+    "completed_trained_full_pass": false,
+    "historical_unique_coverage_of_best_model": "Unknown; known presentation upper bound is below a full pass",
+    "full_corpus_token_lengths_audited": true,
+    "current_input_cap": 128,
+    "current_target_cap": 192,
+    "rows_with_truncated_text": 228035,
+    "programs_truncated": 212045,
+    "maximum_question_tokens": 741,
+    "maximum_program_tokens": 1208,
+    "evidence": ["full-coverage-cpu-v1", "coverage-pipeline-1k-v1", "corpus-token-cpu-v1"]
+  },
+  "attention_probe": {
+    "evidence": "t5-sdpa-probe-v1",
+    "decision": "Retain native attention: tested SDPA adapter was 8.75% slower on the matched short training probe",
+    "all_fused_attention_implementations_ruled_out": false
+  },
+  "remaining_priorities": [
+    "Short isolated target-limit comparison, motivated by 212045 truncated original programs; measure both quality and padding cost.",
+    "Handle rare long inputs/programs explicitly before claiming every token is trained; larger fixed caps alone still truncate outliers.",
+    "Matched SwiGLU versus gated-GELU scratch pilot; repeat any apparent gain before combining.",
+    "Use exact consumed-row accounting in subsequent runs and require a completed full-pass receipt before claiming all eligible examples were trained.",
+    "Evaluate a longer learning curve only after these checks, with bounded stages, saved checkpoints and stopping rules."
+  ],
+  "constraints": [
+    "Only original allowed data and own scratch encoder-decoder Transformer; no extra teacher targets.",
+    "Greedy decoding, checkpoints and outputs saved to Drive before export and bot evaluation.",
+    "Public score does not select short experimental candidates; reused held-out results remain exploratory.",
+    "T4 final inference requirement remains unverified and must be resolved before final delivery.",
+    "Do not describe a short negative experiment as exhausting a method's design space."
+  ]
+}

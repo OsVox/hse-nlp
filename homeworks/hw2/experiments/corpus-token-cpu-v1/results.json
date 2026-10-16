@@ -1,0 +1,123 @@
+{
+  "identity": {
+    "index_manifest_sha256": "77fbcbc1c7b2e3d76e8a4f433a73969ffd4a7c13ffa99e4a70851a687065959f",
+    "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+    "audit_source_sha256": "a8c95bc37ac9968b7c4f8e9dd8305958074b08cf099a59281a6f4b084aafd0fb",
+    "versions": {
+      "tokenizers": "0.21.2",
+      "numpy": "1.26.4",
+      "pyarrow": "18.1.0"
+    }
+  },
+  "eligible_rows": 11836444,
+  "shards": 60,
+  "gpu_used": false,
+  "training_changed": false,
+  "token_count_includes_eos": true,
+  "truncation": false,
+  "padding": false,
+  "results": {
+    "question": {
+      "rows": 11836444,
+      "total_tokens": 551337478,
+      "mean_tokens": 46.579655004492906,
+      "quantiles": {
+        "0.5": 43,
+        "0.9": 72,
+        "0.95": 82,
+        "0.99": 106,
+        "0.999": 135,
+        "1.0": 741
+      }
+    },
+    "code": {
+      "rows": 11836444,
+      "total_tokens": 873020057,
+      "mean_tokens": 73.75695411561108,
+      "quantiles": {
+        "0.5": 64,
+        "0.9": 121,
+        "0.95": 148,
+        "0.99": 219,
+        "0.999": 315,
+        "1.0": 1208
+      }
+    }
+  },
+  "caps": {
+    "64:192": {
+      "source_cut": 1898976,
+      "target_cut": 212045,
+      "either_cut": 1971431,
+      "both_cut": 139590,
+      "source_tokens_removed": 29591875,
+      "target_tokens_removed": 9418758,
+      "either_cut_percent": 16.655601969645613
+    },
+    "96:192": {
+      "source_cut": 227885,
+      "target_cut": 212045,
+      "either_cut": 401672,
+      "both_cut": 38258,
+      "source_tokens_removed": 3175389,
+      "target_tokens_removed": 9418758,
+      "either_cut_percent": 3.393519202219856
+    },
+    "128:192": {
+      "source_cut": 19870,
+      "target_cut": 212045,
+      "either_cut": 228035,
+      "both_cut": 3880,
+      "source_tokens_removed": 286382,
+      "target_tokens_removed": 9418758,
+      "either_cut_percent": 1.926549899615121
+    },
+    "192:256": {
+      "source_cut": 390,
+      "target_cut": 52192,
+      "either_cut": 52513,
+      "both_cut": 69,
+      "source_tokens_removed": 14371,
+      "target_tokens_removed": 2067789,
+      "either_cut_percent": 0.4436552059047464
+    },
+    "192:384": {
+      "source_cut": 390,
+      "target_cut": 1184,
+      "either_cut": 1551,
+      "both_cut": 23,
+      "source_tokens_removed": 14371,
+      "target_tokens_removed": 73130,
+      "either_cut_percent": 0.013103597668353773
+    },
+    "256:512": {
+      "source_cut": 62,
+      "target_cut": 153,
+      "either_cut": 213,
+      "both_cut": 2,
+      "source_tokens_removed": 4011,
+      "target_tokens_removed": 15589,
+      "either_cut_percent": 0.0017995269525205373
+    }
+  },
+  "special_tokens": {
+    "question": {
+      "unknown_token_occurrences": 0,
+      "literal_pad_occurrences": 0,
+      "rows_with_internal_eos": 0
+    },
+    "code": {
+      "unknown_token_occurrences": 0,
+      "literal_pad_occurrences": 0,
+      "rows_with_internal_eos": 0
+    }
+  },
+  "elapsed_seconds_this_invocation": 700.2999466249894,
+  "shard_processing_seconds": 699.1673108751129,
+  "scope": "Every eligible original row in the verified index; excludes held-out question copies. No test answers read.",
+  "limitations": [
+    "Row length counts do not measure how many of these rows a checkpoint has trained on.",
+    "A longer context may reduce truncation but its speed and quality must be measured.",
+    "Removing comments or changing labels is not performed by this audit."
+  ]
+}
