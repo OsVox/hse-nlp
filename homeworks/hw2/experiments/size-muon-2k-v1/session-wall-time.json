@@ -1,0 +1,8 @@
+{
+  "allocation_requested_utc": 1792168017.3809159,
+  "release_verified_utc": 1792168882.5696876,
+  "allocation_to_release_upper_bound_seconds": 865.1887717247009,
+  "proof": "size-muon-gpu-released.png",
+  "active_sessions": 0,
+  "compute_units_per_hour": 0
+}

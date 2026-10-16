@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T19:32:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "size-muon-small-002048.jsonl",
+  "jsonl_sha256": "f8f2f27673113a5a5681b9e917d5ae51c9327710989c87de3f4127003cf67518",
+  "source_commit": "926d03d7834ef412e27c4a30bca173a978723c53",
+  "model_sha256": "b74d85baf4afa31f632e64d91567da85857bb5755fdf4269ba88d3d626cf867a",
+  "run": "size-muon-2k-v1",
+  "variant": "small",
+  "step": 2048,
+  "status": "scored",
+  "public_correct": 90,
+  "public_total": 960,
+  "public_percent": 9.38,
+  "reported_rank": 10,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 788953,
+    "accepted": 788954,
+    "score": 788955,
+    "rank": 788956
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1mIkC9WsETWFx20XYAeeYySxnmw3ZZOYm",
+  "training": true,
+  "public_test_used_for_selection": false
+}

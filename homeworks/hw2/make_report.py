@@ -725,6 +725,28 @@ def build():
             p('Retain the current 128-token input limit pending a quality and speed comparison. A 64-token limit would truncate about 12% of test questions. Training already groups similar lengths in windows of 32 batches, and both training and inference pad only to the longest sequence in each batch; a 128-token cap does not make every input 128 tokens long. These counts do not measure GPU savings or establish the best cap.'),
             p('The three test inputs above the current limit contain 137, 146 and 166 tokens including the end token. Input coverage is therefore a reason to test a larger limit as well as more efficient grouping. Neither the 128-token source cap nor the 192-token target cap changed. No model was trained, predictions generated or bot submission made for this audit. Original and mature-checkpoint tokenizer definitions agree after removing saved padding/truncation settings.'),
             p('Evidence: context_length_audit.py and experiments/context-length-cpu-v1. The CPU measurement took 3.29 seconds; no Colab allocation was made. Full histograms, input and tokenizer checksums, and the earlier sample reference are retained.','SmallText')]
+    size_run = ROOT/'experiments/size-muon-2k-v1'
+    if (size_run/'conclusion.json').exists():
+        conclusion=json.loads((size_run/'conclusion.json').read_text())
+        selected=json.loads((size_run/'selection.json').read_text())
+        plan=json.loads((size_run/'plan.json').read_text())
+        rows=[['Parameters','Pilot /245','Confirm /493','Failures','Public /960']]
+        cost=[['Model','Process seconds','Val loss at 512 / 1024 / 1536 / 2048']]
+        curves=json.loads((size_run/'learning-curves.json').read_text())
+        for name,stages in selected['results'].items():
+            receipt=json.loads((size_run/name/'step-002048/bot_receipt.json').read_text())
+            budget=json.loads((size_run/name/'compute-budget.json').read_text())
+            label=f"{plan['expected_parameters'][name]/1e6:.2f}M"
+            rows.append([label,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),receipt['public_correct']])
+            losses=' / '.join(f"{v['token_loss']:.3f}" for v in curves[name])
+            cost.append([label,f"{budget['process_seconds_including_setup']:.1f}",losses])
+        story += [PageBreak(),p('Short model-size comparison with Muon','Title'),
+            p('Three fresh encoder-decoder Transformers use the retained 6/4 depth and 64-dimensional attention heads. Model/feed-forward widths and head counts are 320/960/5, 512/1536/8 and 704/2112/11. All parameters train for 2,048 updates with seed 42, batch 128, BF16, the original 8k tokenizer and unmodified course examples. Hidden matrices use Muon 0.001; embeddings and vectors use AdamW 0.0003. Validation token loss is recorded every 512 updates, while the single final checkpoint per arm is saved and evaluated with strict greedy decoding.'),
+            table(rows,[35*mm,30*mm,35*mm,30*mm,40*mm]),
+            table(cost,[25*mm,35*mm,110*mm]),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('The predeclared gate requires improvement on both held-out subsets and no extra total execution failures versus the fresh 42M control. Public scores are recorded separately. A survivor still needs another seed and a comparison at matched measured GPU time before longer training. Equal updates do not equal compute; rates were not tuned separately for each size. These short curves and reused validation questions cannot establish an optimal final model size.'),
+            p('Twelve focused CPU tests passed, plus finite-gradient and cached-versus-uncached greedy checks at all three actual model sizes. Files were uploaded to Drive and downloaded back before allocation. Every final checkpoint and generated output was saved to Drive before export, checksum verification and bot evaluation. Training source: 926d03d7834ef412e27c4a30bca173a978723c53. Evidence: experiments/size-muon-2k-v1.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

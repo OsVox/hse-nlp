@@ -1,0 +1,11 @@
+{
+  "run_folder": "15CJo9B-anNd6iX_2OsTaqFIk2DRm7whu",
+  "export": {
+    "id": "1hBYpLztc2gtomw3LsVhemqISAUykl-KB",
+    "sha256": "e9af862d3ed234f475cd4eaf4eccbce91a1117c7197d4d395a6257d534e0da0b"
+  },
+  "source_commit": "926d03d7834ef412e27c4a30bca173a978723c53",
+  "all_outputs_verified_and_scored": true,
+  "remote_weights_checksum_verified": true,
+  "compute_released": true
+}

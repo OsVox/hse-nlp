@@ -1,0 +1,9 @@
+{
+  "decision": "Shortlist the 17.58M model for a second-seed comparison against 42.48M: held-out correct counts were 27/245 and 49/493 versus 22/245 and 37/493, with 117 versus 219 total execution failures. The 78.15M model improved to 23/245 and 45/493 but added 10 failures, so it failed the predeclared gate. Public scores disagree with the held-out ranking: 90/960 small, 107/960 control and 110/960 large. The small model is therefore a candidate for replication, not an established optimum. All runs used equal examples, not equal GPU time. No long run started; the mature 575/960 checkpoint remains best.",
+  "compute": "The three-arm driver took 729.70 seconds (12.16 minutes), including dataset restoration, training and held-out evaluation. Training process seconds: small: 137.70, control: 202.93, large: 283.77. Whole-driver GPU utilization mean 75.15%, median 95%; peak memory 25023 MiB. Each final checkpoint was saved to Drive, its model SHA verified by download, and all 1919 greedy outputs verified before bot submission. Allocation request to verified zero active sessions was at most 865.19 seconds (14.42 minutes), including setup and release verification.",
+  "shortlist": [
+    "small"
+  ],
+  "long_run_started": false,
+  "all_checkpoints_scored": true
+}

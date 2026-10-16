@@ -57,5 +57,17 @@
       568
     ],
     "evidence": "muon-transfer-1k-v1/conclusion.json"
+  },
+  "latest_size_screen_observation": {
+    "timestamp": "2026-10-16T19:41:00+03:00",
+    "rank": 10,
+    "participants": 16,
+    "best_public_correct": 575,
+    "new_short_run_correct": {
+      "small": 90,
+      "control": 107,
+      "large": 110
+    },
+    "note": "Best retained submission unchanged; size candidates selected on held-out criteria."
   }
 }

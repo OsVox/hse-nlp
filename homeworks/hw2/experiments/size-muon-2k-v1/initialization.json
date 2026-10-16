@@ -1,0 +1,9 @@
+{
+  "body_hashes": {
+    "small": "85f94bf1b5c326ac701410e869173f11d888fec9c968a01aecbf3d3dc3ec19ad",
+    "control": "640d5a036a932feb97b8200ab388ed7f62efd8529077296327b8d3591cd1cddb",
+    "large": "3a28b1930b784a6133cd6c0924612fc94ba18226a37b92e9e5eaec1045b38a61"
+  },
+  "all_equal": false,
+  "identical_required": false
+}

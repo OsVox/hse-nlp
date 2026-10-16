@@ -1,0 +1,56 @@
+{
+  "small": [
+    {
+      "step": 512,
+      "token_loss": 2.4848
+    },
+    {
+      "step": 1024,
+      "token_loss": 1.8791
+    },
+    {
+      "step": 1536,
+      "token_loss": 1.6013
+    },
+    {
+      "step": 2048,
+      "token_loss": 1.4977
+    }
+  ],
+  "control": [
+    {
+      "step": 512,
+      "token_loss": 2.1675
+    },
+    {
+      "step": 1024,
+      "token_loss": 1.6916
+    },
+    {
+      "step": 1536,
+      "token_loss": 1.4684
+    },
+    {
+      "step": 2048,
+      "token_loss": 1.3885
+    }
+  ],
+  "large": [
+    {
+      "step": 512,
+      "token_loss": 2.0449
+    },
+    {
+      "step": 1024,
+      "token_loss": 1.6586
+    },
+    {
+      "step": 1536,
+      "token_loss": 1.4713
+    },
+    {
+      "step": 2048,
+      "token_loss": 1.3951
+    }
+  ]
+}
