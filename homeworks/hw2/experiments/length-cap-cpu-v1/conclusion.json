@@ -1,0 +1,11 @@
+{
+  "decision": "Longer limits score 575/960 (59.90%), tying the retained best submission. They change 21 of 1,919 programs, but 5 of the 23 regenerated rows still lack EOS after the larger budget. Keep the existing inference notebook and checkpoint: this test shows no public score gain. Public rank is 9/16 at 15:25 (+03:00). No further extension is justified by this result.",
+  "compute": "The CPU driver took 44.31 seconds, including 19.72 seconds regenerating 23 rows; this excludes allocation, authentication and package setup. No GPU was allocated and no training was performed. A late monitoring request briefly reconnected a new CPU runtime after automatic release; that runtime was manually released, and Manage Sessions showed no active sessions. Incremental CPU timing is not a full 1,919-row inference measurement. T4 timing remains deferred and unverified.",
+  "source_commit": "65f74d50bd9f6d68da0a555929783d0273a7d266",
+  "public_correct": 575,
+  "public_total": 960,
+  "public_rank": 9,
+  "participants": 16,
+  "long_run_started": false,
+  "baseline_retained": true
+}

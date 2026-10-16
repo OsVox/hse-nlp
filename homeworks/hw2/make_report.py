@@ -596,6 +596,14 @@ def build():
         if (comment_run/'conclusion.json').exists():
             conclusion=json.loads((comment_run/'conclusion.json').read_text())
             story += [p(conclusion['decision']),p(conclusion['compute'])]
+    length_run = ROOT/'experiments/length-cap-cpu-v1'
+    if (length_run/'conclusion.json').exists():
+        conclusion=json.loads((length_run/'conclusion.json').read_text())
+        story += [PageBreak(),p('Sequence limits: CPU-only inference test','Title'),
+            p('A CPU audit of the best checkpoint tokenizer found only 3 of 1,919 test questions longer than the 128-token input limit (maximum 166). The first 1,024 held-out questions include 2 above this limit, and 5 reference programs exceed the 192-token target limit. In the exact scored best export, 21 generated sequences lack an end-of-sequence token. One row overlaps, giving 23 affected rows.'),
+            p('Keep the same 42.48M model weights. Regenerate exactly those 23 rows on CPU with a 192-token input limit, a 384-token output limit, FP32, batch 8 and strict greedy decoding. Preserve the exact prior model-generated tokens on all other 1,896 rows. No code strings are edited, and no answer quality determines which result is retained. The full 1,919-row candidate is saved to Drive, exported and checked against generated token IDs before bot evaluation. This is a decoding test, with no training or GPU allocation.'),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('Four focused checks passed. Model and tokenizer bytes are verified before CPU model loading. Each regenerated row is chosen solely from question length or missing EOS in the prior model output; no public reference answers enter the procedure. Source: 65f74d50bd9f6d68da0a555929783d0273a7d266. Evidence: experiments/sequence-length-audit-v1 and experiments/length-cap-cpu-v1.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

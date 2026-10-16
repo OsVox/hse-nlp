@@ -1,0 +1,5 @@
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+GREEDY_ROWS 8 23
+GREEDY_ROWS 16 23
+GREEDY_ROWS 23 23
+LENGTH_CAP_SAVED {"gpu_used": false, "training_performed": false, "regenerated_rows": [221, 274, 414, 419, 460, 513, 631, 645, 663, 671, 907, 943, 974, 1022, 1121, 1182, 1217, 1334, 1357, 1438, 1637, 1731, 1826], "changed_programs": 21, "missing_eos_after": [221, 1022, 1121, 1334, 1357], "incremental_generation_seconds": 19.721918748999997, "elapsed_seconds": 44.308634752000046, "baseline_jsonl_sha256": "32153a851016b95bca6653e0cf6e8e6ac046498b6c4585901870331ed0281adf", "candidate_jsonl_sha256": "ad54d93aafa9b62175523b39efb95195d6d52f6ce7d6a77b02251d0d8131440f", "source_commit": "65f74d50bd9f6d68da0a555929783d0273a7d266", "t4_timing_verified": false}
