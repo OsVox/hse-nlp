@@ -106,13 +106,50 @@ def test_resume_rejects_changed_batching_seed_or_bad_counts(corpus):
     sampler=stream(corpus)
     sampler.commit(next(sampler.batches())['_coverage'])
     saved=sampler.checkpoint()['state']
-    for options in [dict(seed=43),dict(batch_size=2),dict(window=3),dict(rows_per_shard=3)]:
+    for options in [dict(seed=43),dict(batch_size=2),dict(window=3),dict(rows_per_shard=3),dict(target_length=384)]:
         with pytest.raises(ValueError,match='changed'):
             stream(corpus,state=saved,**options)
     bad=copy.deepcopy(saved)
     bad['presentations']+=1
     with pytest.raises(ValueError,match='Invalid consumed'):
         stream(corpus,state=bad)
+
+
+def test_longer_targets_preserve_row_order_and_default_fingerprint(corpus):
+    # Same source length forces target length to decide the grouping order.
+    for path in corpus['paths']:
+        rows=pq.read_table(path).to_pylist()
+        for i,row in enumerate(rows):
+            row['question']='same question'
+            row['code']='x = 1\n'*(45+i*13)+'return x'
+        pq.write_table(pa.Table.from_pylist(rows),path)
+    short=stream(corpus,rows_per_shard=20)
+    long=stream(corpus,rows_per_shard=20,target_length=384)
+    config=json.loads(corpus['tokenizer'].backend_tokenizer.to_str())
+    config.pop('padding',None);config.pop('truncation',None)
+    import numpy as np
+    assert short.identity==full_coverage.digest(dict(version=1,manifest=corpus['manifest'],
+        seed=42,batch_size=3,window=2,rows_per_shard=20,shuffle_batch_order=False,
+        tokenizer=config,padding_side='right',numpy_version=np.__version__))
+    left,right=short.batches(),long.batches()
+    grew=False
+    while short.state['cursor'][0]==0:
+        a,b=next(left),next(right)
+        assert a['_coverage']==b['_coverage']
+        assert torch.equal(a['input_ids'],b['input_ids'])
+        assert torch.equal(a['attention_mask'],b['attention_mask'])
+        for row_a,row_b in zip(a['labels'],b['labels']):
+            row_a=row_a[row_a!=-100];row_b=row_b[row_b!=-100]
+            assert row_a[-1]==row_b[-1]==corpus['tokenizer'].eos_token_id
+            assert len(row_a)<=192 and len(row_b)<=384
+            assert torch.equal(row_a[:-1],row_b[:len(row_a)-1])
+            grew |= len(row_b)>len(row_a)
+        short.commit(a['_coverage']);long.commit(b['_coverage'])
+        restored=stream(corpus,rows_per_shard=20,target_length=384,state=long.state)
+        same_batch(next(restored.batches()),next(stream(corpus,rows_per_shard=20,
+            target_length=384,state=long.state).batches()))
+    assert grew and short.state['row_order_sha256']==long.state['row_order_sha256']
+    assert long.checkpoint()['report']['target_length']==384
 
 
 def test_real_training_checkpoint_archive_and_resume(corpus,tmp_path,monkeypatch):
@@ -123,19 +160,20 @@ def test_real_training_checkpoint_archive_and_resume(corpus,tmp_path,monkeypatch
         '--coverage-rows-per-shard','2','--max-shards','3','--batch-size','3',
         '--accumulation','2','--input-pipeline','encoded','--prefetch-batches','2',
         '--group-window','2','--precision','fp32','--save-every','1','--eval-every','100',
-        '--warmup','1']
+        '--warmup','1','--training-target-length','384']
     first=tmp_path/'first'
     monkeypatch.setattr(sys,'argv',common+['--output-dir',str(first),'--steps','2',
         '--d-model','64','--d-ff','128','--encoder-layers','1','--decoder-layers','1','--num-heads','1'])
     train.main()
     saved=json.loads((first/'latest/coverage.json').read_text())
     assert saved.pop('optimizer_step')==2
-    expected=stream(corpus)
+    expected=stream(corpus,target_length=384)
     expected_batches=expected.batches()
     for _ in range(4):
         expected.commit(next(expected_batches)['_coverage'])
     assert saved==expected.checkpoint()
     assert json.loads((first/'latest/run_config.json').read_text())['coverage_index']==str(corpus['index'])
+    assert json.loads((first/'latest/run_config.json').read_text())['training_target_length']==384
     parent=tmp_path/'parent'
     manifest=archive_checkpoint(first/'latest',parent)
     assert 'coverage.json' in manifest['files']

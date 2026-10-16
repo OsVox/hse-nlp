@@ -1,0 +1,46 @@
+{
+  "parent_step": 73024,
+  "final_step": 74048,
+  "batch_size": 128,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "save_every": 74048,
+  "eval_every": 74048,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "arms": {
+    "control": {
+      "numeric_token_weight": 2.0,
+      "mixed_rows_per_shard": null,
+      "coverage_index": "/content/target-length-inputs/coverage-index",
+      "training_target_length": 192
+    },
+    "target384": {
+      "numeric_token_weight": 2.0,
+      "mixed_rows_per_shard": null,
+      "coverage_index": "/content/target-length-inputs/coverage-index",
+      "training_target_length": 384
+    }
+  },
+  "added_example_presentations_per_arm": 131072,
+  "training_timeout_seconds": 360,
+  "outer_timeout_seconds": 900,
+  "hypothesis": "Retaining more of each original program may improve learning compared with training on truncated programs.",
+  "limitations": "Short mature-model continuation and reused held-out sets. Equal updates differ in compute and retained tokens. Inference cap192 can limit long-program accuracy; test that separately. 384 still truncates 1184 eligible programs. No complete training pass or automatic long run.",
+  "selection": "Require positive executed-answer gain on both held-out subsets, no extra total execution failures, and no score loss against parent on either subset. Repeat any survivor with another seed before combining or extending. Verify identical row-order hashes and 131072 unique consumed rows in each arm. Public score does not select the recipe.",
+  "expansion": "Save each checkpoint and exact greedy outputs in Drive, then export and submit every checkpoint to the bot.",
+  "seed": 42,
+  "numeric_token_weight": 2.0,
+  "overlap_cpu_scoring": true,
+  "parent_model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "matched": "Same own 42M parent weights and AdamW moments, 1024 updates, batch128, BF16, seed42, numeric weight2, warmup50 and rate3e-5. Source cap128; grouping target cap192 in both arms preserves exact rows/order/batches. Only training target cap changes 192 to384. Validation and greedy generation cap192 remain fixed.",
+  "next_stages": [
+    "Verify CPU correctness and fixed row order before GPU.",
+    "Archive and bot-score every retained checkpoint.",
+    "Only repeat a held-out survivor; otherwise record the negative result without ruling out larger-budget target retention."
+  ]
+}

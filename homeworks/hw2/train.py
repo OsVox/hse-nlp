@@ -230,6 +230,8 @@ def main() -> None:
     parser.add_argument('--coverage-index', type=Path, default=None,
                         help='CPU-prepared full_coverage index; visit all eligible rows before repeating')
     parser.add_argument('--coverage-rows-per-shard', type=int, default=4096)
+    parser.add_argument('--training-target-length', type=int, default=192,
+                        help='Full-coverage training target cap; validation/generation remain 192, grouping uses 192')
     parser.add_argument('--frequency-index', type=Path, default=None)
     parser.add_argument('--frequency-power', type=float, default=0.0,
                         help='Accept original rows with probability count**(-power); CPU index required')
@@ -280,6 +282,8 @@ def main() -> None:
         parser.error('decoder input dropout must be in [0, 1)')
     if args.skip_truncated_targets and args.input_pipeline != 'encoded':
         parser.error('target filtering requires encoded pipeline')
+    if args.training_target_length < 192 or (args.training_target_length != 192 and args.coverage_index is None):
+        parser.error('A longer training target limit requires the full-coverage pipeline; minimum is 192')
     if args.shuffle_batch_order and args.input_pipeline != 'encoded':
         parser.error('batch-order shuffling requires encoded pipeline')
     if min(args.steps, args.batch_size, args.accumulation, args.max_shards) < 1:
@@ -366,6 +370,7 @@ def main() -> None:
         coverage = FullCoverage(manifest, paths, indices, coverage_tokenizer,
             seed=args.seed, batch_size=args.batch_size, window=args.group_window,
             rows_per_shard=args.coverage_rows_per_shard,
+            target_length=args.training_target_length,
             shuffle_batch_order=args.shuffle_batch_order, state=coverage_state,
             start_step=json.loads((load_checkpoint/'step.json').read_text())['step']
                        if (load_checkpoint/'step.json').exists() else 0)

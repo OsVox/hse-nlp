@@ -1,0 +1,12 @@
+{
+  "command": "pytest -q homeworks/hw2/tests/test_full_coverage.py",
+  "passed": 11,
+  "seconds": 19.63,
+  "checks": [
+    "all eligible rows once and exact resume",
+    "unchanged default stream identity",
+    "cap change rejects old ledger",
+    "identical row order with longer original labels",
+    "real CPU checkpoint archive and resume at target384"
+  ]
+}

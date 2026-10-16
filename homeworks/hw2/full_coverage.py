@@ -73,7 +73,7 @@ def load_index(cache, directory):
 class FullCoverage:
     def __init__(self, manifest, paths, indices, tokenizer, *, seed, batch_size,
                  window=32, rows_per_shard=4096, shuffle_batch_order=False,
-                 state=None, start_step=0):
+                 state=None, start_step=0, target_length=192):
         if min(batch_size, window, rows_per_shard) < 1 or seed < 0:
             raise ValueError('Invalid coverage stream configuration')
         self.paths, self.indices = paths, indices
@@ -85,15 +85,23 @@ class FullCoverage:
             raise ValueError('No eligible rows')
         self.seed, self.batch_size, self.window = seed, batch_size, window
         self.chunk = rows_per_shard
+        if target_length < 192:
+            raise ValueError('Target length must be at least the fixed grouping cap of 192')
+        self.target_length = target_length
         self.shuffle_batches = shuffle_batch_order
         self.rounds = math.ceil(max(self.counts)/self.chunk)
         token_config = json.loads(tokenizer.backend_tokenizer.to_str())
         token_config.pop('padding', None)
         token_config.pop('truncation', None)
-        self.identity = digest(dict(version=1, manifest=manifest, seed=seed,
+        identity = dict(version=1, manifest=manifest, seed=seed,
             batch_size=batch_size, window=window, rows_per_shard=rows_per_shard,
             shuffle_batch_order=shuffle_batch_order, tokenizer=token_config,
-            padding_side=tokenizer.padding_side, numpy_version=np.__version__))
+            padding_side=tokenizer.padding_side, numpy_version=np.__version__)
+        # Preserve existing default-stream fingerprints; changed limits cannot
+        # resume an old ledger silently. Grouping always uses the old 192 cap.
+        if target_length != 192:
+            identity.update(target_length=target_length, grouping_target_length=192)
+        self.identity = digest(identity)
         if tokenizer.padding_side != 'right':
             raise ValueError('Coverage pipeline requires right padding')
         self.state = copy.deepcopy(state) if state else dict(
@@ -170,9 +178,9 @@ class FullCoverage:
                 source = self.tokenizer([r['question'] for r in chunk],
                     truncation=True, max_length=128)['input_ids']
                 target = self.tokenizer([r['code'] for r in chunk],
-                    truncation=True, max_length=192)['input_ids']
+                    truncation=True, max_length=self.target_length)['input_ids']
                 ordered = (list(range(len(chunk))) if self.window == 1 else
-                    sorted(range(len(chunk)), key=lambda i:(len(source[i]),len(target[i]))))
+                    sorted(range(len(chunk)), key=lambda i:(len(source[i]),min(192,len(target[i])))))
                 groups = [ordered[i:i+self.batch_size] for i in range(0,len(ordered),self.batch_size)]
                 if self.shuffle_batches:
                     self.rng(2,epoch,round_id,window_id).shuffle(groups)
@@ -223,7 +231,8 @@ class FullCoverage:
             repeated_presentations_since_tracking_started=self.state['presentations']-unique,
             historical_coverage_before_start_step='unknown',
             start_step=self.state['start_step'],
-            note='Original row IDs, not distinct question texts; token truncation remains unchanged.'))
+            source_length=128, target_length=self.target_length, grouping_target_length=192,
+            note='Original row IDs, not distinct question texts; row coverage does not prove untruncated token coverage.'))
 
 
 if __name__ == '__main__':
