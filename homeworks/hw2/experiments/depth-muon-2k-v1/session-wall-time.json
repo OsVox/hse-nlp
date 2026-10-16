@@ -1,0 +1,5 @@
+{
+  "gpu_request_lower_time_bound_unix": 1792160201.474976,
+  "gpu_request_lower_time_bound_utc": "2026-10-16T14:16:41.474976+00:00",
+  "basis": "Before allocation to verified-release screenshot: whole-session wall-time upper bound, not exact billing."
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "arm": "control",
+    "stage": "pilot",
+    "started_utc": 1792160532.8609052,
+    "collected_utc": 1792160540.0941815
+  },
+  {
+    "arm": "control",
+    "stage": "confirmation",
+    "started_utc": 1792160540.0937748,
+    "collected_utc": 1792160713.036454
+  },
+  {
+    "arm": "encoder_heavy",
+    "stage": "pilot",
+    "started_utc": 1792160706.850602,
+    "collected_utc": 1792160713.0369346
+  },
+  {
+    "arm": "encoder_heavy",
+    "stage": "confirmation",
+    "started_utc": 1792160713.0357063,
+    "collected_utc": 1792160970.6949437
+  },
+  {
+    "arm": "decoder_heavy",
+    "stage": "pilot",
+    "started_utc": 1792160962.4595559,
+    "collected_utc": 1792160970.6954758
+  },
+  {
+    "arm": "decoder_heavy",
+    "stage": "confirmation",
+    "started_utc": 1792160970.6944184,
+    "collected_utc": 1792160978.124429
+  }
+]

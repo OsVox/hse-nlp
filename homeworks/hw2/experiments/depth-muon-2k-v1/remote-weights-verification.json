@@ -1,0 +1,23 @@
+[
+  {
+    "arm": "control",
+    "id": "1N6Pr4yaZGlnasa7CkPgPAYKixxHo290E",
+    "bytes": 169938176,
+    "sha256": "52ad6598181209e44dff801db97f9f2c56b1b94bcb1f2fa00ef446c4c0f669d4",
+    "download_verified": true
+  },
+  {
+    "arm": "encoder_heavy",
+    "id": "13ZkABeHI_GCvWp-qX603GdInfO3EoUfv",
+    "bytes": 169408608,
+    "sha256": "d8a5e718749160fa05feeff99dba800e64393f119ba40c771fb9143707294df5",
+    "download_verified": true
+  },
+  {
+    "arm": "decoder_heavy",
+    "id": "1dgynX1ljAGrznLmygNyvNfpqawaEwELM",
+    "bytes": 170467752,
+    "sha256": "20ec22a92413d023e381e24fcdeb687bb2d67e2cb854cd2d1a8583156a0e1f90",
+    "download_verified": true
+  }
+]

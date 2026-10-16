@@ -1,0 +1,9 @@
+{
+  "body_hashes": {
+    "control": "640d5a036a932feb97b8200ab388ed7f62efd8529077296327b8d3591cd1cddb",
+    "encoder_heavy": "f485187dbff451db825ffe1db08d696d8ccfdb8889a8b909bfd6d5e338bd4849",
+    "decoder_heavy": "4726449b631063ef4129b5981007ef55410a1d2d864a24033b918ea08ed411f1"
+  },
+  "all_equal": false,
+  "identical_required": false
+}

@@ -1,0 +1,59 @@
+{
+  "measurements": [
+    {
+      "gpu": "G4",
+      "batch_size": 128,
+      "examples_per_second": 1503.342538379895,
+      "peak_allocated_gib": 15.63620376586914,
+      "units_per_hour": 8.9,
+      "examples_per_compute_unit": 608093.6110300698
+    },
+    {
+      "gpu": "G4",
+      "batch_size": 256,
+      "examples_per_second": 1453.3307932747443,
+      "peak_allocated_gib": 30.817630767822266,
+      "units_per_hour": 8.9,
+      "examples_per_compute_unit": 587864.1410998965
+    },
+    {
+      "gpu": "G4",
+      "batch_size": 512,
+      "examples_per_second": 1353.7106197259952,
+      "peak_allocated_gib": 61.201271057128906,
+      "units_per_hour": 8.9,
+      "examples_per_compute_unit": 547568.3405633239
+    },
+    {
+      "gpu": "A100 80GB",
+      "batch_size": 128,
+      "examples_per_second": 847.7765322530613,
+      "peak_allocated_gib": 15.63632583618164,
+      "units_per_hour": 6.77,
+      "examples_per_compute_unit": 450811.74536351865
+    },
+    {
+      "gpu": "A100 80GB",
+      "batch_size": 256,
+      "examples_per_second": 1028.2786794125914,
+      "peak_allocated_gib": 30.820072174072266,
+      "units_per_hour": 6.77,
+      "examples_per_compute_unit": 546795.1618737561
+    },
+    {
+      "gpu": "A100 80GB",
+      "batch_size": 512,
+      "examples_per_second": 1111.3269360239212,
+      "peak_allocated_gib": 61.201271057128906,
+      "units_per_hour": 6.77,
+      "examples_per_compute_unit": 590956.7163495002
+    }
+  ],
+  "selected_gpu": "G4",
+  "selected_batch": 128,
+  "compute_released": true,
+  "speed_ratio": 1.3527455239756156,
+  "decision": "Retain G4 with batch 128. Median throughput is 1,503 examples/s, versus A100's best tested 1,111 examples/s at batch 512: G4 is 35.3% faster. Batch 256 and 512 reduced G4 speed by 3.3% and 10.0%; batch 1024 ran out of memory on both GPUs. G4 has about 3% better measured examples per compute unit than A100's larger-batch winner, a small difference that should not be overinterpreted from a short probe. No training recipe or model weights changed.",
+  "hardware_availability": "Colab could not allocate the requested H100 and substituted G4. That duplicate probe was stopped and is excluded from this comparison. A100 allocation was verified as NVIDIA A100-SXM4-80GB. Quoted rates observed in this session were 8.9 units/hour for G4 and 6.77 for A100. Both runtimes were released; G4 is selected but disconnected.",
+  "limitations": "Two short rounds on 8192 original rows from one shard. Setup, authorization and checkpoint I/O are outside timed throughput. These are not full-training speed or quality guarantees. Compare changed batch sizes on accuracy before adoption."
+}

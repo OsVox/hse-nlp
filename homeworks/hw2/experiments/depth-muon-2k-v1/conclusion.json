@@ -1,0 +1,4 @@
+{
+  "decision": "The 4-encoder/6-decoder candidate passed the first screen: +2 and +10 correct on the two held-out subsets, with 74 fewer execution failures. It requires seed-1042 confirmation before extension. The 8/2 candidate failed this equal-example screen (-4 and -11, 180 extra failures); this does not rule out a separate equal-time comparison. Public results were 101, 59 and 108 /960 for 6/4, 8/2 and 4/6. The mature 575/960 checkpoint remains the best.",
+  "compute": "The full three-arm driver took 701.81 seconds (11.70 minutes), including evaluation. Whole-driver GPU activity had median 95%, mean 74.36%, and peak reported memory 20,325 MiB. The runtime disconnected automatically after exporting results. These figures do not establish equal GPU cost across architectures."
+}

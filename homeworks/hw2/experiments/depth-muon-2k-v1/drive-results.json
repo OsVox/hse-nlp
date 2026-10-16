@@ -1,0 +1,8 @@
+{
+  "run_folder": "1mQUbGstcphmul3Vom1iDnuTK_jmly3oh",
+  "exports_id": "17ayDk_rit0aAIBj3Ivjuj_x4UBCCpNxs",
+  "all_three_outputs_verified_and_scored": true,
+  "all_three_remote_model_weights_verified": true,
+  "compute_released": true,
+  "release_basis": "Colab showed Reconnect and no runtime before starting the separate batch probe"
+}

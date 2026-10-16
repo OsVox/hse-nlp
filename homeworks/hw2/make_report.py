@@ -653,6 +653,33 @@ def build():
             p('The candidate must improve both held-out subsets and add no total execution failures in both seeds. The prior selection file is checksum-verified before launch. These reused validation questions make the result exploratory; replication across seeds does not establish statistical significance, a compute-optimal model size or eventual mature-model accuracy. Equal examples also do not imply equal GPU cost.'),
             p(conclusion['decision']),p(conclusion['compute']),
             p('Ten focused checks passed. Existing full-size CPU model/optimizer checks and native-Muon Colab compatibility evidence were reused because the implementations and rates are unchanged. Preparation files were uploaded to Drive and downloaded back before allocation. Each checkpoint and strict-greedy test output was saved to Drive before export and exact-token verification. Source: 310a4d89ec8fd62d58d59e7042134cd4bd7c23ac. Evidence: experiments/optimizer-confirm-2k-v1.','SmallText')]
+    depth_run = ROOT/'experiments/depth-muon-2k-v1'
+    if (depth_run/'conclusion.json').exists():
+        conclusion=json.loads((depth_run/'conclusion.json').read_text())
+        r=json.loads((depth_run/'selection.json').read_text())
+        rows=[['Encoder / decoder','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,stages in r['results'].items():
+            receipt=depth_run/name/'step-002048/bot_receipt.json'
+            public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            label={'control':'6 / 4 (42.48M)','encoder_heavy':'8 / 2 (42.35M)','decoder_heavy':'4 / 6 (42.61M)'}[name]
+            rows.append([label,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),public])
+        story += [PageBreak(),p('Encoder/decoder capacity balance with Muon','Title'),
+            p('Compare three fresh models using the replicated Muon 0.001 recipe, with AdamW 0.0003 on embeddings and vectors. All have model width 512 and eight attention heads. Encoder/decoder depths 6/4, 8/2 and 4/6 use feed-forward widths 1536, 1664 and 1408 respectively, keeping parameter counts within 0.32% of baseline. Each uses seed 42, the original 8k tokenizer and unmodified data, batch 128 and 2,048 updates. Different tensor shapes cannot share identical random weights; each initial model hash is recorded.'),
+            table(rows,[46*mm,29*mm,35*mm,25*mm,35*mm]),
+            p('A candidate must improve both held-out subsets with no extra total execution failures versus the newly trained 6/4 Muon control, then repeat that gain on another seed. This changes depth balance and compensating feed-forward width together. Equal parameters and examples do not imply equal compute; architecture-specific learning rates were not tuned. Public scores are recorded separately and do not select candidates.'),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('CPU preflight found that Transformers 4.57.6 inferred the default T5 cache depth from encoder num_layers, raising IndexError for the 4/6 model. Deeper-decoder models now save native dynamic_full caching in generation_config. Cached and uncached greedy IDs agree in the focused regression test, including after save/reload. Full-size finite-gradient and cached-generation checks pass for all three shapes; 13 focused checks passed before allocation. No GPU was used for this fix. Source: f6fc269034b3e42ec3e3e8850ecab63d1e726d76. Evidence: experiments/depth-muon-2k-v1.','SmallText')]
+    speed_comparison = ROOT/'experiments/muon-batch-probe-v1/comparison.json'
+    if speed_comparison.exists():
+        c=json.loads(speed_comparison.read_text())
+        rows=[['GPU','Batch','Examples/s','Peak GiB','Units/hour']]
+        for r in c['measurements']:
+            rows.append([r['gpu'],r['batch_size'],round(r['examples_per_second']),round(r['peak_allocated_gib'],1),r['units_per_hour']])
+        story += [PageBreak(),p('GPU and batch-size efficiency','Title'),
+            p('A disposable Muon training probe uses the same scratch 42.48M model, original tokenizer, BF16, and encoded input path with two prefetched batches. Each timed measurement processes the same 8,192 original shard-0 training examples, excluding held-out questions. Each size receives three warm-up updates, followed by ascending and descending measurement rounds. Useful token counts are equal; padding differs. Results are medians of two short measurements, not full-dataset training speed or evidence of better learning.'),
+            table(rows,[42*mm,20*mm,35*mm,35*mm,38*mm]),
+            p(c['decision']),p(c['hardware_availability']),
+            p('All probe weights are discarded. The supplied code, prepared inputs, hashes, logs and measured results are preserved on Drive. Each runtime has a bounded worker and automatic release. A batch change must separately pass a short quality comparison before adoption. CPU checks verified equal useful token counts before allocation. Benchmark source: commit 9e1a489. Evidence: experiments/muon-batch-probe-v1 and the adjacent H100/A100 attempt folders.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
