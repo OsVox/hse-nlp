@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-10-16T09:17:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "full-42m-step-050000.jsonl",
+  "jsonl_sha256": "0bdee3810faee2c538e2128ddb712503aff4441c4d0cdedf548cd2ff49c2cc80",
+  "source_commit": "69829cbe4f76a54907f1306df19e34065e75a75a",
+  "model_sha256": "01ba1ecb9c6eb4328142d9b164b58df1e12a7cb66c68e66b8015bafd8640c8c5",
+  "run": "full-42m-100k-v1",
+  "step": 50000,
+  "status": "scored",
+  "public_correct": 519,
+  "public_total": 960,
+  "public_percent": 54.06,
+  "reported_rank": 8,
+  "participants": 15,
+  "rank_basis": "Best retained submission, not this checkpoint alone",
+  "telegram_message_ids": {
+    "file": 788682,
+    "accepted": 788683,
+    "score": 788684,
+    "rank": 788685
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order"
+}

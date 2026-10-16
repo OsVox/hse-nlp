@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-16T09:17:00+03:00",
+  "decision": "Continue the existing bounded run to 100000 steps with unchanged settings",
+  "evidence": {
+    "public_correct_30000": 409,
+    "public_correct_40000": 471,
+    "public_correct_50000": 519,
+    "validation_loss_50000": {
+      "step": 50000,
+      "token_loss": 0.45157384001173445
+    },
+    "best_retained_public_correct": 548,
+    "gpu_utilization_percent": 98,
+    "gpu_memory_mib": 18955
+  },
+  "rationale": "The latest 10000 steps added 48 correct public answers; validation loss continues to decline. Best retained small-model voting submission remains higher."
+}
