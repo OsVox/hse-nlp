@@ -1,0 +1,47 @@
+{
+  "status": "preregistered_not_launched",
+  "parent_step": 72000,
+  "parent_model_sha256": "878683b76cfb5fc768d1e13c1b060b3fb9ae6007010cda744870fd24184bbe88",
+  "parent_drive_folder": "16QXNLZ81uS-nAmflYHSGqHLabLpJ19yO",
+  "parent_mount_path": "/content/drive/MyDrive/HSE_NLP_HW2/runs/numeric-loss-2k-v1/numeric2/step-072000",
+  "final_step": 73024,
+  "training_updates_per_arm": 1024,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 42,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "numeric_token_weight": 2.0,
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "precision": "bf16",
+  "prediction_batch_size": 256,
+  "arms": {
+    "control": {
+      "numeric_token_weight": 2.0
+    },
+    "comments": {
+      "numeric_token_weight": 2.0,
+      "strip_comments": true
+    }
+  },
+  "selection": "Strictly positive executed-answer gain on each held-out subset with no increase in total execution failures versus control. Confirm survivors with another seed; no automatic longer training.",
+  "hypothesis": "Comment and empty-line removal may improve a trained model even though the 2k scratch pilot failed. Compare unchanged targets versus existing AST-preserving cleanup at equal 1024 updates from the same 72k parent.",
+  "cpu_requirements": [
+    "Reuse verified 72k parent weights and optimizer preflight, dataset hashes and original tokenizer",
+    "Reuse completed cleanup CPU audit and run focused cleanup/runtime/selection tests",
+    "Verify source, launcher and ready records from Drive before GPU"
+  ],
+  "limitations": "Target lengths change, but original questions and update budget match. References and validation have been reused; this remains exploratory. No new examples or alternative solutions.",
+  "decoding": "Strict greedy; no repairs",
+  "save": "Every final checkpoint and predictions in Drive; export, verify and submit every unique model output once",
+  "training_timeout_seconds": 400,
+  "outer_timeout_seconds": 900,
+  "save_every": 73024,
+  "eval_every": 73024,
+  "overlap_cpu_scoring": true,
+  "parent_archive_path": "/content/drive/MyDrive/HSE_NLP_HW2/prepared/frequency-screen-1k-v1/parent.tar",
+  "previous_goal_turn": "No progress: clarification of comment-removal permission only. This turn starts a bounded continuation test."
+}
