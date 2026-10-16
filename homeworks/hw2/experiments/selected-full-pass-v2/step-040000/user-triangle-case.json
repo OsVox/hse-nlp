@@ -1,0 +1,10 @@
+{
+  "test_row_zero_based": 1,
+  "code": "def solve() -> int:\n    area = 54\n    base = 12\n    height = area / base\n    result = height\n\n    return result\n",
+  "bot_reported_answer": 4.5,
+  "bot_reported_correct": 9,
+  "telegram_score_message": 789121,
+  "earlier_step_20000_answer": 9.0,
+  "output_modified": false,
+  "used_for_training": false
+}

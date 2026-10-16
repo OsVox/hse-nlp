@@ -1,9 +1,9 @@
 {
   "id": "1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
-  "sha256": "d6c4bae3a3e01d864cfecccc897b3b2074b1d71f9fbc36d97efce67a69d3e00f",
-  "cells": 168,
+  "sha256": "a1450cce4ab8b17405bfc55747463481d0559cf2907ae488e9022e1d31ff5e60",
+  "cells": 169,
   "download_verified": true,
   "worker_pid": 5095,
-  "observed_step": 31200,
-  "scored_checkpoint_step": 30000
+  "observed_step": 40650,
+  "scored_checkpoint_step": 40000
 }

@@ -1065,6 +1065,10 @@ def build():
                 receipt['public_correct'],f"{receipt['public_percent']:.2f}%"])
         if len(rows)>1:
             story += [p('Drive-verified checkpoint submissions','Head'),table(rows,[30*mm,65*mm,40*mm,35*mm])]
+        triangle=full/'step-040000/user-triangle-case.json'
+        if triangle.exists():
+            case=json.loads(triangle.read_text())
+            story += [p(f"Individual regression: the user-identified triangle question returned {case['bot_reported_answer']} at step 40,000, while the correct height is {case['bot_reported_correct']}; step 20,000 returned {case['earlier_step_20000_answer']}. The overall score improved, but individual answers are not monotonic. This observation is retained without output repairs or training-target changes.",'SmallText')]
         story += [p('Each checkpoint is saved to Drive before its exact token IDs, CSV and 1,919-row JSONL are downloaded and checked. Bot receipts remain separate from training and held-out measurements. Saving and inference overhead are excluded from training-time estimates. The runtime has a hard timeout and automatic GPU release on completion or failure.','SmallText'),
             p(f"Frozen training source {ready['source_commit'][:7]}; evidence: experiments/selected-full-pass-v1 (failed launch) and selected-full-pass-v2. Historical public best remains a separate artifact; neither one completed pass nor a green execution receipt alone proves first place or T4 timing compliance.",'SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
