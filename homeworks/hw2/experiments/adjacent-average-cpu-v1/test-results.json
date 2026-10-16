@@ -1,0 +1,6 @@
+{
+  "command": "pytest -q homeworks/hw2/tests/test_average_pilot.py",
+  "passed": 3,
+  "seconds": 0.86,
+  "scope": "Exact arithmetic mean, immutable parents, incompatible tokenizer rejection, and selection predicate. Full driver will be checked against real saved checkpoints."
+}

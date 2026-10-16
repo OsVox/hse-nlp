@@ -1,0 +1,32 @@
+{
+  "device": "CPU",
+  "training_updates": 0,
+  "baseline": 74752,
+  "candidates": {
+    "avg74_75": [
+      74752,
+      75776
+    ],
+    "avg74_75_76": [
+      74752,
+      75776,
+      76800
+    ]
+  },
+  "pilot": {
+    "offset": 256,
+    "rows": 256
+  },
+  "confirmation": {
+    "offset": 512,
+    "rows": 512
+  },
+  "gate": "Strict improvement on each held-out subset with no extra total execution failures relative to the same-device baseline. Confirm only pilot survivors. No public scores select averages.",
+  "baseline_reason": "Step 74752 has the highest aggregate saved held-out accuracy among the four curve checkpoints.",
+  "num_beams": 1,
+  "do_sample": false,
+  "training_data_added": false,
+  "parent_run": "complete-curve-4k-v1",
+  "parent_coverage": "Averaging does not merge data exposure or create new training steps. Inference only; do not attach parent optimizer state.",
+  "public_test_used_for_selection": false
+}
