@@ -11,6 +11,7 @@ import zipfile
 
 from . import learning_curve
 from .learning_curve_confirm import paired_selection
+from .async_scoring import ScoringJobs
 from .checkpoint_io import drive_preflight, sha256
 from .short_pilots import ROOT, CACHE, copy_verified, restore_data
 from .tokenizer_pilot import training_command
@@ -124,6 +125,27 @@ def run():
             budget = json.loads((RUN/'compute-budget.json').read_text())
             assert budget['checkpoint_steps'] == plan['checkpoint_steps']
             (RUN/'full-pass-verification.json').write_text(json.dumps(coverage, indent=2))
+            # Keep the end-of-pass measurement on the same fixed held-out groups.
+            # CPU execution scoring overlaps generation of the other subset.
+            scoring = ScoringJobs(); scores = {'final': {}}
+            try:
+                for stage, offset in [('pilot',0),('confirmation',1024)]:
+                    output = RUN/(stage+'.json')
+                    command = [sys.executable,'-m','homeworks.hw2.numeric_eval',
+                        '--model-dir',str(checkpoint),'--cache-dir',str(CACHE),
+                        '--examples-file',str(INPUTS/'questions.jsonl'),'--output',str(output),
+                        '--offset',str(offset),'--rows','1024','--beams','1',
+                        '--max-input-tokens','0','--max-new-tokens','1280']
+                    with output.with_suffix('.log').open('w') as log:
+                        subprocess.run(command+['--generate-only'],stdout=log,
+                            stderr=subprocess.STDOUT,check=True,timeout=180)
+                    scoring.start('final',stage,command+['--score-only'],output)
+                    scoring.collect(scores)
+                scoring.collect(scores,wait=True)
+                (RUN/'heldout-results.json').write_text(json.dumps(scores['final'],indent=2))
+            finally:
+                scoring.close()
+                (RUN/'scoring-execution.json').write_text(json.dumps(scoring.completed,indent=2))
             status['completed'] = True
         finally:
             monitor.terminate(); monitor.wait(timeout=10)
