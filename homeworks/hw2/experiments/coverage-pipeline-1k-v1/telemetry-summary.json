@@ -1,0 +1,23 @@
+{
+  "samples": 268,
+  "driver_utilization_mean_percent": 62.593283582089555,
+  "driver_utilization_median_percent": 96.0,
+  "peak_memory_mib": 21465.0,
+  "scope": "Whole driver including restoration, training and evaluation",
+  "steady_training": {
+    "control": {
+      "start_step": 73100,
+      "end_step": 74000,
+      "seconds": 72.60000000000001,
+      "examples_per_second": 1586.776859504132,
+      "scope": "Logged training interval; excludes early startup and final evaluation/checkpoint"
+    },
+    "coverage": {
+      "start_step": 73100,
+      "end_step": 74000,
+      "seconds": 73.1,
+      "examples_per_second": 1575.9233926128593,
+      "scope": "Logged training interval; excludes early startup and final evaluation/checkpoint"
+    }
+  }
+}

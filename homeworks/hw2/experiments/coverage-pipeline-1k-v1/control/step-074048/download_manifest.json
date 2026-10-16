@@ -1,0 +1,67 @@
+[
+  {
+    "id": "1i9n2XqWQIKezKumBoiNwqMY7RfZekjmf",
+    "name": "results.complete.json",
+    "bytes": 215
+  },
+  {
+    "id": "1FdBmY_MmKfQi4pIeLez5CWAWTI-FK05N",
+    "name": "predictions.jsonl",
+    "bytes": 455876
+  },
+  {
+    "id": "1t1t7mzkVDSnAN9VH3RoNPvo3bSnS-qPC",
+    "name": "predictions.provenance.json",
+    "bytes": 1230593
+  },
+  {
+    "id": "1646brVdoqDIeLOyn-GVctWCkNKQkLhhS",
+    "name": "predictions.csv",
+    "bytes": 423796
+  },
+  {
+    "id": "1nAbJ9O4VZ1UHBfS3CQyAqHLfsU3t7cva",
+    "name": "checkpoint.complete.json",
+    "bytes": 978
+  },
+  {
+    "id": "1m5NParNV6uroZG3u4YzMgXbSkZtPVC0G",
+    "name": "generation_config.json",
+    "bytes": 142
+  },
+  {
+    "id": "1iZM9HvpDB6Peg6LgEx6ZFc8DqCt3usII",
+    "name": "config.json",
+    "bytes": 685
+  },
+  {
+    "id": "1ziUYQxucIBb3EJDas2_HtwUkTac_kSGA",
+    "name": "step.json",
+    "bytes": 15
+  },
+  {
+    "id": "1YH4Gs5MlVfMSgnSba4RyXYf1_gY6AD2p",
+    "name": "tokenizer_config.json",
+    "bytes": 971
+  },
+  {
+    "id": "1J-_D44OGl70hQILj6CB78cBXm3pFOtUb",
+    "name": "validation.json",
+    "bytes": 49
+  },
+  {
+    "id": "15NC6QF-AqyQ4CdhlINoiSkgpBUvpAPBF",
+    "name": "run_config.json",
+    "bytes": 49443
+  },
+  {
+    "id": "1yU78wojAtKv6iB7j_EnrKvWzVSSfqnDp",
+    "name": "special_tokens_map.json",
+    "bytes": 416
+  },
+  {
+    "id": "1r4hUrsQGdjtn-mQLQrdMG5S6SdpjTwp-",
+    "name": "tokenizer.json",
+    "bytes": 545550
+  }
+]

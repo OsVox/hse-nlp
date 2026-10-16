@@ -1,0 +1,13 @@
+{
+  "decision": "The corrected full-coverage path passes the 1,024-update engineering screen: 131,072 consumed original row IDs, no repeats, checkpoint step/cursor agree. Held-out scores are 136/245 and 291/493 versus control 136/245 and 282/493; total execution failures increase from 40 to 45, at the predeclared allowed boundary. Public scores are 573/960 versus 568/960. The previous best remains 575/960. Adopt exact traversal/accounting for future coverage experiments; this short single-seed check does not establish a long-term accuracy improvement or a completed training pass. No long run started.",
+  "compute": "The driver took 276.22 seconds (4.60 minutes), including restoration, both training arms and evaluation. Training process seconds were 96.69 control and 96.21 coverage. Whole-driver GPU utilization averaged 62.59% with median 96%; peak memory 21465 MiB. These exclude Colab allocation and Drive authorization time. Active-sessions UI confirmed no sessions after completion; its resource sidebar lagged behind.",
+  "long_run_started": false,
+  "all_checkpoints_scored": true,
+  "completed_training_full_pass": false,
+  "all_optimizations_exhausted": false,
+  "next": [
+    "CPU correctness checks for fused attention, then bounded GPU timing if correct.",
+    "Matched SwiGLU scratch pilot; repeat any gain before combining.",
+    "Use saved consumed-row accounting in every subsequent coverage run; require a full-pass receipt before claiming complete training exposure."
+  ]
+}

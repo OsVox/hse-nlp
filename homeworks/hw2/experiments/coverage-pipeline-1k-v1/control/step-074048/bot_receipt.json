@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T20:19:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "coverage-pipeline-control-074048.jsonl",
+  "jsonl_sha256": "5e7b4fc169350e024fe03236aabb100c2b36130134a8039697a59a790d05ac97",
+  "source_commit": "4ad9e1ec3a2991780bc835a65ffe710662cbb3db",
+  "model_sha256": "439bf761162e0c0fcbba3563c8e7ed545a53b529b164baac89a20a8216b8674a",
+  "run": "coverage-pipeline-1k-v1",
+  "variant": "control",
+  "step": 74048,
+  "status": "scored",
+  "public_correct": 568,
+  "public_total": 960,
+  "public_percent": 59.17,
+  "reported_rank": 10,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 788987,
+    "accepted": 788988,
+    "score": 788989,
+    "rank": 788990
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1rT-yiaW18DV1zs54oySA4yhZcg-zt5p2",
+  "training": true,
+  "public_test_used_for_selection": false
+}
