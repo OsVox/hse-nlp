@@ -1,0 +1,14 @@
+{
+  "passed": 12,
+  "seconds": 2.71,
+  "tests": [
+    "test_size_pilot.py",
+    "test_optimizers.py",
+    "test_depth_pilot.py"
+  ],
+  "environment": {
+    "torch": "2.9.0",
+    "transformers": "4.57.6"
+  },
+  "gpu_used": false
+}

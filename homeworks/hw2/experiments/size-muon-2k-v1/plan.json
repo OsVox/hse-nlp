@@ -1,0 +1,76 @@
+{
+  "steps": 2048,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 42,
+  "warmup": 200,
+  "learning_rate": 0.0003,
+  "save_every": 2048,
+  "eval_every": 512,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "d_model": 512,
+  "d_ff": 1536,
+  "encoder_layers": 6,
+  "decoder_layers": 4,
+  "num_heads": 8,
+  "initialization_vocab_size": 16384,
+  "arms": {
+    "small": "original8192",
+    "control": "original8192",
+    "large": "original8192"
+  },
+  "training_updates_per_arm": 2048,
+  "example_presentations_per_arm": 262144,
+  "training_timeout_seconds": 600,
+  "outer_timeout_seconds": 1400,
+  "hypothesis": "Compare early learning versus model capacity with the replicated Muon recipe, fixed 6/4 depth and 64-dimensional heads.",
+  "matched": "Original tokenizer, data/targets, BF16, batch128, 2048 updates, warmup200, cosine schedule, and seed42. Width, feed-forward width and head count scale together. Shapes require different random tensors.",
+  "selection": "At matched examples, require positive final held-out gains on both subsets and no extra total execution failures versus the fresh42M control. Record token-loss curves and actual GPU time separately. Repeat any survivor with another seed, then compare at matched GPU-time before longer training.",
+  "limitations": "Equal updates do not match GPU cost. Shared rates are not size-specific tuning. Short token-loss curves and reused held-out scores do not establish compute-optimal size or mature accuracy. No automatic long run.",
+  "decoding": "Strict greedy, num_beams=1, no repairs",
+  "provenance": "Original supplied examples and random weights only. Same original 8k tokenizer in every arm. Native PyTorch Muon with match_rms_adamw scaling; no imported training data or pretrained model.",
+  "throughput_guard_estimated_train_seconds": 400,
+  "arm_options": {
+    "small": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "d_model": 320,
+      "d_ff": 960,
+      "num_heads": 5
+    },
+    "control": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "d_model": 512,
+      "d_ff": 1536,
+      "num_heads": 8
+    },
+    "large": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "d_model": 704,
+      "d_ff": 2112,
+      "num_heads": 11
+    }
+  },
+  "reference": "https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html",
+  "next_stages": [
+    "Replicate a surviving size with a second seed.",
+    "Compare survivors at matched measured GPU time.",
+    "Only then combine confirmed improvements in a longer scratch run."
+  ],
+  "expected_parameters": {
+    "small": 17580480,
+    "control": 42481152,
+    "large": 78146112
+  },
+  "require_identical_initialization": false
+}
