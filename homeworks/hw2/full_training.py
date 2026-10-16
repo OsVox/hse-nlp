@@ -48,7 +48,7 @@ try:
     subprocess.run([sys.executable,'-m','pip','-q','install','transformers==4.57.6','pyarrow>=18','requests>=2.31'],check=True,timeout=180)
     full_log=(prepared/'execution.log').open('w')
     full_process=subprocess.Popen([sys.executable,'-u','-m','homeworks.hw2.full_training','--gpu'],cwd=work,stdout=full_log,stderr=subprocess.STDOUT,start_new_session=True)
-    async def finish_full():
+    async def finish_full(full_process=full_process, full_log=full_log, prepared=prepared):
         status={'pid':full_process.pid,'started_utc':time.time()}
         try:
             await asyncio.wait_for(asyncio.to_thread(full_process.wait),timeout=9000)

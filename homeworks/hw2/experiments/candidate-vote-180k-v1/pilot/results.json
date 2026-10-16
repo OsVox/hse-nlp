@@ -1,0 +1,53 @@
+{
+  "source_commit": "f047d7d79e58e679866d5571f45d07da0ef8be38",
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "offset": 512,
+  "rows": 256,
+  "beams": 4,
+  "batch_size": 32,
+  "device": "cpu",
+  "precision": "fp32",
+  "generation_seconds": 33.94163696099997,
+  "selection_seconds": 7.467812804000005,
+  "handwritten_repairs": 0,
+  "training": false,
+  "reference_used_for_selection": false,
+  "policy": "Strict majority of all candidates; otherwise first executable; rank breaks ties",
+  "questions_sha256": "f5a699217f2c816f7189c99bab4321e98baa18445e98d5f8b23a35cd218fd97c",
+  "metrics": {
+    "top_beam": {
+      "rows": 256,
+      "usable_references": 247,
+      "numeric_correct": 141,
+      "numeric_agreement_on_usable": 0.5708502024291497,
+      "prediction_failures": 19,
+      "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+      "changed_from_top": 0
+    },
+    "first_executable": {
+      "rows": 256,
+      "usable_references": 247,
+      "numeric_correct": 142,
+      "numeric_agreement_on_usable": 0.5748987854251012,
+      "prediction_failures": 12,
+      "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+      "changed_from_top": 7
+    },
+    "strict_majority": {
+      "rows": 256,
+      "usable_references": 247,
+      "numeric_correct": 142,
+      "numeric_agreement_on_usable": 0.5748987854251012,
+      "prediction_failures": 12,
+      "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+      "changed_from_top": 9
+    }
+  },
+  "t4_timing_verified": false,
+  "files": {
+    "top_beam.jsonl": "b9d91e01526e2d0aafdd9bc2328d6d07024c061818832bbee630c27d907dec2a",
+    "first_executable.jsonl": "0f3088a6f3e79a98efbe0ad1c28a924c69b57846e81c3bcecc8f52cb5d4580b5",
+    "strict_majority.jsonl": "3b1ee7c95d11f7921b97b4f672705edf370e77b4a8dd16c7bd06f04e696cdfdf",
+    "candidates.jsonl": "e21f3ac285e1146ccaf03e3e82f7c871d6ac911146681d44d68f2d4abd3f8bb1"
+  }
+}

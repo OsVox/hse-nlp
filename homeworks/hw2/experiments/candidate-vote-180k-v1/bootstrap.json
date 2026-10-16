@@ -1,0 +1,12 @@
+{
+  "source_commit": "f047d7d79e58e679866d5571f45d07da0ef8be38",
+  "source_sha256": "676146c2732c57b26f04807ed1bf4bfd72a9b65f0929ed52e2e188e69d4fe91d",
+  "launcher_sha256": "2f754105de933fe4f21c6823bb7fae300d935a084d3e910e6ed6d7a78a96c6da",
+  "folder_id": "1V6vmMPKTvkB-fCIXgMX1TPd22GjxczZL",
+  "files": {
+    "launch.py": "1NGDGT3bxZToZj2tTgrH-2iDaYMXC2ud-",
+    "ready.json": "1wPR7bzMlkiquNIqeyNCCdq-IqnoQsmil",
+    "source.tar": "1-xBvs4STCfadLfolXcKmUVVPEjoJ9a3M"
+  },
+  "read_back_verified": true
+}

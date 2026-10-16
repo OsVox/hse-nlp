@@ -1,0 +1,11 @@
+{
+  "folder_id": "1_CPf3r4Ly0LdskANlL_wj1nn2zUzV6rp",
+  "files": {
+    "results.json": "1wXXbyQzJbrbjFi1miV0fqJ1zLZAFBwdr",
+    "candidates.jsonl": "1UFrWS-0K8zEgcZdBd1YipNO4yUGVnZH3",
+    "strict_majority.jsonl": "1iB4JsThgMm_IxIcEZAhokvbawBoioQNd",
+    "first_executable.jsonl": "1dwFy6bsrEkfAyWNRc4s9_mzfJzOF1X6d",
+    "top_beam.jsonl": "1kQaKsYxHIJowUo4finp_j8eIN-A52Kj8"
+  },
+  "hashes_verified": true
+}

@@ -1,0 +1,28 @@
+{
+  "status": "pilot_and_confirmation_complete",
+  "source_commit": "f047d7d79e58e679866d5571f45d07da0ef8be38",
+  "strict_majority_correct": [
+    142,
+    138
+  ],
+  "top_beam_correct": [
+    141,
+    136
+  ],
+  "usable_references": [
+    247,
+    246
+  ],
+  "strict_majority_gate_passed": true,
+  "first_executable_gate_passed": false,
+  "selected_policy": "strict_majority",
+  "public_score": "not yet evaluated",
+  "token_provenance_verified": true,
+  "cuda_hidden": true,
+  "cpu_affinity": [
+    44,
+    45,
+    46,
+    47
+  ]
+}
