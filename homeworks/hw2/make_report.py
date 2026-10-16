@@ -580,6 +580,22 @@ def build():
         if (frequency_screen/'conclusion.json').exists():
             conclusion=json.loads((frequency_screen/'conclusion.json').read_text())
             story += [p(conclusion['decision']),p(conclusion['compute'])]
+    comment_run = ROOT/'experiments/comment-continuation-1k-v1'
+    if (comment_run/'selection.json').exists():
+        r=json.loads((comment_run/'selection.json').read_text())
+        rows=[['Targets','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,stages in r['results'].items():
+            receipt=comment_run/name/'step-073024/bot_receipt.json'
+            public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            rows.append([name,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),public])
+        story += [PageBreak(),p('Comment cleanup after learning: short matched trial','Title'),
+            p('The earlier 2,048-step scratch experiment cannot establish whether removing comments helps an already trained model. This experiment compares two 1,024-update continuations from the same verified 72k numeric-weight-2 parent. Control retains original targets. Comments removes comments and empty lines outside strings only when parsing and compilation succeed and the Python syntax tree is identical. Each original target is replaced once; no examples or alternate solutions are added. Strings, docstrings, variable names, imports and executable statements are preserved.'),
+            table(rows,[42*mm,29*mm,35*mm,29*mm,35*mm]),
+            p('Both arms keep the original tokenizer, architecture, optimizer state, seed 42, batch 128, numeric-token weight 2, learning rate 3e-5, 50-step warmup and strict greedy decoding. Equal updates and complete batches preserve the example budget; target lengths change. Held-out references remain original. Shortlist: '+(', '.join(r['shortlist']) or 'none')+'. A candidate needs positive gains on both held-out subsets with no extra total execution failures, followed by another seed before any longer run. Public scores do not determine this gate.'),
+            p('Thirteen focused tests passed. Verified parent/data CPU checks and the prior cleanup audit were reused; no additional CPU Colab runtime was allocated. Source, launcher and readiness records were saved to Drive and downloaded back before GPU allocation. Every checkpoint and exact test prediction was exported from Drive and verified before bot evaluation. The updated finalizer saves local diagnostic logs and requests release even if Drive fails.','SmallText')]
+        if (comment_run/'conclusion.json').exists():
+            conclusion=json.loads((comment_run/'conclusion.json').read_text())
+            story += [p(conclusion['decision']),p(conclusion['compute'])]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

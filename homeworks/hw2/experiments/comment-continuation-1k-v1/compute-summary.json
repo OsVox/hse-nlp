@@ -1,0 +1,11 @@
+{
+  "median_gpu_percent": 95.0,
+  "mean_gpu_percent": 56.50729927007299,
+  "peak_memory_mib": 25901.0,
+  "samples": 274,
+  "elapsed_seconds": 286.8642882560001,
+  "scope": "Driver includes data restore, training, evaluation and export; excludes allocation, OAuth and launcher package setup",
+  "released_verified": "Colab Manage Sessions: no active sessions",
+  "control_step73000_elapsed_s": 86.0,
+  "comments_step73000_elapsed_s": 98.7
+}

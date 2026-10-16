@@ -1,0 +1,31 @@
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+resumed_at_step=72000
+new_schedule_start=72000 peak_lr=3e-05
+step=72050 train_loss=0.3684 elapsed_s=10.4
+step=72100 train_loss=0.2937 elapsed_s=15.4
+step=72150 train_loss=0.3904 elapsed_s=19.5
+step=72200 train_loss=0.3107 elapsed_s=24.5
+step=72250 train_loss=0.3831 elapsed_s=28.6
+step=72300 train_loss=0.3511 elapsed_s=33.4
+step=72350 train_loss=0.3786 elapsed_s=38.5
+step=72400 train_loss=0.3446 elapsed_s=42.7
+step=72450 train_loss=0.1923 elapsed_s=47.9
+step=72500 train_loss=0.3212 elapsed_s=51.8
+step=72550 train_loss=0.2486 elapsed_s=56.9
+step=72600 train_loss=0.3872 elapsed_s=61.0
+step=72650 train_loss=0.2930 elapsed_s=65.9
+step=72700 train_loss=0.4074 elapsed_s=70.4
+step=72750 train_loss=0.3214 elapsed_s=75.1
+step=72800 train_loss=0.4705 elapsed_s=80.3
+step=72850 train_loss=0.3404 elapsed_s=84.6
+step=72900 train_loss=0.2624 elapsed_s=89.4
+step=72950 train_loss=0.3416 elapsed_s=93.6
+step=73000 train_loss=0.2974 elapsed_s=98.7
+step=73024 val_token_loss=0.4653
+best_step=73024 best_val_token_loss=0.4653
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/comment-continuation-1k-v1/comments/step-073024
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=4.25 device=cuda:0 precision=torch.float32 invalid_before_retry=2 beam_repaired=0 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/comment-continuation-1k-v1/comments/step-073024 jsonl_sha256=e461e484bef982c4aa9f5f351859a1580d3093fdcb1ac584a5e0eeb9c8dae1bb
+finished_steps=73024

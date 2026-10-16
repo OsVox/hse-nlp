@@ -1,0 +1,10 @@
+{
+  "drive_run_folder": "1iZ-bn2hKaucwAgM9J3LuoypAPPW82PKF",
+  "drive_export_id": "14iz6hkZsb6B7GXB8O_oAYhPGVf_-At6P",
+  "export_sha256": "cf25b6c2d86e4b9e12311fab8802233e04bba2a86bc84c15c716e8444f8a5f0d",
+  "all_checkpoints_exact_export_verified": true,
+  "official_question_order_verified": true,
+  "training_config_verified": true,
+  "model_source_commit": "cc7946e200a0aaaccd2cf943f786a36f1fc77588",
+  "t4_timing_verified": false
+}

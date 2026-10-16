@@ -1,0 +1,40 @@
+{
+  "tests_passed": 13,
+  "parent_preflight": "frequency-screen-1k-v1/cpu-preflight.json",
+  "parent_preflight_sha256": "1cd6ce70e8e84265b0008918887f6993210c848310a166c3936a4c90389d640d",
+  "cleanup_audit_sha256": "3b41d5f07795fc44cb314c162b3a3edd6415a8e25a7f0c609a6062872072e640",
+  "cleanup_audit": {
+    "rows": 4096,
+    "seed": 2026101602,
+    "counters": {
+      "comments": 1852,
+      "blank_lines": 6275,
+      "changed": 2923,
+      "rejected": 0,
+      "rows_with_comments": 503,
+      "rows_with_pass": 0,
+      "rows_with_docstrings": 0
+    },
+    "shard_sha256": "91831d582faa12d73b1a6b3878e496446cd5df074f17ee4ffea8cc2887c708ec",
+    "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+    "original_mean_tokens": 65.800048828125,
+    "cleaned_mean_tokens": 62.769775390625,
+    "token_change_percent": -4.605275362964112,
+    "original_over_192": 23,
+    "cleaned_over_192": 10,
+    "execution_pairs": 256,
+    "execution_checks": {
+      "both_numeric": 249,
+      "identical_numeric": 249,
+      "status_mismatch": 0,
+      "numeric_mismatch": 0,
+      "unsupported_pairs": 7
+    },
+    "elapsed_seconds": 6.797175499988953,
+    "scope": "Single original train shard; all exact copies of its first 1024 held-out question texts excluded. No test programs used.",
+    "preprocessing": "One-to-one deletion of comments and empty lines outside strings; identical AST excluding locations required. No new examples or alternate solutions.",
+    "unchanged": "Docstrings, pass statements, imports, variable names, assignments and all executable AST nodes retained.",
+    "limitations": "Same AST does not preserve source/line-number introspection. Diagnostic execution is restricted and sampled; no accuracy or generation-speed gain is established. This does not prove all source targets correct."
+  },
+  "reuse_reason": "Same 72k model, optimizer, original data and tokenizer; existing cleanup code and tests unchanged. No new CPU Colab runtime required."
+}

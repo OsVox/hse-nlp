@@ -116,3 +116,9 @@ are created. The 60k/70k average improved the first sample from 142 to 152/247, 
 Three matched 1,024-update continuations from the best 72k parent completed and were bot-scored. Control: **575/960 (59.90%)**; inverse-square-root: 575/960; inverse: 558/960. Both sampling treatments lost held-out agreements and added execution failures, so neither is extended. The simpler control is pinned in the inference notebook. Current public rank: **9/16**, observed at 14:52 (+03:00). First place is not achieved.
 
 All checkpoints and exact greedy outputs are on Drive, exported and verified. The successful driver took 367.16 seconds with median GPU activity 97%; allocation/OAuth overhead is separate. A prior failed attempt produced no checkpoint. The launcher now logs locally and requests runtime release even if Drive fails. No active Colab sessions remained. Evidence: `experiments/frequency-screen-1k-v1`. The updated inference notebook was statically checked; no new inference run or T4 timing is claimed.
+
+## Comment cleanup continuation (16 October)
+
+Removing comments is allowed and was tested again from the trained 72k checkpoint. Both arms received 1,024 updates. Control scored **575/960 (59.90%)**; comment/empty-line cleanup scored **560/960 (58.33%)**. Cleanup gained 3 held-out agreements in the first subset, tied the second and added 3 execution failures, failing the extension gate. No longer run starts. Existing best and inference pin stay unchanged; rank 9/16 was confirmed at 15:08 (+03:00).
+
+The successful driver took 286.86 seconds, excluding allocation/authentication/setup, with median GPU activity 95%. All checkpoints and greedy outputs were saved to Drive, exported and verified, then bot-scored. CPU preflight was reused and 13 focused tests passed. Colab showed no active sessions. Evidence: `experiments/comment-continuation-1k-v1`.

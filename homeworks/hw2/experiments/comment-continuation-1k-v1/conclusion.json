@@ -1,0 +1,9 @@
+{
+  "decision": "Do not extend comment cleanup. The trained-model cleanup arm scores 560/960 (58.33%) versus 575/960 (59.90%) for its matched unchanged-target control: 15 fewer public answers. It gains 3 agreements on the first held-out subset, ties the second and adds 3 total execution failures, so it fails the preregistered extension gate. Together with the earlier scratch pilot, these two settings provide no evidence for longer comment-cleanup training. This does not prove every possible cleanup schedule would fail. Keep the existing best control checkpoint at 59.90%; current public rank remains 9/16 at 15:08 (+03:00).",
+  "compute": "The two-arm driver took 286.86 seconds (4.78 minutes), excluding allocation, Drive authentication and launcher package setup. Median GPU activity was 95%, mean 56.51%, peak memory 25,901 MiB. At 1,000 added updates, the training log reports 86.0 seconds for control and 98.7 seconds for cleanup; on-the-fly cleanup did not improve training speed. Colab showed no active sessions after completion. T4 timing remains unverified and deferred.",
+  "source_commit": "cc7946e200a0aaaccd2cf943f786a36f1fc77588",
+  "public_rank": 9,
+  "participants": 16,
+  "long_run_started": false,
+  "replication_note": "Control matches the prior 575/960 but 16 of 1,919 program strings differ. Exact bitwise training repeatability is not established."
+}

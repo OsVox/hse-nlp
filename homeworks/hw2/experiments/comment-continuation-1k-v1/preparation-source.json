@@ -1,0 +1,34 @@
+{
+  "source_commit": "cc7946e200a0aaaccd2cf943f786a36f1fc77588",
+  "drive_prepared_folder": "1qaYmCMVTY9JCbjlsnb19eSnOcBB0o7iw",
+  "artifacts": [
+    {
+      "id": "1ww7haLXGvnR4Jvz7J2dgY7nTKUlOZwTn",
+      "file": "ready.json",
+      "sha256": "2db66ba03e1ba3e0a96e1704e950510ee256831aeb8865405b88b59e59bf9773",
+      "byte_verified": true
+    },
+    {
+      "id": "1URK1xV8Gg6Tm8pdzkR1k-GM-XqRBcmkk",
+      "file": "cpu-reuse.json",
+      "sha256": "ae8d962872201f0a3f4202b6b5d38834dfe05e917a111dad7965fef49cbea329",
+      "byte_verified": true
+    },
+    {
+      "id": "18jQTPOAW8Aq0o0fDJrHVLt90l2ZV7fcy",
+      "file": "launch.py",
+      "sha256": "6d9ef80b8947c100c43116763e769ba35b36b1fafa0b7b20ff42c4f6e990d86d",
+      "byte_verified": true
+    },
+    {
+      "id": "1UEqGpN14uT3EDRUFokPc2tJX5YzDzRrU",
+      "file": "source.tar",
+      "sha256": "2d3a0726b9ee14f1cc8b4c2d3d63c81a1e52776fee9996b3b6d52c3d0849176c",
+      "byte_verified": true
+    }
+  ],
+  "launch_cell_id": "XKXj3ZFZlGfb",
+  "cpu_tests_passed": 13,
+  "drive_run_folder": "1iZ-bn2hKaucwAgM9J3LuoypAPPW82PKF",
+  "driver_pid": 4162
+}
