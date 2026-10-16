@@ -241,6 +241,12 @@ def main() -> None:
     parser.add_argument('--coverage-rows-per-shard', type=int, default=4096)
     parser.add_argument('--training-target-length', type=int, default=192,
                         help='Full-coverage training target cap; validation/generation remain 192, grouping uses 192')
+    parser.add_argument('--untruncated-training', action='store_true',
+                        help='Keep complete original questions and programs; requires full coverage')
+    parser.add_argument('--microbatch-token-budget', type=int, default=40960,
+                        help='Untruncated training: maximum padded source plus target tokens per GPU chunk')
+    parser.add_argument('--microbatch-attention-budget', type=int, default=9961472,
+                        help='Untruncated training: maximum batch*(source^2+target^2+source*target)')
     parser.add_argument('--frequency-index', type=Path, default=None)
     parser.add_argument('--frequency-power', type=float, default=0.0,
                         help='Accept original rows with probability count**(-power); CPU index required')
@@ -293,6 +299,10 @@ def main() -> None:
         parser.error('target filtering requires encoded pipeline')
     if args.training_target_length < 192 or (args.training_target_length != 192 and args.coverage_index is None):
         parser.error('A longer training target limit requires the full-coverage pipeline; minimum is 192')
+    if args.untruncated_training and (args.coverage_index is None or args.training_target_length != 192):
+        parser.error('Untruncated training requires full coverage and no custom target cap')
+    if min(args.microbatch_token_budget, args.microbatch_attention_budget) < 1:
+        parser.error('Microbatch budgets must be positive')
     if args.shuffle_batch_order and args.input_pipeline != 'encoded':
         parser.error('batch-order shuffling requires encoded pipeline')
     if min(args.steps, args.batch_size, args.accumulation, args.max_shards) < 1:
@@ -380,6 +390,7 @@ def main() -> None:
             seed=args.seed, batch_size=args.batch_size, window=args.group_window,
             rows_per_shard=args.coverage_rows_per_shard,
             target_length=args.training_target_length,
+            untruncated=args.untruncated_training,
             shuffle_batch_order=args.shuffle_batch_order, state=coverage_state,
             start_step=json.loads((load_checkpoint/'step.json').read_text())['step']
                        if (load_checkpoint/'step.json').exists() else 0)
@@ -421,6 +432,7 @@ def main() -> None:
     model.to(device)
     loss_weights = (token_weights(tokenizer, args.numeric_token_weight).to(device)
                     if args.numeric_token_weight != 1 or args.label_smoothing or args.example_balanced_loss or args.focal_gamma else None)
+    split_loss_weights = loss_weights.detach().cpu() if args.untruncated_training and loss_weights is not None else None
     model.train()
     print(f"parameters={sum(p.numel() for p in model.parameters()):,}", flush=True)
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -517,24 +529,33 @@ def main() -> None:
             raw_batch = next(batches)
             if coverage is not None:
                 coverage_receipts.append(raw_batch.pop('_coverage'))
-            batch = (to_device(raw_batch, device) if args.input_pipeline == 'encoded'
-                     else encode_batch(raw_batch, tokenizer, device))
-            examples_processed += batch['labels'].shape[0]
-            tokens_processed[0] += batch['attention_mask'].sum()
-            tokens_processed[1] += batch['labels'].ne(-100).sum()
-            autocast = torch.autocast("cuda", dtype=dtype) if device.type == "cuda" and dtype != torch.float32 else nullcontext()
-            with autocast:
-                decoder_options = (decoder_dropout_inputs(model, batch['labels'],
-                    args.decoder_input_dropout, generator=decoder_generator)
-                    if args.decoder_input_dropout else {})
-                output = model(**batch, **decoder_options, use_cache=False)
-                loss = (output.loss if loss_weights is None else
-                        weighted_loss(output.logits, batch['labels'], loss_weights,
-                                      smoothing=args.label_smoothing,
-                                      example_balanced=args.example_balanced_loss,
-                                      focal_gamma=args.focal_gamma)) / args.accumulation
-            scaler.scale(loss).backward()
-            running_loss += loss.detach()
+            if args.untruncated_training:
+                from .long_sequences import split_batch
+                chunks = split_batch(raw_batch, token_budget=args.microbatch_token_budget,
+                    attention_budget=args.microbatch_attention_budget, weights=split_loss_weights,
+                    example_balanced=args.example_balanced_loss)
+            else:
+                chunks = [(raw_batch, 1.0)]
+            for chunk, loss_fraction in chunks:
+                batch = (to_device(chunk, device) if args.input_pipeline == 'encoded'
+                         else encode_batch(chunk, tokenizer, device))
+                examples_processed += batch['labels'].shape[0]
+                tokens_processed[0] += batch['attention_mask'].sum()
+                tokens_processed[1] += batch['labels'].ne(-100).sum()
+                autocast = torch.autocast("cuda", dtype=dtype) if device.type == "cuda" and dtype != torch.float32 else nullcontext()
+                with autocast:
+                    decoder_options = (decoder_dropout_inputs(model, batch['labels'],
+                        args.decoder_input_dropout, generator=decoder_generator)
+                        if args.decoder_input_dropout else {})
+                    output = model(**batch, **decoder_options, use_cache=False)
+                    loss = (output.loss if loss_weights is None else
+                            weighted_loss(output.logits, batch['labels'], loss_weights,
+                                          smoothing=args.label_smoothing,
+                                          example_balanced=args.example_balanced_loss,
+                                          focal_gamma=args.focal_gamma)) * loss_fraction / args.accumulation
+                scaler.scale(loss).backward()
+                running_loss += loss.detach()
+                del output, loss
         scaler.unscale_(optimizer)
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0,
                                        error_if_nonfinite=coverage is not None)

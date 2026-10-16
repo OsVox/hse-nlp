@@ -1,0 +1,32 @@
+{
+  "cpu_only": true,
+  "training_started": false,
+  "eligible_rows_budget_checked": 11836444,
+  "longest_question_tokens": 741,
+  "longest_program_tokens": 1208,
+  "max_single_row_attention_positions": 1966804,
+  "budgets": {
+    "token_budget": 40960,
+    "attention_budget": 9961472
+  },
+  "extreme_original_examples_verified": 130,
+  "extreme_microbatches": 14,
+  "regular_window_rows": 4096,
+  "regular_window_microbatches": 44,
+  "untruncated_tokens": [
+    193287,
+    304642
+  ],
+  "row_order_sha256": "0f979706c44c49c94ec80674dcda38ff67f8ac2e6613a8cc8f0dee1c79461556",
+  "complete_token_ids_preserved": true,
+  "consumed_token_receipt": {
+    "question": 193287,
+    "code": 304642
+  },
+  "full_training_pass_completed": false,
+  "seconds": 13.685739125008695,
+  "limitations": [
+    "Budgets are proxies, not measured GPU memory; GPU throughput probe still required.",
+    "Full corpus lengths checked; token preservation retested on selected extremes and first window only."
+  ]
+}

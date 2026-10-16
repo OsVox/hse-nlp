@@ -1,0 +1,20 @@
+{
+  "decision": "Opt-in full-sequence training is CPU-verified. Preserve original questions/programs, split long logical batches before GPU transfer, normalize loss across chunks, commit row and token counts only after successful updates. Do not scale yet.",
+  "tests_passed": 24,
+  "eligible_rows_length_checked": 11836444,
+  "original_extreme_examples_verified": 130,
+  "original_window_rows": 4096,
+  "logical_batches": 32,
+  "gpu_chunks": 44,
+  "gpu_used": false,
+  "competition_checkpoint_changed": false,
+  "completed_competition_training_pass": false,
+  "all_optimizations_exhausted": false,
+  "limitations": [
+    "Memory budgets are proxies; GPU peak memory, speed and score remain unmeasured.",
+    "Dropout can differ when a logical batch is split. Gradient equivalence tests disable dropout.",
+    "Current validation and greedy generation caps remain fixed; complete training targets alone do not establish complete evaluation context.",
+    "Colab Drive mount recovery has no success receipt; active sessions were zero.",
+    "SwiGLU comparison remains prepared and untrained."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "observed_at": "2026-10-16T18:08:06.895515+00:00",
+  "notebook_cell": "NqO5skIV4PZ8",
+  "phase": "drive_mount",
+  "error": "ValueError: mount failed",
+  "training_worker_started": false,
+  "checkpoint_created": false,
+  "run_folder_absent_on_drive": true,
+  "automatic_gpu_release_verified": true,
+  "active_sessions_after_failure": 0,
+  "units_per_hour_after_failure": 0,
+  "original_failed_cell_not_reexecuted": true,
+  "next_action": "CPU-only Drive mount and source/archive verification after refreshing the expired browser session"
+}

@@ -40,6 +40,30 @@ GPU throughput and score effects remain unmeasured. Evidence is in
 `experiments/coverage-readiness-cpu-v1` and `experiments/full-coverage-cpu-v1`.
 The longer 78M run remains on hold.
 
+The subsequent `coverage-pipeline-1k-v1` GPU pilot measured the corrected loader,
+but covered only a fraction of one pass. `corpus-token-cpu-v1` audited every
+eligible row: the default limits cut 19,870 questions and 212,045 programs
+(228,035 affected rows total). Raising the training target cap to 384 failed
+the short comparison in `target-length-1k-v1`; this does not resolve the need
+to preserve complete original programs.
+
+The new opt-in `--untruncated-training` path retains complete questions and
+programs, with the same logical row order and coverage accounting. It requires
+`--coverage-index` and the encoded pipeline. Long logical batches are split
+before GPU transfer using `--microbatch-token-budget` and
+`--microbatch-attention-budget`; their gradients use the original logical-batch
+loss denominator, including numeric-token weighting. Only a successful optimizer
+update commits the logical batch's row receipt. An over-budget individual row
+raises explicitly rather than being cut or skipped. Default capped experiments
+and immutable prepared sources remain reproducible.
+
+These budgets are memory proxies, not measured GPU byte limits. A short GPU
+probe is still required before adopting this path. Dropout and floating-point
+rounding can differ between split and unsplit execution. Changing tokenization
+mode rejects an old coverage cursor; start a clearly recorded new traversal.
+CPU checks are in `experiments/untruncated-cpu-v1`. No CPU audit or small-model
+test is evidence that the competition checkpoint completed a full training pass.
+
 ## Files
 
 - `data.py` downloads original Parquet shards, reserves 1,024 training rows for

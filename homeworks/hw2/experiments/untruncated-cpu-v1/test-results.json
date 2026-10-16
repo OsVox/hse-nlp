@@ -1,0 +1,21 @@
+{
+  "passed": 24,
+  "seconds": 8.19,
+  "cpu_only": true,
+  "tests": [
+    "test_long_sequences.py",
+    "test_full_coverage.py",
+    "test_activation_pilot.py"
+  ],
+  "covered": [
+    "Untruncated original token IDs and unchanged logical row order",
+    "Exact consumed-row and token resume accounting",
+    "Split versus unsplit dropout-free T5 gradients for native, numeric-weighted, example-balanced, smoothed and focal loss",
+    "Tiny-model training, checkpoint archival and resume",
+    "Explicit oversized-single-row failure before transfer"
+  ],
+  "development_failures": [
+    "A synthetic question fixture was exactly 128 tokens instead of greater than 128; extended it.",
+    "Real-data preflight initially passed a string to the Path-only hash helper; corrected the call."
+  ]
+}

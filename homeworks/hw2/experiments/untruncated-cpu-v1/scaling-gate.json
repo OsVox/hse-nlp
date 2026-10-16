@@ -1,0 +1,42 @@
+{
+  "status": "closed",
+  "larger_model_run_authorized_to_start": false,
+  "all_optimizations_exhausted": false,
+  "requirements": [
+    {
+      "item": "All 60 source shards and held-out exclusions verified",
+      "status": "passed"
+    },
+    {
+      "item": "Exact nonrepeating row traversal and consumed checkpoint cursor",
+      "status": "CPU and short GPU pilot verified; full competition-model pass pending"
+    },
+    {
+      "item": "Complete original question and program tokens",
+      "status": "CPU implementation and checks; GPU probe pending"
+    },
+    {
+      "item": "Prioritized SwiGLU comparison",
+      "status": "Prepared, not trained; Colab mount failed"
+    },
+    {
+      "item": "Independent confirmation of promising changes",
+      "status": "Required before combination; early Muon confirmed, depth change did not confirm"
+    },
+    {
+      "item": "One competition checkpoint consumes every eligible row",
+      "status": "Not achieved; 11,836,444 eligible rows, 92,473 logical batches at 128"
+    },
+    {
+      "item": "Save to Drive, export and bot-score each retained checkpoint",
+      "status": "Required; no new checkpoint in this CPU work"
+    }
+  ],
+  "search_scope": "Finish prioritized bounded tests; cannot prove all possible optimization methods exhausted.",
+  "next_steps": [
+    "Recover CPU-only Colab Drive access without GPU allocation.",
+    "Measure full-sequence GPU memory and throughput with a hard time limit.",
+    "Complete the prepared isolated activation comparison; confirm survivors with another seed.",
+    "Run a bounded full-data learning curve on selected size with checkpoint evaluation before increasing model size."
+  ]
+}

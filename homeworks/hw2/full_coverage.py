@@ -73,7 +73,7 @@ def load_index(cache, directory):
 class FullCoverage:
     def __init__(self, manifest, paths, indices, tokenizer, *, seed, batch_size,
                  window=32, rows_per_shard=4096, shuffle_batch_order=False,
-                 state=None, start_step=0, target_length=192):
+                 state=None, start_step=0, target_length=192, untruncated=False):
         if min(batch_size, window, rows_per_shard) < 1 or seed < 0:
             raise ValueError('Invalid coverage stream configuration')
         self.paths, self.indices = paths, indices
@@ -88,6 +88,7 @@ class FullCoverage:
         if target_length < 192:
             raise ValueError('Target length must be at least the fixed grouping cap of 192')
         self.target_length = target_length
+        self.untruncated = untruncated
         self.shuffle_batches = shuffle_batch_order
         self.rounds = math.ceil(max(self.counts)/self.chunk)
         token_config = json.loads(tokenizer.backend_tokenizer.to_str())
@@ -101,6 +102,8 @@ class FullCoverage:
         # resume an old ledger silently. Grouping always uses the old 192 cap.
         if target_length != 192:
             identity.update(target_length=target_length, grouping_target_length=192)
+        if untruncated:
+            identity.update(untruncated=True, grouping_source_length=128)
         self.identity = digest(identity)
         if tokenizer.padding_side != 'right':
             raise ValueError('Coverage pipeline requires right padding')
@@ -109,6 +112,11 @@ class FullCoverage:
             presentations=0, row_order_sha256='0'*64, start_step=start_step)
         if self.state['identity'] != self.identity:
             raise ValueError('Cannot resume a changed data/tokenization/batching stream')
+        if untruncated and not state:
+            self.state['untruncated_tokens'] = {'question':0, 'code':0}
+        if untruncated and (set(self.state.get('untruncated_tokens',{})) != {'question','code'} or
+                any(not isinstance(v,int) or v < self.state['presentations'] for v in self.state['untruncated_tokens'].values())):
+            raise ValueError('Missing or invalid consumed-token accounting')
         epoch, round_id, batch = self.state['cursor']
         if (epoch < 0 or not 0 <= round_id < self.rounds or
                 not 0 <= batch < self.batches_in_round(round_id) or
@@ -176,11 +184,13 @@ class FullCoverage:
                 start = window_id*width
                 chunk = rows[start:start+width]
                 source = self.tokenizer([r['question'] for r in chunk],
-                    truncation=True, max_length=128)['input_ids']
+                    **({'truncation':False} if self.untruncated else
+                       {'truncation':True, 'max_length':128}))['input_ids']
                 target = self.tokenizer([r['code'] for r in chunk],
-                    truncation=True, max_length=self.target_length)['input_ids']
+                    **({'truncation':False} if self.untruncated else
+                       {'truncation':True, 'max_length':self.target_length}))['input_ids']
                 ordered = (list(range(len(chunk))) if self.window == 1 else
-                    sorted(range(len(chunk)), key=lambda i:(len(source[i]),min(192,len(target[i])))))
+                    sorted(range(len(chunk)), key=lambda i:(min(128,len(source[i])),min(192,len(target[i])))))
                 groups = [ordered[i:i+self.batch_size] for i in range(0,len(ordered),self.batch_size)]
                 if self.shuffle_batches:
                     self.rng(2,epoch,round_id,window_id).shuffle(groups)
@@ -197,6 +207,10 @@ class FullCoverage:
                         pad_id=self.tokenizer.pad_token_id, eos_id=self.tokenizer.eos_token_id)
                     batch['_coverage'] = dict(cursor=list(cursor), next_cursor=next_cursor,
                         row_ids=[identities[start+i] for i in group])
+                    if self.untruncated:
+                        batch['_coverage']['untruncated_tokens'] = dict(
+                            question=sum(len(source[i]) for i in group),
+                            code=sum(len(target[i]) for i in group))
                     yield batch
                     cursor = next_cursor
 
@@ -204,6 +218,12 @@ class FullCoverage:
         """Called by the training consumer only after a successful optimizer update."""
         if ticket['cursor'] != self.state['cursor']:
             raise ValueError('Out-of-order or duplicated consumption receipt')
+        if self.untruncated:
+            counts=ticket.get('untruncated_tokens',{})
+            if set(counts) != {'question','code'} or any(not isinstance(v,int) or v < len(ticket['row_ids']) for v in counts.values()):
+                raise ValueError('Missing or invalid consumed-token receipt')
+            for key,value in counts.items():
+                self.state['untruncated_tokens'][key] += value
         ids = np.asarray(ticket['row_ids'], dtype='<i8')
         for shard,_ in ids:
             self.state['counts'][int(shard)] += 1
@@ -231,8 +251,12 @@ class FullCoverage:
             repeated_presentations_since_tracking_started=self.state['presentations']-unique,
             historical_coverage_before_start_step='unknown',
             start_step=self.state['start_step'],
-            source_length=128, target_length=self.target_length, grouping_target_length=192,
-            note='Original row IDs, not distinct question texts; row coverage does not prove untruncated token coverage.'))
+            source_length=None if self.untruncated else 128,
+            target_length=None if self.untruncated else self.target_length, grouping_target_length=192,
+            **({'untruncated_tokens':copy.deepcopy(self.state['untruncated_tokens'])} if self.untruncated else {}),
+            note=('Original row IDs with untruncated tokenization; no historical token exposure claim.'
+                  if self.untruncated else
+                  'Original row IDs, not distinct question texts; row coverage does not prove untruncated token coverage.')))
 
 
 if __name__ == '__main__':

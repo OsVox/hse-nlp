@@ -1,0 +1,16 @@
+{
+  "observed_utc": "2026-10-16T19:30:45.009551+00:00",
+  "cell_id": "0d412Z_o5ltI",
+  "cpu_only": true,
+  "training_started": false,
+  "success_receipt_present": false,
+  "active_sessions": 0,
+  "observations": [
+    "CPU run tool timed out; read-cell tool also timed out.",
+    "Colab reports output JavaScript loading failure and inability to reach reCAPTCHA.",
+    "Drive prepared folder contains only source, launcher and readiness files; no recovery success receipt.",
+    "Active sessions dialog explicitly shows no active sessions."
+  ],
+  "diagnosis": "Mount verification unsuccessful or unavailable; do not infer success from closed authorization popup.",
+  "next_action": "Keep GPU off; repair CPU connection before any activation training. No failed cell automatically rerun."
+}

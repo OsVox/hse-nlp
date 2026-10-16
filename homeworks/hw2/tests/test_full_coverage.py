@@ -152,7 +152,8 @@ def test_longer_targets_preserve_row_order_and_default_fingerprint(corpus):
     assert long.checkpoint()['report']['target_length']==384
 
 
-def test_real_training_checkpoint_archive_and_resume(corpus,tmp_path,monkeypatch):
+@pytest.mark.parametrize('untruncated',[False,True])
+def test_real_training_checkpoint_archive_and_resume(corpus,tmp_path,monkeypatch,untruncated):
     monkeypatch.setattr(torch.cuda,'is_available',lambda:False)
     monkeypatch.setattr(torch.backends.mps,'is_available',lambda:False)
     torch.set_num_threads(2)
@@ -160,20 +161,24 @@ def test_real_training_checkpoint_archive_and_resume(corpus,tmp_path,monkeypatch
         '--coverage-rows-per-shard','2','--max-shards','3','--batch-size','3',
         '--accumulation','2','--input-pipeline','encoded','--prefetch-batches','2',
         '--group-window','2','--precision','fp32','--save-every','1','--eval-every','100',
-        '--warmup','1','--training-target-length','384']
+        '--warmup','1']
+    common += (['--untruncated-training','--microbatch-token-budget','24'] if untruncated
+               else ['--training-target-length','384'])
     first=tmp_path/'first'
     monkeypatch.setattr(sys,'argv',common+['--output-dir',str(first),'--steps','2',
         '--d-model','64','--d-ff','128','--encoder-layers','1','--decoder-layers','1','--num-heads','1'])
     train.main()
     saved=json.loads((first/'latest/coverage.json').read_text())
     assert saved.pop('optimizer_step')==2
-    expected=stream(corpus,target_length=384)
+    expected=stream(corpus,target_length=192 if untruncated else 384,untruncated=untruncated)
     expected_batches=expected.batches()
     for _ in range(4):
         expected.commit(next(expected_batches)['_coverage'])
     assert saved==expected.checkpoint()
     assert json.loads((first/'latest/run_config.json').read_text())['coverage_index']==str(corpus['index'])
-    assert json.loads((first/'latest/run_config.json').read_text())['training_target_length']==384
+    config=json.loads((first/'latest/run_config.json').read_text())
+    assert config['training_target_length']==(192 if untruncated else 384)
+    assert config['untruncated_training']==untruncated
     parent=tmp_path/'parent'
     manifest=archive_checkpoint(first/'latest',parent)
     assert 'coverage.json' in manifest['files']
@@ -187,3 +192,36 @@ def test_real_training_checkpoint_archive_and_resume(corpus,tmp_path,monkeypatch
     assert actual.pop('optimizer_step')==4
     assert actual==expected.checkpoint()
     assert actual['report']['completed_full_passes']==1
+
+
+def test_untruncated_stream_preserves_complete_tokens_order_and_resume(corpus):
+    for path in corpus['paths']:
+        rows=pq.read_table(path).to_pylist()
+        for i,row in enumerate(rows):
+            row['question']='original question '* (90+i)
+            row['code']='x = 1\n'*(100+i)+'return x'
+        pq.write_table(pa.Table.from_pylist(rows),path)
+    short=stream(corpus,rows_per_shard=20)
+    full=stream(corpus,rows_per_shard=20,untruncated=True)
+    a,b=short.batches(),full.batches()
+    count=0
+    while full.state['cursor'][0]==0:
+        restored=stream(corpus,rows_per_shard=20,untruncated=True,state=full.checkpoint()['state'])
+        capped,complete=next(a),next(b)
+        same_batch(complete,next(restored.batches()))
+        assert capped['_coverage']=={k:v for k,v in complete['_coverage'].items() if k!='untruncated_tokens'}
+        for j,(shard,row_id) in enumerate(complete['_coverage']['row_ids']):
+            row=pq.read_table(corpus['paths'][shard]).to_pylist()[row_id]
+            q=corpus['tokenizer'](row['question'],truncation=False)['input_ids']
+            code=corpus['tokenizer'](row['code'],truncation=False)['input_ids']
+            assert len(q)>128 and len(code)>384
+            assert complete['input_ids'][j][complete['attention_mask'][j].bool()].tolist()==q
+            assert complete['labels'][j][complete['labels'][j]!=-100].tolist()==code
+            count+=1
+        full.commit(complete['_coverage']);short.commit(capped['_coverage'])
+        saved=full.checkpoint()['state']
+        with pytest.raises(ValueError,match='changed'):
+            stream(corpus,rows_per_shard=20,state=saved)
+    assert count==13
+    assert full.checkpoint()['report']['source_length'] is None
+    assert full.checkpoint()['report']['target_length'] is None

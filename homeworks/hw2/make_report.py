@@ -836,6 +836,44 @@ def build():
             p('Both checkpoints record exactly 131,072 unique original rows, zero repeats and the same consumed-row-order hash. This is about 1.11% of the eligible corpus, not a complete training pass. The 384-token limit still truncates 1,184 eligible programs; rare long questions and programs need explicit handling before claiming complete token coverage. The unchanged generation cap can limit the benefit on long outputs.'),
             p('Eleven CPU tests passed, including default-stream compatibility, changed-cap resume rejection, matched row order and actual checkpoint/archive/resume. On 4,096 original rows, 80 targets retain additional text; target tokens rise from 300,695 to 304,642 while padded positions rise from 720,896 to 912,512. A full-size parent forward/backward check on longer original programs has finite gradients. No CPU-test weights were saved.'),
             p('Source 698b8bf1520b93904919c2acb07e2c2102341774. Every retained checkpoint and strict greedy output was saved to Drive before export, checksum verification and bot evaluation. Evidence: experiments/target-length-1k-v1. No long run started; T4 timing remains unverified.','SmallText')]
+    activation_run = ROOT/'experiments/activation-muon-2k-v1'
+    if (activation_run/'conclusion.json').exists():
+        conclusion=json.loads((activation_run/'conclusion.json').read_text())
+        selected=json.loads((activation_run/'selection.json').read_text())
+        rows=[['Activation','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,label in [('control','Gated GELU'),('swiglu','SwiGLU')]:
+            stages=selected['results'][name]
+            receipt=json.loads((activation_run/name/'step-002048/bot_receipt.json').read_text())
+            rows.append([label,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],
+                sum(v['prediction_failures'] for v in stages.values()),receipt['public_correct']])
+        story += [PageBreak(),p('SwiGLU versus gated GELU from scratch','Title'),
+            p('Two fresh 42,481,152-parameter encoder-decoder Transformers differ only in the gated feed-forward activation: T5 gated GELU versus SiLU gating (SwiGLU). Both use six encoder layers, four decoder layers, width 512, feed-forward width 1536 and eight attention heads. Full initial parameter hashes, including embeddings, agree. The activation is stored in the model configuration and is verified after reload.'),
+            p('Train all parameters for 2,048 updates with seed 42, batch 128, BF16, warmup 200 and a cosine schedule. Native Muon uses rate 0.001 on hidden matrices; AdamW uses 0.0003 on embeddings and vectors. Keep the original tokenizer, original examples/targets, source/target caps 128/192, ordinary token loss and strict greedy decoding. Record validation loss every 512 updates and retain only the final checkpoint from each arm.'),
+            table(rows,[38*mm,32*mm,35*mm,30*mm,35*mm]),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('The predeclared gate requires positive executed-answer gains on both held-out subsets and no additional total execution failures. Any survivor needs a second seed before combination or extension. Public feedback is recorded separately. These short scratch models are compared with each other, not interpreted as mature replacements for the 73,024-step best checkpoint. Equal updates are not equal GPU time; activation-specific learning rates were not tuned.'),
+            p('Checkpoint ledgers verify the same 262,144 unique original rows in the same order, zero repeats and zero completed passes. Coverage is about 2.21% of the eligible corpus. Existing sequence truncation is deliberately held fixed to isolate the activation change; this test does not resolve complete-token coverage or establish an optimal final model.'),
+            p('Ten focused CPU tests passed: parameter counts, identical initialization, distinct activation functions, finite gradients, save/reload, cached/uncached greedy decoding, resume-override rejection, command construction and selection/record checks. Separate full-size CPU forward/backward and native Muon updates on four original examples are finite for both variants; no preflight weights were retained. All 60 data shards and eligible indices were checksum-verified before allocation.'),
+            p('Source 2735e1e29779849bdaa359c92d2b62f75650dd36. Evidence: experiments/activation-muon-2k-v1. Checkpoints and outputs were saved to Drive, exported and checksum-verified before bot evaluation. Research motivation: Noam Shazeer, GLU Variants Improve Transformer, https://arxiv.org/abs/2002.05202. Its findings are motivation, not evidence for this task. No long run started; final T4 timing remains unverified.','SmallText')]
+    complete_tokens = ROOT/'experiments/untruncated-cpu-v1'
+    if (complete_tokens/'conclusion.json').exists():
+        checked=json.loads((complete_tokens/'real-data-preflight.json').read_text())
+        story += [PageBreak(),p('Complete original sequences before scaling','Title'),
+            p('All 11,836,444 eligible original rows are indexed, but no competition checkpoint has a verified full training pass. A complete pass requires 92,473 logical batches at 128. Independent pilot models cannot combine their training exposure. Keep the longer 78M run on hold.'),
+            p('The new opt-in --untruncated-training path keeps complete questions and programs. Grouping retains the old capped-length ordering to isolate token retention. Long logical batches split on CPU before GPU transfer. Each chunk receives its share of the original loss denominator, including numeric-token weights; rows and complete-token counts are committed only after the optimizer update succeeds.'),
+            table([['CPU check','Observed result'],
+                ['Eligible row lengths checked',f"{checked['eligible_rows_budget_checked']:,}"],
+                ['Longest question / program','741 / 1,208 tokens'],
+                ['Selected long original examples','130; exact token IDs retained'],
+                ['Original mixed window','4,096 rows; unchanged row order'],
+                ['Logical batches / GPU chunks','32 / 44; GPU execution not performed'],
+                ['Question / program tokens in window','193,287 / 304,642'],
+                ['Focused CPU tests','24 passed; checkpoint and resume included']],[75*mm,95*mm]),
+            p('Default chunk limits are 40,960 padded source-plus-target tokens and 9,961,472 attention positions (batch times source squared plus target squared plus source times target). All recorded individual examples fit. These are proxies, not measured device memory. An oversized single example raises before any chunk is yielded; no row is silently cut or dropped.'),
+            p('Dropout-free tiny T5 gradient comparisons verify split/unsplit loss equivalence for ordinary, numeric-weighted, example-balanced, smoothed and focal loss. Dropout and floating-point rounding can still differ in real training. Resume rejects a changed truncation mode. No test weights are used as a competition model.'),
+            p('The fresh 42.48M gated-GELU versus SwiGLU comparison is prepared and CPU-verified, but has not trained. Its GPU allocation failed at Drive mounting before the worker started. A CPU-only recovery attempt produced no success receipt; Colab reported sign-in/output errors. Zero active sessions were verified. No new checkpoint, public score or rank is claimed.'),
+            p('Next: repair CPU-only Drive access, run a bounded full-sequence memory/throughput probe, complete the isolated activation comparison, and confirm promising changes before combination. Save every retained checkpoint and greedy output to Drive before export and bot scoring. Require a full consumed-data receipt before claiming all examples were trained. Optimization search is prioritized and finite, never described as exhaustive.'),
+            p('Evidence: experiments/untruncated-cpu-v1 and experiments/activation-muon-2k-v1/cpu-recovery-status.json. The whole-corpus length arrays were hash-verified; selected original extremes were retokenized. Validation and generation caps remain fixed, so this work does not establish complete evaluation context or improved accuracy.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
