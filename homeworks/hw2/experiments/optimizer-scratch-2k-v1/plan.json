@@ -1,0 +1,65 @@
+{
+  "steps": 2048,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 42,
+  "warmup": 200,
+  "learning_rate": 0.0003,
+  "save_every": 2048,
+  "eval_every": 2048,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "d_model": 512,
+  "d_ff": 1536,
+  "encoder_layers": 6,
+  "decoder_layers": 4,
+  "num_heads": 8,
+  "initialization_vocab_size": 16384,
+  "arms": {
+    "control": "original8192",
+    "adamw_high": "original8192",
+    "muon_low": "original8192",
+    "muon_high": "original8192"
+  },
+  "training_updates_per_arm": 2048,
+  "example_presentations_per_arm": 262144,
+  "training_timeout_seconds": 480,
+  "outer_timeout_seconds": 1800,
+  "hypothesis": "Does native Muon learn executed-answer accuracy faster from scratch than AdamW after a small optimizer-specific learning-rate sweep?",
+  "matched": "Identical full random weights, tokenizer, original data, dropout seed, batch size, update count and target loss. All model parameters train. Muon applies only to hidden matrices; embeddings and vectors use AdamW. No frozen backbone.",
+  "selection": "Choose the better AdamW arm by summed held-out numeric agreements, breaking ties by fewer failures then lower rate. Muon must beat that arm on BOTH subsets with no extra total failures. Repeat best recipes with a second seed before combining or extending.",
+  "limitations": "Two-rate screens are not exhaustive tuning. Equal updates match example count, not GPU cost. Log actual examples, tokens, process time including setup, driver wall time and GPU telemetry. A fresh-model result does not establish optimizer-switch benefits on an AdamW-trained checkpoint. Public scores never select a recipe.",
+  "decoding": "Strict greedy, num_beams=1, no repairs",
+  "provenance": "Original supplied examples and random weights only. Same original 8k tokenizer in every arm. Native PyTorch Muon with match_rms_adamw scaling; no imported training data or pretrained model.",
+  "throughput_guard_estimated_train_seconds": 400,
+  "arm_options": {
+    "control": {
+      "optimizer": "adamw",
+      "learning_rate": 0.0003
+    },
+    "adamw_high": {
+      "optimizer": "adamw",
+      "learning_rate": 0.001
+    },
+    "muon_low": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001
+    },
+    "muon_high": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.003
+    }
+  },
+  "reference": "https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html",
+  "next_stages": [
+    "Repeat best AdamW and Muon recipes with a second seed.",
+    "Only after replication, test full-model continuation or a longer fresh run with matched controls.",
+    "Test encoder/decoder balance, then model size with measured equal GPU-time budgets."
+  ]
+}

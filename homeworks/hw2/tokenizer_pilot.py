@@ -48,7 +48,8 @@ def select(results):
     return result
 
 
-def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select):
+def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select,
+        runtime_preflight_fn=None):
     PREPARED, RUN, PLAN, select = prepared, run_dir, plan, selection_fn
     import torch
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
@@ -67,10 +68,13 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select):
         monitor=subprocess.Popen(['nvidia-smi','--query-gpu=timestamp,utilization.gpu,memory.used,power.draw','--format=csv,noheader,nounits','--loop=1'],stdout=telemetry)
         try:
             restore_data(ready['dataset'])
+            if runtime_preflight_fn is not None:
+                runtime_preflight_fn(RUN)
             option_names=['steps','batch_size','accumulation','seed','warmup','learning_rate','save_every','eval_every','precision','group_window','mixed_rows_per_shard','input_pipeline','prefetch_batches','prediction_batch_size','d_model','d_ff','encoder_layers','decoder_layers','num_heads','initialization_vocab_size']
             for arm_name,tokenizer_name in PLAN['arms'].items():
                 arm=RUN/arm_name;arm.mkdir()
                 options={k:PLAN[k] for k in option_names}
+                options.update(PLAN.get('arm_options', {}).get(arm_name, {}))
                 options.update(tokenizer_dir=Path('pilot-tokenizers')/tokenizer_name,
                     cache_dir=CACHE,output_dir=Path('/content/tokenizer-pilot-training')/arm_name,drive_root=arm)
                 command=[sys.executable,'-u','-m','homeworks.hw2.train']

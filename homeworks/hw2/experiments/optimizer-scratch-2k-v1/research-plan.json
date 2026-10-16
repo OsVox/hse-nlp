@@ -1,0 +1,45 @@
+{
+  "status": "Prepared investigation; no GPU optimizer experiment launched",
+  "priorities": [
+    {
+      "name": "Optimizer efficiency",
+      "test": "Fresh full-model AdamW versus native Muon, separate two-rate sweeps, common weights/data/tokenizer. Confirm winning recipe with another seed."
+    },
+    {
+      "name": "Encoder-decoder balance",
+      "test": "Compare baseline 6/4 with 8/2 and 4/6, adjusting feed-forward width for nearly equal parameter counts. All models train from scratch."
+    },
+    {
+      "name": "Size",
+      "test": "Approximately 20M, 42M and 80M with strongest confirmed recipe. Use measured GPU-time budgets and record processed examples, target tokens and setup/evaluation costs."
+    },
+    {
+      "name": "Attention and feed-forward changes",
+      "test": "QK normalization then SwiGLU or ReLU-squared independently at matched size; do not infer task gains from language-model speedruns."
+    },
+    {
+      "name": "Full-model continuation",
+      "test": "A separate practical experiment from own best checkpoint. Reset incompatible optimizer states and include a matched reset-state AdamW control. Do not infer scratch-training superiority from optimizer switching."
+    },
+    {
+      "name": "RL",
+      "test": "Research only until course interpretation of additional-target restriction is established. Rewards would use only original training references, never public bot feedback. Audit noisy references and rollout cost first; final submission decoding remains greedy."
+    }
+  ],
+  "scaling_limit": "Chinchilla guides a range, not this task optimum; language-model loss/data-token laws do not directly predict exact executed-answer accuracy on encoder-decoder code generation.",
+  "sources": [
+    "https://github.com/KellerJordan/modded-nanogpt",
+    "https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html",
+    "https://arxiv.org/abs/2203.15556",
+    "https://arxiv.org/abs/2207.01780"
+  ],
+  "unchanged_constraints": [
+    "Own scratch-trained encoder-decoder Transformer",
+    "Original supplied training examples only",
+    "Drive-first checkpoints and model outputs",
+    "Bot score for each unique checkpoint output",
+    "Second seed before long combined run",
+    "T4 full-test timing deferred, not verified"
+  ],
+  "rl_note": "CodeRL demonstrates execution-feedback RL for code, but its pretrained models, learned critic targets and test-time critical sampling are not a directly transferable recipe under this coursework setup. Self-generated policy rollouts are not automatically equivalent to extra supervised targets; legality remains a course-specific question."
+}

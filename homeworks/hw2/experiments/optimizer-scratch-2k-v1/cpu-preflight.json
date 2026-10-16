@@ -1,0 +1,97 @@
+{
+  "cpu_verified": true,
+  "torch_version": "2.9.0",
+  "results": {
+    "control": {
+      "initial_body_sha256": "7443d8b4bfe57020391f882da5bbf5093a74a41d5b1553c7f29c710fc0e59b7b",
+      "loss": 10.858372688293457,
+      "seconds": 0.3310710410005413,
+      "parameters": 42481152,
+      "all_parameters_trainable": true,
+      "all_parameters_received_finite_gradients": true,
+      "post_step_parameters_finite": true,
+      "labels_unchanged": true,
+      "hidden_matrix_parameters": 38273024,
+      "adamw_embedding_vector_parameters": 4208128
+    },
+    "adamw_high": {
+      "initial_body_sha256": "7443d8b4bfe57020391f882da5bbf5093a74a41d5b1553c7f29c710fc0e59b7b",
+      "loss": 10.858372688293457,
+      "seconds": 0.29029387500486337,
+      "parameters": 42481152,
+      "all_parameters_trainable": true,
+      "all_parameters_received_finite_gradients": true,
+      "post_step_parameters_finite": true,
+      "labels_unchanged": true,
+      "hidden_matrix_parameters": 38273024,
+      "adamw_embedding_vector_parameters": 4208128
+    },
+    "muon_low": {
+      "initial_body_sha256": "7443d8b4bfe57020391f882da5bbf5093a74a41d5b1553c7f29c710fc0e59b7b",
+      "loss": 10.858372688293457,
+      "seconds": 88.48183270799927,
+      "parameters": 42481152,
+      "all_parameters_trainable": true,
+      "all_parameters_received_finite_gradients": true,
+      "post_step_parameters_finite": true,
+      "labels_unchanged": true,
+      "hidden_matrix_parameters": 38273024,
+      "adamw_embedding_vector_parameters": 4208128
+    },
+    "muon_high": {
+      "initial_body_sha256": "7443d8b4bfe57020391f882da5bbf5093a74a41d5b1553c7f29c710fc0e59b7b",
+      "loss": 10.858372688293457,
+      "seconds": 88.42321795801399,
+      "parameters": 42481152,
+      "all_parameters_trainable": true,
+      "all_parameters_received_finite_gradients": true,
+      "post_step_parameters_finite": true,
+      "labels_unchanged": true,
+      "hidden_matrix_parameters": 38273024,
+      "adamw_embedding_vector_parameters": 4208128
+    }
+  },
+  "scope": "Four discarded one-step CPU preflights on original training examples; no saved model or accuracy experiment. Actual pilot not started.",
+  "architecture_candidates": {
+    "small": {
+      "d_model": 384,
+      "d_ff": 1152,
+      "encoder_layers": 4,
+      "decoder_layers": 4,
+      "num_heads": 6,
+      "parameters": 20849280
+    },
+    "baseline": {
+      "d_model": 512,
+      "d_ff": 1536,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "num_heads": 8,
+      "parameters": 42481152
+    },
+    "encoder_heavy": {
+      "d_model": 512,
+      "d_ff": 1664,
+      "encoder_layers": 8,
+      "decoder_layers": 2,
+      "num_heads": 8,
+      "parameters": 42349056
+    },
+    "decoder_heavy": {
+      "d_model": 512,
+      "d_ff": 1408,
+      "encoder_layers": 4,
+      "decoder_layers": 6,
+      "num_heads": 8,
+      "parameters": 42613248
+    },
+    "large": {
+      "d_model": 640,
+      "d_ff": 2048,
+      "encoder_layers": 8,
+      "decoder_layers": 4,
+      "num_heads": 10,
+      "parameters": 78663040
+    }
+  }
+}

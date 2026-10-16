@@ -36,8 +36,8 @@ def continuation_scheduler(optimizer, *, learning_rate, start_step, end_step, wa
     if end_step <= start_step:
         raise ValueError('Continuation must add training updates')
     for group in optimizer.param_groups:
-        group['lr'] = learning_rate
-        group['initial_lr'] = learning_rate
+        group['lr'] = learning_rate * group.get('lr_scale', 1.)
+        group['initial_lr'] = group['lr']
 
     def multiplier(phase_step):
         if phase_step < warmup:
@@ -187,6 +187,7 @@ def override_dropout(model, probability):
 
 
 def main() -> None:
+    script_started = time.monotonic()
     parser = argparse.ArgumentParser()
     parser.add_argument('--d-model', type=int, default=None)
     parser.add_argument('--d-ff', type=int, default=None)
@@ -223,6 +224,8 @@ def main() -> None:
                         help='Accept original rows with probability count**(-power); CPU index required')
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--learning-rate", type=float, default=3e-4)
+    parser.add_argument('--optimizer', choices=['adamw', 'muon'], default='adamw')
+    parser.add_argument('--muon-learning-rate', type=float, default=None)
     parser.add_argument('--numeric-token-weight', type=float, default=1.0,
                         help='Experimental loss weight for numeric/operator pieces; original targets stay unchanged')
     parser.add_argument('--label-smoothing', type=float, default=0.0)
@@ -249,6 +252,9 @@ def main() -> None:
     parser.add_argument('--restart-schedule', action='store_true',
                         help='Retain optimizer moments but warm up a new schedule over the remaining updates')
     args = parser.parse_args()
+    if args.muon_learning_rate is not None and (args.optimizer != 'muon' or
+            not math.isfinite(args.muon_learning_rate) or args.muon_learning_rate <= 0):
+        parser.error('Positive Muon learning rate requires --optimizer muon')
     if not math.isfinite(args.numeric_token_weight) or args.numeric_token_weight < 1:
         parser.error('numeric token weight must be finite and at least one')
     if not 0 <= args.label_smoothing < 1:
@@ -368,7 +374,11 @@ def main() -> None:
         'initial_nonembedding_sha256': initial_nonembedding_sha256,
     }, indent=2))
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.01)
+    from .optimizers import make_optimizer
+    if (load_checkpoint / 'training_state.pt').exists() and previous_config.get('optimizer', 'adamw') != args.optimizer:
+        parser.error('Changing optimizer requires a fresh run; moments cannot be reused across optimizer types')
+    optimizer = make_optimizer(model, args.optimizer, learning_rate=args.learning_rate,
+                               muon_learning_rate=args.muon_learning_rate)
 
     def multiplier(step: int) -> float:
         if step < args.warmup:
@@ -431,6 +441,8 @@ def main() -> None:
         from .decoder_dropout import decoder_dropout_inputs
         decoder_generator = torch.Generator(device=device).manual_seed(args.seed + start_step + 2026101604)
     start_time = time.monotonic()
+    examples_processed = 0
+    tokens_processed = torch.zeros(2, dtype=torch.int64, device=device)
     for step in range(start_step + 1, args.steps + 1):
         score = None
         optimizer.zero_grad(set_to_none=True)
@@ -439,6 +451,9 @@ def main() -> None:
         for _ in range(args.accumulation):
             batch = (to_device(next(batches), device) if args.input_pipeline == 'encoded'
                      else encode_batch(next(batches), tokenizer, device))
+            examples_processed += batch['labels'].shape[0]
+            tokens_processed[0] += batch['attention_mask'].sum()
+            tokens_processed[1] += batch['labels'].ne(-100).sum()
             autocast = torch.autocast("cuda", dtype=dtype) if device.type == "cuda" and dtype != torch.float32 else nullcontext()
             with autocast:
                 decoder_options = (decoder_dropout_inputs(model, batch['labels'],
@@ -493,6 +508,17 @@ def main() -> None:
                     model.train()
                     print(f'checkpoint_ready_for_bot={archived} jsonl_sha256={digest}', flush=True)
     print(f"finished_steps={args.steps}", flush=True)
+    if device.type == 'cuda':
+        torch.cuda.synchronize()
+    source_tokens, target_tokens = tokens_processed.tolist()
+    budget = dict(examples_processed=examples_processed, source_tokens=source_tokens,
+        target_tokens=target_tokens, updates=args.steps-start_step,
+        loop_seconds_including_checkpoint_evaluation=time.monotonic()-start_time,
+        process_seconds_including_setup=time.monotonic()-script_started,
+        torch_version=torch.__version__, optimizer=args.optimizer)
+    (args.output_dir/'compute-budget.json').write_text(json.dumps(budget, indent=2)+'\n')
+    if args.drive_root is not None:
+        (args.drive_root/'compute-budget.json').write_text(json.dumps(budget, indent=2)+'\n')
 
 
 if __name__ == "__main__":

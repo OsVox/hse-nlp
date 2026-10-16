@@ -1,0 +1,6 @@
+{
+  "passed": 12,
+  "seconds": 3.28,
+  "torch_version": "2.9.0",
+  "command": "pytest test_optimizers.py test_optimizer_pilot.py test_continuation.py test_tokenizer_confirmation.py test_runtime_guard.py"
+}
