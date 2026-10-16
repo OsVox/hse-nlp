@@ -1,0 +1,14 @@
+{
+  "source_commit": "69829cbe4f76a54907f1306df19e34065e75a75a",
+  "folder_id": "1SbeB80lPAeDJZcyN6LoUTm4YUqv3Vr1s",
+  "files": {
+    "prepare.py": "1KFHKCKVk2f37aerMUiS_2DCGSeYHZWN2",
+    "source.tar": "1mUDUuD_a8LWQxNMOW-R3cVLt7OwHDtnG"
+  },
+  "read_back_verified": true,
+  "cpu_preflight": "pending",
+  "gpu_training": "not started",
+  "notebook_file_id": "1MFg5g_0u7Lg5PZHKFKdnbgNm0wGrR5RD",
+  "notebook_sha256": "5ecf7e010ae78b02941499280ec22b31af7d96fd1d63695de82e5a2ad846717d",
+  "notebook_read_back_verified": true
+}

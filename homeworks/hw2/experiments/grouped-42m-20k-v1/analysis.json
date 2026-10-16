@@ -1,0 +1,9 @@
+{
+  "gpu_samples": 1610,
+  "mean_utilization_percent": 83.96832298136646,
+  "median_utilization_percent": 98.0,
+  "peak_reported_memory_mib": 72243.0,
+  "continuation_measured_examples_per_second": 1549.2758026942165,
+  "estimated_additional_80000_steps_seconds": 6609.5397489539755,
+  "note": "Throughput includes intervening evaluation and checkpoint saves; future projection, not a guarantee. Full GPU samples also include probes and setup."
+}
