@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "file": "homeworks/hw2/report.pdf",
+    "sha256": "d0a097344b7ce81fc92dba05ce5fbc8993d806157b132b90e009f554601e5f48",
+    "byte_verified": true
+  },
+  {
+    "id": "1ggKb3WefGCwVu-mNNwX913B3JO8Ff9Mq",
+    "file": "homeworks/hw2/experiments/batch-order-1k-v1/comparison.md",
+    "sha256": "08e2d79ee8b45c6eb680858f866c2745b0c3cbeae2411defceed3031ed65b5fc",
+    "byte_verified": true
+  }
+]

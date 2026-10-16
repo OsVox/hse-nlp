@@ -1,0 +1,23 @@
+{
+  "rows": 256,
+  "usable_references": 245,
+  "numeric_correct": 136,
+  "numeric_agreement_on_usable": 0.5551020408163265,
+  "prediction_failures": 14,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/batch-order-1k-v1/shuffled_s42/step-071024",
+  "offset": 256,
+  "beams": 1,
+  "device": "cuda",
+  "precision": "torch.float32",
+  "cpu_threads": 24,
+  "generation_seconds": 1.5311521890000677,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "56db36bda94a16d4fa18130bc41b1e549ee178b4881d743be3f17f0c2c531fe4",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+  "predictions_sha256": "deb4253d3638e5544a830f5bd544bc75c9f055b82a57d647613517816ae2b24f",
+  "handwritten_repairs": 0
+}

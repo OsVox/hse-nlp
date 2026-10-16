@@ -386,6 +386,24 @@ def build():
             p('Exact duplication and truncation affect a minority of rows. This does not prove filtering cannot help, but it does not establish a large data-cleaning opportunity. The audit is descriptive: it does not assess semantic correctness, normalized paraphrases, or the effect of changing the training distribution.'),
             p('A separate code inspection found that grouped batches always run in ascending input-length order within each window. An optional deterministic shuffle now changes only batch order, preserving every batch tensor and its padding cost. Thirteen focused checks passed, including unchanged default behavior and exact shuffled batch membership. This option is prepared for a short two-seed comparison; no score gain or completed training run is claimed.'),
             p(f"Audit computation: {r['elapsed_seconds']:.2f} seconds; CPU process, input restore and setup: 85.97 seconds. No GPU was allocated. Colab confirmed no active sessions after automatic release. The contemporaneous public leaderboard remains 8/15: 59.69% versus 78.33% for first place. Evidence: experiments/train-diversity-audit-v1; audit source: 6add585. The first-place objective remains unmet.",'SmallText')]
+    ordering = ROOT/'experiments/batch-order-1k-v1'
+    if (ordering/'selection.json').exists():
+        r=json.loads((ordering/'selection.json').read_text())
+        rows=[['Seed / order','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name, stages in r['results'].items():
+            f=ordering/name/'step-071024/bot_receipt.json'
+            public=json.loads(f.read_text())['public_correct'] if f.exists() else 'pending'
+            rows.append([name,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],
+                         sum(s['prediction_failures'] for s in stages.values()),public])
+        story += [PageBreak(),p('Grouped batch order: two-seed test','Title'),
+            p('Four continuations start from identical own 70k weights and Adam moments. Within each seed, the control processes length-grouped batches in ascending length order; the treatment shuffles these same completed batches within each 4,096-example window. Both retain identical batch membership, padding cost and original targets. Seeds 42 and 1042 change the data/dropout stream. Each arm gets 1,024 updates, batch 128, or 131,072 example presentations; the budget ends on a complete grouping window.'),
+            table(rows,[49*mm,29*mm,35*mm,25*mm,32*mm]),
+            p('The predefined gate requires positive total held-out gain in each seed, no negative gain in either subset for either seed, and no increase in execution failures pooled across seeds. Confirmed: '+str(r['confirmed'])+'. Reused questions across seeds are not independent test observations, and all validation remains exploratory.'),
+            p('The shuffled order gained 3 held-out correct answers in seed 42 but lost 1 in seed 1042, with 3 additional pooled execution failures. Public accuracy fell by 11 correct answers in each pair. No long extension is justified. The retained best remains 573/960 (59.69%), rank 8/15.'),
+            p('All arms use unchanged architecture, original token loss, peak learning rate .00003, 50 warmup updates and strict greedy decoding. Fifteen focused tests passed, including exact preservation of shuffled batch tensors, unchanged default behavior, checkpoint boundaries and paired selection. Every checkpoint and test output is saved to Drive before export and verification. Source: 862fa6f491c6c1bd4c7977d688aa37deaf2c54db; evidence: experiments/batch-order-1k-v1.','SmallText')]
+        if (ordering/'execution.json').exists():
+            e=json.loads((ordering/'execution.json').read_text())
+            story += [p(f"Driver duration: {e['elapsed_seconds']/60:.2f} minutes, excluding allocation and authorization before the driver. Median sampled GPU utilization was 97%; mean was 63.79%, including restoration, CPU scoring and saving. Colab confirmed no active sessions after automatic release. No long extension was started.")]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

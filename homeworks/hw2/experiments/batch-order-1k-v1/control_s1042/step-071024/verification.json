@@ -1,0 +1,12 @@
+{
+  "step": 71024,
+  "rows": 1919,
+  "jsonl_sha256": "1186cb45e60297030d9b3d62423d901b027a65e63dba830171a4cd51fb289735",
+  "model_sha256": "83ee88df3470cfd6ebf2c8d688997c99aff1a11d03e28e1c1cd44c9ebd0a969f",
+  "source_commit": "862fa6f491c6c1bd4c7977d688aa37deaf2c54db",
+  "questions_sha256": "214746f8d4bc918b6fa1fde8ca3185a518a60637f239a2c45efa9a8143f612d3",
+  "status": "exact_export_verified",
+  "generation_seconds": 3.9654512160000195,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "t4_timing_verified": false
+}

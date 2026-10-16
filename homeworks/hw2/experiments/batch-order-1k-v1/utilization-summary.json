@@ -1,0 +1,7 @@
+{
+  "samples": 504,
+  "median_gpu_utilization_percent": 97.0,
+  "mean_gpu_utilization_percent": 63.78769841269841,
+  "fraction_at_least_90_percent": 0.5853174603174603,
+  "scope": "Driver only; restore, evaluation and saving included; allocation and OAuth excluded"
+}
