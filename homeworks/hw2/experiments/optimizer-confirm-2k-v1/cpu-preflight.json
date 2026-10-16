@@ -1,0 +1,6 @@
+{
+  "status": "passed_reused_unchanged_model_optimizer",
+  "prior_evidence": "experiments/optimizer-scratch-2k-v1/cpu-preflight.json",
+  "scope": "Same architecture, tokenizer, optimizer implementations and exact rates; only seed and selection wrapper change. Prior full-size finite-gradient checks are reused. Colab native Muon already verified on CPU and GPU.",
+  "prior_selection_sha256": "e73810010e8586f1e1b26d7d2954161fb181e6bda05f120abde7028338af684d"
+}

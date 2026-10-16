@@ -1,0 +1,57 @@
+{
+  "steps": 2048,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 1042,
+  "warmup": 200,
+  "learning_rate": 0.0003,
+  "save_every": 2048,
+  "eval_every": 2048,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "d_model": 512,
+  "d_ff": 1536,
+  "encoder_layers": 6,
+  "decoder_layers": 4,
+  "num_heads": 8,
+  "initialization_vocab_size": 16384,
+  "arms": {
+    "control": "original8192",
+    "muon_low": "original8192"
+  },
+  "training_updates_per_arm": 2048,
+  "example_presentations_per_arm": 262144,
+  "training_timeout_seconds": 480,
+  "outer_timeout_seconds": 1000,
+  "hypothesis": "Repeat selected Muon 0.001 versus AdamW 0.0003 with a different shared initialization, data and dropout seed.",
+  "matched": "Identical full random weights, tokenizer, original data, dropout seed, batch size, update count and target loss. All model parameters train. Muon applies only to hidden matrices; embeddings and vectors use AdamW. No frozen backbone.",
+  "selection": "Require positive gains on both held-out subsets and no added total execution failures in BOTH seeds. Public scores never select the recipe. A pass permits a bounded learning-curve/equal-time experiment, not automatic long training.",
+  "limitations": "Reuses validation questions; replication is not new validation or statistical significance. Equal examples do not equal GPU time. Early learning does not establish mature performance or optimal model size.",
+  "decoding": "Strict greedy, num_beams=1, no repairs",
+  "provenance": "Original supplied examples and random weights only. Same original 8k tokenizer in every arm. Native PyTorch Muon with match_rms_adamw scaling; no imported training data or pretrained model.",
+  "throughput_guard_estimated_train_seconds": 400,
+  "arm_options": {
+    "control": {
+      "optimizer": "adamw",
+      "learning_rate": 0.0003
+    },
+    "muon_low": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001
+    }
+  },
+  "reference": "https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html",
+  "next_stages": [
+    "Repeat best AdamW and Muon recipes with a second seed.",
+    "Only after replication, test full-model continuation or a longer fresh run with matched controls.",
+    "Test encoder/decoder balance, then model size with measured equal GPU-time budgets."
+  ],
+  "prior_seed": 42,
+  "confirmation_seed": 1042,
+  "throughput_probe": "Reuse the completed same-model native-Muon GPU probe; per-arm 480-second and whole-driver 1000-second bounds remain active."
+}
