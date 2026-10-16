@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-17T00:30:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "matched-curve-adamw42-006018.jsonl",
+  "jsonl_sha256": "108ee2feacd29f72a315954ccc72f093fda5d1862382f84f30a34248c2bc9910",
+  "source_commit": "723f5b35652efd5b2c5d305fcec9f9cc2b40ea06",
+  "model_sha256": "fef8fd15c0fc8b9d9da8da4aab187bbc31e4248f36f817bf6337a073d9c2656f",
+  "run": "matched-curve-v1",
+  "variant": "adamw42",
+  "step": 6018,
+  "status": "scored",
+  "public_correct": 158,
+  "public_total": 960,
+  "public_percent": 16.46,
+  "reported_rank": 10,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 789085,
+    "accepted": 789086,
+    "score": 789087,
+    "rank": 789088
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1d2Om_dJ7Y9GNyMrX3ytFELS_F84y45Eh",
+  "training": true,
+  "public_test_used_for_selection": false
+}
