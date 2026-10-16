@@ -1,0 +1,48 @@
+{
+  "parent_step": 73024,
+  "final_step": 76800,
+  "batch_size": 128,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "save_every": 1024,
+  "eval_every": 1024,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "arms": {
+    "complete": {
+      "numeric_token_weight": 2.0,
+      "mixed_rows_per_shard": null,
+      "coverage_index": "/content/complete-curve-inputs/coverage-index",
+      "untruncated_training": true,
+      "microbatch_token_budget": 40960,
+      "microbatch_attention_budget": 9961472
+    }
+  },
+  "added_example_presentations_per_arm": 483328,
+  "training_timeout_seconds": 720,
+  "outer_timeout_seconds": 900,
+  "hypothesis": "Measure a bounded accuracy curve after retaining complete original sequences and exact consumed-data accounting.",
+  "limitations": "At most 483328 newly tracked original rows, about4.08% of the corpus. Old exposure is unknown. Held-out sets are reused. Validation and strict greedy caps remain128/192 for comparability.",
+  "selection": "Report all four held-out checkpoints against the parent. Public scores are recorded separately. No automatic extension or full-pass claim; inspect the trajectory before any longer continuation.",
+  "expansion": "Save each checkpoint and exact greedy outputs in Drive, then export and submit every checkpoint to the bot.",
+  "seed": 42,
+  "numeric_token_weight": 2.0,
+  "overlap_cpu_scoring": true,
+  "parent_model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "matched": "One continuation from the best own 42M weights and AdamW moments. Seed42, batch128, BF16, numeric weight2, warmup50 and peak rate3e-5. No parameter scaling or new targets. This is not a causal comparison against capped training.",
+  "next_stages": [
+    "Verify every complete-token coverage receipt.",
+    "Export and bot-score all four retained checkpoints.",
+    "Review held-out trajectory before extending."
+  ],
+  "checkpoint_steps": [
+    73728,
+    74752,
+    75776,
+    76800
+  ]
+}

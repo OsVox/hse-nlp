@@ -1,0 +1,7 @@
+{
+  "passed": 26,
+  "seconds": 6.58,
+  "device": "CPU",
+  "command": "pytest -q homeworks/hw2/tests/test_complete_curve.py homeworks/hw2/tests/test_long_sequences.py homeworks/hw2/tests/test_full_coverage.py homeworks/hw2/tests/test_continuation.py",
+  "preflight_development_correction": "Removed the sampler metadata dictionary before calling the tensor-only chunk splitter in the standalone CPU preflight; production training already does this."
+}
