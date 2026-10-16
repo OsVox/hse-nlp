@@ -96,7 +96,7 @@ def select_candidates(results):
                 long_run_authorized_by_evidence=False)
 
 
-def prepare(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, launcher=LAUNCH):
+def prepare(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, launcher=LAUNCH, preflight_fn=None):
     PREPARED, RUN, PLAN, LAUNCH = prepared, run_dir, plan, launcher
     import torch
     from transformers import T5ForConditionalGeneration
@@ -125,6 +125,7 @@ def prepare(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, launcher=LAUNCH):
         assert values['exp_avg'].shape==parameter.shape==values['exp_avg_sq'].shape
         assert torch.isfinite(values['exp_avg']).all() and torch.isfinite(values['exp_avg_sq']).all()
     del state,optimizer,model
+    extra_preflight = preflight_fn(parent, CACHE) if preflight_fn else None
     commit = Path('source_commit.txt').read_text().strip()
     PREPARED.mkdir(parents=True)
     with tarfile.open(local/'parent.tar','w') as z:z.add(parent,arcname='parent')
@@ -138,6 +139,9 @@ def prepare(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, launcher=LAUNCH):
     ready = dict(cpu_verified=True,source_commit=commit,plan=PLAN,dataset=dataset,
                  parent_model_sha256=MODEL_HASH,parent_sha256=sha256(PREPARED/'parent.tar'),
                  source_sha256=sha256(PREPARED/'source.tar'),launcher_sha256=sha256(PREPARED/'launch.py'))
+    if extra_preflight is not None:
+        (PREPARED/'tokenization-audit.json').write_text(json.dumps(extra_preflight,indent=2))
+        ready['extra_preflight'] = extra_preflight
     (PREPARED/'ready.json').write_text(json.dumps(ready,indent=2))
     assert json.loads((PREPARED/'ready.json').read_text())==ready
     print('SCREEN_CPU_READY',json.dumps(ready),flush=True)

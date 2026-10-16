@@ -23,6 +23,7 @@ from .data import SHARDS, training_batches, validation_examples
 from .speed import group_batches, precision_dtype
 from .checkpoint_io import archive_checkpoint, drive_preflight, package_jsonl, sha256
 from .input_pipeline import encoded_batches, prefetch_batches, to_device
+from .digit_tokenization import load_training_tokenizer
 from .token_weighting import token_weights, weighted_loss
 
 SOURCE_LENGTH = 128
@@ -177,6 +178,8 @@ def main() -> None:
                         help='Bounded CPU preparation queue; requires the encoded pipeline')
     parser.add_argument('--shuffle-batch-order', action='store_true',
                         help='Shuffle completed length-grouped batches within each window')
+    parser.add_argument('--individual-digits', action='store_true',
+                        help='Split digits before BPE; preserve original vocabulary and target text')
     parser.add_argument("--steps", type=int, default=30_000)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--accumulation", type=int, default=4)
@@ -259,9 +262,10 @@ def main() -> None:
     )
     dtype = precision_dtype(args.precision, device)
     print(f"device={device} precision={dtype} group_window={args.group_window}", flush=True)
-    tokenizer = PreTrainedTokenizerFast.from_pretrained(args.resume_from or "homeworks/hw2/tokenizer")
     checkpoint = args.output_dir / "latest"
     load_checkpoint = args.resume_from or checkpoint
+    tokenizer_path = load_checkpoint if (load_checkpoint / 'tokenizer.json').exists() else Path('homeworks/hw2/tokenizer')
+    tokenizer = load_training_tokenizer(tokenizer_path, individual_digits=args.individual_digits)
     previous_config_path = load_checkpoint / 'run_config.json'
     previous_config = json.loads(previous_config_path.read_text()) if previous_config_path.exists() else {}
     if previous_config.get('schedule_start') is not None and not args.restart_schedule:
@@ -351,8 +355,8 @@ def main() -> None:
     if args.input_pipeline == 'encoded':
         # Fast tokenizers temporarily change padding/truncation settings per call.
         # Keep the producer's instance separate from validation and prediction.
-        input_tokenizer = (PreTrainedTokenizerFast.from_pretrained(
-            args.resume_from or 'homeworks/hw2/tokenizer') if args.prefetch_batches else tokenizer)
+        input_tokenizer = (load_training_tokenizer(tokenizer_path,
+            individual_digits=args.individual_digits) if args.prefetch_batches else tokenizer)
         batches = encoded_batches(batches, input_tokenizer, args.batch_size, args.group_window,
                                   skip_truncated_targets=args.skip_truncated_targets,
                                   shuffle_batch_seed=(args.seed + start_step if args.shuffle_batch_order else None))

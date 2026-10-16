@@ -1,0 +1,31 @@
+{
+  "status": "prepared_for_CPU_preflight_not_launched",
+  "parent_step": 70000,
+  "final_step": 71024,
+  "batch_size": 128,
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "save_every": 71024,
+  "eval_every": 71024,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "arms": {
+    "control": {},
+    "digits": {
+      "individual_digits": true
+    }
+  },
+  "added_example_presentations_per_arm": 131072,
+  "training_timeout_seconds": 400,
+  "outer_timeout_seconds": 900,
+  "hypothesis": "Individual digit boundaries may make copying and composing numeric literals easier. Original vocabulary, IDs and text are unchanged.",
+  "limitations": "Longer sequences change length grouping and truncation; the exact example pool matches at the complete-window boundary. Adaptation from BPE is not a from-scratch tokenizer comparison. Held-out questions have been reused.",
+  "selection": "Positive gain in both held-out subsets, no increase in total execution failures; then repeat with another seed before combination or extension. No automatic long run.",
+  "expansion": "Persist every checkpoint and strict greedy test output to Drive; export and evaluate every checkpoint in bot. Public feedback is recorded separately.",
+  "training_updates_per_arm": 1024,
+  "research": "https://arxiv.org/abs/2402.14903; motivates testing segmentation, does not establish benefit for Python generation"
+}
