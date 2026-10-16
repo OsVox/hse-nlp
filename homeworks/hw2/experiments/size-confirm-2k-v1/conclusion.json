@@ -1,0 +1,17 @@
+{
+  "decision": "The smaller model does not replicate its initial gain: seed42 gains were +5/245 and +12/493; seed1042 gains are -1/245 and -8/493. Reject promotion of the 17.58M candidate and retain 42.48M as the reference, not a proven optimum. The short public scores are 114/960 for control and 103/960 for small; the mature 583/960 checkpoint remains best. Proceed to the bounded matched-compute learning-curve comparison before the authorized full-pass run.",
+  "compute": "The two-arm driver took 407.92 seconds (6.80 minutes), including restoration and evaluation. Training process times were control 202.35s and small 136.73s. Each arm consumed 262,136 examples in 2,048 updates; partial batches explain the difference from the nominal 262,144. Whole-driver GPU utilization mean 69.91%, median 92%; peak memory 18309 MiB. Both retained checkpoints were saved to Drive, exported with verified hashes and bot-scored. Zero active Colab sessions was verified after completion.",
+  "shortlist": [],
+  "confirmation_passed": false,
+  "long_run_started": false,
+  "all_checkpoints_scored": true,
+  "gpu_sessions_after_completion": 0,
+  "prior_seed_gains": [
+    5,
+    12
+  ],
+  "confirmation_seed_gains": [
+    -1,
+    -8
+  ]
+}

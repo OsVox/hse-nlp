@@ -1,0 +1,38 @@
+{
+  "control": [
+    {
+      "step": 512,
+      "token_loss": 2.148
+    },
+    {
+      "step": 1024,
+      "token_loss": 1.6638
+    },
+    {
+      "step": 1536,
+      "token_loss": 1.433
+    },
+    {
+      "step": 2048,
+      "token_loss": 1.3421
+    }
+  ],
+  "small": [
+    {
+      "step": 512,
+      "token_loss": 2.4815
+    },
+    {
+      "step": 1024,
+      "token_loss": 1.8728
+    },
+    {
+      "step": 1536,
+      "token_loss": 1.5988
+    },
+    {
+      "step": 2048,
+      "token_loss": 1.4964
+    }
+  ]
+}

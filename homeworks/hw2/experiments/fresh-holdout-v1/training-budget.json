@@ -1,0 +1,11 @@
+{
+  "eligible_rows": 11833861,
+  "batch_size": 128,
+  "accumulation": 1,
+  "coverage_rows_per_shard": 4096,
+  "rounds": 49,
+  "full_pass_optimizer_updates": 92453,
+  "partial_batches": 2,
+  "new_scratch_only": true,
+  "trained_full_pass_completed": false
+}

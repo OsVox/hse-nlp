@@ -1,0 +1,27 @@
+{
+  "questions_sha256": "9d685b2d1f038f46a3f03d0d52188b860d853461b1bdf468c3577ab46ef4f341",
+  "subsets": {
+    "pilot": {
+      "rows": 1024,
+      "usable_references": 928,
+      "status_counts": {
+        "ok": 928,
+        "NameError": 84,
+        "ValueError": 12
+      }
+    },
+    "confirmation": {
+      "rows": 1024,
+      "usable_references": 943,
+      "status_counts": {
+        "ok": 943,
+        "NameError": 70,
+        "ValueError": 11
+      }
+    }
+  },
+  "selection_changed": false,
+  "targets_rewritten": false,
+  "model_evaluated": false,
+  "note": "Restricted numeric runner diagnostics only; unsupported references are not automatically incorrect. No rows are removed based on these results."
+}

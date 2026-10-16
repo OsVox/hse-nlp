@@ -1,0 +1,9 @@
+{
+  "arm": "small",
+  "arm_folder": "1yydI2pJJ8vy4mj7JNQVtuhIYLOqyxQy1",
+  "checkpoint_folder": "1S1ZBNPNiVGD9DeQrkQypMIi6-qsncFhJ",
+  "model_id": "1QLPN29I7Lf1loFES8lFSS92jQaDy6M8D",
+  "model_bytes": 70335360,
+  "model_sha256": "52a8918c628799da0d165597f539e6cc8a6e01eb1ff9ca90b5497a052167ffc3",
+  "remote_model_download_verified": true
+}

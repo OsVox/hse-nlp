@@ -1,0 +1,7 @@
+{
+  "samples": 402,
+  "driver_utilization_mean_percent": 69.90547263681592,
+  "driver_utilization_median_percent": 92.0,
+  "peak_memory_mib": 18309.0,
+  "scope": "Whole driver including restoration, training and evaluation"
+}

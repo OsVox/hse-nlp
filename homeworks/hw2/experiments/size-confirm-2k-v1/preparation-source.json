@@ -1,0 +1,24 @@
+{
+  "folder": "1QoypD9uMrO7g-Xq6URXKOyTEIWbXSZcH",
+  "source_commit": "f2d3b169c6269c777dc1d46392b2deea17172024",
+  "files": [
+    {
+      "id": "1dbqioDbq8NXm15wBYAJQV1Eg84Nhixo2",
+      "name": "ready.json",
+      "sha256": "de6c0c6c96c12dfb1dcf7306af78dbd46c113d22c82626b3ec9231fcb1766b25",
+      "byte_verified": true
+    },
+    {
+      "id": "16_OBwAQCM1HFCjynIlkbN9ND_6LrFQeY",
+      "name": "launch.py",
+      "sha256": "6a0adf44003d4294838dc76c728bc7c20dd12e1f62673674ca3cf9070ab04f2f",
+      "byte_verified": true
+    },
+    {
+      "id": "1vmcCAvLXdW1Y0vh6tSNTaFBC9UpLZtT_",
+      "name": "source.tar",
+      "sha256": "d78df022dfe861e4d1186fd29e3f60ddce354a24ec4fce836fc19a6cb3b3e904",
+      "byte_verified": true
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "preparation": {
+    "cpu_verified": true,
+    "question_groups": 2048,
+    "source_shard": 59,
+    "old_eligible_rows": 11836444,
+    "new_eligible_rows": 11833861,
+    "additional_excluded_rows": 2583,
+    "questions_sha256": "9d685b2d1f038f46a3f03d0d52188b860d853461b1bdf468c3577ab46ef4f341",
+    "index_manifest_sha256": "0c20389686edf04a5a6f800ad9c4f059e0c5ea048c099b5c6e622798601e64e9",
+    "pilot_positions": [
+      0,
+      1024
+    ],
+    "confirmation_positions": [
+      1024,
+      2048
+    ],
+    "all_60_shards_checked": true,
+    "tokenizer_question_overlap": 0,
+    "original_programs_unchanged": true,
+    "selection_used_answers": false,
+    "validity": "Clean holdout only for future scratch models trained with this derived exclusion index. Historical checkpoints may have trained on these questions; do not claim they are unseen by those models.",
+    "reference_limit": "Supplied programs can disagree or be unsupported by the numeric runner. Report usable-reference denominators; do not rewrite or select references based on results."
+  },
+  "reference_audit": {
+    "questions_sha256": "9d685b2d1f038f46a3f03d0d52188b860d853461b1bdf468c3577ab46ef4f341",
+    "subsets": {
+      "pilot": {
+        "rows": 1024,
+        "usable_references": 928,
+        "status_counts": {
+          "ok": 928,
+          "NameError": 84,
+          "ValueError": 12
+        }
+      },
+      "confirmation": {
+        "rows": 1024,
+        "usable_references": 943,
+        "status_counts": {
+          "ok": 943,
+          "NameError": 70,
+          "ValueError": 11
+        }
+      }
+    },
+    "selection_changed": false,
+    "targets_rewritten": false,
+    "model_evaluated": false,
+    "note": "Restricted numeric runner diagnostics only; unsupported references are not automatically incorrect. No rows are removed based on these results."
+  },
+  "archive": {
+    "source_commit": "9ca08e18237852fbd6243c2ea726297e439f0942",
+    "folder_id": "1jIBaqhlgfRs89oVGldhbQZ6IPkJe_1ck",
+    "file_id": "1jAHSuJ-Cb3_qSWAMeokplPJF0VySb83_",
+    "sha256": "b76d3895f5452059221e7409fdc2e9a20633d2c10309f29933647ff7bfa1962f",
+    "bytes": 18334526,
+    "download_verified": true,
+    "all_restored_files_verified": true,
+    "drive_path": "/content/drive/MyDrive/HSE_NLP_HW2/prepared/fresh-holdout-v1/fresh-holdout-v1.tar.gz"
+  },
+  "cpu_verified": true,
+  "tests": {
+    "passed": 4,
+    "seconds": 1.46,
+    "command": "pytest -q homeworks/hw2/tests/test_fresh_holdout.py homeworks/hw2/tests/test_explicit_holdout.py"
+  },
+  "tokenizer_overlap_scope": "Zero exact question-column overlap with shard zero; strings inside original code/comments were not audited.",
+  "usage": "Use for new scratch-model comparisons with the paired derived exclusion index. Do not use to claim unseen accuracy for historical checkpoints."
+}

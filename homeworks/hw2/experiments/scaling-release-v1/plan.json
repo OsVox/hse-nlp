@@ -23,8 +23,9 @@
     },
     {
       "id": "size_confirmation",
-      "status": "pending",
-      "next": "Replicate the shortlisted 17.58M versus 42.48M Muon size comparison with a second seed. The 78.15M arm failed the initial held-out gate; do not designate it best from its public score."
+      "status": "completed_rejected",
+      "next": "Retain the 42.48M reference; the smaller candidate failed the second seed. Proceed to the bounded matched-compute comparison.",
+      "evidence": "../size-confirm-2k-v1/conclusion.json"
     },
     {
       "id": "learning_curve_confirmation",
@@ -40,7 +41,8 @@
       "measured GPU time",
       "trajectory stability"
     ],
-    "caveat": "The existing held-out subsets have been reused; results are exploratory. Reserve fresh question groups and exclude them from training before final recipe confirmation. Public leaderboard results are reporting outcomes, not recipe-selection targets."
+    "caveat": "The existing held-out subsets have been reused; results are exploratory. Reserve fresh question groups and exclude them from training before final recipe confirmation. Public leaderboard results are reporting outcomes, not recipe-selection targets.",
+    "fresh_holdout_preparation": "fresh-holdout-v1 reserves 2048 groups from shard59; no model has used it. Clean only for new scratch runs with derived exclusions. Its corpus representativeness is not established."
   },
   "long_run": {
     "status": "not_started",

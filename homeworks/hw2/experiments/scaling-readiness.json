@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-16T23:17:59.228979+03:00",
+  "updated_at": "2026-10-16T23:51:00+03:00",
   "scaling_ready": false,
   "long_run_started": false,
   "all_optimizations_exhausted": false,
@@ -41,7 +41,6 @@
     "all_fused_attention_implementations_ruled_out": false
   },
   "remaining_priorities": [
-    "Replicate the shortlisted size against the 42.48M control.",
     "Run the bounded matched-compute learning-curve confirmation on fresh reserved question groups.",
     "Then scale the confirmed recipe through a verified complete data pass."
   ],
@@ -101,5 +100,17 @@
     "evidence": "adjacent-average-cpu-v1",
     "selected": null,
     "both_failed_confirmation": true
+  },
+  "size_confirmation": {
+    "evidence": "size-confirm-2k-v1",
+    "smaller_model_replicated": false,
+    "reference_parameters": 42481152
+  },
+  "fresh_holdout": {
+    "evidence": "fresh-holdout-v1",
+    "questions": 2048,
+    "eligible_rows": 11833861,
+    "historical_checkpoints_may_have_seen_questions": true,
+    "representativeness_verified": false
   }
 }

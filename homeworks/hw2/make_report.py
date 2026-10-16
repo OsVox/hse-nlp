@@ -942,6 +942,40 @@ def build():
             p('Each budget also processes 130 original length extremes. CPU checks preserve every non-padding question and program token in order, and GPU updates check finite gradients and loss. The effective batch, consumed examples and loss normalization stay fixed. Splitting can change dropout draws and floating-point rounding; speed measurements are not accuracy proof.'),
             p('The predeclared adoption rule requires a speed gain in both reversed-order repeats and at least 15% device-memory headroom. Timings cover pretokenized batches, transfers, forward/backward, clipping and optimizer updates. Tokenization, allocation, sign-in and installation are additional; this is not a full-corpus training-time estimate.'),
             p('Source a4c7e96. Evidence: experiments/complete-budget-gpu-v1, CPU preflight, runtime completion, Drive exports and telemetry. No new competition checkpoint or full-pass claim results from this probe.','SmallText')]
+    size_confirm = ROOT/'experiments/size-confirm-2k-v1'
+    if (size_confirm/'conclusion.json').exists():
+        conclusion=json.loads((size_confirm/'conclusion.json').read_text())
+        selected=json.loads((size_confirm/'selection.json').read_text())
+        rows=[['Seed / model','Pilot /245','Confirm /493','Failures','Public /960']]
+        prior=json.loads((ROOT/'experiments/size-muon-2k-v1/selection.json').read_text())
+        for seed,results,folder in [(42,prior['results'],ROOT/'experiments/size-muon-2k-v1'),(1042,selected['results'],size_confirm)]:
+            for name in ('control','small'):
+                scores=results[name]
+                receipt=json.loads((folder/name/'step-002048/bot_receipt.json').read_text())
+                rows.append([f"{seed} / {name}",scores['pilot']['numeric_correct'],scores['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in scores.values()),receipt['public_correct']])
+        story += [PageBreak(),p('Second-seed model-size confirmation','Title'),
+            p('Repeat the shortlisted 17.58M versus 42.48M scratch-model comparison with seed 1042 and reversed run order. Keep the original tokenizer, Muon rates, batch 128, 2,048 updates and capped mixed-sampler settings from the first size screen. This isolates replication; it does not combine later full-coverage or complete-sequence changes.'),
+            table(rows,[47*mm,29*mm,33*mm,29*mm,32*mm]),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('The predeclared rule requires positive gains on both held-out subsets and no extra total execution failures in both seeds. Equal updates match example exposure, not GPU time. Two early learning seeds do not establish an optimal final model size. Public scores are recorded separately and do not select the recipe.'),
+            p('Eleven CPU tests passed. Actual-width models had finite gradients, unchanged original labels, and matching greedy outputs with and without decoding cache. Both final checkpoints were saved to Drive, downloaded with model hashes verified, and their 1,919 strict-greedy outputs were scored by the course bot.'),
+            p('Source f2d3b16. Evidence: experiments/size-confirm-2k-v1, prior selection hash, model/output verification, GPU telemetry and bot receipts. The longer run remains conditional on the bounded matched-compute comparison using complete original sequences and exact consumed-row tracking.','SmallText')]
+    fresh = ROOT/'experiments/fresh-holdout-v1'
+    if (fresh/'reference-audit.json').exists():
+        prepared=json.loads((fresh/'preparation.json').read_text())
+        audit=json.loads((fresh/'reference-audit.json').read_text())
+        budget=json.loads((fresh/'training-budget.json').read_text())
+        rows=[['Subset','Reserved questions','Usable references']]
+        for name,counts in audit['subsets'].items():
+            rows.append([name,counts['rows'],counts['usable_references']])
+        story += [PageBreak(),p('Fresh question groups for the longer comparison','Title'),
+            p('The original small held-out subsets have been reused across many experiments. Reserve 2,048 distinct original question groups from shard 59 using a fixed SHA-256 ordering with seed 20261017. Selection uses question text only; retain the first original program for each question without changing it. Exclude every question text present in the question column of shard zero, which also supplied tokenizer fitting. Text embedded inside programs/comments was not audited for overlap.'),
+            p(f"All 60 original shards were hash-checked. Remove every occurrence of each reserved question from the existing eligible-row index: {prepared['additional_excluded_rows']:,} additional rows are excluded, leaving {prepared['new_eligible_rows']:,} eligible training rows. This also preserves all previous held-out exclusions. The derived index and original question/program file were saved to Drive, downloaded and byte-verified before reference diagnostics."),
+            table(rows,[65*mm,52*mm,53*mm]),
+            p('The restricted numeric runner reports NameError or ValueError for some supplied programs. These are evaluation limitations, not proof that those references are wrong. No questions, programs or split assignments were changed after observing these statuses. Report accuracy with the usable-reference denominator and report generated-program failures separately.'),
+            p('This is a clean model-training holdout only for future scratch models that use the derived exclusion index. Historical checkpoints may already have trained on these questions and must not be described as independently evaluated on unseen data. The first 1,024 reserved positions form the pilot subset; the remaining 1,024 are the confirmation subset.'),
+            p(f"At logical batch 128, accumulation 1 and 4,096-row shard chunks, one exact pass needs {budget['full_pass_optimizer_updates']:,} optimizer updates across {budget['rounds']} rounds, including {budget['partial_batches']} partial batches. This is a calculated budget, not a completed training pass. The later long-run schedule must use the complete-pass budget instead of repeatedly restarting a short cosine cycle."),
+            p('Four CPU tests passed for answer-independent deterministic group selection, duplicate exclusion, preserved original program strings and ordered explicit evaluation inputs. Source 9ca08e1. Evidence: experiments/fresh-holdout-v1 and the verified Drive archive; no model accuracy claim is made from the reference audit.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

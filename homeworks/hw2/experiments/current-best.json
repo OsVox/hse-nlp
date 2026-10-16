@@ -36,8 +36,8 @@
   "latest_leaderboard_observation": {
     "rank": 10,
     "participants": 16,
-    "observed_at": "2026-10-16T23:15:00+03:00",
-    "evidence": "complete-curve-4k-v1/complete/step-076800/bot_receipt.json"
+    "observed_at": "2026-10-16T23:51:00+03:00",
+    "evidence": "size-confirm-2k-v1/small/step-002048/bot_receipt.json"
   },
   "newly_tracked_unique_rows": 352256,
   "completed_training_full_pass": false

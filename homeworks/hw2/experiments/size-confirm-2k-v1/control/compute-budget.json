@@ -1,0 +1,10 @@
+{
+  "examples_processed": 262136,
+  "source_tokens": 12284754,
+  "target_tokens": 19280571,
+  "updates": 2048,
+  "loop_seconds_including_checkpoint_evaluation": 201.62117595799998,
+  "process_seconds_including_setup": 202.35167430599995,
+  "torch_version": "2.11.0+cu130",
+  "optimizer": "muon"
+}
