@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-17T00:46:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "matched-curve-muon42-005422.jsonl",
+  "jsonl_sha256": "c0b8e26ce5c6770371852e739e66a5424909807aa124612551d2ca348f923da2",
+  "source_commit": "723f5b35652efd5b2c5d305fcec9f9cc2b40ea06",
+  "model_sha256": "a7527ad498fbd36e6a607a3c0fedb1167458b59ae594e41c114d203ec10dd14e",
+  "run": "matched-curve-v1",
+  "variant": "muon42",
+  "step": 5422,
+  "status": "scored",
+  "public_correct": 134,
+  "public_total": 960,
+  "public_percent": 13.96,
+  "reported_rank": 10,
+  "participants": 16,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 789093,
+    "accepted": 789094,
+    "score": 789095,
+    "rank": 789096
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1Cq3SSFvBAHqa2rGcZhq-mmhONFnkIk5b",
+  "training": true,
+  "public_test_used_for_selection": false
+}
