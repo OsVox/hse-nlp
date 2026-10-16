@@ -1,0 +1,36 @@
+{
+  "status": "prepared_not_launched",
+  "compute": "CPU only; automatic runtime release; no model training",
+  "duplicate_audit": {
+    "question_hash_modulus": 1024,
+    "max_distinct_program_groups": 512,
+    "max_programs_per_group": 8,
+    "heldout_question_exclusion": true,
+    "executor": "Existing restricted numeric diagnostic, not course sandbox",
+    "decision": "Use disagreement only as an audit signal; do not infer truth, rewrite targets or filter automatically"
+  },
+  "tokenizer_audit": {
+    "fit_rows_per_shard": 1024,
+    "evaluation_candidates_per_shard": 256,
+    "shards": 60,
+    "evaluation_question_texts_disjoint_from_fit": true,
+    "variants": [
+      "original8192",
+      "balanced8192",
+      "code8192",
+      "python8192",
+      "code16384"
+    ],
+    "code_weight": 3,
+    "selection": "Require exact roundtrip and no unknowns; use compression/truncation and number fragmentation to select at most two for later short matched fresh-model pilots. No accuracy claim from compression.",
+    "research": "https://github.com/huggingface/blog/blob/main/codeparrot.md"
+  },
+  "constraints": [
+    "Original course strings only",
+    "No pretrained vocabulary or weights",
+    "No public failures used for sampling",
+    "No target rewriting",
+    "Drive-first results and tokenizer artifacts"
+  ],
+  "outer_timeout_seconds": 1200
+}
