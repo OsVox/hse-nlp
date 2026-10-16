@@ -1,0 +1,68 @@
+{
+  "steps": 2048,
+  "batch_size": 128,
+  "accumulation": 1,
+  "seed": 1042,
+  "warmup": 200,
+  "learning_rate": 0.0003,
+  "save_every": 2048,
+  "eval_every": 2048,
+  "precision": "bf16",
+  "group_window": 32,
+  "mixed_rows_per_shard": 4096,
+  "input_pipeline": "encoded",
+  "prefetch_batches": 2,
+  "prediction_batch_size": 256,
+  "d_model": 512,
+  "d_ff": 1536,
+  "encoder_layers": 6,
+  "decoder_layers": 4,
+  "num_heads": 8,
+  "initialization_vocab_size": 16384,
+  "arms": {
+    "control": "original8192",
+    "decoder_heavy": "original8192"
+  },
+  "training_updates_per_arm": 2048,
+  "example_presentations_per_arm": 262144,
+  "training_timeout_seconds": 480,
+  "outer_timeout_seconds": 1100,
+  "hypothesis": "Repeat the 4/6 versus 6/4 encoder/decoder comparison with seed 1042, using the same Muon recipe and nearly matched parameter counts.",
+  "matched": "Fresh full models; same original data, tokenizer, BF16, batch 128, 2048 updates and optimizer rates as the first depth screen. Shapes require different random tensors. G4 selected after the measured throughput comparison.",
+  "selection": "Require positive gains on both held-out subsets and no extra total execution failures in BOTH seeds. A pass permits a bounded learning-curve comparison, not an automatic long run.",
+  "limitations": "Reuses validation questions. Two seeds do not establish statistical significance or mature-model performance. Shapes, compensating feed-forward width, and measured compute differ.",
+  "decoding": "Strict greedy, num_beams=1, no repairs",
+  "provenance": "Original supplied examples and random weights only. Same original 8k tokenizer in every arm. Native PyTorch Muon with match_rms_adamw scaling; no imported training data or pretrained model.",
+  "throughput_guard_estimated_train_seconds": 400,
+  "arm_options": {
+    "control": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "d_ff": 1536
+    },
+    "decoder_heavy": {
+      "optimizer": "muon",
+      "learning_rate": 0.0003,
+      "muon_learning_rate": 0.001,
+      "encoder_layers": 4,
+      "decoder_layers": 6,
+      "d_ff": 1408
+    }
+  },
+  "reference": "https://docs.pytorch.org/docs/2.9/generated/torch.optim.Muon.html",
+  "next_stages": [
+    "Repeat surviving depth recipe versus Muon control with another seed.",
+    "Compare learning curves and measured GPU time, then test model size.",
+    "Only combine replicated improvements into a longer run."
+  ],
+  "expected_parameters": {
+    "control": 42481152,
+    "decoder_heavy": 42613248
+  },
+  "require_identical_initialization": false,
+  "prior_seed": 42,
+  "confirmation_seed": 1042
+}

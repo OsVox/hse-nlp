@@ -1,0 +1,8 @@
+{
+  "cpu_verified": true,
+  "reused_full_model_preflight": "depth-muon-2k-v1/cpu-preflight.json",
+  "reused_preflight_sha256": "cebfd3ebb56cfe9d8494f91f4933b5332fb68afe7a5d235a9ba977e790e37c2e",
+  "model_training_and_eval_sources_unchanged": true,
+  "prior_selection_sha256": "8510f48dcbb47efe4c47c7d0f79c65cf2f49cc13a40d3a446d376dec415390db",
+  "changes": "Second seed and two-arm confirmation driver only. Existing full-size shape, optimizer, cache and generation checks remain applicable."
+}

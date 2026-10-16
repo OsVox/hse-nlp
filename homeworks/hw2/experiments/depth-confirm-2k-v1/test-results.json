@@ -1,0 +1,10 @@
+{
+  "passed": 15,
+  "seconds": 4.52,
+  "command": "pytest -q tests/test_depth_confirmation.py tests/test_depth_pilot.py tests/test_optimizer_confirmation.py tests/test_optimizer_pilot.py tests/test_optimizers.py tests/test_runtime_guard.py",
+  "dependencies": {
+    "transformers": "4.57.6",
+    "torch": "2.9.0"
+  },
+  "scope": "CPU plan, selection, optimizer, cache regression and runtime-finalizer checks"
+}
