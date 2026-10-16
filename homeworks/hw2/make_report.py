@@ -1007,6 +1007,12 @@ def build():
                     receipt=json.loads((cp/'bot_receipt.json').read_text())
                     exported.append([f"{arm} / {receipt['step']:,}",f"{timing['training_seconds']:.1f}",
                         receipt['public_correct'],f"{receipt['public_percent']:.2f}%"])
+                for limited in sorted(cp.glob('export-max*/step-*')):
+                    if (limited/'bot_receipt.json').exists():
+                        receipt=json.loads((limited/'bot_receipt.json').read_text())
+                        exported.append([f"{arm} / {receipt['step']:,} / capped export",
+                            f"{timing['training_seconds']:.1f}",receipt['public_correct'],
+                            f"{receipt['public_percent']:.2f}%"])
             if final is None:
                 rows.append([arm,'pending','600 planned','pending','pending','pending'])
                 continue
@@ -1037,7 +1043,9 @@ def build():
             table(exported,[65*mm,35*mm,35*mm,35*mm]),
             p('Every listed submission was first saved on Drive, downloaded, checked against its model hash and selected token IDs, and sent once in official test.parquet order. Strict greedy decoding and original model outputs are preserved. Public feedback is reported separately from recipe selection. Different models consume different row counts within equal measured time.'),
             p(f"Live leaderboard evidence checked {leaderboard['checked_at'][:16]} (+03): leader {leaderboard['leader_public_percent']:.2f}%; our retained mature checkpoint {leaderboard['our_public_percent']:.2f}%, rank {leaderboard['our_rank']}/{leaderboard['participants']}. First place is not achieved. These early scratch checkpoints do not replace the retained best."),
-            p('Source 723f5b3 for the live comparison. Evidence: experiments/matched-curve-v1, exact model/output hashes, separate bot receipts, and leaderboard-live.json/png. The longer-run driver preserves the selected seed 42 optimizer, schedule, RNG and consumed-row position, verifies every eligible row exactly once at update 92,456, and measures final fixed-subset agreement. Preparation code 7bf3124; no longer-run result is inferred from the driver checks.','SmallText')]
+            p('Source 723f5b3 for the live comparison. Evidence: experiments/matched-curve-v1, exact model/output hashes, separate bot receipts, and leaderboard-live.json/png. The longer-run driver preserves the selected seed 42 optimizer, schedule, RNG and consumed-row position, verifies every eligible row exactly once at update 92,456, and measures final fixed-subset agreement. No longer-run result is inferred from the driver checks.','SmallText')]
+        if (matched/'muon78/step-001921/bot_rejection.json').exists():
+            story += [p('Export exception: the original 78M step1,921 output was rejected by the bot because its 4.88 MB exceeded the 4 MB file limit. Its original predictions remain unchanged on Drive. A CPU prefix-size estimate selected a 640-token regeneration limit (about2.59 MB); that estimate is not a submitted output. Regeneration uses the same weights, occurs during the next planned GPU phase, and preserves exact token provenance. Any resulting public score uses a different output cap; held-out recipe comparisons retain1,280 tokens. See bot_rejection.json and reexport-size-audit.json.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

@@ -108,6 +108,8 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select):
             '--format=csv,noheader,nounits','--loop=1'],stdout=telemetry)
         try:
             restore_data(ready['dataset'])
+            from .reexport_limits import run_pending_exports
+            run_pending_exports(PREPARED/'ready.json', CACHE)
             INPUTS.mkdir(exist_ok=False)
             archive=INPUTS/'fresh.tar.gz';copy_verified(Path(ready['fresh_holdout']['drive_path']),archive)
             assert sha256(archive)==ready['fresh_holdout']['sha256']

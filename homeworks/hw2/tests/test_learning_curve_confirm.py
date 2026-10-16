@@ -12,9 +12,9 @@ def test_confirmation_changes_only_seed_order_and_selected_arms():
     plan=build_plan(prior())
     assert list(plan['arms'])==['muon42','adamw42']
     assert plan['options']=={**OPTIONS,'seed':1042}
-    assert plan['outer_timeout_seconds']==2800
+    assert plan['outer_timeout_seconds']==3160
     compile(LAUNCH,'launch.py','exec')
-    assert 'timeout=2800' in LAUNCH and 'homeworks.hw2.learning_curve_confirm' in LAUNCH
+    assert 'timeout=3160' in LAUNCH and 'homeworks.hw2.learning_curve_confirm' in LAUNCH
 
 
 def test_no_run_for_rejected_alternatives_or_inconsistent_selection():

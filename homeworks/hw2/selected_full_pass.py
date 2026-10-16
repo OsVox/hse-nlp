@@ -57,7 +57,8 @@ def build_plan(prior, confirmation, parent_config, parent_budget, eligible_rows)
         final_step=options['steps'], eligible_rows=eligible_rows, checkpoint_steps=checkpoint_steps,
         measured_seconds_per_update=seconds_per_update,
         estimated_remaining_training_seconds=remaining*seconds_per_update,
-        training_timeout_seconds=training_timeout, outer_timeout_seconds=training_timeout+900,
+        training_timeout_seconds=training_timeout, outer_timeout_seconds=training_timeout+1260,
+        pending_export_budget_seconds=360,
         public_test_used_for_selection=False,
         purpose='Complete exactly one traversal of all eligible original rows, with complete questions and programs.',
         resume_policy='Preserve optimizer, schedule, random states and consumed-row cursor from seed42. No restart or new sweep.',
@@ -104,6 +105,8 @@ def run():
             '--format=csv,noheader,nounits','--loop=1'], stdout=telemetry)
         try:
             restore_data(ready['dataset'])
+            from .reexport_limits import run_pending_exports
+            run_pending_exports(PREPARED/'ready.json', CACHE)
             INPUTS.mkdir(exist_ok=False)
             for label, source, digest in [
                 ('fresh', Path(ready['fresh_holdout']['drive_path']), ready['fresh_holdout']['sha256']),
