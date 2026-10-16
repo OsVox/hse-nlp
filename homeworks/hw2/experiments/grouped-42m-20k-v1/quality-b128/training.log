@@ -1,0 +1,51 @@
+device=cuda precision=torch.bfloat16 group_window=32
+parameters=42,481,152
+resumed_at_step=6000
+new_schedule_start=6000 peak_lr=0.0003
+step=6050 train_loss=1.0467 elapsed_s=9.3
+step=6100 train_loss=0.6293 elapsed_s=13.3
+step=6150 train_loss=1.2059 elapsed_s=17.1
+step=6200 train_loss=0.9432 elapsed_s=21.1
+step=6250 train_loss=1.3323 elapsed_s=24.9
+step=6300 train_loss=1.0458 elapsed_s=28.7
+step=6350 train_loss=1.3105 elapsed_s=32.8
+step=6400 train_loss=1.2004 elapsed_s=36.5
+step=6450 train_loss=0.5140 elapsed_s=40.7
+step=6500 train_loss=1.0240 elapsed_s=44.3
+step=6550 train_loss=0.7642 elapsed_s=48.3
+step=6600 train_loss=1.2275 elapsed_s=52.0
+step=6650 train_loss=0.8712 elapsed_s=55.9
+step=6700 train_loss=1.1996 elapsed_s=60.0
+step=6750 train_loss=1.0539 elapsed_s=63.8
+step=6800 train_loss=1.5248 elapsed_s=68.0
+step=6850 train_loss=0.9999 elapsed_s=71.7
+step=6900 train_loss=0.7172 elapsed_s=75.6
+step=6950 train_loss=1.0076 elapsed_s=79.5
+step=7000 train_loss=0.8302 elapsed_s=83.4
+step=7050 train_loss=1.2167 elapsed_s=87.4
+step=7100 train_loss=0.9015 elapsed_s=91.3
+step=7150 train_loss=1.2050 elapsed_s=95.3
+step=7200 train_loss=0.9554 elapsed_s=99.1
+step=7250 train_loss=0.5376 elapsed_s=103.1
+step=7300 train_loss=0.9970 elapsed_s=106.8
+step=7350 train_loss=0.7524 elapsed_s=110.7
+step=7400 train_loss=1.0348 elapsed_s=114.5
+step=7450 train_loss=0.8568 elapsed_s=118.5
+step=7500 train_loss=1.1208 elapsed_s=122.4
+step=7550 train_loss=0.7370 elapsed_s=126.3
+step=7600 train_loss=1.3689 elapsed_s=130.2
+step=7650 train_loss=0.8950 elapsed_s=134.0
+step=7700 train_loss=0.5532 elapsed_s=137.9
+step=7750 train_loss=0.9434 elapsed_s=141.6
+step=7800 train_loss=0.8049 elapsed_s=145.6
+step=7850 train_loss=1.1455 elapsed_s=149.5
+step=7900 train_loss=0.8506 elapsed_s=153.4
+step=7950 train_loss=1.1068 elapsed_s=162.2
+step=8000 train_loss=0.9474 elapsed_s=166.1
+step=8048 val_token_loss=0.8854
+best_step=8048 best_val_token_loss=0.8854
+drive_checkpoint_verified=/content/drive/MyDrive/HSE_NLP_HW2/runs/grouped-42m-20k-v1/quality-b128/step-008048
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=4.84 device=cuda:0 precision=torch.float32 invalid_before_retry=10 beam_repaired=9 handwritten_repairs=0
+checkpoint_ready_for_bot=/content/drive/MyDrive/HSE_NLP_HW2/runs/grouped-42m-20k-v1/quality-b128/step-008048 jsonl_sha256=4c6475339c8b1d125471cf7e3dc7af4cd4de5eb6050682612290a2aa04764dfc
+finished_steps=8048

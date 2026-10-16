@@ -238,6 +238,44 @@ def build():
             p('Both immutable 6k checkpoints, optimizer states, predictions and validation records were saved to Drive. The evidence archive was created there before download. Local checks verified hashes, all 1,919 official question positions and exact decoding of selected token IDs. Each checkpoint was submitted once to the course bot. Receipts are retained separately from the pre-submission archive. No answer text was edited.'),
             p('The G4 runtime was manually released after its asynchronous release request left it connected. Standard CPU was used to stage the established 180k model and the larger 6k finalist for actual T4 inference. A faster training batch must also pass a short equal-example quality check before being adopted for full training.'),
             p('Evidence: experiments/finalist-pilots-v1, its selection.md and export.json, the two 6k submission receipts, experiments/t4-comparison-v1/ready.json and benchmark_production_batches.py.', 'SmallText')]
+    grouped = ROOT / 'experiments/grouped-42m-20k-v1'
+    if (grouped/'results.json').exists():
+        selection = json.loads((grouped/'selection.json').read_text())
+        speed = json.loads((grouped/'batch-probe/results.json').read_text())
+        stages = json.loads((grouped/'results.json').read_text())
+        execution = json.loads((grouped/'execution.json').read_text())
+        speed_rows = [['Batch', 'Median examples/s', 'Peak allocated GiB']]
+        for size, rate in speed['median_examples_per_second'].items():
+            peak = max(r['peak_allocated_gib'] for r in speed['runs'] if r['batch_size']==int(size))
+            speed_rows.append([size, f'{rate:.1f}', f'{peak:.2f}'])
+        quality_rows = [['Batch', 'Added examples', 'Token loss', 'Held-out /245', 'Public /960']]
+        for stage in selection['quality_results']:
+            checkpoint = Path(stage['checkpoint']).name
+            receipt_path = grouped/stage['name']/checkpoint/'bot_receipt.json'
+            receipt = json.loads(receipt_path.read_text()) if receipt_path.exists() else {}
+            quality_rows.append([stage['batch_size'], f"{stage['added_examples']:,}",
+                f"{stage['validation']['token_loss']:.4f}", stage['numeric']['numeric_correct'],
+                receipt.get('public_correct', 'pending')])
+        checkpoint_rows = [['Continuation step', 'Token loss', 'Public correct /960']]
+        for marker in sorted((grouped/'continuation').glob('step-*/results.complete.json')):
+            checkpoint = marker.parent
+            result = json.loads(marker.read_text())
+            validation = json.loads((checkpoint/'validation.json').read_text())
+            receipt_path = checkpoint/'bot_receipt.json'
+            receipt = json.loads(receipt_path.read_text()) if receipt_path.exists() else {}
+            checkpoint_rows.append([f"{result['step']:,}", f"{validation['token_loss']:.4f}",
+                                    receipt.get('public_correct','pending')])
+        story += [PageBreak(),p('Larger model: speed and quality','Title'),
+            p('The 42.48M model used one prepared G4 session for a speed probe, short quality checks and a capped continuation. All eight probe passes used 32,768 original examples and 2,419,826 target tokens; the second round reversed the batch order. Probe weights were discarded.'),
+            table(speed_rows,[35*mm,70*mm,65*mm]),
+            p('Batch 64 was 10.55% faster than 128. Both quality pilots resumed the same own 6k weights and optimizer state, with fixed added example counts, BF16 and peak rate .0003. The predefined gate required no fewer correct held-out executions and token loss within 1% of the control.'),
+            table(quality_rows,[20*mm,40*mm,35*mm,35*mm,40*mm]),
+            p(f"Batch {selection['batch_size']} was retained. Lower token loss at batch 64 did not compensate for its lower execution accuracy. The chosen lineage continued to 2,560,000 total example presentations, equivalent to 20,000 updates at batch 128; this is not a full pass over the 11.84M-row corpus."),
+            table(checkpoint_rows,[55*mm,55*mm,60*mm]),
+            p(f"The 10k public regression followed a learning-rate restart; causality was not established. The final held-out result was {stages[-1]['numeric']['numeric_correct']}/245. The grouped driver took {execution['elapsed_seconds']/60:.2f} minutes including probes, preparation, evaluation and Drive saves. Each checkpoint retained exact token provenance and a separate bot receipt; no program was rewritten."),
+            p('Decoding opportunity','Head'),
+            p('On the established 180k model, four-beam decoding improved held-out numeric agreement from 131/245 to 137/245 and reduced execution failures from 19 to 11. CPU generation took 10.61 versus 50.37 seconds. This supports an actual-T4 test, not a claim of public improvement or T4 compliance. Default decoding matched the previous implementation on a 32-question CPU integration check.'),
+            p('Source: 85532a78132c37ceb9cbf3f6cfff5c478d69258f. Evidence: experiments/grouped-42m-20k-v1 and experiments/decoding-180k. Results were downloaded with the authenticated local Drive CLI, avoiding Colab allocation for export.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

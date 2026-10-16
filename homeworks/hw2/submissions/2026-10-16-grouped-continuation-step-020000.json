@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-10-16T08:06:00+03:00",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "grouped-continuation-step-020000.jsonl",
+  "jsonl_sha256": "cf1b8504d2061ed86d1e558450307b9c408ff6c38d6ce59e756b527426f7c1cc",
+  "source_commit": "85532a78132c37ceb9cbf3f6cfff5c478d69258f",
+  "model_sha256": "10b1897916d111c8c79d22cca52a147de91b6360b4de617d7c000ea236d7b67a",
+  "run": "grouped-42m-20k-v1/continuation/step-020000",
+  "status": "scored",
+  "public_correct": 320,
+  "public_total": 960,
+  "public_percent": 33.33,
+  "reported_rank": 10,
+  "participants": 15,
+  "telegram_message_ids": {
+    "file": 788662,
+    "accepted": 788663,
+    "score": 788664,
+    "rank": 788665
+  },
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "export_verified": true,
+  "timestamp_precision": "minute"
+}

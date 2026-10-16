@@ -1,0 +1,23 @@
+{
+  "rows": 256,
+  "usable_references": 245,
+  "numeric_correct": 75,
+  "numeric_agreement_on_usable": 0.30612244897959184,
+  "prediction_failures": 19,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/grouped-42m-20k-v1/continuation/step-020000",
+  "offset": 256,
+  "beams": 1,
+  "device": "cuda",
+  "precision": "torch.float32",
+  "cpu_threads": 24,
+  "generation_seconds": 1.8228231789998972,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "10b1897916d111c8c79d22cca52a147de91b6360b4de617d7c000ea236d7b67a",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+  "predictions_sha256": "5a91075fb860208c99ebaba61707736376b16df2cd1bb69c4cabb9f75aef7a9a",
+  "handwritten_repairs": 0
+}

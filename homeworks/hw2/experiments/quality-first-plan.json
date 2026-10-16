@@ -1,0 +1,26 @@
+{
+  "user_priority": "Reach best public score first; defer T4 limit until afterward",
+  "baseline_public_correct": 517,
+  "public_total": 960,
+  "larger_model_20k_public_correct": 320,
+  "rank": 10,
+  "participants": 15,
+  "next": "Score four-beam exact decoding of own 180k checkpoint, using existing CPU session",
+  "training_candidate": {
+    "parameters": 42481152,
+    "parent_step": 20000,
+    "parent_model_sha256": "10b1897916d111c8c79d22cca52a147de91b6360b4de617d7c000ea236d7b67a",
+    "proposed_final_step": 100000,
+    "batch_size": 128,
+    "proposed_learning_rate": 0.00015,
+    "checkpoint_interval": 10000,
+    "total_example_presentations": 12800000,
+    "note": "New continuation rate is a hypothesis, not an established optimum. Prepare and validate on CPU; no full training started yet."
+  },
+  "constraints": [
+    "No external targets or teacher",
+    "No handwritten program repairs",
+    "Preserve official 1919-question order",
+    "Save and export exact predictions through Drive; score each checkpoint once"
+  ]
+}

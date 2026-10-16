@@ -1,0 +1,30 @@
+{
+  "cpu_verified": true,
+  "source_commit": "498f926b9928d6b94569a0dce52dfcdad643eed4",
+  "source_sha256": "04eab035216042dffd2a8258d298ca29c2033f05257b13f69a9d7088071f47b3",
+  "launcher_sha256": "fe255ed35121dbc4132463109996d725efddb3f272274f5e4a8a0bfa05365c3d",
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "inputs_sha256": "910a18cfc0485cb90c12147a9f89d3963acc9684208c7cd3e5d77817d7b9e8d4",
+  "questions": 1919,
+  "beams": 4,
+  "batch_size": 128,
+  "precision": "fp32",
+  "max_new_tokens": 192,
+  "required_gpu": "T4",
+  "passes": 2,
+  "per_pass_limit_seconds": 180,
+  "process_limit_seconds": 600,
+  "heldout_comparison": {
+    "source_commit": "7ad38b88238bb2c1a029b9ef7818833b38d671de",
+    "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+    "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+    "greedy_correct": 131,
+    "beam4_correct": 137,
+    "usable_references": 245,
+    "additional_correct": 6,
+    "cpu_time_ratio": 4.747214514485859,
+    "t4_verified": false,
+    "next_action": "Bounded actual T4 timing with exact output provenance, then one bot submission if under 180 seconds."
+  },
+  "training": false
+}

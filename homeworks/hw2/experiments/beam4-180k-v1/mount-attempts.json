@@ -1,0 +1,19 @@
+[
+  {
+    "date": "2026-10-16",
+    "hardware": "T4",
+    "stage": "Drive mount before inference",
+    "result": "ValueError: mount failed",
+    "runtime_release_ui_verified": true,
+    "inference_started": false,
+    "recovery": "CPU-only mount test with 180000ms timeout"
+  },
+  {
+    "date": "2026-10-16",
+    "hardware": "CPU",
+    "result": "CPU_MOUNT_READY",
+    "source_hash_verified": true,
+    "drive_write_read_export_verified": true,
+    "proof_file_id": "16OEG4IalzzAhMb1T_t5_0cqNCKNd4YKQ"
+  }
+]
