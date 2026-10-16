@@ -1,0 +1,84 @@
+{
+  "drive_folder_id": "1e-DpeqFjUcktWDD_m9WIe-UmBCccr4wa",
+  "files": [
+    {
+      "id": "1a4U21yiIdXRIPrMudxJmf-YS81EpWhlj",
+      "name": "results.complete.json",
+      "bytes": 215,
+      "sha256": "29d9231a44120326fdca78faba82abd8bf07a1c4a975abfc2edb12288ecd6e04"
+    },
+    {
+      "id": "1gnzeU3zujeImc3fEsGxagx20NaIFQUzr",
+      "name": "predictions.jsonl",
+      "bytes": 455884,
+      "sha256": "270014e784edeedc61464d4af803c3d88789a76bcff282915beccd1aeeaed80f"
+    },
+    {
+      "id": "1VfiSEHcMxlteBshMBiS9KeteDBvEP8ya",
+      "name": "predictions.provenance.json",
+      "bytes": 1195865,
+      "sha256": "13f6f432015f115520157388beeecb312299404faac9b64e0e597422628a5826"
+    },
+    {
+      "id": "1rt-zdDrZbHFiJjuJ2pJJ-ADw5OtpWzOr",
+      "name": "predictions.csv",
+      "bytes": 424004,
+      "sha256": "d339a88c531db57a9b67251dbbed4322a07096d01937927a37594c8df076110e"
+    },
+    {
+      "id": "1_JPn4HJOIfcB9XD_caAr8qbLCOW1manm",
+      "name": "checkpoint.complete.json",
+      "bytes": 978,
+      "sha256": "d33154fd4af9d5e0c537ac7419e5e4061ea864afc9f6d14ae9e2707a126f2d02"
+    },
+    {
+      "id": "1GwDK70ex2iJQKQxVe3KY98frZsstUX4C",
+      "name": "generation_config.json",
+      "bytes": 142,
+      "sha256": "8145d7eecabff8e16a9876617a6d52728e9b8fbe24c426e6bf9ebbd6bfb87737"
+    },
+    {
+      "id": "1r62QkyOwDyNEhh2pnEN-npG44DlAaGGX",
+      "name": "config.json",
+      "bytes": 685,
+      "sha256": "d501cabac9ff4e74216e0de7fdd858d5cae3873d06436a34df1bfddd5959f19e"
+    },
+    {
+      "id": "14v68UH7mqOFGXlxf1zCetwHeqvZ86w62",
+      "name": "step.json",
+      "bytes": 15,
+      "sha256": "ed643df7894974a05a4fdd68dabc3a1595cceb96ca86fc6d86cd4352a9ea9a64"
+    },
+    {
+      "id": "1Dab0VeBjbpd84q6EsNH32R8q-V3_heoq",
+      "name": "tokenizer_config.json",
+      "bytes": 971,
+      "sha256": "80eb40db7fce330e68a8565c050634eeddcd53f28ca5fd809538bddf0f6204d0"
+    },
+    {
+      "id": "1ueGf-5miJb8Gidj-5ZkCYb_IawmbLU7z",
+      "name": "validation.json",
+      "bytes": 49,
+      "sha256": "2dd9947de319cf78c149ccb51fd1817877033c67e4a09a75387b0a6f3289c078"
+    },
+    {
+      "id": "1KxfeAYF4V0Wosc3fRpKY2l290DE0CqZT",
+      "name": "run_config.json",
+      "bytes": 25730,
+      "sha256": "1df46e6c0e63f7de980eaeaedb96f6ff15678d3fe66f7eaf33ab1041490c9c09"
+    },
+    {
+      "id": "1HIM_fIAyoOYqlkRNZm-rHhi0vEH7nhFC",
+      "name": "special_tokens_map.json",
+      "bytes": 416,
+      "sha256": "80f4c6c5cf3867d7669ff8aa8f6aebb8a7499322e62d7faae06262d6014edd61"
+    },
+    {
+      "id": "1oH8FKTUr3k5bzLSB7ka33h9USQSIlVgC",
+      "name": "tokenizer.json",
+      "bytes": 545550,
+      "sha256": "d9fa7b5618323be055ad10ebe760cff2801f251b39dabb7dc62188567c5a6414"
+    }
+  ],
+  "method": "Authenticated local gdrive CLI; exported from Drive"
+}
