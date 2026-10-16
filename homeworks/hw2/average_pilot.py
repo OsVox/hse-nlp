@@ -96,6 +96,12 @@ def run(root, output):
                          confirmed=passes(confirmation[winner],confirmation['baseline']))
     (output/'selection.json').write_text(json.dumps(selection, indent=2))
     print(json.dumps(selection), flush=True)
+    # Export the final trained baseline, and an averaged model only after it
+    # passes both held-out gates. The public test never chooses the average.
+    from .greedy_export import run as export
+    for name in ['baseline'] + ([selection['selected']] if selection['confirmed'] else []):
+        export(models[name], Path('/content/hw2_cache'),
+               output/'exports'/name/'step-070000', batch_size=64)
 
 
 if __name__ == '__main__':
