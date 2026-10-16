@@ -1,0 +1,5 @@
+{
+  "passed": 4,
+  "seconds": 1.46,
+  "command": "pytest -q homeworks/hw2/tests/test_fresh_holdout.py homeworks/hw2/tests/test_explicit_holdout.py"
+}

@@ -1,0 +1,24 @@
+{
+  "cpu_verified": true,
+  "question_groups": 2048,
+  "source_shard": 59,
+  "old_eligible_rows": 11836444,
+  "new_eligible_rows": 11833861,
+  "additional_excluded_rows": 2583,
+  "questions_sha256": "9d685b2d1f038f46a3f03d0d52188b860d853461b1bdf468c3577ab46ef4f341",
+  "index_manifest_sha256": "0c20389686edf04a5a6f800ad9c4f059e0c5ea048c099b5c6e622798601e64e9",
+  "pilot_positions": [
+    0,
+    1024
+  ],
+  "confirmation_positions": [
+    1024,
+    2048
+  ],
+  "all_60_shards_checked": true,
+  "tokenizer_question_overlap": 0,
+  "original_programs_unchanged": true,
+  "selection_used_answers": false,
+  "validity": "Clean holdout only for future scratch models trained with this derived exclusion index. Historical checkpoints may have trained on these questions; do not claim they are unseen by those models.",
+  "reference_limit": "Supplied programs can disagree or be unsupported by the numeric runner. Report usable-reference denominators; do not rewrite or select references based on results."
+}

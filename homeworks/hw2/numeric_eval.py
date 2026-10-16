@@ -134,6 +134,21 @@ def score_saved_generation(output):
     return result
 
 
+def load_examples(cache_dir, examples_file=None):
+    if examples_file is None:
+        from .data import validation_examples
+        return validation_examples(cache_dir)
+    rows = [json.loads(line) for line in examples_file.read_text().splitlines()]
+    if not rows or [r.get('position') for r in rows] != list(range(len(rows))):
+        raise ValueError('Explicit held-out positions must be contiguous and ordered')
+    if any(not isinstance(r.get(k),str) or not r[k].strip()
+           for r in rows for k in ('question','code')):
+        raise ValueError('Explicit held-out examples must contain original question/code strings')
+    if len({r['question'] for r in rows}) != len(rows):
+        raise ValueError('Explicit held-out questions must be distinct groups')
+    return rows
+
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -144,6 +159,7 @@ def main():
     parser.add_argument('--rows', type=int, default=256)
     parser.add_argument('--beams', type=int, default=1)
     parser.add_argument('--cpu-threads', type=int, default=None)
+    parser.add_argument('--examples-file', type=Path, default=None)
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument('--generate-only', action='store_true')
     modes.add_argument('--score-only', action='store_true')
@@ -153,12 +169,11 @@ def main():
         return
     import torch
     from transformers import PreTrainedTokenizerFast, T5ForConditionalGeneration
-    from .data import validation_examples
     if args.cpu_threads is not None:
         if args.cpu_threads < 1:
             raise ValueError('CPU thread count must be positive')
         torch.set_num_threads(args.cpu_threads)
-    examples = validation_examples(args.cache_dir)[args.offset:args.offset + args.rows]
+    examples = load_examples(args.cache_dir,args.examples_file)[args.offset:args.offset + args.rows]
     if len(examples) != args.rows:
         raise ValueError('requested rows exceed held-out split')
     tokenizer = PreTrainedTokenizerFast.from_pretrained(args.model_dir)
@@ -188,6 +203,8 @@ def main():
                   evaluator_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   questions_sha256=hashlib.sha256(json.dumps([r['question'] for r in examples],ensure_ascii=False).encode()).hexdigest(),
                   handwritten_repairs=0)
+    if args.examples_file is not None:
+        metadata['evaluation_examples_sha256'] = hashlib.sha256(args.examples_file.read_bytes()).hexdigest()
     save_generation(args.output,predictions,[r['code'] for r in examples],metadata)
     if args.generate_only:
         print('GENERATION_SAVED',str(args.output.with_suffix('.generation.json')))
