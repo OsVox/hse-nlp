@@ -1,0 +1,27 @@
+{
+  "cpu_verified": true,
+  "tests_passed": 8,
+  "tests": [
+    "test_runtime_guard.py",
+    "test_selected_full_pass.py",
+    "test_learning_curve_confirm.py"
+  ],
+  "manual_environment_checks": [
+    "Matching local package versions accepted",
+    "Changed NumPy version rejected"
+  ],
+  "live_runtime_versions": {
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "torch": "2.11.0+cu130",
+    "numpy": "2.1.3",
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2",
+    "pyarrow": "23.0.1"
+  },
+  "scope": "Continuation guards only; selected parent weights/optimizer and Drive preparation remain pending the final experiment result.",
+  "source_sha256": {
+    "runtime_guard.py": "96e3d3da42183cd47a1bef4a92e8a768028aff884ad64342762e6be3a7150e08",
+    "learning_curve.py": "5e079f402ae68e25f9c5a502912282fa874ac5ad07eaa9b98228b3f8a0ba4504",
+    "selected_full_pass.py": "eb1c8a00f9a2506ac101db01c80cef2dbe2ac57503f7c18bda866f567cb3a2cc"
+  }
+}

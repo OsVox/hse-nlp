@@ -93,6 +93,9 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=select):
     assert torch.cuda.get_device_properties(0).total_memory>=40*1024**3
     drive_preflight(ROOT)
     ready=json.loads((PREPARED/'ready.json').read_text())
+    if 'runtime_versions' in ready:
+        from .runtime_guard import verify_runtime_versions
+        verify_runtime_versions(ready['runtime_versions'])
     assert ready['cpu_verified'] and ready['plan']==PLAN and not RUN.exists()
     assert Path('source_commit.txt').read_text().strip()==ready['source_commit']
     for filename,digest in ready['tokenizers']['original8192'].items():

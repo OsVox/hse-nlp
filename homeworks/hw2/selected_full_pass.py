@@ -92,6 +92,8 @@ def run():
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
     drive_preflight(ROOT)
     ready = json.loads((PREPARED/'ready.json').read_text())
+    from .runtime_guard import verify_runtime_versions
+    verify_runtime_versions(ready['runtime_versions'])
     plan = ready['plan']
     assert ready['cpu_verified'] and not RUN.exists()
     assert Path('source_commit.txt').read_text().strip() == ready['source_commit']

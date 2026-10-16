@@ -3,6 +3,23 @@ import json
 import time
 
 
+def verify_runtime_versions(expected):
+    """Reject a changed training environment before restoring data or weights."""
+    import torch
+    import numpy
+    import transformers
+    import tokenizers
+    import pyarrow
+    actual = {name: module.__version__ for name, module in (
+        ('torch',torch),('numpy',numpy),('transformers',transformers),
+        ('tokenizers',tokenizers),('pyarrow',pyarrow))}
+    changed = {name: {'expected':expected.get(name),'actual':version}
+               for name, version in actual.items() if expected.get(name) != version}
+    if changed:
+        raise RuntimeError('Training environment changed; prepare matching versions on CPU: '+json.dumps(changed))
+    return actual
+
+
 def finalize_run(log, status, prepared, local_log, release):
     try:
         try:

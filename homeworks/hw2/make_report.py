@@ -995,6 +995,49 @@ def build():
             p('Greedy evaluation and test export now support complete questions. The new comparison sets a 1,280-token generation limit, above the audited 1,208-token longest original target, and records limit hits. A focused test checks input retention, original output order and correct limit counting when shorter finished outputs are padded. No handwritten corrections or beam search are introduced.'),
             p('Thirty-nine focused CPU tests passed; six final timing/selection tests also passed after adding per-checkpoint timing. Actual 42M AdamW, 42M Muon and 78M Muon models had finite updates and identical greedy outputs with and without decoding cache. CPU Muon update timings are not GPU speed estimates. The data bundle was saved to Drive, downloaded and byte-verified.'),
             p('Source 723f5b3. Evidence: experiments/matched-curve-v1 and experiments/fresh-holdout-v2. The current public best remains 583/960; no score improvement or completed full pass is claimed from preparation.','SmallText')]
+    if (matched/'partial-comparison.json').exists():
+        rows=[['Model','Updates','Training s','Pilot /982','Confirm /988','Public /960']]
+        exported=[['Checkpoint','Training s','Public correct','Public score']]
+        for arm in ('adamw42','muon42','muon78'):
+            final=None
+            for cp in sorted((matched/arm).glob('step-*')):
+                timing=json.loads((cp/'training-budget.json').read_text())
+                if timing['time_limit_reached']:final=cp
+                if (cp/'bot_receipt.json').exists():
+                    receipt=json.loads((cp/'bot_receipt.json').read_text())
+                    exported.append([f"{arm} / {receipt['step']:,}",f"{timing['training_seconds']:.1f}",
+                        receipt['public_correct'],f"{receipt['public_percent']:.2f}%"])
+            if final is None:
+                rows.append([arm,'pending','600 planned','pending','pending','pending'])
+                continue
+            timing=json.loads((final/'training-budget.json').read_text())
+            scores=[json.loads((final/(s+'.json')).read_text())['numeric_correct']
+                    if (final/(s+'.json')).exists() else 'pending' for s in ('pilot','confirmation')]
+            receipt=json.loads((final/'bot_receipt.json').read_text()) if (final/'bot_receipt.json').exists() else {}
+            rows.append([arm,f"{timing['optimizer_step']:,}",f"{timing['training_seconds']:.1f}",
+                         *scores,receipt.get('public_correct','pending')])
+        result_path=matched/'selection.json'
+        if result_path.exists():
+            result=json.loads(result_path.read_text())
+            choice=result['provisional_winner']
+            decision=(f"The predeclared rule selects {choice}. " +
+                ('The selected alternative still requires the second-seed confirmation before the full pass.'
+                 if result['second_seed_required'] else
+                 'Neither alternative passes; retain AdamW42 for the authorized full pass without another confirmation run.'))
+        else:
+            decision='The 78M comparison is still running. No final recipe selection or full pass has been completed.'
+        partial=json.loads((matched/'partial-comparison.json').read_text())['comparison_muon42_vs_adamw42']
+        leaderboard=json.loads((matched/'leaderboard-live.json').read_text())
+        story += [PageBreak(),p('Matched-time comparison: measured results','Title'),
+            p('All models are trained from scratch under the previously stated common recipe. The fixed reference subsets contain 1,024 rows each; numeric agreement uses 982 and 988 usable original references. Counts below are executed-answer agreements, not token accuracy. Training time excludes checkpoint/export/evaluation work.'),
+            table(rows,[33*mm,23*mm,25*mm,30*mm,30*mm,29*mm]),
+            p(f"At 600 training seconds, Muon42 changes correct answers by {partial['gains']['pilot']:+d} / {partial['gains']['confirmation']:+d} versus AdamW42, with {partial['failure_delta']:+d} total generated-program execution failures. It fails the promotion rule because both agreement counts decline. Fewer failures alone do not establish better answers."),
+            p(decision),
+            p('Retained checkpoint exports and public bot receipts','Head'),
+            table(exported,[65*mm,35*mm,35*mm,35*mm]),
+            p('Every listed submission was first saved on Drive, downloaded, checked against its model hash and selected token IDs, and sent once in official test.parquet order. Strict greedy decoding and original model outputs are preserved. Public feedback is reported separately from recipe selection. Different models consume different row counts within equal measured time.'),
+            p(f"Live leaderboard evidence checked {leaderboard['checked_at'][:16]} (+03): leader {leaderboard['leader_public_percent']:.2f}%; our retained mature checkpoint {leaderboard['our_public_percent']:.2f}%, rank {leaderboard['our_rank']}/{leaderboard['participants']}. First place is not achieved. These early scratch checkpoints do not replace the retained best."),
+            p('Source 723f5b3 for the live comparison. Evidence: experiments/matched-curve-v1, exact model/output hashes, separate bot receipts, and leaderboard-live.json/png. The longer-run driver preserves the selected seed 42 optimizer, schedule, RNG and consumed-row position, verifies every eligible row exactly once at update 92,456, and measures final fixed-subset agreement. Preparation code 7bf3124; no longer-run result is inferred from the driver checks.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
