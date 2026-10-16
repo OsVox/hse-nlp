@@ -1,0 +1,26 @@
+[
+  {
+    "arm": "control",
+    "stage": "pilot",
+    "started_utc": 1792148191.8977506,
+    "collected_utc": 1792148199.0911977
+  },
+  {
+    "arm": "control",
+    "stage": "confirmation",
+    "started_utc": 1792148199.0819263,
+    "collected_utc": 1792148393.6980414
+  },
+  {
+    "arm": "code8192",
+    "stage": "pilot",
+    "started_utc": 1792148386.5144284,
+    "collected_utc": 1792148393.698387
+  },
+  {
+    "arm": "code8192",
+    "stage": "confirmation",
+    "started_utc": 1792148393.6976006,
+    "collected_utc": 1792148401.0752754
+  }
+]

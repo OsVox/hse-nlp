@@ -524,6 +524,25 @@ def build():
         if (representation/'conclusion.json').exists():
             conclusion=json.loads((representation/'conclusion.json').read_text())
             story += [p(conclusion['decision']),p(conclusion['compute'])]
+    token_confirm = ROOT/'experiments/tokenizer-confirm-2k-v1'
+    if (token_confirm/'selection.json').exists():
+        r=json.loads((token_confirm/'selection.json').read_text())
+        rows=[['Seed / tokenizer','Pilot /245','Confirm /493','Failures','Public /960']]
+        for seed,folder in [(42,representation),(1042,token_confirm)]:
+            values=json.loads((folder/'selection.json').read_text())['results']
+            for name in ['control','code8192']:
+                stages=values[name];receipt=folder/name/'step-002048/bot_receipt.json'
+                public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+                rows.append([f'{seed} / {name}',stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(v['prediction_failures'] for v in stages.values()),public])
+        story += [PageBreak(),p('Code-focused 8k: second-seed check','Title'),
+            p('Repeat the cheaper code-focused tokenizer against the original 8k control. Both new models start from random weights with seed 1042, receive 2,048 updates and use the same data, architecture, batch size, learning-rate schedule and strict greedy decoding. The tokenizer files are unchanged from the CPU fit and verified byte-for-byte. The initial Transformer bodies are identical within each seed; no target cleanup is applied.'),
+            table(rows,[49*mm,29*mm,35*mm,25*mm,32*mm]),
+            p('The confirmation gate requires strictly positive gains on both held-out subsets in each seed, with no increase in total execution failures in either seed. Confirmed: '+str(r['confirmed'])+'. Both seeds reuse the same held-out questions, so this checks seed robustness rather than independent validation or statistical significance. Public feedback is recorded separately and never converted into training targets.'),
+            p('The first-seed evidence is copied into the source archive and hash-checked before the new run. Eighteen focused checks passed before allocation. Existing verified dataset, tokenizer and model-shape preflight evidence is reused without allocating a CPU Colab runtime. Source, launcher and manifest are saved to Drive and downloaded back before GPU allocation. Each completed checkpoint and exact model output is saved to Drive before bot evaluation.','SmallText'),
+            p('Source: e463ac8cb58f6bb52608f6d3e067e3c1739020e5. Evidence: experiments/tokenizer-confirm-2k-v1. A 900-second driver bound and automatic runtime release are installed. A positive result permits considering a bounded extension, not an automatic full training run.','SmallText')]
+        if (token_confirm/'conclusion.json').exists():
+            conclusion=json.loads((token_confirm/'conclusion.json').read_text())
+            story += [p(conclusion['decision']),p(conclusion['compute'])]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

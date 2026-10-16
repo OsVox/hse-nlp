@@ -1,0 +1,38 @@
+[
+  {
+    "file": "conclusion.json",
+    "id": "1Y6BKogueZECcolLV3mhn3e8UREhcvhK4",
+    "sha256": "bff01e760b3f7005474ec431ed564da15b4e0263bc306daa6cf1cd30df405557",
+    "byte_verified": true
+  },
+  {
+    "file": "gpu-summary.json",
+    "id": "1_isvAGD4vHIr65bqfdO0aCTwj8jOSHW0",
+    "sha256": "8ab437eec8d026e3a4dc4ab8031cdd533fa4912e4ed04d21ddb1df5e91a2da7b",
+    "byte_verified": true
+  },
+  {
+    "file": "released.png",
+    "id": "1OvQZ_itW88L1uPh-CVpWOf5Re3fKU3AA",
+    "sha256": "111f31b70bae7863fdab49075b2b7d35b0efc8af2d17dc187e13e7d0a74e28c6",
+    "byte_verified": true
+  },
+  {
+    "file": "started.png",
+    "id": "1buaJJeafjS7Iu1EA_MXKoE8HrgJU0myH",
+    "sha256": "b870b6bb699b3ba2a4671b05eb5a191f26f8885a13eb1c44e1863b841b74cd33",
+    "byte_verified": true
+  },
+  {
+    "file": "control/bot-proof.png",
+    "id": "1MkXINT-oNT-EkloPif75a_UD4-HQbEl6",
+    "sha256": "d498de16fe01e726ddd18ea8e2ad2caec626bceedd6c249b210271847d6628d9",
+    "byte_verified": true
+  },
+  {
+    "file": "code8192/bot-proof.png",
+    "id": "1Cx7bIR4NpNbL7ebwwOaJXEMzndCEDBgn",
+    "sha256": "50a9872606c7697df0ccbfcdb1c01a5cc85725ed0e74e898fe1b1bb4c20c61ec",
+    "byte_verified": true
+  }
+]

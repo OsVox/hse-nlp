@@ -1,0 +1,18 @@
+{
+  "source_commit": "e463ac8cb58f6bb52608f6d3e067e3c1739020e5",
+  "prepared_folder": "1EH7NOc0j41w_2Weqr9gSKsIbo2KFruXS",
+  "files": {
+    "source.tar": {
+      "id": "183QG3hGmAcO3a_XCL4O511ggAkaQaow1",
+      "byte_verified": true
+    },
+    "launch.py": {
+      "id": "11UduM7r48CNSn3qdMR9ToEbE8PI83NTy",
+      "byte_verified": true
+    },
+    "ready.json": {
+      "id": "1ILhTnQObnCWouEUm-QtlWZYqJO8C6L0r",
+      "byte_verified": true
+    }
+  }
+}

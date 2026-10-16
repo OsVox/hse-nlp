@@ -1,0 +1,4 @@
+{
+  "decision": "The code-focused 8k tokenizer does not pass the predefined second-seed gate. It gains five pilot agreements but loses two confirmation agreements, with eight more total execution failures. Public score is 73/960 versus control 78/960; seed 42 had 86 versus 70. This small, mixed result does not justify a long run or combination with cleanup. Retain the 573/960 (59.69%) best checkpoint; latest bot rank is 8/15. No full training starts.",
+  "compute": "The two-arm driver took 431.28 seconds (7.19 minutes), excluding allocation, Drive and setup. GPU median activity was 97%, mean 73.99%, peak sampled memory 19,147 MiB. The launcher exited successfully and released the runtime automatically; Manage Sessions showed no active sessions. Both checkpoints, exact greedy outputs and bot receipts are stored in Drive. T4 timing is unverified."
+}
