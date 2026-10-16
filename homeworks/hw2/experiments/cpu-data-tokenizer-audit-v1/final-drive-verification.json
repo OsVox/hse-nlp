@@ -1,0 +1,38 @@
+[
+  {
+    "file": "comparison.md",
+    "id": "16b8RIhhl6regb5GNzi6LahlbtWhea8mU",
+    "sha256": "b33389bb4dc16a74470d78fc217f9140499b0b3637e2f5a7ac92b5b628ddb873",
+    "byte_verified": true
+  },
+  {
+    "file": "conclusion.json",
+    "id": "1MTBUEckdMPy9DM_RG27hEOjsmrV9HPEL",
+    "sha256": "f7bbe14a4785a647539429a3046daac880d2265c308dedee85ce309d9300122c",
+    "byte_verified": true
+  },
+  {
+    "file": "selection.json",
+    "id": "19ps9bRKM5OFKxktJ3TlNAVpvFrmlTGnN",
+    "sha256": "76ca88fb81a5fc01566015d4b54a8be4c23c315a3414f4b6da90977db331cc6b",
+    "byte_verified": true
+  },
+  {
+    "file": "runtime-release.json",
+    "id": "1Dx4b9Z6SRq4jSkMLgPlZ-eIEaBdSxqzX",
+    "sha256": "246a59ed78627399f70284e123350febdbb4201a493c23e95e4f1d401936f276",
+    "byte_verified": true
+  },
+  {
+    "file": "compute-released.png",
+    "id": "1HkINcVYyvP1i1abTdWkv1T6QAVhCOs78",
+    "sha256": "aebcd5008c81c4d5bcc24bc6e2abe99253be9610e9466234d66199be7d947402",
+    "byte_verified": true
+  },
+  {
+    "file": "report.pdf",
+    "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "sha256": "1437746660ea30098cd405d94b175611351e81e9b83a132ed7235139af0a8e7a",
+    "byte_verified": true
+  }
+]

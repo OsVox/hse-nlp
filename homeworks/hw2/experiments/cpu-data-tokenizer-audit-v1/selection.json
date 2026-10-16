@@ -1,0 +1,15 @@
+{
+  "tokenizer_training_pair": [
+    "code8192",
+    "code16384"
+  ],
+  "factor": "vocabulary size; same code weight and fit/evaluation rows",
+  "rejected_variant": "python8192",
+  "reason": "Much longer sequences and increased truncation in this shared encoder/decoder tokenizer configuration",
+  "accuracy_gain_verified": false,
+  "model_training_started": false,
+  "long_run_started": false,
+  "retained_best_public_correct": 573,
+  "retained_best_public_total": 960,
+  "next_data_hypothesis": "Audit-driven filtering of original duplicate-question groups, without synthesized labels; full training membership must be prepared before a matched pilot"
+}

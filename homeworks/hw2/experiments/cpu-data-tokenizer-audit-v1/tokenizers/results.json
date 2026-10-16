@@ -1,0 +1,190 @@
+{
+  "results": {
+    "original8192": {
+      "question": {
+        "rows": 15304,
+        "mean_tokens": 46.856050705697854,
+        "median_tokens": 43.0,
+        "p99_tokens": 105,
+        "over_limit": 23,
+        "token_limit": 128,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 48138,
+        "mean_pieces_per_numeric_span": 1.0997340978021521
+      },
+      "code": {
+        "rows": 15304,
+        "mean_tokens": 74.10500522739153,
+        "median_tokens": 65.0,
+        "p99_tokens": 219,
+        "over_limit": 278,
+        "token_limit": 192,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 67291,
+        "mean_pieces_per_numeric_span": 1.1593526623173975
+      },
+      "vocab_size": 8192,
+      "evaluation_seconds": 3.9053073389999327,
+      "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe",
+      "code_token_change_vs_original_percent": 0.0,
+      "source_token_change_vs_original_percent": 0.0
+    },
+    "balanced8192": {
+      "question": {
+        "rows": 15304,
+        "mean_tokens": 46.50431259801359,
+        "median_tokens": 43.0,
+        "p99_tokens": 102,
+        "over_limit": 20,
+        "token_limit": 128,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 48138,
+        "mean_pieces_per_numeric_span": 1.103577215505422
+      },
+      "code": {
+        "rows": 15304,
+        "mean_tokens": 73.30279665446942,
+        "median_tokens": 64.0,
+        "p99_tokens": 213,
+        "over_limit": 250,
+        "token_limit": 192,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 67291,
+        "mean_pieces_per_numeric_span": 1.162116776389116
+      },
+      "vocab_size": 8192,
+      "evaluation_seconds": 4.112310468999908,
+      "options": {
+        "code_repeats": 1,
+        "vocab_size": 8192,
+        "python_boundaries": false
+      },
+      "fit_and_evaluation_seconds": 8.163317327000073,
+      "tokenizer_sha256": "b57891784211eb0a1f70d0201621c16c5a25a08bb846b608e069351e1cb3393b",
+      "code_token_change_vs_original_percent": -1.082529540967614,
+      "source_token_change_vs_original_percent": -0.7506780925552681
+    },
+    "code8192": {
+      "question": {
+        "rows": 15304,
+        "mean_tokens": 46.97876372190277,
+        "median_tokens": 43.0,
+        "p99_tokens": 103,
+        "over_limit": 24,
+        "token_limit": 128,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 48138,
+        "mean_pieces_per_numeric_span": 1.104657443184179
+      },
+      "code": {
+        "rows": 15304,
+        "mean_tokens": 73.09402770517512,
+        "median_tokens": 64.0,
+        "p99_tokens": 212,
+        "over_limit": 250,
+        "token_limit": 192,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 67291,
+        "mean_pieces_per_numeric_span": 1.1617749773372368
+      },
+      "vocab_size": 8192,
+      "evaluation_seconds": 4.184151141000029,
+      "options": {
+        "code_repeats": 3,
+        "vocab_size": 8192,
+        "python_boundaries": false
+      },
+      "fit_and_evaluation_seconds": 10.936808375000055,
+      "tokenizer_sha256": "8469bbd6b0b8e16ba5488b3a90e2257d537d8890ed26281da8107ac82768c76a",
+      "code_token_change_vs_original_percent": -1.3642499843488531,
+      "source_token_change_vs_original_percent": 0.26189363882944683
+    },
+    "python8192": {
+      "question": {
+        "rows": 15304,
+        "mean_tokens": 83.64976476738107,
+        "median_tokens": 77.0,
+        "p99_tokens": 185,
+        "over_limit": 1516,
+        "token_limit": 128,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 48138,
+        "mean_pieces_per_numeric_span": 1.0307033944077444
+      },
+      "code": {
+        "rows": 15304,
+        "mean_tokens": 86.21451907997908,
+        "median_tokens": 74.0,
+        "p99_tokens": 272,
+        "over_limit": 556,
+        "token_limit": 192,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 67291,
+        "mean_pieces_per_numeric_span": 1.0308659404675216
+      },
+      "vocab_size": 8192,
+      "evaluation_seconds": 5.053330626000047,
+      "options": {
+        "code_repeats": 3,
+        "vocab_size": 8192,
+        "python_boundaries": true
+      },
+      "fit_and_evaluation_seconds": 15.367097687999944,
+      "tokenizer_sha256": "ad8196e6e55856e529bde0da08282297fe61479079ff33e404eddea7eda15a21",
+      "code_token_change_vs_original_percent": 16.34102017188914,
+      "source_token_change_vs_original_percent": 78.52500052295055
+    },
+    "code16384": {
+      "question": {
+        "rows": 15304,
+        "mean_tokens": 45.44040773653947,
+        "median_tokens": 42.0,
+        "p99_tokens": 99,
+        "over_limit": 14,
+        "token_limit": 128,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 48138,
+        "mean_pieces_per_numeric_span": 1.0902613320038224
+      },
+      "code": {
+        "rows": 15304,
+        "mean_tokens": 71.7575143753267,
+        "median_tokens": 63.0,
+        "p99_tokens": 205,
+        "over_limit": 219,
+        "token_limit": 192,
+        "roundtrip_failures": 0,
+        "unknown_tokens": 0,
+        "numeric_spans": 67291,
+        "mean_pieces_per_numeric_span": 1.1505401911102524
+      },
+      "vocab_size": 16384,
+      "evaluation_seconds": 4.091832259000057,
+      "options": {
+        "code_repeats": 3,
+        "vocab_size": 16384,
+        "python_boundaries": false
+      },
+      "fit_and_evaluation_seconds": 11.293433088999905,
+      "tokenizer_sha256": "93d8a7f631684f80307a4d74c7bced12673c4506a811c20c1c27cd8cf549ad42",
+      "code_token_change_vs_original_percent": -3.167789874464666,
+      "source_token_change_vs_original_percent": -3.021259683301125
+    }
+  },
+  "fit_rows": 61440,
+  "evaluation_rows": 15304,
+  "elapsed_seconds": 89.58707734999996,
+  "original_overlap_note": "Original tokenizer was previously trained on shard0; this is a compression diagnostic, not an unbiased generalization comparison against that tokenizer.",
+  "constraints": "Only original course question/code strings. Code weighting repeats unchanged original strings. No pretrained tokenizer, target rewrite or new example. All new candidates use identical fit/evaluation question sets.",
+  "limitations": "Shorter sequences or fewer number pieces do not prove better accuracy. New vocabulary IDs require fresh matched training; existing checkpoint token meanings must not be silently replaced.",
+  "research": "https://github.com/huggingface/blog/blob/main/codeparrot.md"
+}

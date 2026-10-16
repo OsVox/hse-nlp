@@ -464,6 +464,41 @@ def build():
         if (confirmation/'conclusion.json').exists():
             conclusion=json.loads((confirmation/'conclusion.json').read_text())
             story += [p(conclusion['decision']),p(conclusion['compute'])]
+    cpu_audit = ROOT/'experiments/cpu-data-tokenizer-audit-v1'
+    if (cpu_audit/'tokenizers/results.json').exists():
+        r=json.loads((cpu_audit/'tokenizers/results.json').read_text())
+        rows=[['Tokenizer','Question mean','Code mean','Code >192','Code delta']]
+        for name,values in r['results'].items():
+            rows.append([name,f"{values['question']['mean_tokens']:.2f}",f"{values['code']['mean_tokens']:.2f}",
+                         values['code']['over_limit'],f"{values['code_token_change_vs_original_percent']:+.2f}%"])
+        story += [PageBreak(),p('Python tokenizer: CPU comparison','Title'),
+            p(f"At the user's suggestion, fit four new tokenizers on {r['fit_rows']:,} original question/program pairs sampled across all 60 shards. Evaluate on {r['evaluation_rows']:,} separate exact question texts; remove all held-out question copies from fitting and this audit. The existing 8,192-token byte BPE is retained as a reference. It was previously trained on shard 0, so its compression comparison is not an untouched generalization evaluation."),
+            table(rows,[44*mm,35*mm,31*mm,30*mm,30*mm]),
+            p('Balanced8192 sees each original question and code once. Code8192 repeats the unchanged original code three times per question during tokenizer fitting. Python8192 adds explicit lexical-style boundaries for identifiers, numeric strings, operators, whitespace and indentation. Code16384 doubles the vocabulary with the same code emphasis. No pretrained vocabulary, new examples or rewritten training targets are used.'),
+            p('Every candidate is serialized, reloaded and checked for exact recovery of questions and code, including significant whitespace. Unknown tokens, number fragmentation and truncation counts are recorded. Shorter sequences do not prove better executed-answer accuracy. A different vocabulary cannot silently replace token meanings in the trained checkpoint; any deployment requires a matched training experiment.'),
+            p('Five focused local checks passed, including saved tokenizer round trips with tabs, CRLF and Unicode, disjoint question sampling, unchanged original Parquet files and separation of numeric conflict from unsupported execution. Motivation: Hugging Face CodeParrot methodology, https://github.com/huggingface/blog/blob/main/codeparrot.md. That work motivates a code-specific tokenizer; it does not prove a gain on this task.','SmallText'),
+            p('Source: 52cccd19da35f70d023cf63f2aeb0d161524de18. Evidence: experiments/cpu-data-tokenizer-audit-v1/tokenizers. All work uses CPU; artifacts are saved to Drive before export.','SmallText')]
+        if (cpu_audit/'conclusion.json').exists():
+            conclusion=json.loads((cpu_audit/'conclusion.json').read_text())
+            story += [p(conclusion['tokenizer_decision'])]
+    if (cpu_audit/'consistency/results.json').exists():
+        r=json.loads((cpu_audit/'consistency/results.json').read_text())
+        rows=[['Measurement','Count'],['Eligible original rows',f"{r['eligible_rows']:,}"],
+              ['Sampled exact question groups',r['sampled_question_groups']],
+              ['Repeated question groups',r['repeated_question_groups']],
+              ['Repeated groups with identical program',r['identical_program_groups']],
+              ['Repeated groups with different programs',r['different_program_groups']],
+              ['Tested groups / programs',f"{r['tested_groups']} / {r['tested_programs']}"],
+              ['Groups with program cap',r['capped_groups']]]
+        rows += [[name,count] for name,count in r['categories'].items()]
+        story += [PageBreak(),p('Original target consistency: CPU audit','Title'),
+            p('Sample exact training-question groups using a fixed keyed hash, independently of public/test examples. Scan all original shards and exclude every held-out question copy. Among repeated questions with different original programs, test at most 512 groups and eight distinct programs per group. Execute only original programs with the existing restricted diagnostic runner; no values are converted into training targets.'),
+            table(rows,[115*mm,55*mm]),
+            p('Numeric conflict means at least two executable original programs disagree within the existing 1e-6 tolerance. It does not identify which program is correct. Agreement also does not prove correctness. Unsupported or failed execution remains unresolved rather than an automatic reason to discard a target. Groups are sampled by question, not weighted by frequency; the result cannot be read as the fraction of all training rows that are wrong.'),
+            p('The audit saves question/program hashes, original shard/row positions, statuses and aggregate comparisons. It leaves original files unchanged and emits no training target file. Evidence: experiments/cpu-data-tokenizer-audit-v1/consistency.','SmallText')]
+        if (cpu_audit/'conclusion.json').exists():
+            conclusion=json.loads((cpu_audit/'conclusion.json').read_text())
+            story += [p(conclusion['consistency_decision']),p(conclusion['compute'])]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

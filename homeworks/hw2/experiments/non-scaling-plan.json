@@ -1,6 +1,6 @@
 {
   "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
-  "current_action": "Completed second-seed focal confirmation: held-out gain +2/738, one fewer failure, but pilot subset tied. Failed predefined confirmation gate; no long extension. Next: CPU audit of consistency among original duplicate-question programs.",
+  "current_action": "Completed CPU tokenizer and duplicate-program audits. No GPU allocated; all compute released. Prepare short matched vocabulary-size pilot or original-data filtering based on measured evidence.",
   "gpu_state": "Released; Colab Manage Sessions reports no active sessions",
   "next_candidates": [
     {
@@ -26,7 +26,7 @@
       "hypothesis": "Truncated or malformed original targets can teach incomplete programs.",
       "first_check": "Audit syntax and target-length rates; do not equate unsupported sandbox execution with incorrect data.",
       "status": "Tested original-target length filtering: 423/738 vs control 416/738, but 45 vs 40 execution failures; failed gate",
-      "next_check": "CPU-only audit of numerical agreement among original programs sharing an exact question. Sample without public/test failures; distinguish disagreement from truth and unsupported execution from invalid targets. No generated targets."
+      "next_check": "177/503 sampled repeated questions with different original programs have numeric conflicts. Prepare an original-data filtering pilot; do not infer the correct program or generate targets."
     },
     {
       "name": "Individual digit boundaries",
@@ -39,6 +39,13 @@
       "hypothesis": "Downweight easy original target tokens without rewriting programs",
       "status": "Second-seed gains 0/+2 by subset; no extra failures, but strict confirmation gate failed. No long extension.",
       "evidence": "focal-confirm-1k-v1/comparison.md"
+    },
+    {
+      "name": "Python-aware tokenizer",
+      "hypothesis": "Reduce unnecessary Python program fragmentation and target truncation while preserving every character",
+      "status": "CPU audit complete: code8k -1.36% program tokens; code16k -3.17%; tested Python boundaries +16.34%. All exact roundtrips. No accuracy gain tested.",
+      "evidence": "cpu-data-tokenizer-audit-v1/comparison.md",
+      "guard": "New vocabulary requires short matched fresh-model training before claiming accuracy gain; do not replace trained checkpoint token meanings"
     }
   ],
   "future_training_comparison": {
@@ -81,7 +88,9 @@
       "scoring_samples_gpu_at_least_90_percent": 0,
       "note": "One-second telemetry samples within actual CPU scoring timestamps. Demonstrates overlap only, not a controlled estimate of wall-time savings."
     },
-    "focal_confirmation": "Seed1042 control422/738 vs focal424/738; failures47 vs46. Both-seed strict subset-improvement gate failed; no extension. Public560 vs563; prior seed561 vs559. Best573 retained."
+    "focal_confirmation": "Seed1042 control422/738 vs focal424/738; failures47 vs46. Both-seed strict subset-improvement gate failed; no extension. Public560 vs563; prior seed561 vs559. Best573 retained.",
+    "python_tokenizer": "Fit61440/eval15304 disjoint question texts. Code8k mean73.09 vs original74.11; code16k71.76. Python-boundary86.21 rejected. No model trained.",
+    "duplicate_program_consistency": "503 tested repeated-question groups,1126 original programs:177 conflict,284 agree,38 insufficient,4 partial;5 capped groups. Not an estimate of erroneous fraction across all rows."
   },
   "preparation_policy": "CPU use is explicitly approved. Use it for meaningful data/preflight checks before GPU; reuse already verified data and parent checkpoint archives when unchanged to avoid unnecessary repeated transfers and setup. Revalidate artifact hashes during restore."
 }
