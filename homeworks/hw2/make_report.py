@@ -351,6 +351,24 @@ def build():
             table(rows,[30*mm,45*mm,55*mm,40*mm]),
             p(f"The predefined held-out gate requires more numeric agreements and no extra execution failures on both subsets. Confirmed: {result['confirmed']}. This is a short exploratory comparison on previously used validation questions; it is not statistical significance. Training losses across arms are not directly comparable. Uniform validation loss and executed-answer diagnostics remain comparable."),
             p('Five focused tests checked normalized weighting, ignored padding, piece selection and continuation scheduling. CPU checks verified all dataset files, model weights and optimizer moments before G4 allocation. Both checkpoints and exact greedy outputs were saved to Drive before local export, token verification and bot submission. The control scored 562/960 (58.54%) and numeric2 scored 573/960 (59.69%), an 11-answer public gain at equal training budget. Numeric2 is retained for reproducing the highest public score; it did not pass the held-out gate for extending training. Total experiment time was 453 seconds, median GPU activity 97%. Colab showed no active sessions after completion. No longer training run started. Source: 8755a8f4867683d940e9b34fa48365e3cf4f8c21; evidence: experiments/numeric-loss-2k-v1. T4 timing remains deferred.','SmallText')]
+    screen = ROOT/'experiments/broad-screen-1k-v1'
+    if (screen/'selection.json').exists():
+        selection = json.loads((screen/'selection.json').read_text())
+        rows = [['Arm', 'Held-out /738', 'Failures', 'Public /960']]
+        for name, stages in selection['results'].items():
+            receipt = screen/name/'step-071000/bot_receipt.json'
+            public = json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            rows.append([name, sum(v['numeric_correct'] for v in stages.values()),
+                         sum(v['prediction_failures'] for v in stages.values()), public])
+        story += [PageBreak(), p('Broad short experiment screen','Title'),
+            p('Eight matched continuations start from the same 42.48M model at step 70,000, including its optimizer state. Each gets only 1,000 updates at batch 128. Seven candidates change one factor relative to control: numeric token weighting, label smoothing, equal question weight, dropout 0 or .05, doubled peak learning rate, or excluding targets longer than 192 tokens. Targets are never rewritten. Filtering refills complete batches but necessarily changes which examples are seen.'),
+            table(rows,[55*mm,40*mm,30*mm,45*mm]),
+            p('All outputs use strict greedy decoding. The shortlist requires positive total held-out gain, no negative gain on either validation subset, and no increase in total execution failures. At most three candidates proceed to a second-seed test against control. Combinations need their own short comparison before a long run; individual gains are not assumed to add together.'),
+            p('Shortlist: '+escape(', '.join(selection['shortlist']) or 'none')+'. These previously reused validation questions provide exploratory evidence, not an untouched estimate of generalization. Public bot scores are recorded separately; individual public failure examples are not used to design targets or repairs.'),
+            p('Seventeen focused checks passed before CPU verification and GPU allocation. Checkpoints, exact greedy predictions, source identity and GPU telemetry are saved to Drive before export. Source: 5de771fc79b3b1e84926aedd8292560e56d9fecd. Evidence: experiments/broad-screen-1k-v1. Label smoothing and dropout motivation: <link href="https://arxiv.org/html/1706.03762v7#S5.SS4">Vaswani et al., section 5.4</link>. Their usefulness here is determined by the measured trials.','SmallText')]
+        if (screen/'execution.json').exists():
+            execution=json.loads((screen/'execution.json').read_text())
+            story += [p(f"Driver duration: {execution['elapsed_seconds']/60:.2f} minutes, including data restore, training, evaluation and saves. Colab allocation and Drive sign-in occur before this timer. No long run is launched automatically.")]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

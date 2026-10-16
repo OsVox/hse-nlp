@@ -1,7 +1,7 @@
 {
   "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
-  "current_action": "Broad screening: eight matched 1000-step arms, then second-seed checks and short combinations before any long run",
-  "gpu_state": "CPU preparation; GPU disconnected",
+  "current_action": "Eight matched 1000-step trials completed; none passed the predefined shortlist gate; no combination or long run launched",
+  "gpu_state": "Released; Colab Manage Sessions reports no active sessions",
   "next_candidates": [
     {
       "name": "Question-balanced sampling",
@@ -19,7 +19,7 @@
       "name": "Training-target quality",
       "hypothesis": "Truncated or malformed original targets can teach incomplete programs.",
       "first_check": "Audit syntax and target-length rates; do not equate unsupported sandbox execution with incorrect data.",
-      "status": "Proposed; not implemented or tested"
+      "status": "Tested original-target length filtering: 423/738 vs control 416/738, but 45 vs 40 execution failures; failed gate"
     }
   ],
   "future_training_comparison": {
@@ -28,7 +28,7 @@
     "batch_size": 128,
     "matched": "same optimizer state, learning-rate schedule, example budget, validation rows and decoding; change one factor per arm",
     "decision": "Require held-out executed-answer gain beyond matched baseline and confirm on separate questions before a longer run",
-    "status": "Preparing broad-screen-1k-v1"
+    "status": "Completed broad-screen-1k-v1; shortlist empty"
   },
   "low_priority": {
     "longer_input": "Only 0.1498% of questions truncated in existing 15,358-row sample",
@@ -46,6 +46,7 @@
     "checkpoint_averaging": "Rejected by predefined confirmation gate",
     "baseline_70k_public": "554/960, 57.71%, greedy, rank 8/15",
     "syntax_audit": "0 invalid syntax among 10473 original programs from shard 0; not a correctness guarantee",
-    "numeric_weighting": "Best public score 59.69%; 11 more correct than matched control; mixed held-out evidence"
+    "numeric_weighting": "Best public score 59.69%; 11 more correct than matched control; mixed held-out evidence",
+    "broad_screen": "Eight 1000-step arms; none passed positive gain on both subsets with no added total execution failures"
   }
 }

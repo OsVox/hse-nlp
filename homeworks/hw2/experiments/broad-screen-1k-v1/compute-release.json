@@ -1,0 +1,11 @@
+{
+  "observed_date": "2026-10-16",
+  "status": "no_active_sessions",
+  "evidence": "Colab Manage Sessions: \u041d\u0435\u0442 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0445 \u0441\u0435\u0430\u043d\u0441\u043e\u0432.",
+  "driver_elapsed_seconds": 998.347795653,
+  "allocation_and_auth_excluded": true,
+  "gpu_utilization_samples": 987,
+  "median_gpu_utilization_percent": 97.0,
+  "mean_gpu_utilization_percent": 63.4387031408308,
+  "p95_gpu_memory_mib": 21077.0
+}

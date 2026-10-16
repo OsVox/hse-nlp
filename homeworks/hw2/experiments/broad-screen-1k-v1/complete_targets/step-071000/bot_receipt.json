@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-16T11:16:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "broad-screen-complete_targets-071000.jsonl",
+  "jsonl_sha256": "c081d34bab87f4113c678c9e4b820a25845d03e9771007f4b14d95006f0160d2",
+  "source_commit": "5de771fc79b3b1e84926aedd8292560e56d9fecd",
+  "model_sha256": "709292a6631ad07bb25617c93475fb95f72b8738aed54cdae9b7a8327e8deeb2",
+  "run": "broad-screen-1k-v1",
+  "variant": "complete_targets",
+  "step": 71000,
+  "status": "scored",
+  "public_correct": 555,
+  "public_total": 960,
+  "public_percent": 57.81,
+  "reported_rank": 8,
+  "participants": 15,
+  "rank_basis": "Best retained submission",
+  "telegram_message_ids": {
+    "file": 788737,
+    "accepted": 788738,
+    "score": 788739,
+    "rank": 788740
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "selection": "greedy",
+  "num_beams": 1,
+  "syntax_retry_beams": 0,
+  "drive_checkpoint_folder": "1UKyyoEUKySa7DOZiy78dOe8NQR8kp6Mr",
+  "heldout_extension_gate_passed": null
+}

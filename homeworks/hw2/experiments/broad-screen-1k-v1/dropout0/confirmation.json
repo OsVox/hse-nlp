@@ -1,0 +1,23 @@
+{
+  "rows": 512,
+  "usable_references": 493,
+  "numeric_correct": 280,
+  "numeric_agreement_on_usable": 0.5679513184584178,
+  "prediction_failures": 25,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/broad-screen-1k-v1/dropout0/step-071000",
+  "offset": 512,
+  "beams": 1,
+  "device": "cuda",
+  "precision": "torch.float32",
+  "cpu_threads": 24,
+  "generation_seconds": 3.1022935940000025,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "8871922ce8c5ef2b890cf4f1e7708c113a53f4ba39620aa5cfa04df089b59be1",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "2fdab07a7520635f500655d327a1953cbc4315a105b6be33756360b1a7a7771a",
+  "predictions_sha256": "5429be17c53b7cc10c6c2c5c5aad61a7e82c87506388411d329d72561968c261",
+  "handwritten_repairs": 0
+}

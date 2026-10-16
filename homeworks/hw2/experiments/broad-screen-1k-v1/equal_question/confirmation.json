@@ -1,0 +1,23 @@
+{
+  "rows": 512,
+  "usable_references": 493,
+  "numeric_correct": 282,
+  "numeric_agreement_on_usable": 0.5720081135902637,
+  "prediction_failures": 26,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/broad-screen-1k-v1/equal_question/step-071000",
+  "offset": 512,
+  "beams": 1,
+  "device": "cuda",
+  "precision": "torch.float32",
+  "cpu_threads": 24,
+  "generation_seconds": 2.7643058339999698,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "5387c65ae3725c04f60ec570e1c42f3731fdd075d93a7f7197d84eac384f6ef3",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "2fdab07a7520635f500655d327a1953cbc4315a105b6be33756360b1a7a7771a",
+  "predictions_sha256": "5397ca3141aeee044ae80f5cc85383f42b7e39c51d753cdf9cfb7d4ffcc28f40",
+  "handwritten_repairs": 0
+}

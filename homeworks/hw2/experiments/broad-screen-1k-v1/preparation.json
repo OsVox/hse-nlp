@@ -1,0 +1,13 @@
+{
+  "source_commit": "5de771fc79b3b1e84926aedd8292560e56d9fecd",
+  "tests": "17 passed: broad screen, token weighting, input pipeline, continuation",
+  "cpu_preparation_returncode": 0,
+  "cpu_preparation_seconds": 57.5533936,
+  "bootstrap_drive_folder": "1AdvE74wG5fZUvjv7jnybsEo6GvSzCNY4",
+  "prepared_drive_folder": "1IP3IxQrGrtNQXv4LjZ-1vGURu8ZdoRVT",
+  "launcher_sha256": "e1e17c2b78d4a463238bbb22c62707c0b1a76ce3c23c48614de1b73c98444fb6",
+  "preparation_note": "Initial Drive mount failed, succeeded on CPU retry. First post-preparation mount failed before launching any experiment; released stalled session and verified disconnected G4 selection before next attempt.",
+  "run_drive_folder": "18beBtQGitPOSQA06IUM7CGP7WawjHQwa",
+  "gpu_process_pid": 3225,
+  "gpu_observed": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}
