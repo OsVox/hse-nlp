@@ -1,0 +1,22 @@
+{
+  "parent_model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "parent_step": 73024,
+  "optimizer_state_verified": true,
+  "index_manifest_sha256": "77fbcbc1c7b2e3d76e8a4f433a73969ffd4a7c13ffa99e4a70851a687065959f",
+  "finite_gradient_checks": {
+    "control": {
+      "loss": 0.3635938763618469,
+      "gradient_norm": 1.7453511953353882,
+      "rows": 4
+    },
+    "coverage": {
+      "loss": 0.8586000800132751,
+      "gradient_norm": 2.4227986335754395,
+      "rows": 4
+    }
+  },
+  "no_optimizer_update_performed": true,
+  "unconsumed_prefetch_not_counted": true,
+  "gpu_used": false,
+  "seconds": 10.444679583015386
+}

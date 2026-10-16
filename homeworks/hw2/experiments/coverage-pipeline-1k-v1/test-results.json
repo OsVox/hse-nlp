@@ -1,0 +1,7 @@
+{
+  "passed": 17,
+  "failed": 0,
+  "seconds": 7.38,
+  "command": "pytest tests/test_coverage_pilot.py tests/test_full_coverage.py tests/test_continuation.py tests/test_checkpoint_io.py -q",
+  "device": "CPU"
+}

@@ -149,7 +149,18 @@ def prepare(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, launcher=LAUNCH, prefl
     print('SCREEN_CPU_READY',json.dumps(ready),flush=True)
 
 
-def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=None):
+def training_command(options):
+    command=[sys.executable,'-u','-m','homeworks.hw2.train']
+    for key,value in options.items():
+        if value is None:
+            continue
+        flag='--'+key.replace('_','-')
+        command.extend([flag] if value is True else [flag,str(value)])
+    return command+['--restart-schedule','--predict-at-checkpoint']
+
+
+def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=None,
+        runtime_preflight_fn=None):
     PREPARED, RUN, PLAN = prepared, run_dir, plan
     import torch
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
@@ -165,6 +176,8 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=None):
         monitor=subprocess.Popen(['nvidia-smi','--query-gpu=timestamp,utilization.gpu,memory.used,power.draw','--format=csv,noheader,nounits','--loop=1'],stdout=telemetry)
         try:
             restore_data(ready['dataset'])
+            if runtime_preflight_fn is not None:
+                runtime_preflight_fn(RUN)
             local=Path('/content/broad-screen-inputs');local.mkdir(exist_ok=False)
             parent_archive = Path(ready.get('parent_archive_path',str(PREPARED/'parent.tar')))
             copy_verified(parent_archive,local/'parent.tar')
@@ -176,11 +189,7 @@ def run(*, prepared=PREPARED, run_dir=RUN, plan=PLAN, selection_fn=None):
                 options={k:PLAN[k] for k in ['batch_size','learning_rate','warmup','save_every','eval_every','precision','group_window','mixed_rows_per_shard','input_pipeline','prefetch_batches','prediction_batch_size']}
                 options.update(resume_from=local/'parent',steps=PLAN['final_step'],accumulation=1,seed=42,cache_dir=CACHE,output_dir=Path('/content/broad-screen-training')/name,drive_root=arm)
                 options.update(changes)
-                command=[sys.executable,'-u','-m','homeworks.hw2.train']
-                for key,value in options.items():
-                    flag='--'+key.replace('_','-')
-                    command.extend([flag] if value is True else [flag,str(value)])
-                command.extend(['--restart-schedule','--predict-at-checkpoint'])
+                command=training_command(options)
                 (arm/'launch.json').write_text(json.dumps(dict(command=command),indent=2))
                 with (arm/'training.log').open('w') as log:
                     subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=PLAN['training_timeout_seconds'])
