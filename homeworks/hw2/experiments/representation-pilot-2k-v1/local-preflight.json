@@ -1,0 +1,21 @@
+{
+  "passed_tests": 32,
+  "tokenizers": {
+    "original8192": {
+      "vocabulary": 8192,
+      "parameters": 42481152,
+      "tokenizer_sha256": "7588fdf95ba8149909f9596b9295dabe0648209b23ce89c714d9874b49052abe"
+    },
+    "code8192": {
+      "vocabulary": 8192,
+      "parameters": 42481152,
+      "tokenizer_sha256": "8469bbd6b0b8e16ba5488b3a90e2257d537d8890ed26281da8107ac82768c76a"
+    },
+    "code16384": {
+      "vocabulary": 16384,
+      "parameters": 46675456,
+      "tokenizer_sha256": "93d8a7f631684f80307a4d74c7bced12673c4506a811c20c1c27cd8cf549ad42"
+    }
+  },
+  "cleanup_audit": "../code-cleanup-cpu-v1/results.json"
+}

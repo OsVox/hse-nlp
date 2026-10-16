@@ -10,6 +10,7 @@ examples, pretrained weights, extra targets, or teacher outputs are used.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import time
@@ -49,13 +50,15 @@ def continuation_scheduler(optimizer, *, learning_rate, start_step, end_step, wa
 
 def new_model(tokenizer: PreTrainedTokenizerFast, *, d_model=256, d_ff=768,
               encoder_layers=4, decoder_layers=4, num_heads=4,
-              dropout=0.1) -> T5ForConditionalGeneration:
+              dropout=0.1, initialization_vocab_size=None) -> T5ForConditionalGeneration:
     if min(d_model, d_ff, encoder_layers, decoder_layers, num_heads) < 1:
         raise ValueError('Model dimensions must be positive')
     if d_model != 64 * num_heads or not 0 <= dropout < 1:
         raise ValueError('Use 64-dimensional attention heads and dropout in [0, 1)')
+    if initialization_vocab_size is not None and initialization_vocab_size < len(tokenizer):
+        raise ValueError('Initialization vocabulary must cover the actual vocabulary')
     config = T5Config(
-        vocab_size=len(tokenizer),
+        vocab_size=initialization_vocab_size or len(tokenizer),
         d_model=d_model,
         d_ff=d_ff,
         num_layers=encoder_layers,
@@ -68,7 +71,29 @@ def new_model(tokenizer: PreTrainedTokenizerFast, *, d_model=256, d_ff=768,
         decoder_start_token_id=tokenizer.pad_token_id,
         use_cache=True,
     )
-    return T5ForConditionalGeneration(config)
+    model = T5ForConditionalGeneration(config)
+    if model.config.vocab_size != len(tokenizer):
+        model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
+    return model
+
+
+def tokenizer_for_run(checkpoint, requested=None):
+    if requested is not None:
+        if (checkpoint/'config.json').exists() or (checkpoint/'training_state.pt').exists():
+            raise ValueError('A tokenizer override requires a fresh model')
+        if not (requested/'tokenizer.json').is_file():
+            raise ValueError('Tokenizer directory must contain tokenizer.json')
+        return requested
+    return checkpoint if (checkpoint/'tokenizer.json').exists() else Path('homeworks/hw2/tokenizer')
+
+
+def nonembedding_hash(model):
+    digest = hashlib.sha256()
+    for name, parameter in model.named_parameters():
+        if name != 'shared.weight':
+            digest.update(name.encode())
+            digest.update(parameter.detach().cpu().contiguous().numpy().tobytes())
+    return digest.hexdigest()
 
 
 def encode_batch(
@@ -180,6 +205,12 @@ def main() -> None:
                         help='Shuffle completed length-grouped batches within each window')
     parser.add_argument('--individual-digits', action='store_true',
                         help='Split digits before BPE; preserve original vocabulary and target text')
+    parser.add_argument('--tokenizer-dir', type=Path, default=None,
+                        help='Own fitted tokenizer; fresh models only')
+    parser.add_argument('--strip-comments', action='store_true',
+                        help='Remove comments and empty lines from original train targets with an identical-AST check')
+    parser.add_argument('--initialization-vocab-size', type=int, default=None,
+                        help='Initialize at a common vocabulary size, then shrink; fresh matched trials only')
     parser.add_argument("--steps", type=int, default=30_000)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--accumulation", type=int, default=4)
@@ -268,7 +299,7 @@ def main() -> None:
     print(f"device={device} precision={dtype} group_window={args.group_window}", flush=True)
     checkpoint = args.output_dir / "latest"
     load_checkpoint = args.resume_from or checkpoint
-    tokenizer_path = load_checkpoint if (load_checkpoint / 'tokenizer.json').exists() else Path('homeworks/hw2/tokenizer')
+    tokenizer_path = tokenizer_for_run(load_checkpoint, args.tokenizer_dir)
     tokenizer = load_training_tokenizer(tokenizer_path, individual_digits=args.individual_digits)
     previous_config_path = load_checkpoint / 'run_config.json'
     previous_config = json.loads(previous_config_path.read_text()) if previous_config_path.exists() else {}
@@ -287,15 +318,22 @@ def main() -> None:
     best_record = best_directory / "validation.json"
     best_loss = json.loads(best_record.read_text())["token_loss"] if best_record.exists() else float("inf")
     if (load_checkpoint / "config.json").exists():
+        if args.initialization_vocab_size is not None:
+            parser.error('Common-vocabulary initialization requires a fresh model')
         if any(getattr(args, name) is not None for name in
                ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']):
             parser.error('Architecture overrides require a fresh model/output directory')
         model = T5ForConditionalGeneration.from_pretrained(load_checkpoint)
     else:
-        model = new_model(tokenizer, **{
+        model = new_model(tokenizer, initialization_vocab_size=args.initialization_vocab_size, **{
             name: getattr(args, name) for name in
             ['d_model', 'd_ff', 'encoder_layers', 'decoder_layers', 'num_heads', 'dropout']
             if getattr(args, name) is not None})
+    initial_nonembedding_sha256 = None
+    if args.initialization_vocab_size is not None:
+        initial_nonembedding_sha256 = nonembedding_hash(model)
+        # Resizing consumes random draws. Restart the dropout stream identically.
+        torch.manual_seed(args.seed)
     if args.continuation_dropout is not None:
         override_dropout(model, args.continuation_dropout)
     model.to(device)
@@ -312,6 +350,7 @@ def main() -> None:
         'heldout_exclusion': 'question text across all shards',
         'parent_checkpoint': parent,
         'schedule_start': schedule_start,
+        'initial_nonembedding_sha256': initial_nonembedding_sha256,
     }, indent=2))
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.01)
@@ -356,6 +395,9 @@ def main() -> None:
         max_shards=args.max_shards, batches_per_shard=args.batches_per_shard,
         mixed_rows_per_shard=args.mixed_rows_per_shard,
     )
+    if args.strip_comments:
+        from .code_cleanup import cleaned_batches
+        batches = cleaned_batches(batches)
     if args.input_pipeline == 'encoded':
         # Fast tokenizers temporarily change padding/truncation settings per call.
         # Keep the producer's instance separate from validation and prediction.
