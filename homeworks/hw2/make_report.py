@@ -499,6 +499,31 @@ def build():
         if (cpu_audit/'conclusion.json').exists():
             conclusion=json.loads((cpu_audit/'conclusion.json').read_text())
             story += [p(conclusion['consistency_decision']),p(conclusion['compute'])]
+    cleanup = ROOT/'experiments/code-cleanup-cpu-v1'
+    if (cleanup/'results.json').exists():
+        r=json.loads((cleanup/'results.json').read_text())
+        story += [PageBreak(),p('Comments and empty lines: CPU preflight','Title'),
+            p('At the user\'s suggestion, test removing non-executing text from existing training targets. The cleaner uses Python tokenization to distinguish comments from hash characters inside strings. Empty lines inside strings and explicit line continuations are preserved. Every accepted change must compile and have the same complete parsed Python structure, excluding source positions. Invalid or structurally changed programs fall back to the original.'),
+            table([['Measurement','Result'],['Sampled training programs',r['rows']],['Programs with comments',r['counters']['rows_with_comments']],['Changed / rejected',f"{r['counters']['changed']} / {r['counters']['rejected']}"],['Mean target tokens: original / cleaned',f"{r['original_mean_tokens']:.2f} / {r['cleaned_mean_tokens']:.2f}"],['Target token change',f"{r['token_change_percent']:.2f}%"],['Targets exceeding 192: original / cleaned',f"{r['original_over_192']} / {r['cleaned_over_192']}"],['Executable pairs / identical numeric results',f"{r['execution_checks']['both_numeric']} / {r['execution_checks']['identical_numeric']}"],['Numeric / status mismatches',f"{r['execution_checks']['numeric_mismatch']} / {r['execution_checks']['status_mismatch']}"],['Unsupported execution pairs',r['execution_checks']['unsupported_pairs']]],[113*mm,57*mm]),
+            p('The fixed sample comes from training shard 0 and excludes every exact copy of held-out question texts. This is a single-shard compression diagnostic, not evidence of improved model accuracy. Docstrings, pass statements, imports, assignments, variable names and calculations remain intact. Source or line-number introspection is outside the equivalence claim.'),
+            p('The training experiment replaces each original target once; it creates no additional examples, alternate solutions or numerical-answer targets. Generated submissions remain exact greedy model output, with no cleanup after generation. Nine focused cleanup tests cover quoted hash characters, multiline strings, docstrings, Unicode, line continuation, invalid syntax, repeatability and preservation of the input example stream.','SmallText')]
+    representation = ROOT/'experiments/representation-pilot-2k-v1'
+    if (representation/'selection.json').exists():
+        r=json.loads((representation/'selection.json').read_text())
+        rows=[['Arm','Pilot /245','Confirm /493','Failures','Public /960']]
+        for name,stages in r['results'].items():
+            receipt=representation/name/'step-002048/bot_receipt.json'
+            public=json.loads(receipt.read_text())['public_correct'] if receipt.exists() else 'pending'
+            rows.append([name,stages['pilot']['numeric_correct'],stages['confirmation']['numeric_correct'],sum(s['prediction_failures'] for s in stages.values()),public])
+        story += [PageBreak(),p('Representation: four short scratch trials','Title'),
+            p('Compare original-tokenizer control, code-focused 8k vocabulary, code-focused 16k vocabulary, and comment/empty-line cleanup with the original tokenizer. Each receives 2,048 updates, batch 128, seed 42, learning rate 0.0003, and the same 262,134 original-example presentations (one batch has 118 rows). All models initialize at vocabulary 16,384; the 8k arms then shrink their tied embeddings. Their initial Transformer body hashes must match exactly. The dropout random stream is reset after shrinking.'),
+            table(rows,[43*mm,30*mm,34*mm,28*mm,35*mm]),
+            p('The 8k models have 42,481,152 parameters; the 16k model has 46,675,456. Source stream and grouping-window budgets match, but changed lengths can change sorting inside a window. Token-level losses across vocabularies or target representations are not directly comparable. Evaluation uses original held-out programs and strict greedy decoding.'),
+            p('Predefined gate: improve both held-out subsets and add no total execution failures versus control. Candidates for a second-seed check: '+(', '.join(r['shortlist']) or 'none')+'. This early screen does not establish eventual performance after full training. Public results are recorded separately and do not enter the selection gate.'),
+            p('Source: 558c3fd580c18d8f7a1ca4a68a8126138fd3e062. Thirty-two checks passed before allocation. All checkpoints and predictions are saved to Drive before local export and bot submission. A hard runtime bound and automatic release are installed. No long run is started automatically.','SmallText')]
+        if (representation/'conclusion.json').exists():
+            conclusion=json.loads((representation/'conclusion.json').read_text())
+            story += [p(conclusion['decision']),p(conclusion['compute'])]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

@@ -45,6 +45,8 @@ def test_scratch_pilot_has_bounded_matched_budget_and_strict_gate():
     assert PLAN['steps']*PLAN['batch_size']==PLAN['example_presentations_per_arm']
     assert PLAN['initialization_vocab_size']==16384
     def arm(a,b,f=1):return {s:{'numeric_correct':v,'prediction_failures':f} for s,v in [('pilot',a),('confirmation',b)]}
-    assert select({'control':arm(10,20),'code8192':arm(11,21),'code16384':arm(10,22)})['shortlist']==['code8192']
+    result = select({'control':arm(10,20),'code8192':arm(11,21),'code16384':arm(10,22)})
+    assert result['shortlist']==['code8192']
+    assert not next(row for row in result['ranking'] if row['arm']=='code16384')['eligible']
     assert not select({'control':arm(10,20),'code8192':arm(11,21,2)})['shortlist']
     compile(LAUNCH,'launcher','exec')

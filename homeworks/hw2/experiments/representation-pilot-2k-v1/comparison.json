@@ -1,0 +1,57 @@
+{
+  "results": [
+    {
+      "arm": "control",
+      "pilot_correct": 17,
+      "confirmation_correct": 28,
+      "correct_total": 45,
+      "execution_failures": 243,
+      "strict_gate_passed": false,
+      "public_correct": 70,
+      "last_logged_training_step": 2000,
+      "last_logged_training_seconds": 167.2
+    },
+    {
+      "arm": "code8192",
+      "pilot_correct": 20,
+      "confirmation_correct": 36,
+      "correct_total": 56,
+      "execution_failures": 190,
+      "strict_gate_passed": true,
+      "public_correct": 86,
+      "last_logged_training_step": 2000,
+      "last_logged_training_seconds": 165.8
+    },
+    {
+      "arm": "code16384",
+      "pilot_correct": 19,
+      "confirmation_correct": 36,
+      "correct_total": 55,
+      "execution_failures": 220,
+      "strict_gate_passed": true,
+      "public_correct": 82,
+      "last_logged_training_step": 2000,
+      "last_logged_training_seconds": 173.1
+    },
+    {
+      "arm": "comments",
+      "pilot_correct": 17,
+      "confirmation_correct": 34,
+      "correct_total": 51,
+      "execution_failures": 217,
+      "strict_gate_passed": false,
+      "public_correct": 65,
+      "last_logged_training_step": 2000,
+      "last_logged_training_seconds": 190.8
+    }
+  ],
+  "gpu": {
+    "samples": 840,
+    "median_utilization": 97.0,
+    "mean_utilization": 73.38214285714285,
+    "peak_memory_mib": 22739.0
+  },
+  "example_presentations": 262134,
+  "source_commit": "558c3fd580c18d8f7a1ca4a68a8126138fd3e062",
+  "raw_selection_note": "The raw ranking.eligible field inherited the broad helper rule allowing a tied subset. The stricter shortlist correctly excludes comments. strict_gate_passed here follows the preregistered shortlist; future runner output now uses that same strict rule for the eligibility label. No selection or training result changed."
+}

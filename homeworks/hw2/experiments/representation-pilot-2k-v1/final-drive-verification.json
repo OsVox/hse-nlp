@@ -1,0 +1,64 @@
+{
+  "files": [
+    {
+      "file": "comparison.json",
+      "id": "1psdEyP6tsu0LAiTEMHLbRkpESCk5JXGd",
+      "sha256": "cc10f60ba23192ae11a9ac7d15bbaeccb551b191fa1a3e063768dd45352ac9f6",
+      "byte_verified": true
+    },
+    {
+      "file": "conclusion.json",
+      "id": "15f0CL_Ha1jCyET2HLNTgMjH1P89hpnqs",
+      "sha256": "90cc8db73e0d9b454e00c78c2b8e4e1da2981ed0526194ad2c691942a0bb8f60",
+      "byte_verified": true
+    },
+    {
+      "file": "release.json",
+      "id": "1IvkUxUHSkwndzOmYskIgD2cogEk68csu",
+      "sha256": "87ad8e3380fb05ebb33e2f7d3247416a6d6b06ea145a60fe730fab94b4fa188d",
+      "byte_verified": true
+    },
+    {
+      "file": "compute-released.png",
+      "id": "1TfhnXvXW9-RGkoV2gmqu2Qwwz9AgNEww",
+      "sha256": "e0e5b23380816fafb5bdbea09b502626b5bd0451019eb098014ab06b8f9a230e",
+      "byte_verified": true
+    },
+    {
+      "file": "run-location.json",
+      "id": "1s8LQvyL0JJG7BTiNsirqqEYsl5wiUH6Q",
+      "sha256": "2775f106402252342c3ee4e2c2fd52980829b3ecb5df2eb74b654413cf4e3943",
+      "byte_verified": true
+    },
+    {
+      "file": "control/bot-proof.png",
+      "id": "1sZccrwfOSbEZ1kYjFLUuS6kMH378FjkK",
+      "sha256": "a436089bd784875f9e9a65419f3dc3b2b61f24bc7a93e57cd9733dec8c85c469",
+      "byte_verified": true
+    },
+    {
+      "file": "code8192/bot-proof.png",
+      "id": "1muBx35MH7tq3WLWy_f6Cibi0L59Ht-QV",
+      "sha256": "d028c4273b27ed5728f5c953d9666a9170c6a950a32e6451a9cfa6ad6a3aa3ba",
+      "byte_verified": true
+    },
+    {
+      "file": "code16384/bot-proof.png",
+      "id": "1gB7zP_Jr47Wk7K8HqAL2JYhlXQ_0bbtE",
+      "sha256": "b836707abe3d2ebf5140d3c041379c8392de30dcecea2624ea815fcdccba42b1",
+      "byte_verified": true
+    },
+    {
+      "file": "comments/bot-proof.png",
+      "id": "1WiqvPkLQYIlM25pABHQMUQB7LWqQbtFL",
+      "sha256": "67006613587d53c9e7bdf9b4cb39b81c6755161608f67b9b8ba57acf3f60f07d",
+      "byte_verified": true
+    },
+    {
+      "file": "report.pdf",
+      "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+      "sha256": "dee06e5eef2c1054d28748ee72d26a86b066436259d1af29632c357932ba932f",
+      "byte_verified": true
+    }
+  ]
+}

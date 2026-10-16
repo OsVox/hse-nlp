@@ -40,7 +40,9 @@ LAUNCH=(BASE_LAUNCH.replace('broad-screen-1k-v1',NAME)
 
 def select(results):
     result=select_candidates(results)
-    result['shortlist']=[r['arm'] for r in result['ranking'] if r['eligible'] and min(r['split_gains'])>0]
+    for row in result['ranking']:
+        row['eligible'] = row['eligible'] and min(row['split_gains']) > 0
+    result['shortlist']=[r['arm'] for r in result['ranking'] if r['eligible']]
     result['training_updates_per_arm']=2048
     result['training_from_scratch']=True
     return result

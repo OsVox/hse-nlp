@@ -1,0 +1,9 @@
+{
+  "updates": 2048,
+  "nominal_max_presentations": 262144,
+  "actual_presentations": 262134,
+  "partial_batches": [
+    118
+  ],
+  "basis": "Same original stream and complete grouping windows in all four arms; one-to-one cleanup retains row count."
+}
