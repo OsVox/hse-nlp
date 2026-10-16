@@ -1,0 +1,26 @@
+{
+  "adamw42": {
+    "parameters": 42481152,
+    "loss": 10.522974967956543,
+    "gradient_norm": 19.117507934570312,
+    "finite_after_update": true,
+    "cached_greedy_equal": true,
+    "seconds": 0.8664157089951914
+  },
+  "muon42": {
+    "parameters": 42481152,
+    "loss": 10.522974967956543,
+    "gradient_norm": 19.117507934570312,
+    "finite_after_update": true,
+    "cached_greedy_equal": true,
+    "seconds": 93.09762004198274
+  },
+  "muon78": {
+    "parameters": 78146112,
+    "loss": 10.986842155456543,
+    "gradient_norm": 26.717924118041992,
+    "finite_after_update": true,
+    "cached_greedy_equal": true,
+    "seconds": 81.59939133399166
+  }
+}

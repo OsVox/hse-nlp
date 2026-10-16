@@ -29,7 +29,7 @@
     },
     {
       "id": "learning_curve_confirmation",
-      "status": "cpu_preparation",
+      "status": "running",
       "next": "Compare AdamW42, Muon42 and Muon78 at600 measured training seconds each, two checkpoints per arm. The longer horizon is a distinct test from the prior2048-step screen. Repeat a winning alternative versus AdamW42 with a second seed, then proceed to the authorized full pass.",
       "evidence": "../matched-curve-v1/plan.json"
     }

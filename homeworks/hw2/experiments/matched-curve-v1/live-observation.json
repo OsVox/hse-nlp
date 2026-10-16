@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-17T00:16:00+03:00",
+  "timestamp_precision": "minute",
+  "worker_pid": 7434,
+  "worker_poll": null,
+  "worker_live": true,
+  "source_commit": "723f5b35652efd5b2c5d305fcec9f9cc2b40ea06",
+  "run_folder_id": "1z_AMGyPSUVEbwC4xQwfOT4wMl8be8JVv",
+  "first_arm": "adamw42",
+  "last_observed_step": 650,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "gpu_utilization_percent": 91,
+  "gpu_memory_mib": 21573,
+  "checkpoint_count": 0,
+  "completed": false,
+  "notebook_launch_cell": "A7ynNdoEj2FL",
+  "notebook_monitor_cell": "ahQvQZmykXeG",
+  "outer_timeout_seconds": 3900,
+  "automatic_runtime_release": true
+}

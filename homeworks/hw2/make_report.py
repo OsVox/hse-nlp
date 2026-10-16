@@ -39,7 +39,7 @@ def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont('Helvetica',8)
     canvas.setFillColor(colors.HexColor('#637487'))
-    canvas.drawString(20*mm,13*mm,'HSE NLP HW2 | Andrei Vorsin | 16 October 2026')
+    canvas.drawString(20*mm,13*mm,'HSE NLP HW2 | Andrei Vorsin | 17 October 2026')
     canvas.drawRightString(190*mm,13*mm,str(doc.page))
     canvas.restoreState()
 
@@ -70,7 +70,7 @@ def build():
     latest_best = json.loads((ROOT/'experiments/current-best.json').read_text())
     latest_rank = latest_best.get('latest_leaderboard_observation', {})
     story = [p('Code generation from scratch','Title'),
-        p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 16 October 2026','SmallText'),
+        p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 17 October 2026','SmallText'),
         p('Current result','Head'),
         p(f"Earlier small-model checkpoints reached {extended[-1]['step']:,} updates; the selected 42.48M checkpoint is at step {latest_best['step']:,}. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best public result is <b>{latest_best['public_percent']:.2f}% ({latest_best['public_correct']}/960)</b>. Latest verified rank is {latest_rank.get('rank', latest_best['reported_rank'])} of {latest_rank.get('participants', latest_best['participants'])} at {escape(latest_rank.get('observed_at', latest_best['timestamp']))}. Its exact scored output is {escape(latest_best['filename'])}. This is the current best result across our training and decoding experiments and uses strict greedy decoding. Later sections distinguish historical settings. T4 timing remains deferred. No private result is available."),
         p('Task and rules','Head'),
@@ -976,6 +976,25 @@ def build():
             p('This is a clean model-training holdout only for future scratch models that use the derived exclusion index. Historical checkpoints may already have trained on these questions and must not be described as independently evaluated on unseen data. The first 1,024 reserved positions form the pilot subset; the remaining 1,024 are the confirmation subset.'),
             p(f"At logical batch 128, accumulation 1 and 4,096-row shard chunks, one exact pass needs {budget['full_pass_optimizer_updates']:,} optimizer updates across {budget['rounds']} rounds, including {budget['partial_batches']} partial batches. This is a calculated budget, not a completed training pass. The later long-run schedule must use the complete-pass budget instead of repeatedly restarting a short cosine cycle."),
             p('Four CPU tests passed for answer-independent deterministic group selection, duplicate exclusion, preserved original program strings and ordered explicit evaluation inputs. Source 9ca08e1. Evidence: experiments/fresh-holdout-v1 and the verified Drive archive; no model accuracy claim is made from the reference audit.','SmallText')]
+    matched = ROOT/'experiments/matched-curve-v1'
+    if (matched/'cpu-preflight.json').exists():
+        preflight=json.loads((matched/'cpu-preflight.json').read_text())
+        fresh=json.loads((ROOT/'experiments/fresh-holdout-v2/preparation.json').read_text())
+        audit=json.loads((ROOT/'experiments/fresh-holdout-v2/reference-audit.json').read_text())
+        rows=[['Candidate','Parameters','Measured training','Retained checkpoints'],
+              ['AdamW reference','42,481,152','600 seconds','300s and 600s'],
+              ['Muon, same size','42,481,152','600 seconds','300s and 600s'],
+              ['Muon, larger size','78,146,112','600 seconds','300s and 600s']]
+        story += [PageBreak(),p('Final matched-time comparison: preparation','Title'),
+            p('The smaller model failed its second-seed confirmation. The remaining finite comparison tests optimizer and larger capacity at a longer early-learning horizon with equal measured training time. This revisits 78M for a different budget question; the earlier 2,048-update result did not establish its later learning curve. This page documents CPU preparation, not measured model accuracy.'),
+            table(rows,[47*mm,34*mm,41*mm,48*mm]),
+            p('Each model starts from random weights and uses the same original 8K tokenizer, 6 encoder / 4 decoder layers, complete original questions and programs, effective batch 128, BF16, and unweighted token loss. The 42M models have identical initial parameter hashes. Keep the previously measured conservative microbatch budgets. Training time includes input waits and complete optimizer updates; checkpoint, test generation and evaluation overhead is reported separately.'),
+            p(f"Replace the unused single-shard holdout before model evaluation: reserve 2,048 question groups, 34 or 35 from each of shards 1 through 59, then mix their order by a fixed question-text hash. Exclude all tokenizer-shard question texts and every reserved question copy from training. This removes {fresh['additional_excluded_rows']:,} rows from the original eligible index, leaving {fresh['new_eligible_rows']:,}. Tokenizer overlap inside program text remains unaudited; historical models are not clean controls on this split."),
+            p(f"The unchanged restricted runner accepts {audit['subsets']['pilot']['usable_references']}/1,024 pilot references and {audit['subsets']['confirmation']['usable_references']}/1,024 confirmation references. No selection or target rewriting uses those results. A model candidate must improve both subsets without added total execution failures. Repeat a winning alternative against AdamW42 with another seed before the authorized full pass; public scores are reporting only."),
+            p('The trainer now stops at a completed update and saves its actual step and measured training time. Checkpoints retain model, optimizer, scheduler, consumed-row cursor and random-number states. A CPU integration test verifies that interrupted/resumed training produces exactly the same weights as uninterrupted training. The learning-rate schedule spans the calculated 92,456-update full pass with 500 warmup updates, so the short comparison does not force a premature cosine decay.'),
+            p('Greedy evaluation and test export now support complete questions. The new comparison sets a 1,280-token generation limit, above the audited 1,208-token longest original target, and records limit hits. A focused test checks input retention, original output order and correct limit counting when shorter finished outputs are padded. No handwritten corrections or beam search are introduced.'),
+            p('Thirty-nine focused CPU tests passed; six final timing/selection tests also passed after adding per-checkpoint timing. Actual 42M AdamW, 42M Muon and 78M Muon models had finite updates and identical greedy outputs with and without decoding cache. CPU Muon update timings are not GPU speed estimates. The data bundle was saved to Drive, downloaded and byte-verified.'),
+            p('Source 723f5b3. Evidence: experiments/matched-curve-v1 and experiments/fresh-holdout-v2. The current public best remains 583/960; no score improvement or completed full pass is claimed from preparation.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

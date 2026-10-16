@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-16T23:51:00+03:00",
+  "updated_at": "2026-10-17T00:16:00+03:00",
   "scaling_ready": false,
   "long_run_started": false,
   "all_optimizations_exhausted": false,
@@ -117,12 +117,14 @@
   },
   "matched_compute_comparison": {
     "evidence": "matched-curve-v1",
-    "status": "cpu_preparation",
+    "status": "running",
     "training_seconds_per_arm": 600,
     "arms": [
       "adamw42",
       "muon42",
       "muon78"
-    ]
+    ],
+    "worker_pid": 7434,
+    "run_folder_id": "1z_AMGyPSUVEbwC4xQwfOT4wMl8be8JVv"
   }
 }
