@@ -79,6 +79,17 @@ repeats. Neither completed a full pass. The driver took 512.01 seconds, excludin
 allocation, authorization and installation; median GPU utilization was 94%.
 All checkpoint exports and bot receipts were verified; compute was released.
 
+The remaining targeted screens are tracked in `experiments/scaling-release-v1`.
+Adjacent means of two or three complete-sequence checkpoints improved the pilot
+subset but failed confirmation; keep the original trained checkpoint. Increasing
+complete-sequence chunk budgets to 2x/3x took 7.67%/8.69% more time in both-order
+GPU probes, despite using more memory. Retain 1x budgets and effective batch 128.
+The CPU results and the 26.70-second GPU measurement are saved to Drive; probe
+weights were discarded and zero active Colab sessions verified. Next are size
+replication and matched-compute confirmation, followed by the user-authorized
+longer run with a verified complete pass. These tests do not establish an optimal
+model size or exhaust all possible optimization methods.
+
 ## Files
 
 - `data.py` downloads original Parquet shards, reserves 1,024 training rows for

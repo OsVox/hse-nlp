@@ -1,0 +1,87 @@
+{
+  "source_commit": "a4c7e96ffe21be059c48afe8275186ffc34503ee",
+  "cpu_verified": true,
+  "files": {
+    "source.tar": "d6851d10784d2376a6cce71773d40dfcad80b8193699428ffb1ca9b364f2f19b",
+    "pool.json": "e34e56375e18c763206629e71d6d7cf70eaf0eca3b4e590a3c6d34266f9b1d36",
+    "gate.json": "a9e6791dba4e17fe847f8ced4773eafd058cd7ca8e10f4ce44672764980d4dbe",
+    "launch.py": "bc7a8ec4954321a90a04c9a51915e7141c47d3dc5cf79a92e4e61052ecccfb37"
+  },
+  "plan": {
+    "hypothesis": "Larger complete-sequence microbatches may improve throughput at unchanged effective batch and original rows.",
+    "factors": [
+      1,
+      2,
+      3
+    ],
+    "orders": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        3,
+        2,
+        1
+      ]
+    ],
+    "regular_examples": 4096,
+    "extreme_examples": 130,
+    "effective_batch": 128,
+    "optimizer": "AdamW",
+    "learning_rate": 3e-05,
+    "parameters": 42481152,
+    "numeric_weight": 2,
+    "precision": "bf16",
+    "worker_timeout_seconds": 360,
+    "minimum_memory_gib": 80,
+    "weights_discarded": true,
+    "quality_claim": false,
+    "gate": "Require finite regular and extreme runs with complete tensors. Adopt larger budget only if both reversed-order repeats are faster than factor1 and peak memory leaves at least 15% device headroom; otherwise retain factor1.",
+    "source": "Previously hash-verified original-data regular and extreme pool; no new examples or targets."
+  },
+  "cpu_preflight": {
+    "cpu_verified": true,
+    "source_pool_sha256": "e34e56375e18c763206629e71d6d7cf70eaf0eca3b4e590a3c6d34266f9b1d36",
+    "counts": {
+      "regular": {
+        "1": {
+          "examples": 4096,
+          "microbatches": 44,
+          "exact_nonpadding_tokens_preserved": true
+        },
+        "2": {
+          "examples": 4096,
+          "microbatches": 34,
+          "exact_nonpadding_tokens_preserved": true
+        },
+        "3": {
+          "examples": 4096,
+          "microbatches": 32,
+          "exact_nonpadding_tokens_preserved": true
+        }
+      },
+      "extreme": {
+        "1": {
+          "examples": 130,
+          "microbatches": 15,
+          "exact_nonpadding_tokens_preserved": true
+        },
+        "2": {
+          "examples": 130,
+          "microbatches": 9,
+          "exact_nonpadding_tokens_preserved": true
+        },
+        "3": {
+          "examples": 130,
+          "microbatches": 7,
+          "exact_nonpadding_tokens_preserved": true
+        }
+      }
+    },
+    "tests_passed": 6,
+    "test_seconds": 3.52,
+    "development_correction": "The initial preflight incorrectly concatenated variable-width padded chunks. The corrected check compares each original non-padding question and program token in order; microbatch trimming removes padding only."
+  }
+}

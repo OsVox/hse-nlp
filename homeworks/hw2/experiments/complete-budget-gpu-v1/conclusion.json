@@ -1,0 +1,20 @@
+{
+  "decision": "Retain the 1x budget. Mean throughput is 1,303.1 examples/s versus 1,210.2 at 2x and 1,198.8 at 3x. Larger budgets take 7.67% and 8.69% more time for the same examples, with greater memory use. Both reversed-order repeats reject a speed improvement. All regular and 130-example extreme tests completed with finite updates; fewer GPU chunks did not improve throughput.",
+  "compute": "The measured driver took 26.70 seconds; worker lifetime was 36.23 seconds. Across 133 GPU samples, median utilization was 98.0% and mean 84.41%; peak sampled memory was 37,669 MiB. Allocation, Drive authorization and installation are additional. Worker exit 0 and zero active Colab sessions were verified.",
+  "selected_budget_factor": 1,
+  "examples_per_second": {
+    "1": 1303.0887152058608,
+    "2": 1210.1934513906594,
+    "3": 1198.838132946634
+  },
+  "time_cost_percent": {
+    "2": 7.673100208997763,
+    "3": 8.692562404383164
+  },
+  "source_commit": "a4c7e96",
+  "weights_discarded": true,
+  "quality_claim": false,
+  "worker_seconds": 36.22515630722046,
+  "measured_driver_seconds": 26.696439751999833,
+  "next": "Proceed to model-size replication; do not increase chunk budgets merely to fill GPU memory."
+}

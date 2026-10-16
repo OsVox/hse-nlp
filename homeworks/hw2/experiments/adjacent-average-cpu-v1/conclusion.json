@@ -1,0 +1,29 @@
+{
+  "decision": "Neither adjacent average passes confirmation. Retain the trained public-best checkpoint at step 75776; do not use either average for inference or attach optimizer state to it.",
+  "results": {
+    "baseline": {
+      "pilot": 136,
+      "confirmation": 295,
+      "failures": 42
+    },
+    "avg74_75": {
+      "pilot": 139,
+      "confirmation": 293,
+      "failures": 43
+    },
+    "avg74_75_76": {
+      "pilot": 140,
+      "confirmation": 289,
+      "failures": 42
+    }
+  },
+  "gpu_training_seconds": 0,
+  "training_updates": 0,
+  "new_public_submission": false,
+  "all_parent_hashes_verified": true,
+  "averaged_models_saved_to_drive": true,
+  "model_archive_restored_before_evaluation": true,
+  "public_best_unchanged": 583,
+  "limitation": "Reused held-out subsets remain exploratory. Averaging nearby checkpoints is rejected for these two fixed combinations, not universally.",
+  "source_commit": "d811ba5"
+}

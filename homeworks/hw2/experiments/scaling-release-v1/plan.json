@@ -11,14 +11,15 @@
   "remaining_tests": [
     {
       "id": "checkpoint_stability",
-      "status": "paired_CPU_audit_complete",
-      "evidence": "checkpoint-stability.json",
-      "next": "One bounded adjacent-checkpoint averaging screen using the complete-sequence curve; select on held-out questions, never combine answers. Preserve all parent models. Do not transfer optimizer moments to averaged weights without a separate training test."
+      "status": "completed_rejected",
+      "evidence": "../adjacent-average-cpu-v1/conclusion.json",
+      "next": "No additional averaging sweep; preserve original checkpoint and proceed to remaining tests."
     },
     {
       "id": "batch_efficiency",
-      "status": "pending",
-      "next": "Short measured memory-budget comparison at fixed effective batch and identical original examples. Verify complete tokens, finite gradients and consumed-row accounting. Choose throughput per GPU-second, not memory occupancy."
+      "status": "completed_retain_1x",
+      "next": "Short measured memory-budget comparison at fixed effective batch and identical original examples. Verify complete tokens, finite gradients and consumed-row accounting. Choose throughput per GPU-second, not memory occupancy.",
+      "evidence": "../complete-budget-gpu-v1/conclusion.json"
     },
     {
       "id": "size_confirmation",

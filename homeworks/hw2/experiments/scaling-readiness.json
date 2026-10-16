@@ -41,9 +41,9 @@
     "all_fused_attention_implementations_ruled_out": false
   },
   "remaining_priorities": [
-    "Finish the finite tests in scaling-release-v1/plan.json.",
-    "Then scale training of the confirmed winner through a verified complete data pass.",
-    "Evaluate subsequent passes from held-out learning curves; preserve Drive-first checkpoints and bot receipts."
+    "Replicate the shortlisted size against the 42.48M control.",
+    "Run the bounded matched-compute learning-curve confirmation on fresh reserved question groups.",
+    "Then scale the confirmed recipe through a verified complete data pass."
   ],
   "constraints": [
     "Only original allowed data and own scratch encoder-decoder Transformer; no extra teacher targets.",
@@ -91,5 +91,15 @@
     "automatic_extension": false
   },
   "long_training_authorized_after_tests": true,
-  "execution_plan": "scaling-release-v1/plan.json"
+  "execution_plan": "scaling-release-v1/plan.json",
+  "batch_budget_probe": {
+    "evidence": "complete-budget-gpu-v1",
+    "selected_factor": 1,
+    "larger_budgets_slower_in_both_repeats": true
+  },
+  "adjacent_averaging": {
+    "evidence": "adjacent-average-cpu-v1",
+    "selected": null,
+    "both_failed_confirmation": true
+  }
 }

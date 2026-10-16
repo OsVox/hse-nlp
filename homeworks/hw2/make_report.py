@@ -915,6 +915,33 @@ def build():
             p('Twenty-six CPU tests passed, covering complete token retention, loss normalization across chunks, exact resume, checkpoint scheduling and rejection of inconsistent coverage receipts. Before GPU allocation, parent weights and AdamW moments were verified; the actual parent produced finite forward/backward values on original examples reaching 741 question and 1,208 program tokens. All 60 data/index shards were verified.'),
             p('Every retained checkpoint and its 1,919 model-generated programs were saved to Drive, exported with model/output hashes verified, and evaluated by the course bot. No handwritten fixes, beam search or target augmentation were used. This run does not complete a full data pass and does not establish final T4 inference timing.'),
             p('Source d3c8136a68830bca45f26ab4fcad31450d344f81. Evidence: experiments/complete-curve-4k-v1, per-checkpoint coverage and bot receipts, training logs, GPU telemetry, and execution/runtime-release records.','SmallText')]
+    adjacent = ROOT/'experiments/adjacent-average-cpu-v1'
+    if (adjacent/'conclusion.json').exists():
+        conclusion=json.loads((adjacent/'conclusion.json').read_text())
+        rows=[['Model','Pilot /245','Confirm /493','Failures']]
+        for name,score in conclusion['results'].items():
+            rows.append([name,score['pilot'],score['confirmation'],score['failures']])
+        story += [PageBreak(),p('Adjacent checkpoint averaging: rejected','Title'),
+            p('A CPU-only paired audit of the complete-sequence curve found that step 75,776 gained 16 held-out answers and lost 17 relative to step 74,752. This motivated two fixed arithmetic means: steps 74,752/75,776 and steps 74,752/75,776/76,800. The baseline was step 74,752, selected for its highest aggregate saved held-out accuracy rather than public score.'),
+            p('All three original model hashes were checked against their Drive checkpoint manifests. Both averaged models were saved to Drive, downloaded and byte-verified, then evaluated on CPU with FP32 and strict greedy decoding. No training updates, new targets or manual output changes were used. Arithmetic averaging does not merge data-coverage receipts, and these inference-only weights have no valid inherited optimizer state.'),
+            table(rows,[65*mm,35*mm,35*mm,35*mm]),
+            p('Both candidates improved the pilot subset but declined on the separate confirmation subset. The two-model mean also adds an execution failure. Neither passes the predeclared requirement of improvement on both subsets with no added total failures. No candidate is exported to the public test or adopted for training.'),
+            p('The existing public best remains 583/960 (60.73%) from the trained step 75,776 checkpoint. The held-out subsets have been reused, so results are exploratory; this rejects these fixed averages, not all possible averaging methods.'),
+            p('Three averaging tests passed, including exact means, immutable parents and incompatible-tokenizer rejection. Source d811ba5. Evidence: experiments/adjacent-average-cpu-v1, paired audit in experiments/scaling-release-v1/checkpoint-stability.json, and Drive archive verification receipts.','SmallText')]
+    budgets = ROOT/'experiments/complete-budget-gpu-v1'
+    if (budgets/'conclusion.json').exists():
+        conclusion=json.loads((budgets/'conclusion.json').read_text())
+        observed=json.loads((budgets/'results.json').read_text())
+        rows=[['Repeat / budget','Examples/s','Allocated GiB','Chunks']]
+        for run in observed['runs']:
+            rows.append([f"{run['repeat']+1} / {run['budget_factor']}x",f"{run['examples_per_second']:,.1f}",f"{run['peak_allocated_bytes']/1024**3:.2f}",run['microbatches']])
+        story += [PageBreak(),p('Complete-sequence batch budget comparison','Title'),
+            p('Compare 1x, 2x and 3x memory-budget proxies at the same effective batch of 128 and the same original examples. The 42.48M random model uses AdamW at 0.00003, BF16, gradient clipping and numeric-token weight 2. Each run has three warmup and 32 measured updates; two reversed orders reduce order effects. Weights are discarded.'),
+            table(rows,[45*mm,43*mm,45*mm,37*mm]),
+            p(conclusion['decision']),p(conclusion['compute']),
+            p('Each budget also processes 130 original length extremes. CPU checks preserve every non-padding question and program token in order, and GPU updates check finite gradients and loss. The effective batch, consumed examples and loss normalization stay fixed. Splitting can change dropout draws and floating-point rounding; speed measurements are not accuracy proof.'),
+            p('The predeclared adoption rule requires a speed gain in both reversed-order repeats and at least 15% device-memory headroom. Timings cover pretokenized batches, transfers, forward/backward, clipping and optimizer updates. Tokenization, allocation, sign-in and installation are additional; this is not a full-corpus training-time estimate.'),
+            p('Source a4c7e96. Evidence: experiments/complete-budget-gpu-v1, CPU preflight, runtime completion, Drive exports and telemetry. No new competition checkpoint or full-pass claim results from this probe.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
