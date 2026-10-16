@@ -616,6 +616,12 @@ def main() -> None:
             save_checkpoint(model, optimizer, scheduler, scaler, step, tokenizer, checkpoint,
                             coverage=coverage, decoder_generator=decoder_generator)
             saved_steps.append(step)
+            (checkpoint / 'training-budget.json').write_text(json.dumps(dict(
+                optimizer_step=step, training_seconds=training_clock.elapsed,
+                completed_updates=step-start_step, examples_processed=examples_processed,
+                max_training_seconds=args.max_training_seconds,
+                planned_final_step=args.steps, time_limit_reached=time_exhausted,
+                timing_scope='Completed updates including input waits; checkpoint/evaluation work excluded'),indent=2)+'\n')
             (checkpoint / 'run_config.json').write_text((args.output_dir / 'run_config.json').read_text())
             if coverage is not None:
                 print('coverage='+json.dumps(coverage.checkpoint()['report']), flush=True)

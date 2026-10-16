@@ -125,9 +125,11 @@ def run():
                 for step in budget['checkpoint_steps']:
                     checkpoint=arm/f'step-{step:06d}'
                     coverage=verify_checkpoint(checkpoint,step,prep['new_eligible_rows'])
+                    timing=json.loads((checkpoint/'training-budget.json').read_text())
+                    assert timing['optimizer_step']==step
                     initial[arm_name]=json.loads((checkpoint/'run_config.json').read_text())['initial_model_sha256']
                     key=f'{arm_name}:{step}';scores[key]={}
-                    curves[arm_name].append(dict(step=step,coverage=coverage,key=key))
+                    curves[arm_name].append(dict(step=step,coverage=coverage,timing=timing,key=key))
                     for stage,offset in [('pilot',0),('confirmation',1024)]:
                         output=checkpoint/(stage+'.json')
                         command=[sys.executable,'-m','homeworks.hw2.numeric_eval','--model-dir',str(checkpoint),

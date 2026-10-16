@@ -4,5 +4,7 @@
   "focused_suite_seconds": 6.85,
   "strengthened_resume_tests_passed": 4,
   "strengthened_resume_seconds": 3.17,
-  "exact_cpu_resumed_weights_equal": true
+  "exact_cpu_resumed_weights_equal": true,
+  "final_timing_and_selection_tests_passed": 6,
+  "final_timing_and_selection_seconds": 3.37
 }

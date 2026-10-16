@@ -72,6 +72,9 @@ def test_timed_training_saves_actual_step_and_resumes_full_schedule(tmp_path, mo
     assert first['final_step']==first['updates']==1
     assert first['planned_final_step']==999 and first['checkpoint_steps']==[1]
     assert first['stop_reason']=='training_time_budget'
+    timing=json.loads((out/'latest/training-budget.json').read_text())
+    assert timing['optimizer_step']==1 and timing['time_limit_reached']
+    assert timing['training_seconds']==first['training_seconds']
     state=torch.load(out/'latest/training_state.pt',weights_only=False)
     assert state['step']==1 and 'rng' in state
     assert state['optimizer']['param_groups'][0]['lr']>.00029
