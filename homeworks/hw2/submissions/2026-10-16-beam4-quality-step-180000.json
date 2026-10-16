@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-10-16T08:23:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "beam4-quality-step-180000.jsonl",
+  "jsonl_sha256": "0b81f30dc998d4bcb9804ce64dd1b98891bb27f592c134f40c24c3dac2de0f75",
+  "source_commit": "d1aec6e4b490118d4877959bb59189f2bbfd33f3",
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "run": "beam4-quality-180k-v1/step-180000",
+  "num_beams": 4,
+  "batch_size": 64,
+  "status": "scored",
+  "public_correct": 544,
+  "public_total": 960,
+  "public_percent": 56.67,
+  "reported_rank": 8,
+  "participants": 15,
+  "telegram_message_ids": {
+    "file": 788666,
+    "accepted": 788667,
+    "score": 788668,
+    "rank": 788669
+  },
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "export_verified": true
+}
