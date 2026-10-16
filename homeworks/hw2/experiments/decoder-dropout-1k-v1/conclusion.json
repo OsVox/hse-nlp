@@ -1,0 +1,9 @@
+{
+  "decision": "Reject both dropout rates for extension. Control scores 575/960 (59.90%), 10% dropout 546/960 (56.87%) and 20% dropout 542/960 (56.46%). Held-out agreement drops by 13 and 16 of 738 usable references, while execution failures rise by 18 and 21. Neither arm passes the predefined gate. Keep the existing best checkpoint and inference notebook at 59.90%, rank 9/16 as reported at 15:44 (+03:00). This short continuation result does not establish whether training with dropout from scratch would help.",
+  "compute": "The three-arm driver took 393.35 seconds (6.56 minutes), excluding allocation, Drive authentication and package setup. Median GPU utilization was 97%, mean 65.60%, peak memory 23,885 MiB. All checkpoints and exact greedy predictions were saved to Drive before local verification. The control exactly matches a previously scored JSONL, so its 575/960 receipt was reused without a duplicate submission. Colab Manage Sessions visibly showed no active sessions after automatic release. T4 timing remains deferred and unverified.",
+  "source_commit": "a4a79fb19b7a45ba1bcec3517309d11cfe1d8b02",
+  "long_run_started": false,
+  "public_rank": 9,
+  "participants": 16,
+  "baseline_retained": true
+}

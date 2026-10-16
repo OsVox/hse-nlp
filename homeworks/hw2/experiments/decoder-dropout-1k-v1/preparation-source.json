@@ -1,0 +1,23 @@
+{
+  "folder": "1BqHF1-FJH9j8vhNoSMMu2W-3a1V8xCXO",
+  "files": [
+    {
+      "id": "1cFhjKLPDnfpCioMFHVyRP6IT_Apt-7nB",
+      "name": "ready.json",
+      "sha256": "5590ad52efeae35ebe61a0d3df3e0cbcd8838eb0172a1f47f67d269aa5c18b77",
+      "byte_verified": true
+    },
+    {
+      "id": "1_DXb21zgNydsPmAWJ7mHDww6u_sqFHJy",
+      "name": "launch.py",
+      "sha256": "0db136071ad8c2c77eac8e6347eb31cddf119129aa5aaa2e80fb714058394739",
+      "byte_verified": true
+    },
+    {
+      "id": "1ztRVpg-TuqXT66adh3R_J0s_CafoOzKU",
+      "name": "source.tar",
+      "sha256": "b6b093fcefd5f10fc1174ca7db732623ba0518e7b3c9b84df835fa3f0323c096",
+      "byte_verified": true
+    }
+  ]
+}
