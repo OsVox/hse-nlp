@@ -1,0 +1,23 @@
+{
+  "rows": 256,
+  "usable_references": 247,
+  "numeric_correct": 152,
+  "numeric_agreement_on_usable": 0.6153846153846154,
+  "prediction_failures": 15,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/benchmarks/checkpoint-average-70k-v1/models/avg60_70/step-070000",
+  "offset": 512,
+  "beams": 1,
+  "device": "cpu",
+  "precision": "torch.float32",
+  "cpu_threads": 2,
+  "generation_seconds": 53.11763604099997,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "9f095152b3ba47745e060d1b462d191728029281abc10d52e2bc786e6a549c04",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "f5a699217f2c816f7189c99bab4321e98baa18445e98d5f8b23a35cd218fd97c",
+  "predictions_sha256": "83a1b977f1de4e191f84f2ba9eac17d6fd33606f3a1292d61134295b98fda19d",
+  "handwritten_repairs": 0
+}

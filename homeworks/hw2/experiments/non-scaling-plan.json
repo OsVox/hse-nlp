@@ -1,0 +1,50 @@
+{
+  "priority": "Improve executed-answer accuracy with fixed model size and strict greedy decoding",
+  "current_action": "Matched 2k numeric/operator loss-weight experiment prepared and CPU-verified; GPU launch requested",
+  "gpu_state": "G4 selected only after CPU checks and Drive export verification",
+  "next_candidates": [
+    {
+      "name": "Question-balanced sampling",
+      "hypothesis": "Repeated question texts may overweight some problems. Sample question groups more evenly while preserving their original programs.",
+      "first_check": "Measure duplicate frequency and target variation on original training shards; exclude all held-out question texts.",
+      "status": "Proposed; not implemented or tested"
+    },
+    {
+      "name": "Semantic-token loss weights",
+      "hypothesis": "Uniform next-token loss may overemphasize boilerplate. Give modest extra weight to original numeric literals and arithmetic operators.",
+      "first_check": "Audit tokenizer spans and compare with unchanged-loss control. Do not rewrite target programs.",
+      "status": "Implemented in token_weighting.py and loss_pilot.py; five focused tests passed; awaiting matched-pilot results"
+    },
+    {
+      "name": "Training-target quality",
+      "hypothesis": "Truncated or malformed original targets can teach incomplete programs.",
+      "first_check": "Audit syntax and target-length rates; do not equate unsupported sandbox execution with incorrect data.",
+      "status": "Proposed; not implemented or tested"
+    }
+  ],
+  "future_training_comparison": {
+    "parent": "same verified own checkpoint",
+    "updates_per_arm": 2000,
+    "batch_size": 128,
+    "matched": "same optimizer state, learning-rate schedule, example budget, validation rows and decoding; change one factor per arm",
+    "decision": "Require held-out executed-answer gain beyond matched baseline and confirm on separate questions before a longer run",
+    "status": "CPU preflight passed; GPU launch requested"
+  },
+  "low_priority": {
+    "longer_input": "Only 0.1498% of questions truncated in existing 15,358-row sample",
+    "longer_targets": "1.9404% target truncation in that sample; audit before spending GPU time"
+  },
+  "constraints": [
+    "No pretrained weights or teacher",
+    "Original course data and original targets only",
+    "No public-test answer tuning",
+    "No handwritten output repairs",
+    "Drive-first checkpoints and results",
+    "Export and verify exact outputs before one bot submission per unique hash"
+  ],
+  "observations": {
+    "checkpoint_averaging": "Rejected by predefined confirmation gate",
+    "baseline_70k_public": "554/960, 57.71%, greedy, rank 8/15",
+    "syntax_audit": "0 invalid syntax among 10473 original programs from shard 0; not a correctness guarantee"
+  }
+}

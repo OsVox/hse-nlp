@@ -1,0 +1,92 @@
+[
+  {
+    "file": "confirmation/avg60_70.json",
+    "id": "1xAIHOTjuakB_rKyFlzFXezDnWONsNiMS",
+    "sha256": "687ea5677053c0593b042a8ca26a1dcaddb15889d9fb637e2b74ce387a8e9f94"
+  },
+  {
+    "file": "confirmation/avg60_70.predictions.jsonl",
+    "id": "15Qb-GLTJBb_vHyppgE9qSmfsT6RwyO4R",
+    "sha256": "67307bba962035a9c3d7fb71ec389be65986e9da6ba65563d9ab5de404f165c6"
+  },
+  {
+    "file": "confirmation/avg60_70.log",
+    "id": "1s6LxWrSHpeWjRzJV_vdax-Q926EL2exU",
+    "sha256": "167d34fdc0ca0adc59e04887e34605ab017295b6cfd88a008f476f73c50817eb"
+  },
+  {
+    "file": "confirmation/baseline.json",
+    "id": "1ZHle0VWRsf1QfAFJ6BszmhdcC15I4lwW",
+    "sha256": "c9ac5634c7853a774a352a3677643150091fad35a7b3335a7de1c678d4414804"
+  },
+  {
+    "file": "confirmation/baseline.predictions.jsonl",
+    "id": "1e75LyQcGOXJKq-mAiW8IpT_Sdpzwv5Qg",
+    "sha256": "d7165c60a59fca016d7c79cfcddb89841b8cb6872ffaeab8d7598b0b8493c54c"
+  },
+  {
+    "file": "confirmation/baseline.log",
+    "id": "1CQd1Q2E2JGevcNJq2KsA-lC8fTdaxjsv",
+    "sha256": "4bef915851c68c94763e607b989daa669d90be3cae5aa2a34e2529340977a4ea"
+  },
+  {
+    "file": "pilot/avg50_60_70.json",
+    "id": "1SWAFIwVq5wnQFfaT8xX7nduw1N7oFPCT",
+    "sha256": "142f1f95c64e577b393915c2d4e546dd77292e365f5fe3ea7a621a9771278199"
+  },
+  {
+    "file": "pilot/avg50_60_70.predictions.jsonl",
+    "id": "14pO716Wcbj_nKP5st8lfj7wMMVcMl_SW",
+    "sha256": "adfe3d262f25f7ac8d51435fa06abef63bc44ef260220fd50d5d050f98940594"
+  },
+  {
+    "file": "pilot/avg50_60_70.log",
+    "id": "1p6NMmLOgzS5j9bLp0yISCiVUrmuUttz1",
+    "sha256": "773f6dffe23f192f4328238da14fbb840c05fa80b9683d38616839f8a0914534"
+  },
+  {
+    "file": "pilot/avg60_70.json",
+    "id": "1d1__sEw5SqgKWQqvE1mnT_VcTRdUI41B",
+    "sha256": "1c66a35c68b12735d0cf15de6bcd540d270df8b40e1c6fe423ab291f4dfb0302"
+  },
+  {
+    "file": "pilot/avg60_70.predictions.jsonl",
+    "id": "1Rhh-y-xV3PLl-dAMHNeLSxvQ0wlZHP4v",
+    "sha256": "83a1b977f1de4e191f84f2ba9eac17d6fd33606f3a1292d61134295b98fda19d"
+  },
+  {
+    "file": "pilot/baseline.log",
+    "id": "1pd1Q6kwze_ho2ScUPvGnooLEA9nXfc4q",
+    "sha256": "fd316930435743c08750304a88d4d7ed065920b57d6b19e3022b9e23926d02a8"
+  },
+  {
+    "file": "pilot/avg60_70.log",
+    "id": "1rO7eGdv4z_QtX4yrtW7jAemDHTLsTR6-",
+    "sha256": "b8ec517bbd6b3bce881de20115d4a9cf8f3aec5463ee93e23573224d64daf1b4"
+  },
+  {
+    "file": "pilot/baseline.json",
+    "id": "1AatVueJYHcJto-00YrIgEt_pM4auc6LK",
+    "sha256": "0f94400fc43a0afb1bc25c61d1634aad47bd1ca330c1cec5f6f32df436088b3c"
+  },
+  {
+    "file": "pilot/baseline.predictions.jsonl",
+    "id": "1PqqQg-Cxlp9MZceiHn0K6EdzUZx31mq0",
+    "sha256": "6791c6064782aec65e4ca98a8db67eeae205d80f600813d26c64277035f03ef4"
+  },
+  {
+    "file": "original-data-audit.json",
+    "id": "1x4dUyMr53_SLfHVkZvSivsAPEW37Gfv5",
+    "sha256": "64371b5ec3f773b1d74fd13c189a7751b61f17c934bb8beed3a0b5e3daa6ee88"
+  },
+  {
+    "file": "selection.json",
+    "id": "1eiyRaeSsIkfSmcVAdMC_u-l86ozVUWpZ",
+    "sha256": "f6bd2cb3a6b8b61319799811fdc33661b5f5346f969b7d08da7fe554727105be"
+  },
+  {
+    "file": "plan.json",
+    "id": "1kN-3Vdr9Gfkuebs5vXgcKrsXpIl3EM7m",
+    "sha256": "00f02b8e22a81af1df2aea077062d02b3e431a2d17b1d9bff9d6027497f594bb"
+  }
+]

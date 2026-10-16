@@ -1,0 +1,24 @@
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+{
+  "rows": 256,
+  "usable_references": 246,
+  "numeric_correct": 136,
+  "numeric_agreement_on_usable": 0.5528455284552846,
+  "prediction_failures": 13,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/benchmarks/checkpoint-average-70k-v1/models/avg60_70/step-070000",
+  "offset": 768,
+  "beams": 1,
+  "device": "cpu",
+  "precision": "torch.float32",
+  "cpu_threads": 2,
+  "generation_seconds": 44.276493157999994,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "9f095152b3ba47745e060d1b462d191728029281abc10d52e2bc786e6a549c04",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "c65d773667558d110ce790c0dd21d38dd29df0fa6109dc3fd88ffc4bd7723dd7",
+  "predictions_sha256": "67307bba962035a9c3d7fb71ec389be65986e9da6ba65563d9ab5de404f165c6",
+  "handwritten_repairs": 0
+}

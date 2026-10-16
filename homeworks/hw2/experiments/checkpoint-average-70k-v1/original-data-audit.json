@@ -1,0 +1,8 @@
+{
+  "source": "original train shard 0 excluding first 1024 rows",
+  "rows": 198976,
+  "unique_questions": 196530,
+  "max_question_repetitions": 24,
+  "syntax_sample_rows": 10473,
+  "syntax_failures": 0
+}

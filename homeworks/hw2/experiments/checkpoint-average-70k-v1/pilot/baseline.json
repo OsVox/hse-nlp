@@ -1,0 +1,23 @@
+{
+  "rows": 256,
+  "usable_references": 247,
+  "numeric_correct": 142,
+  "numeric_agreement_on_usable": 0.5748987854251012,
+  "prediction_failures": 17,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/full-42m-100k-v1/step-070000",
+  "offset": 512,
+  "beams": 1,
+  "device": "cpu",
+  "precision": "torch.float32",
+  "cpu_threads": 2,
+  "generation_seconds": 51.77658783400011,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "724b4c72914828f6f3facf72c1e7185953cd257df0cb29597f4b3bca5f24c0ac",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "f5a699217f2c816f7189c99bab4321e98baa18445e98d5f8b23a35cd218fd97c",
+  "predictions_sha256": "6791c6064782aec65e4ca98a8db67eeae205d80f600813d26c64277035f03ef4",
+  "handwritten_repairs": 0
+}

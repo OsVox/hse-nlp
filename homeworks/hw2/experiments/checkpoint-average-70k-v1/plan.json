@@ -1,0 +1,29 @@
+{
+  "baseline": "step-070000",
+  "candidates": {
+    "avg60_70": [
+      60000,
+      70000
+    ],
+    "avg50_60_70": [
+      50000,
+      60000,
+      70000
+    ]
+  },
+  "pilot_rows": [
+    512,
+    768
+  ],
+  "confirmation_rows": [
+    768,
+    1024
+  ],
+  "num_beams": 1,
+  "do_sample": false,
+  "gate": "Strictly more numeric agreements than baseline and no more execution failures in both stages",
+  "training_updates_added": 0,
+  "outside_data": false,
+  "source": "https://arxiv.org/html/1706.03762v7#S6.SS1",
+  "note": "Diagnostic references are original held-out TRAIN rows; not public test answers."
+}

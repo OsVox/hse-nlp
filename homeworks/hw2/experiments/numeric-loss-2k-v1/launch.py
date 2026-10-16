@@ -1,0 +1,41 @@
+from google.colab import drive, runtime
+try:
+    import torch
+    assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
+    assert torch.cuda.get_device_properties(0).total_memory >= 40*1024**3
+    drive.mount('/content/drive', timeout_ms=180000)
+    import os,sys,json,hashlib,tarfile,subprocess,asyncio,signal,time
+    from pathlib import Path
+    prepared=Path('/content/drive/MyDrive/HSE_NLP_HW2/prepared/numeric-loss-2k-v1')
+    ready=json.loads((prepared/'ready.json').read_text())
+    assert ready['cpu_verified']
+    work=Path('/content/numeric-loss-source');work.mkdir(exist_ok=False)
+    payload=(prepared/'source.tar').read_bytes()
+    assert hashlib.sha256(payload).hexdigest()==ready['source_sha256']
+    (work/'source.tar').write_bytes(payload)
+    with tarfile.open(work/'source.tar') as z:z.extractall(work,filter='data')
+    assert (work/'source_commit.txt').read_text().strip()==ready['source_commit']
+    os.environ['USE_TF']='0';os.environ['USE_FLAX']='0'
+    subprocess.run([sys.executable,'-m','pip','-q','install','transformers==4.57.6','pyarrow>=18','requests>=2.31'],check=True,timeout=180)
+    full_log=(prepared/'execution.log').open('w')
+    full_process=subprocess.Popen([sys.executable,'-u','-m','homeworks.hw2.loss_pilot','--gpu'],cwd=work,stdout=full_log,stderr=subprocess.STDOUT,start_new_session=True)
+    async def finish_full(full_process=full_process, full_log=full_log, prepared=prepared):
+        status={'pid':full_process.pid,'started_utc':time.time()}
+        try:
+            await asyncio.wait_for(asyncio.to_thread(full_process.wait),timeout=1800)
+            status['returncode']=full_process.returncode
+        except BaseException as error:
+            status['error']=type(error).__name__+': '+str(error)
+            if full_process.poll() is None:
+                os.killpg(full_process.pid,signal.SIGTERM)
+                try:await asyncio.wait_for(asyncio.to_thread(full_process.wait),timeout=10)
+                except asyncio.TimeoutError:os.killpg(full_process.pid,signal.SIGKILL)
+        finally:
+            full_log.close();status['finished_utc']=time.time()
+            try:(prepared/'execution.complete.json').write_text(json.dumps(status,indent=2))
+            finally:runtime.unassign()
+    full_task=asyncio.create_task(finish_full())
+    print('FULL_TRAINING_STARTED',full_process.pid,'Hard bound 1800 seconds; two matched 2k arms only.')
+except BaseException:
+    runtime.unassign()
+    raise

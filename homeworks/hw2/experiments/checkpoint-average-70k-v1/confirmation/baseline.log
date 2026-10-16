@@ -1,0 +1,24 @@
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+{
+  "rows": 256,
+  "usable_references": 246,
+  "numeric_correct": 135,
+  "numeric_agreement_on_usable": 0.5487804878048781,
+  "prediction_failures": 10,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/full-42m-100k-v1/step-070000",
+  "offset": 768,
+  "beams": 1,
+  "device": "cpu",
+  "precision": "torch.float32",
+  "cpu_threads": 2,
+  "generation_seconds": 47.35708588900002,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "724b4c72914828f6f3facf72c1e7185953cd257df0cb29597f4b3bca5f24c0ac",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "c65d773667558d110ce790c0dd21d38dd29df0fa6109dc3fd88ffc4bd7723dd7",
+  "predictions_sha256": "d7165c60a59fca016d7c79cfcddb89841b8cb6872ffaeab8d7598b0b8493c54c",
+  "handwritten_repairs": 0
+}

@@ -71,11 +71,11 @@ def build():
     story = [p('Code generation from scratch','Title'),
         p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 16 October 2026','SmallText'),
         p('Current result','Head'),
-        p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best public result is <b>{latest_best['public_percent']:.2f}% ({latest_best['public_correct']}/960)</b>. The bot reported rank {latest_best['reported_rank']} of {latest_best['participants']} at {escape(latest_best['timestamp'])}. Its exact scored output is {escape(latest_best['filename'])}. This is the best historical result across decoding experiments. The user now selects strict greedy decoding; its separate results are listed at the end. T4 timing remains deferred. No private result is available."),
+        p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best public result is <b>{latest_best['public_percent']:.2f}% ({latest_best['public_correct']}/960)</b>. The bot reported rank {latest_best['reported_rank']} of {latest_best['participants']} at {escape(latest_best['timestamp'])}. Its exact scored output is {escape(latest_best['filename'])}. This is the current best result across our decoding experiments and uses strict greedy decoding. Later sections distinguish historical settings. T4 timing remains deferred. No private result is available."),
         p('Task and rules','Head'),
         p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
         p('Data and architecture','Head'),
-        p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The saved model has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights.'),
+        p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The initial baseline has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights. The current selected larger model has 42,481,152 parameters, six encoder layers, four decoder layers, width 512 and feed-forward width 1536; it stopped at 70k updates.'),
         p('Training uses AdamW, 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. The first 20,000 updates used batch 64 and peak learning rate 0.001. The first continuation retained optimizer moments, used batch 128 and restarted the schedule at peak rate 0.0005. The 60k-to-180k continuation retains batch 128 and optimizer moments, with a new schedule peaking at 0.0003. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model and optimizer states are saved regularly.'),
         p('Validation correction','Head'),
         p('Earlier runs excluded the first 1,024 row positions but did not exclude copies of their questions. An audit found 24 later rows in shard 0 with the same question text. Historical validation was therefore not fully independent. Future streams exclude every reserved question text across all shards. Rows 0-255 select checkpoints; rows 256-511 provide separate diagnostics. The earlier tokenizer may have seen duplicate question text.'),
@@ -306,19 +306,38 @@ def build():
                 p('Strict majority passed the predefined positive-gain gate on both subsets: three extra correct answers across 493 usable references. This small exploratory gain is not statistical significance. First-executable selection failed the confirmation gate. Candidate and selected token decodes were checked after Drive export. The historical validation-copy caveat still applies to the 180k lineage.'),
                 p('Both tests ran on four CPU cores of the 48-core training host with CUDA hidden; GPU training continued. The full-test export scored 548/960 (57.08%), four more than beam-only decoding; CPU generation and selection took 279.43 seconds. T4 timing is unverified. Inspiration: <link href="https://arxiv.org/abs/2203.11171">Wang et al., Self-Consistency</link>; our deterministic beam experiment differs from their sampling method. Sources: f047d7d (pilot), 124e46d (test export). Evidence: experiments/candidate-vote-180k-v1 and candidate-vote-test-180k-v1.','SmallText')]
     greedy_paths = sorted((ROOT/'experiments').glob('strict-greedy-42m*/step-*/bot_receipt.json'))
+    greedy_paths += sorted((ROOT/'experiments/checkpoint-average-70k-v1').glob('exports/baseline/step-*/bot_receipt.json'))
     if greedy_paths:
         greedy_rows = [['Step', 'Token loss', 'Public correct /960', 'Public %']]
-        greedy_receipts = sorted([json.loads(path.read_text()) for path in greedy_paths], key=lambda x:x['step'])
-        for receipt in greedy_receipts:
-            folder = ROOT/'experiments'/receipt['run']/f"step-{receipt['step']:06d}"
-            val = json.loads((folder/'validation.json').read_text())
+        for receipt_path in sorted(greedy_paths, key=lambda path:json.loads(path.read_text())['step']):
+            receipt = json.loads(receipt_path.read_text())
+            val = json.loads((receipt_path.parent/'validation.json').read_text())
             greedy_rows.append([f"{receipt['step']:,}", f"{val['token_loss']:.4f}", receipt['public_correct'], f"{receipt['public_percent']:.2f}"])
         story += [PageBreak(), p('Selected policy: strict greedy decoding','Title'),
-            p('The user selected greedy decoding on 16 October. All new evaluated exports use num_beams=1 and do_sample=False, with syntax retries and execution voting disabled. Historical results are preserved with their original settings. The running trainer retains its immutable source; a separate CPU export process applies strict greedy to its saved weights without restarting training.'),
+            p('The user selected greedy decoding on 16 October. All new evaluated exports use num_beams=1 and do_sample=False, with syntax retries and execution voting disabled. Historical results are preserved with their original settings. Training stopped after its durable 70k checkpoint; separate CPU export processes apply strict greedy to saved weights.'),
             table(greedy_rows, [43*mm,40*mm,47*mm,40*mm]),
             p('The 50k strict greedy output scored 519/960 (54.06%), matching the public score of its earlier retry-enabled output. Two of the 1,919 output strings differed; the comparison also changed device and batch size, so this is not a controlled attribution of the difference to retries alone. CPU generation took 99.67 seconds at batch 64. This is not T4 timing.'),
             p('The default-decoder regression test supplies malformed Python and verifies that it is preserved with no extra generation calls. Full exports verify every program against saved token IDs, the official question-order hash, checkpoint hash and source commit. Each output is first saved to Drive, exported with the authenticated CLI, checked again and submitted once. Receipts are read back from Drive byte-for-byte.'),
             p('Source: 8dcb74d2164a30c7b3169dcf7adf76114139761f. Evidence: experiments/decoding-policy.json, experiments/strict-greedy-42m-v1 and subsequent strict-greedy-42m checkpoint directories. The main inference notebook follows this policy; the earlier voting notebook is retained only for historical reproduction. First place remains unmet.','SmallText')]
+    average = ROOT/'experiments/checkpoint-average-70k-v1'
+    if (average/'selection.json').exists():
+        selection = json.loads((average/'selection.json').read_text())
+        rows = [['Model', 'Pilot correct /247', 'Execution failures']]
+        for name, result in selection['pilot'].items():
+            rows.append([name, result['numeric_correct'], result['prediction_failures']])
+        story += [PageBreak(), p('Improvement without more training','Title'),
+            p('Arithmetic averaging combines our own 60k/70k or 50k/60k/70k weights into one model of unchanged size. It adds zero training updates and still generates one greedy candidate. All runs use CPU, FP32, batch 64 and two threads. The original Transformer paper also used checkpoint averaging, although its decoding settings differed.'),
+            table(rows,[70*mm,50*mm,50*mm])]
+        if 'confirmation' in selection:
+            rows = [['Model', 'Confirmation correct /246', 'Execution failures']]
+            for name, result in selection['confirmation'].items():
+                rows.append([name, result['numeric_correct'], result['prediction_failures']])
+            story += [table(rows,[70*mm,50*mm,50*mm])]
+        story += [p(f"Predefined gate: strictly more numeric agreements and no more execution failures than 70k on both held-out samples. Selected candidate: {escape(str(selection['selected']))}; confirmed: {selection['confirmed']}. These are small exploratory samples, not a significance test or public pass@1. Public test answers never choose the average."),
+            p('Both candidates and their parent hashes are retained on Drive. Original held-out training references are used only for evaluation, with no generated training targets or handwritten repairs. Source: 861ae9795086a67af530f8eb2fc873423f466fbd. Evidence: experiments/checkpoint-average-70k-v1. Reference: <link href="https://arxiv.org/html/1706.03762v7#S6.SS1">Vaswani et al., Attention Is All You Need, section 6.1</link>.','SmallText')]
+        for receipt_path in sorted(average.glob('exports/*/step-*/bot_receipt.json')):
+            receipt = json.loads(receipt_path.read_text())
+            story += [p(f"Bot result for {escape(receipt['variant'])}: {receipt['public_correct']}/960 ({receipt['public_percent']:.2f}%). Exact file: {escape(receipt['filename'])}. T4 timing remains unverified.")]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

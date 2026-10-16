@@ -1,0 +1,12 @@
+{
+  "step": 70000,
+  "rows": 1919,
+  "jsonl_sha256": "276b42a4815e6de1e5722f3011717a71ff75f7d4a76911b7068b0af2650266c2",
+  "model_sha256": "724b4c72914828f6f3facf72c1e7185953cd257df0cb29597f4b3bca5f24c0ac",
+  "source_commit": "861ae9795086a67af530f8eb2fc873423f466fbd",
+  "questions_sha256": "214746f8d4bc918b6fa1fde8ca3185a518a60637f239a2c45efa9a8143f612d3",
+  "status": "exact_export_verified",
+  "generation_seconds": 241.6877829120001,
+  "gpu": null,
+  "t4_timing_verified": false
+}
