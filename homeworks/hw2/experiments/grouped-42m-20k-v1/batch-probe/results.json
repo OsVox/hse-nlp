@@ -1,0 +1,136 @@
+{
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "precision": "bf16",
+  "pipeline": "encoded-prefetch",
+  "prefetch": 2,
+  "group_batches": 32,
+  "gate": {
+    "cpu_verified": true,
+    "pool_sha256": "8612f359a5da6123a9bf03f868773bc16d9fc4069e3f16d92b421566e7d6466e",
+    "model_sha256": "7d0898f6595ee684df6f8ffa6231bbf914bc81aee91e95298003b1ff69b66deb",
+    "tokenizer_sha256": "d9fa7b5618323be055ad10ebe760cff2801f251b39dabb7dc62188567c5a6414",
+    "examples": 32768,
+    "batches": [
+      {
+        "batch_size": 64,
+        "examples": 32768,
+        "target_tokens": 2419826
+      },
+      {
+        "batch_size": 128,
+        "examples": 32768,
+        "target_tokens": 2419826
+      },
+      {
+        "batch_size": 256,
+        "examples": 32768,
+        "target_tokens": 2419826
+      },
+      {
+        "batch_size": 512,
+        "examples": 32768,
+        "target_tokens": 2419826
+      }
+    ]
+  },
+  "probe_weights_discarded": true,
+  "runs": [
+    {
+      "repeat": 0,
+      "batch_size": 64,
+      "status": "complete",
+      "seconds": 18.38017843199998,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1782.7900921217802,
+      "peak_allocated_gib": 8.179401397705078,
+      "final_batch_loss": 1.3931970596313477
+    },
+    {
+      "repeat": 0,
+      "batch_size": 128,
+      "status": "complete",
+      "seconds": 20.183479931999955,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1623.505961826131,
+      "peak_allocated_gib": 15.78121566772461,
+      "final_batch_loss": 1.4767067432403564
+    },
+    {
+      "repeat": 0,
+      "batch_size": 256,
+      "status": "complete",
+      "seconds": 22.843549792999966,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1434.453064297442,
+      "peak_allocated_gib": 30.968494415283203,
+      "final_batch_loss": 1.4558566808700562
+    },
+    {
+      "repeat": 0,
+      "batch_size": 512,
+      "status": "complete",
+      "seconds": 24.804926084000044,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1321.0279236081412,
+      "peak_allocated_gib": 61.340152740478516,
+      "final_batch_loss": 1.3983131647109985
+    },
+    {
+      "repeat": 1,
+      "batch_size": 512,
+      "status": "complete",
+      "seconds": 24.84756684499996,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1318.7609154815034,
+      "peak_allocated_gib": 61.34223937988281,
+      "final_batch_loss": 1.3983131647109985
+    },
+    {
+      "repeat": 1,
+      "batch_size": 256,
+      "status": "complete",
+      "seconds": 22.86677281799996,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1432.9962632158627,
+      "peak_allocated_gib": 30.968494415283203,
+      "final_batch_loss": 1.4560574293136597
+    },
+    {
+      "repeat": 1,
+      "batch_size": 128,
+      "status": "complete",
+      "seconds": 20.187005534000036,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1623.2224212159836,
+      "peak_allocated_gib": 15.78463363647461,
+      "final_batch_loss": 1.476391077041626
+    },
+    {
+      "repeat": 1,
+      "batch_size": 64,
+      "status": "complete",
+      "seconds": 18.14045501800001,
+      "examples": 32768,
+      "target_tokens": 2419826,
+      "examples_per_second": 1806.3493979332761,
+      "peak_allocated_gib": 8.181110382080078,
+      "final_batch_loss": 1.3932771682739258
+    }
+  ],
+  "completed": true,
+  "median_examples_per_second": {
+    "64": 1794.5697450275281,
+    "128": 1623.3641915210574,
+    "256": 1433.7246637566523,
+    "512": 1319.8944195448223
+  },
+  "selected_batch": 64,
+  "selection_rule": "Two reversed rounds; require at least 5% gain over batch 128. Validate learning separately."
+}

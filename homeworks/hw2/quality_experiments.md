@@ -435,3 +435,36 @@ comparison improves. Require the full measured generation to remain below
 180 seconds, then submit that one new exact JSONL and preserve its bot receipt.
 The current grouped training job remains on its pinned source; this change
 only prepares a later decoding experiment.
+
+The matched production-path batch probe completed on Blackwell: two-round
+median throughput was 1,794.57 examples/s at batch 64, 1,623.36 at 128,
+1,433.72 at 256 and 1,319.89 at 512. Each pass consumed exactly 32,768
+original examples and 2,419,826 target tokens. Batch 64 was 10.55% faster
+than 128, with about 8.18 versus 15.78 GiB peak allocated memory.
+
+Both short quality continuations added 262,144 example presentations from the
+same own 6k parent. At batch 128, validation loss was 0.885387, held-out
+numeric correctness 45/245 and public score 183/960 (19.06%). At batch 64,
+loss was 0.877859, held-out correctness 41/245 and public score 182/960
+(18.96%). The predefined held-out quality gate rejected batch 64 before its
+bot score arrived. Continue at 128 from step 8048 to step 20000, keeping the
+total budget at 2,560,000 example presentations on the selected lineage.
+The faster batch was not adopted on speed or token loss alone. Both pilot
+receipts were uploaded beside the exact predictions and read back from Drive.
+The selected continuation remains in progress; no final gain is claimed yet.
+
+At the established 180k checkpoint, the CPU held-out decoding comparison
+matched 131/245 references with greedy generation and 137/245 with four beams;
+execution failures fell from 19 to 11. Generation took 10.611 versus 50.372
+seconds with four CPU threads. Model, evaluator, questions and output hashes
+were checked. This small diagnostic gain supports a bounded actual-T4 test,
+not an automatic change to the submission decoder. Evidence is retained in
+experiments/decoding-180k and mirrored in the Drive benchmarks folder.
+
+The next selected-lineage checkpoint, step 10000, regressed to 135/960 public
+answers (14.06%) after the schedule restart. Its exact outputs and bot receipt
+were saved and verified in Drive. A temporary effect of the restarted rate is
+only a hypothesis; better token loss does not establish better code execution.
+The current stage remains capped at step 20000 and is not evidence for extending
+the budget. The established best remains 517/960 (53.85%), public rank 10/15
+at the latest 16 October bot response. First place remains unachieved.

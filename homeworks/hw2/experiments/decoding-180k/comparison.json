@@ -1,0 +1,12 @@
+{
+  "source_commit": "7ad38b88238bb2c1a029b9ef7818833b38d671de",
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+  "greedy_correct": 131,
+  "beam4_correct": 137,
+  "usable_references": 245,
+  "additional_correct": 6,
+  "cpu_time_ratio": 4.747214514485859,
+  "t4_verified": false,
+  "next_action": "Bounded actual T4 timing with exact output provenance, then one bot submission if under 180 seconds."
+}

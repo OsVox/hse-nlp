@@ -1,0 +1,23 @@
+{
+  "rows": 256,
+  "usable_references": 245,
+  "numeric_correct": 137,
+  "numeric_agreement_on_usable": 0.5591836734693878,
+  "prediction_failures": 11,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "model_dir": "/Users/andrejvorsin/Documents/ChatGPT/NLP course/output/decoding-180k/model",
+  "offset": 256,
+  "beams": 4,
+  "device": "cpu",
+  "precision": "torch.float32",
+  "cpu_threads": 4,
+  "generation_seconds": 50.37165733301663,
+  "batch_size": 64,
+  "max_input_tokens": 128,
+  "max_new_tokens": 192,
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "evaluator_sha256": "204f4e1aec4a670afa66cca0d397b1fcc8b00666ae286f8c86a4fc29ce22c1ed",
+  "questions_sha256": "7fa41b5cfa964944bf5c3b7c0f75c9ddcf0f3ab7d56845066edc069341a82a5a",
+  "predictions_sha256": "dcffb6cf12675d0836f16634edca01389e6882a3ba08c243a47e4210a57b3fe0",
+  "handwritten_repairs": 0
+}

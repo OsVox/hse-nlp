@@ -1,0 +1,9 @@
+{
+  "rows": 32,
+  "fixture": "First 32 official questions; test only, never a bot submission",
+  "default_outputs_identical_to_previous_implementation": true,
+  "beam4_selected_token_decodes_verified": true,
+  "model_sha256": "0399a924eea6ef872aa0b403b77fc5e33d24909cc7690536880bc00b254362c7",
+  "t4_verified": false,
+  "inference_sha256": "834dc145002be716bd91547518ebf242343d56d61d837cb7c850827197feed81"
+}
