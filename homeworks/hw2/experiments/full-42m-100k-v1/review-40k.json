@@ -1,0 +1,22 @@
+{
+  "decision": "continue planned training toward 100000",
+  "reviewed_at": "2026-10-16T09:03:00+03:00",
+  "checkpoints": [
+    20000,
+    30000,
+    40000
+  ],
+  "public_correct": [
+    320,
+    409,
+    471
+  ],
+  "public_total": 960,
+  "last_interval_gain_correct": 62,
+  "settings_changed": false,
+  "reason": "Both planned review intervals improved public accuracy substantially and validation loss decreased. Continue scoring each 10000-step checkpoint; target success remains unproven.",
+  "best_overall_public_correct": 548,
+  "best_overall_public_percent": 57.08,
+  "latest_reported_rank": 8,
+  "participants": 15
+}

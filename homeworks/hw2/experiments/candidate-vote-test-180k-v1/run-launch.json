@@ -1,0 +1,26 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "44,45,46,47",
+    "/usr/bin/python3",
+    "-u",
+    "-m",
+    "homeworks.hw2.vote_inference",
+    "--model-dir",
+    "/content/candidate-vote-source/inputs/model",
+    "--cache-dir",
+    "/content/hw2_cache",
+    "--output-dir",
+    "/content/drive/MyDrive/HSE_NLP_HW2/benchmarks/candidate-vote-test-180k-v1/step-180000"
+  ],
+  "source_commit": "124e46d47b5ae740598fb006380ec670b14e2aba",
+  "cpu_only": true,
+  "cpu_affinity": [
+    44,
+    45,
+    46,
+    47
+  ],
+  "timeout_seconds": 600
+}

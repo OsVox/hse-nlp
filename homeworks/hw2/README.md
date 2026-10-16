@@ -25,7 +25,7 @@ No pretrained weights, outside examples, or extra target programs are used.
   and times the full generation loop.
 - `hw2_full_training_colab.ipynb` prepares the selected larger model on CPU
   and resumes it on G4. `hw2_inference_colab.ipynb` reproduces the best scored
-  four-beam output; its T4 timing is deferred. The historical measured greedy
+  four-beam execution-voting output; its T4 timing is deferred. The historical measured greedy
   configuration is retained in `hw2_inference_greedy_t4_colab.ipynb`.
 - `metrics.json` and `report.pdf` record results once the runs finish.
 
@@ -36,9 +36,11 @@ until file checks pass. Save checkpoints and exact predictions to Drive, export
 from Drive, then submit the checked JSONL to the course bot.
 
 `hw2_inference_colab.ipynb` loads the established step-180000 checkpoint from
-Drive. Run its CPU preparation phase first. Four-beam decoding on CPU scored
-56.67% (544/960), rank 8/15 on 16 October at 08:23 (+03:00). Generation took
-503.50 seconds on CPU at batch 64. This setting's T4 timing is unverified and
+Drive. Run its CPU preparation phase first. Four-beam execution voting on CPU scored
+57.08% (548/960), rank 8/15 on 16 October at 08:59 (+03:00). Generation and
+selection took 279.43 seconds on CPU at batch 64. All programs are exact model
+decodes. Reference answers never enter selection. The earlier beam-only output
+scored 56.67% (544/960); its notebook is retained separately. This setting's T4 timing is unverified and
 is deferred while improving quality. Save outputs to Drive before export.
 
 The historical greedy configuration scored 53.85% (517/960). On an actual
@@ -68,7 +70,7 @@ experimental option; compare its held-out loss before choosing a final model.
 The bot accepts only JSONL with 1,919 exact model outputs. The inference notebook
 converts the CSV without changing any program and verifies token provenance.
 The earlier 18.85% result included a handwritten identifier repair that was
-removed. The current 56.67% result uses exact model outputs. The user confirmed
+removed. The current 57.08% result uses exact model outputs. The user confirmed
 that official test.parquet row order is required. See quality_experiments.md
 and experiments/ for controlled runs and the validation-copy caveat. First
 place remains unmet; the PDF is a progress report.

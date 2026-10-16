@@ -67,10 +67,11 @@ def build():
     t4 = json.loads(t4_path.read_text()) if t4_path.exists() else None
     large_t4_path = ROOT/'experiments/t4-comparison-v1/encoder6-6k/results.json'
     large_t4 = json.loads(large_t4_path.read_text()) if large_t4_path.exists() else None
+    latest_best = json.loads((ROOT/'experiments/current-best.json').read_text())
     story = [p('Code generation from scratch','Title'),
         p('HW2 experiment report - work in progress<br/>Andrei Vorsin | 16 October 2026','SmallText'),
         p('Current result','Head'),
-        p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best public result is now <b>56.67% (544/960)</b>, using the 180k model with four-beam decoding. The bot reported rank 8 of 15 at 08:23 on 16 October 2026 (+03:00). This adds 27 correct answers over greedy decoding without new training. The new output was generated on CPU; its T4 timing remains unverified and is deferred while improving quality. First place remains unmet. No private result is available."),
+        p(f"Verified and scored checkpoints reach {extended[-1]['step']:,} updates. Ten initial checkpoints, eight first-continuation checkpoints and {len(extended)} longer-continuation checkpoints were saved in Google Drive and scored by the course bot. The best public result is <b>{latest_best['public_percent']:.2f}% ({latest_best['public_correct']}/960)</b>. The bot reported rank {latest_best['reported_rank']} of {latest_best['participants']} at {escape(latest_best['timestamp'])}. Its exact scored output is {escape(latest_best['filename'])}. T4 timing for the current quality-first selection remains unverified and deferred; the historical greedy timing is separate. No private result is available."),
         p('Task and rules','Head'),
         p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
         p('Data and architecture','Head'),
@@ -276,6 +277,34 @@ def build():
             p('Decoding opportunity','Head'),
             p('On the established 180k model, four-beam decoding improved held-out numeric agreement from 131/245 to 137/245 and reduced execution failures from 19 to 11. CPU generation took 10.61 versus 50.37 seconds. The subsequent full test export scored 544/960 (56.67%), versus 517/960 (53.85%) for greedy decoding. All 1,919 questions took 503.50 seconds on CPU at batch 64, FP32. T4 timing for this output remains unverified and is deferred. Every program matches its saved model token decode; no program was rewritten.'),
             p('Source: 85532a78132c37ceb9cbf3f6cfff5c478d69258f. Evidence: experiments/grouped-42m-20k-v1, experiments/decoding-180k and experiments/beam4-quality-180k-v1 (source d1aec6e). Results were downloaded with the authenticated local Drive CLI, avoiding Colab allocation for export.','SmallText')]
+    full = ROOT/'experiments/full-42m-100k-v1'
+    if (full/'started.json').exists():
+        full_rows = [['Step', 'Token loss', 'Public correct /960', 'Public %']]
+        full_rows.append(['20,000 (parent)', '0.6167', '320', '33.33'])
+        for receipt_path in sorted(full.glob('step-*/bot_receipt.json')):
+            receipt = json.loads(receipt_path.read_text())
+            val = json.loads((receipt_path.parent/'validation.json').read_text())
+            full_rows.append([f"{receipt['step']:,}", f"{val['token_loss']:.4f}",
+                              receipt['public_correct'], f"{receipt['public_percent']:.2f}"])
+        story += [PageBreak(), p('Full model and decoding checks','Title'),
+            p('The 42.48M model resumes its own 20k weights and Adam moments. The fixed target is 100k updates, batch 128, BF16, peak learning rate .00015, 500 warmup updates, cosine decay and the encoded/prefetched input pipeline. Halving the prior peak is a restart hypothesis, not a fitted optimum. The first 30k and 40k bot scores are review points.'),
+            p('Before allocating G4, CPU checks verified all dataset hashes, loaded the model and optimizer, checked finite optimizer moments and saved a verified Drive bundle. At startup the GPU showed 98% activity and 18,951 MiB used out of 97,887 MiB. This is an observed snapshot, not a utilization guarantee. Each 10k checkpoint saves weights, optimizer state, exact predictions and a separate bot receipt.'),
+            table(full_rows, [43*mm,40*mm,47*mm,40*mm]),
+            p('At 3.84M example presentations, the larger model scored 409/960, versus 273/960 for the smaller model at step 40k. Different learning-rate schedules and data streams prevent a causal size-only comparison. These are scored checkpoints, not a completed target run. Checkpoints use greedy decoding. No test labels are used for training. Source: 69829cbe; evidence: experiments/full-42m-100k-v1.','SmallText')]
+        vote = ROOT/'experiments/candidate-vote-180k-v1'
+        if (vote/'selection.json').exists():
+            pilot = json.loads((vote/'pilot/results.json').read_text())
+            confirm = json.loads((vote/'confirmation/results.json').read_text())
+            vote_rows = [['Selection', 'Rows 512:768 (247 usable)', 'Rows 768:1024 (246 usable)']]
+            for key, label in [('top_beam','Top beam'), ('first_executable','First executable'),
+                               ('strict_majority','Strict majority')]:
+                vote_rows.append([label, pilot['metrics'][key]['numeric_correct'],
+                                  confirm['metrics'][key]['numeric_correct']])
+            story += [p('Execution agreement without new training','Head'),
+                p('Using the fixed 9.97M, 180k model, generate four deterministic beam candidates and execute their solve() functions in the restricted diagnostic runner. Select an unchanged program from a strict majority of all four numeric answers; otherwise retain the first executable candidate, breaking ties by model rank. References enter only after selection, for evaluation. No program is rewritten or added to training.'),
+                table(vote_rows,[50*mm,60*mm,60*mm]),
+                p('Strict majority passed the predefined positive-gain gate on both subsets: three extra correct answers across 493 usable references. This small exploratory gain is not statistical significance. First-executable selection failed the confirmation gate. Candidate and selected token decodes were checked after Drive export. The historical validation-copy caveat still applies to the 180k lineage.'),
+                p('Both tests ran on four CPU cores of the 48-core training host with CUDA hidden; GPU training continued. The full-test export scored 548/960 (57.08%), four more than beam-only decoding; CPU generation and selection took 279.43 seconds. T4 timing is unverified. Inspiration: <link href="https://arxiv.org/abs/2203.11171">Wang et al., Self-Consistency</link>; our deterministic beam experiment differs from their sampling method. Sources: f047d7d (pilot), 124e46d (test export). Evidence: experiments/candidate-vote-180k-v1 and candidate-vote-test-180k-v1.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,topMargin=20*mm,bottomMargin=22*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

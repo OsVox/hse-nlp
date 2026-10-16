@@ -1,0 +1,12 @@
+{
+  "report.pdf": {
+    "file_id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "sha256": "5105b216f2281ee7e8a489678d01d600c91843d4c91bb2e7c2d7b00cba15b82c",
+    "read_back_verified": true
+  },
+  "hw2_inference_colab.ipynb": {
+    "file_id": "1V23YAkw3ISuu0qJH2-TfE3UC7CYaOktb",
+    "sha256": "c76f1807e744b3a491f244c0ed5f70441a1c28d501a2728e52c9c1ccd9d3e96f",
+    "read_back_verified": true
+  }
+}

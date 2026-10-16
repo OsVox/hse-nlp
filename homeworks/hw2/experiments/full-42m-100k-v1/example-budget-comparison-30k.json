@@ -1,0 +1,23 @@
+{
+  "comparison": "Equal example presentations, different schedules and streams; not a controlled causal comparison",
+  "example_presentations": 3840000,
+  "small": {
+    "parameters": 9967360,
+    "step": 40000,
+    "public_correct": 273,
+    "public_total": 960,
+    "public_percent": 28.44,
+    "schedule_counts": "20000*64 + 20000*128",
+    "receipt": "submissions/2026-10-15-continue-b128-step-040000.json"
+  },
+  "large": {
+    "parameters": 42481152,
+    "step": 30000,
+    "public_correct": 409,
+    "public_total": 960,
+    "public_percent": 42.6,
+    "schedule_counts": "30000*128",
+    "receipt": "submissions/2026-10-16-full-42m-step-030000.json"
+  },
+  "difference_correct": 136
+}
