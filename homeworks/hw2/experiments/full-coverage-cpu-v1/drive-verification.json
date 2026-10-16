@@ -1,0 +1,33 @@
+{
+  "folder_id": "1FnWZem4brj3Egb05kaw2VWT7BMOWZAGn",
+  "source_commit": "ed2efa8d871521a9aa3fecf7bcae3f2a83c1bbd8",
+  "files": [
+    {
+      "id": "1hec6TR2jq_5OEafIHg8b40v-klS3jmc1",
+      "name": "ready.json",
+      "sha256": "897b9429f02587317ec78f10d32105f2a3637f1562faebd188a5719ed05153dd",
+      "readback_verified": true
+    },
+    {
+      "id": "1SGQ46CM9-tMWdDD2jhXFBukCiGnhRWvN",
+      "name": "evidence.zip",
+      "sha256": "c9e1a374e0541570465b201fc8db4f4c545fc05eb661aa5d9a86a07f37124894",
+      "readback_verified": true
+    },
+    {
+      "id": "16NB70vCTWDTi-c0xb4SZ0oJr4YGAMqzG",
+      "name": "coverage-index.tar.gz",
+      "sha256": "cc0841912d0167c7b8e340d44573127913004b31b34af3dc740e8a64871c7393",
+      "readback_verified": true
+    },
+    {
+      "id": "1ZiaG-LqkpN6G3doLwWo5H2Sph5crazYN",
+      "name": "source.tar",
+      "sha256": "9190d16a31b5c753adf4433d20acfd510a905362bef2e627ef53e5325235b2c0",
+      "readback_verified": true
+    }
+  ],
+  "report_drive_id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+  "report_sha256": "7349e19ffe609a33ba8088b1c5f12914d43628df3c86961398c13c2e2c7e1b77",
+  "report_readback_verified": true
+}
