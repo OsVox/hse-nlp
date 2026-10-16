@@ -1,0 +1,8 @@
+{
+  "completed": true,
+  "gpu_used": false,
+  "base_parameters_unchanged": true,
+  "trainable_parameters": 545,
+  "elapsed_seconds": 572.0037058089999,
+  "generation_seconds": 179.83315656100012
+}

@@ -1,0 +1,33 @@
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+FEATURE_ROWS 256 4096
+FEATURE_ROWS 512 4096
+FEATURE_ROWS 768 4096
+FEATURE_ROWS 1024 4096
+FEATURE_ROWS 1280 4096
+FEATURE_ROWS 1536 4096
+FEATURE_ROWS 1792 4096
+FEATURE_ROWS 2048 4096
+FEATURE_ROWS 2304 4096
+FEATURE_ROWS 2560 4096
+FEATURE_ROWS 2816 4096
+FEATURE_ROWS 3072 4096
+FEATURE_ROWS 3328 4096
+FEATURE_ROWS 3584 4096
+FEATURE_ROWS 3840 4096
+FEATURE_ROWS 4096 4096
+ADAPTER_STEP {'step': 64, 'loss': 0.4259612262248993}
+ADAPTER_STEP {'step': 128, 'loss': 0.4253861904144287}
+ADAPTER_STEP {'step': 192, 'loss': 0.4271349310874939}
+ADAPTER_STEP {'step': 256, 'loss': 0.4056873321533203}
+ADAPTER_STEP {'step': 320, 'loss': 0.39497777819633484}
+ADAPTER_STEP {'step': 384, 'loss': 0.45929330587387085}
+ADAPTER_STEP {'step': 448, 'loss': 0.43340250849723816}
+ADAPTER_STEP {'step': 512, 'loss': 0.3921537399291992}
+HELDOUT control pilot 139 13
+HELDOUT control confirmation 286 27
+HELDOUT candidate pilot 139 13
+HELDOUT candidate confirmation 286 27
+Timing is not a T4 result: CUDA is unavailable
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=179.83 device=cpu precision=torch.float32 invalid_before_retry=4 beam_repaired=0 handwritten_repairs=0
+COPY_ADAPTER_COMPLETED [0, 0] 0

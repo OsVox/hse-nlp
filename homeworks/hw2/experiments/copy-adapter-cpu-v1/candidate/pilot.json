@@ -1,0 +1,16 @@
+{
+  "rows": 256,
+  "usable_references": 245,
+  "numeric_correct": 139,
+  "numeric_agreement_on_usable": 0.5673469387755102,
+  "prediction_failures": 13,
+  "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+  "offset": 256,
+  "selection": "greedy",
+  "num_beams": 1,
+  "copy_enabled": true,
+  "generation_seconds": 29.25827990899984,
+  "device": "cpu",
+  "precision": "float32",
+  "handwritten_repairs": 0
+}

@@ -1,0 +1,49 @@
+{
+  "audit_verified": true,
+  "source_commit": "0938a6265db552fd794e8e691cb30d646069ea60",
+  "source_sha256": "1794aa01077402b33b84442f1b2a2c458d223bfba07369bcac14c4437d757306",
+  "launcher_sha256": "7d26d94b8f2106ef6c295c3fed5ac4356eb5a9dfc160a70a84aebb3a81bf7f7a",
+  "plan": {
+    "status": "preregistered",
+    "parent_step": 73024,
+    "parent_mount_path": "/content/drive/MyDrive/HSE_NLP_HW2/runs/frequency-screen-1k-v1/control/step-073024",
+    "parent_model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+    "parent_drive_folder": "1y65ow6zmst_zyysdafxpbn4TU-Z87gWB",
+    "train_shard_sha256": "91831d582faa12d73b1a6b3878e496446cd5df074f17ee4ffea8cc2887c708ec",
+    "seed": 2026101605,
+    "training_rows": 4096,
+    "adapter_updates": 512,
+    "token_batch_size": 4096,
+    "learning_rate": 0.001,
+    "trainable_parameters": 545,
+    "base_frozen": true,
+    "gpu": false,
+    "outer_timeout_seconds": 1200,
+    "source": "Original supplied training shard 0; reserve first 1024 rows and exclude all copies of their question texts",
+    "objective": "Original target-token negative log likelihood with existing numeric/operator weight 2. No added labels, teacher, generated targets or changed programs.",
+    "architecture": "Train a 513-parameter decoder-state gate and 32 attention-head mixture weights. Combine ordinary vocabulary probability with the source-token copy distribution. Strict greedy decoding of the learned mixture.",
+    "selection": "Positive executed-answer gain on both existing held-out subsets with no additional total execution failures. Confirm a promising result before any larger training; no automatic extension.",
+    "limitations": "Frozen-feature fitting only. Teacher-forced feature training does not directly optimize whole-program correctness. Reused validation is exploratory; all-head diagnostic is not an accuracy guarantee.",
+    "reference": "https://aclanthology.org/P17-1099/",
+    "previous_goal_turn": "Progress: completed three matched decoder-dropout runs; both regressed, retained best and released compute."
+  },
+  "preflight": {
+    "cpu_verified": true,
+    "model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+    "base_parameter_sha256": "6a2ebcac4a6d7606988b9ce354ae7219ef6530cccf87ae1e38c31503ee6675d2",
+    "trainable_parameters": 545,
+    "base_gradients_absent": true,
+    "copy_gradients_finite": true,
+    "loss": 0.5088697671890259,
+    "seconds": 0.9737640420207754,
+    "scope": "Forward/backward preflight only. No optimizer update or checkpoint created; reserved examples remain evaluation only."
+  },
+  "tests": {
+    "command": "python -m pytest -q test_copy_adapter.py test_copyability_audit.py test_decoder_dropout.py test_continuation.py test_runtime_guard.py",
+    "passed": 11,
+    "seconds": 3.9,
+    "new_copy_and_audit_tests": 4,
+    "runtime_guard_tests": 2,
+    "prior_dropout_and_continuation_tests": 5
+  }
+}

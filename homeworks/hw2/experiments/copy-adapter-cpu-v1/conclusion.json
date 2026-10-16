@@ -1,0 +1,9 @@
+{
+  "decision": "Do not extend this frozen-model copying pilot. Control and learned copying both score 139/245 and 286/493 on the held-out subsets, with 40 total execution failures. The bot scores the new unique output 575/960 (59.90%), tying the simpler retained best. Public rank is 9/16 at 16:16 (+03:00). The positive-gain requirement fails; no second seed or long run is started. This tests a small frozen-feature adapter, not joint training of a Transformer and copy mechanism.",
+  "compute": "The CPU-only driver took 572.00 seconds (9.53 minutes), excluding allocation, Drive authorization and package setup. Fitting 545 parameters on cached frozen-model features took 1.93 seconds; all-1919 test generation took 179.83 seconds on CPU. Base weights remained identical. All checkpoints and predictions were saved and checksum-verified on Drive before local export and bot submission. The driver exited successfully; Colab showed no active sessions. No GPU was used, and T4 timing remains unverified.",
+  "source_commit": "0938a6265db552fd794e8e691cb30d646069ea60",
+  "public_rank": 9,
+  "participants": 16,
+  "long_run_started": false,
+  "heldout_extension_gate_passed": false
+}

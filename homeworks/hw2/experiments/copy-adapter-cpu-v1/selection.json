@@ -1,0 +1,79 @@
+{
+  "results": {
+    "control": {
+      "pilot": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 139,
+        "numeric_agreement_on_usable": 0.5673469387755102,
+        "prediction_failures": 13,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "offset": 256,
+        "selection": "greedy",
+        "num_beams": 1,
+        "copy_enabled": false,
+        "generation_seconds": 27.915873325999883,
+        "device": "cpu",
+        "precision": "float32",
+        "handwritten_repairs": 0
+      },
+      "confirmation": {
+        "rows": 512,
+        "usable_references": 493,
+        "numeric_correct": 286,
+        "numeric_agreement_on_usable": 0.5801217038539553,
+        "prediction_failures": 27,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "offset": 512,
+        "selection": "greedy",
+        "num_beams": 1,
+        "copy_enabled": false,
+        "generation_seconds": 58.55122115699987,
+        "device": "cpu",
+        "precision": "float32",
+        "handwritten_repairs": 0
+      }
+    },
+    "candidate": {
+      "pilot": {
+        "rows": 256,
+        "usable_references": 245,
+        "numeric_correct": 139,
+        "numeric_agreement_on_usable": 0.5673469387755102,
+        "prediction_failures": 13,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "offset": 256,
+        "selection": "greedy",
+        "num_beams": 1,
+        "copy_enabled": true,
+        "generation_seconds": 29.25827990899984,
+        "device": "cpu",
+        "precision": "float32",
+        "handwritten_repairs": 0
+      },
+      "confirmation": {
+        "rows": 512,
+        "usable_references": 493,
+        "numeric_correct": 286,
+        "numeric_agreement_on_usable": 0.5801217038539553,
+        "prediction_failures": 27,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "offset": 512,
+        "selection": "greedy",
+        "num_beams": 1,
+        "copy_enabled": true,
+        "generation_seconds": 59.8873000399999,
+        "device": "cpu",
+        "precision": "float32",
+        "handwritten_repairs": 0
+      }
+    }
+  },
+  "split_gains": [
+    0,
+    0
+  ],
+  "failure_delta": 0,
+  "eligible": false,
+  "long_run_authorized": false
+}

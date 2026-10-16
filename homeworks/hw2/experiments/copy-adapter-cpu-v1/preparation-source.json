@@ -1,0 +1,23 @@
+{
+  "folder": "1UmuflykiXG1AVcDuVwPEI0z8BQxIUIrL",
+  "files": [
+    {
+      "id": "1yfOfu7K7qi3x4FGm2JZtAuIA5bjnuv0J",
+      "name": "ready.json",
+      "sha256": "bd17b2bd3c2f618beacb4f210da92a56f56319210e5839202b84d84af1ab6660",
+      "byte_verified": true
+    },
+    {
+      "id": "1XrpBODMsbe7rI16vghiAYeptfNuUd-_L",
+      "name": "cpu-launch.py",
+      "sha256": "7d26d94b8f2106ef6c295c3fed5ac4356eb5a9dfc160a70a84aebb3a81bf7f7a",
+      "byte_verified": true
+    },
+    {
+      "id": "1V7J8l54U31uqmgtrvvxaGKEsENZwaiFu",
+      "name": "source.tar",
+      "sha256": "1794aa01077402b33b84442f1b2a2c458d223bfba07369bcac14c4437d757306",
+      "byte_verified": true
+    }
+  ]
+}
