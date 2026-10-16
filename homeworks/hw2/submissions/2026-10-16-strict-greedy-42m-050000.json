@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-10-16T09:26:00+03:00",
+  "timestamp_precision": "minute",
+  "bot_username": "hse_nlp_hw2_2026_bot",
+  "filename": "strict-greedy-42m-050000.jsonl",
+  "jsonl_sha256": "608ae67ffde269773f423ccb37f91439843917054fbfac0bd457cab7a8bc9d7c",
+  "source_commit": "8dcb74d2164a30c7b3169dcf7adf76114139761f",
+  "model_sha256": "01ba1ecb9c6eb4328142d9b164b58df1e12a7cb66c68e66b8015bafd8640c8c5",
+  "run": "strict-greedy-42m-v1",
+  "step": 50000,
+  "status": "scored",
+  "public_correct": 519,
+  "public_total": 960,
+  "public_percent": 54.06,
+  "reported_rank": 8,
+  "participants": 15,
+  "rank_basis": "Best retained submission, not this checkpoint alone",
+  "telegram_message_ids": {
+    "file": 788686,
+    "accepted": 788687,
+    "score": 788688,
+    "rank": 788689
+  },
+  "export_verified": true,
+  "t4_timing_verified": false,
+  "question_order_basis": "User confirmed official test.parquet order",
+  "selection": "greedy",
+  "num_beams": 1,
+  "syntax_retry_beams": 0
+}

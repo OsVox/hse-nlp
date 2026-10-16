@@ -40,7 +40,9 @@ as of 16 October. The historical 54.06% larger-model result, and the 53.85%
 small-model result, used greedy decoding with syntax-only beam retries;
 they must not be relabelled as strict greedy scores. Historical voting reached
 57.08% (548/960), retained only as an experiment. Strict greedy exports need
-separate bot receipts. Save outputs to Drive before export.
+separate bot receipts. The strict greedy 50k export scored 54.06% (519/960)
+at 09:26 (+03:00), matching the earlier retry-enabled score. Save outputs
+to Drive before export.
 
 The active training process keeps its original immutable source. Its automatic
 checkpoint predictions still allow syntax retries. Use `greedy_export.py` on
@@ -69,7 +71,7 @@ experimental option; compare its held-out loss before choosing a final model.
 The bot accepts only JSONL with 1,919 exact model outputs. The inference notebook
 converts the CSV without changing any program and verifies token provenance.
 The earlier 18.85% result included a handwritten identifier repair that was
-removed. The current 57.08% result uses exact model outputs. The user confirmed
+removed. The historical 57.08% voting result uses exact model outputs. The user confirmed
 that official test.parquet row order is required. See quality_experiments.md
 and experiments/ for controlled runs and the validation-copy caveat. First
 place remains unmet; the PDF is a progress report.
