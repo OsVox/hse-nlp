@@ -877,6 +877,24 @@ def build():
             p(activation_status),
             p('Next: run a bounded full-sequence memory/throughput probe and confirm any promising optimization before combination. Save every retained checkpoint and greedy output to Drive before export and bot scoring. Require a full consumed-data receipt before claiming all examples were trained. Optimization search is prioritized and finite, never described as exhaustive.'),
             p('Evidence: experiments/untruncated-cpu-v1 and experiments/activation-muon-2k-v1/cpu-recovery-status.json. The whole-corpus length arrays were hash-verified; selected original extremes were retokenized. Validation and generation caps remain fixed, so this work does not establish complete evaluation context or improved accuracy.','SmallText')]
+    complete_gpu = ROOT/'experiments/untruncated-gpu-probe-v1'
+    if (complete_gpu/'conclusion.json').exists():
+        checked=json.loads((complete_gpu/'conclusion.json').read_text())
+        observed=json.loads((complete_gpu/'results.json').read_text())
+        rows=[['Order / variant','Examples/s','Peak allocated GiB','GPU chunks']]
+        for run in observed['runs']:
+            rows.append([f"{run['repeat']+1} / {run['variant']}",f"{run['examples_per_second']:,.1f}",
+                         f"{run['peak_allocated_bytes']/1024**3:.2f}",run['microbatches']])
+        story += [PageBreak(),p('Complete-sequence GPU feasibility verified','Title'),
+            p('The CPU-prepared source a88585879408275e8060b64d851ca5b8b74e3a11 ran on an NVIDIA RTX PRO 6000 Blackwell Server Edition with PyTorch 2.11.0+cu130. Each variant used a fresh 42.48M 6/4 model, seed 42, BF16, Muon 0.001 / AdamW 0.0003 and numeric-token weight 2. All temporary weights were discarded.'),
+            p('Compare the same 4,096 original examples in capped/complete and complete/capped order. Each run has three warmup updates followed by 32 measured updates. Complete batches retain the verified 193,287 question and 304,642 program tokens; they split into 44 GPU chunks while preserving logical batches and loss normalization.'),
+            table(rows,[51*mm,39*mm,45*mm,35*mm]),
+            p(f"Complete sequences average {checked['examples_per_second']['complete']:,.1f} examples/s versus {checked['examples_per_second']['capped']:,.1f} capped: {checked['time_cost_percent']:.1f}% more time for the same examples. Complete peak allocated memory is {checked['complete_peak_allocated_gib']:.2f} GiB; the allocator reserves up to {checked['complete_peak_reserved_gib']:.2f} GiB. This is not a whole-corpus throughput estimate."),
+            p('The separate stress test executed all 130 selected original length extremes in 15 chunks, retained every token, produced finite loss, and peaked at 8.22 GiB allocated memory. Every optimizer update checks finite gradients. This tests selected extremes, not every original example on GPU; the complete-corpus length feasibility check was performed on CPU.'),
+            p(f"Measured driver time was {checked['measured_driver_seconds']:.2f}s and the worker lifetime was {checked['worker_seconds']:.2f}s. The 91 telemetry samples have median utilization 95% and mean 75.35%, including initialization and cleanup. Allocation, Drive authorization and installation are additional. Worker exit 0 and zero active Colab sessions were verified; results were exported from Drive."),
+            p('A later CPU-only chunk-count check found 44/34/32/32 ordinary chunks at 1x/2x/3x/4x budgets, and 15/9/7/6 extreme chunks. Larger budgets have not been measured on GPU. They may reduce launch overhead but require separate memory and speed evidence before adoption.'),
+            p('Next: choose a measured chunk budget, then run a bounded accuracy continuation with exact consumed-row/token receipts and multiple Drive-saved, bot-scored checkpoints. No accuracy gain, completed training pass, optimal model size or final T4 performance is claimed. Scaling remains on hold.'),
+            p('Evidence: experiments/untruncated-gpu-probe-v1/results.json, conclusion.json, gpu.csv, execution.complete.json and drive-results.json. The preceding CPU-only section records the state before this GPU check. No competition checkpoint was created by this probe.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

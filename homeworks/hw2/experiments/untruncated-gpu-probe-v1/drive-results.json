@@ -1,0 +1,35 @@
+{
+  "folder": "1-xMrSWvatcCUbeOX59WfAzj16MkkiQl9",
+  "downloads": [
+    {
+      "id": "10RL-zhyoWINiXqX2vkzjLAj45lKevikU",
+      "name": "execution.complete.json",
+      "bytes": 111,
+      "sha256": "994bef497dd210ce98671ecdf1bd821226fb376cae5e80a91810e850b5f399f1"
+    },
+    {
+      "id": "1jNki8KWKCbXu5F6L5JI_FTmrsOhtVSKs",
+      "name": "execution.log",
+      "bytes": 1406,
+      "sha256": "2b983589aa9f0725c7561f562cc165096875209ee5dc9064004e2295b258ca40"
+    },
+    {
+      "id": "17VNmg9eb-1eB96yeu8BvYOWoNH6Llns8",
+      "name": "results.json",
+      "bytes": 2968,
+      "sha256": "c59a2c6c33235a67cf854c07a0143dac698c693e098fabe1cee5a74c50a3dab0"
+    },
+    {
+      "id": "1hhUJOFn1wqwO7n1szAda-70X7Pk4cF1R",
+      "name": "progress.json",
+      "bytes": 2927,
+      "sha256": "ada8ce54335392c40df7925b2de60c3d7ee4ea6768dff092deecc1afc317bbab"
+    },
+    {
+      "id": "1ZD_T35KwdZHadjFQmkyyknXXYs2g8qrM",
+      "name": "gpu.csv",
+      "bytes": 3859,
+      "sha256": "e076bc1ebbd7a727a2e27575c8907c4e427cbee02b8392d7232c1c1e1405f9a2"
+    }
+  ]
+}

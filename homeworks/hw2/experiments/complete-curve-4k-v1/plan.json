@@ -1,0 +1,50 @@
+{
+  "status": "planned_not_prepared_or_run",
+  "purpose": "Measure a short accuracy learning curve after preserving complete original examples; no parameter scaling or automatic full-pass run.",
+  "parent_step": 73024,
+  "parent_model_sha256": "cad272fa2644c3876a577affc6f8559be9d5efce4e0f5c66f8f3ea6b7fb84cb6",
+  "parent_public_correct": 575,
+  "parent_public_total": 960,
+  "parent_heldout": {
+    "pilot_correct": 139,
+    "pilot_usable": 245,
+    "confirmation_correct": 286,
+    "confirmation_usable": 493,
+    "total_prediction_failures": 40
+  },
+  "model_parameters": 42481152,
+  "optimizer": "AdamW, retain parent moments",
+  "learning_rate": 3e-05,
+  "warmup": 50,
+  "restart_schedule": true,
+  "numeric_token_weight": 2.0,
+  "batch_size": 128,
+  "accumulation": 1,
+  "precision": "bf16",
+  "untruncated_training": true,
+  "microbatch_token_budget": 40960,
+  "microbatch_attention_budget": 9961472,
+  "selected_budget_evidence": "untruncated-gpu-probe-v1; larger budgets remain optional and untested",
+  "training_steps_added": 3776,
+  "final_step": 76800,
+  "checkpoint_steps": [
+    73728,
+    74752,
+    75776,
+    76800
+  ],
+  "added_presentations_at_checkpoints": [
+    90112,
+    221184,
+    352256,
+    483328
+  ],
+  "coverage": "New exact traversal beginning at the best checkpoint; old unique coverage is unknown. Commit consumed original row IDs and full token counts only after successful updates.",
+  "generation": "Strict greedy, original official 1919-question order, unchanged evaluation caps for comparability.",
+  "data": "All 60 verified original shards, full-coverage eligible index, no transformed or new targets.",
+  "worker_timeout_seconds": 900,
+  "artifact_policy": "Save and verify every checkpoint and predictions on Drive before export; bot-score all four retained checkpoints.",
+  "evaluation": "Run held-out executed-answer accuracy and execution-failure counts at each retained checkpoint; report the trajectory against the parent. Public scores are recorded separately. This continuation is not a causal comparison of data traversal versus truncation.",
+  "extension_policy": "No automatic longer run. Review the complete trajectory and data receipts before continuation; no claim that all rows were trained until a full-pass receipt exists.",
+  "gpu_used": false
+}

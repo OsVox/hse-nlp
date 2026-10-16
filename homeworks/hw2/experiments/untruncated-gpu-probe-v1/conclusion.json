@@ -1,0 +1,32 @@
+{
+  "gate_passed": true,
+  "decision": "Complete original sequences passed the bounded GPU memory and finite-loss gate. Use the untruncated path in the next short quality run; do not claim accuracy improvement or a completed full pass.",
+  "examples_per_second": {
+    "capped": 1372.1517229905094,
+    "complete": 1162.7205489858252
+  },
+  "time_cost_percent": 18.0121676001477,
+  "throughput_change_percent": -15.262974968121124,
+  "complete_peak_allocated_gib": 16.931092262268066,
+  "complete_peak_reserved_gib": 24.71875,
+  "extreme_peak_allocated_gib": 8.2158784866333,
+  "worker_seconds": 27.379927396774292,
+  "measured_driver_seconds": 18.050113410999984,
+  "gpu_telemetry": {
+    "samples": 91,
+    "mean_utilization": 75.35164835164835,
+    "median_utilization": 95.0,
+    "peak_memory_mib": 25985.0
+  },
+  "quality_claim": false,
+  "full_pass_completed": false,
+  "checkpoint_retained": false,
+  "weights_discarded": true,
+  "limitations": [
+    "Timing excludes GPU allocation, Drive sign-in and package installation.",
+    "Pretokenized short probe excludes full loader and checkpoint overhead.",
+    "Only selected extremes were executed; complete-corpus lengths were checked on CPU.",
+    "No accuracy comparison and no T4 result."
+  ],
+  "next": "Prepare a bounded continuation from the best own checkpoint using complete original sequences and exact consumed-row/token accounting, with multiple saved and bot-scored checkpoints."
+}

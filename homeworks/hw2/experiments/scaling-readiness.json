@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-16T22:48:31.294462+03:00",
+  "updated_at": "2026-10-16T23:00:08.476808+03:00",
   "scaling_ready": false,
   "long_run_started": false,
   "all_optimizations_exhausted": false,
@@ -23,9 +23,11 @@
       "full-coverage-cpu-v1",
       "coverage-pipeline-1k-v1",
       "corpus-token-cpu-v1",
-      "untruncated-cpu-v1"
+      "untruncated-cpu-v1",
+      "untruncated-gpu-probe-v1"
     ],
-    "untruncated_training_cpu_verified": true
+    "untruncated_training_cpu_verified": true,
+    "untruncated_training_gpu_probe_passed": true
   },
   "attention_probe": {
     "evidence": "t5-sdpa-probe-v1",
@@ -33,7 +35,7 @@
     "all_fused_attention_implementations_ruled_out": false
   },
   "remaining_priorities": [
-    "Bounded GPU memory/throughput probe for complete original sequences, including rare long examples; prepared on Drive.",
+    "Choose a measured complete-sequence chunk budget, then run a bounded quality continuation with multiple checkpoints before a full pass or larger model.",
     "Use exact consumed-row and token accounting and require a completed full-pass receipt.",
     "Evaluate the selected model on a bounded longer learning curve with checkpoint scores and stopping rules before increasing model size."
   ],
