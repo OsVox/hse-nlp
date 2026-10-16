@@ -1,0 +1,12 @@
+{
+  "step": 20000,
+  "presentations": 2559950,
+  "unique_rows": 2559950,
+  "repeats": 0,
+  "source_length": null,
+  "target_length": null,
+  "model_sha256": "7e1d12674d3a27f2e82804ceccdc7281a375c3fbb964ac607ef859fa9d81fa30",
+  "verified": true,
+  "cursor_derived_expected_rows": 2559950,
+  "partial_batch_shortfall": 50
+}
