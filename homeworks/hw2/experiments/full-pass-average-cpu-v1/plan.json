@@ -1,0 +1,39 @@
+{
+  "baseline": 92456,
+  "candidates": {
+    "last2": [
+      90000,
+      92456
+    ],
+    "last3": [
+      80000,
+      90000,
+      92456
+    ]
+  },
+  "pilot": {
+    "offset": 0,
+    "rows": 512
+  },
+  "confirmation": {
+    "offset": 1024,
+    "rows": 512
+  },
+  "examples_file_sha256": "199db41781bbf23ce52086d3a08f49ba500991ffb6c79c38e6c28bb5e740f57c",
+  "source_commit": "1b436ffbed9307a9297b612b7e8ed8cdb78ab002",
+  "max_input_tokens": 0,
+  "max_new_tokens": 1280,
+  "batch_size": 64,
+  "precision": "fp32",
+  "num_beams": 1,
+  "cpu_threads": 4,
+  "training_updates": 0,
+  "public_test_used_for_selection": false,
+  "gate": "Strict gain in each held-out subset; no increase in total prediction execution failures. Select at most one average for public export.",
+  "cpu_timeout_seconds": 2400,
+  "gpu_allocated": false,
+  "reference": "https://arxiv.org/html/1706.03762v7#S6.SS1",
+  "limitation": "Fixed previously examined held-out groups remain exploratory; only the last two/three checkpoints of the new complete-pass lineage are tested.",
+  "base_source_commit": "8217ff575941da463fb03ff25b5a010dd198e1e1",
+  "allow_runtime_tokenizer_settings": true
+}

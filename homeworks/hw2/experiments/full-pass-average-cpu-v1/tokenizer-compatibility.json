@@ -1,0 +1,11 @@
+{
+  "original_parent_files_unchanged": true,
+  "full_question_and_program_strings": 4096,
+  "exact_untruncated_token_ids_equal": true,
+  "padded_long_probe_equal": true,
+  "only_backend_differences": [
+    "padding",
+    "truncation"
+  ],
+  "gpu_used": false
+}
