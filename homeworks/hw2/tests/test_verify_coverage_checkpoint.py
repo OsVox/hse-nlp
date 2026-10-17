@@ -34,3 +34,57 @@ def test_real_checkpoint_counts_include_partial_batches(step,rows,shortfall):
 def test_rejects_changed_or_inconsistent_evidence(mutation):
     record,config,plan,parent=deepcopy(evidence(20000));mutation(record)
     with pytest.raises(ValueError):verify(record,config,plan,parent)
+
+
+def second_pass_evidence():
+    record,config,plan,parent=deepcopy(evidence(20000))
+    final,_,_,_=evidence(92456)
+    state,report=record['state'],record['report']
+    config['steps']=plan['final_step']=184912
+    record['optimizer_step']+=92456
+    state['cursor'][0]=1
+    state['presentations']+=final['state']['presentations']
+    state['untruncated_tokens']={k:v+final['state']['untruncated_tokens'][k]
+                               for k,v in state['untruncated_tokens'].items()}
+    report.update(presentations=state['presentations'],completed_full_passes=1,
+        unique_rows_since_tracking_started=plan['eligible_rows'],
+        repeated_presentations_since_tracking_started=2559950,
+        unique_visited_by_shard=report['eligible_by_shard'],
+        presentations_by_shard=[n+a for n,a in zip(report['eligible_by_shard'],state['counts'])],
+        untruncated_tokens=state['untruncated_tokens'])
+    return record,config,plan,parent
+
+
+def test_second_pass_counts_intentional_repeats_and_partial_batches():
+    result=verify(*second_pass_evidence())
+    assert result['step']==112456 and result['unique_rows']==11834223
+    assert result['repeats']==2559950 and result['completed_full_passes']==1
+    assert result['planned_passes']==2 and not result['planned_passes_complete']
+    assert result['partial_batch_shortfall']==195
+
+
+def test_completed_second_pass_has_every_row_twice():
+    record,config,plan,parent=deepcopy(evidence(92456))
+    state,report=record['state'],record['report']
+    config['steps']=plan['final_step']=record['optimizer_step']=184912
+    state['cursor']=[2,0,0]
+    state['presentations']*=2
+    state['untruncated_tokens']={k:2*v for k,v in state['untruncated_tokens'].items()}
+    report.update(presentations=state['presentations'],completed_full_passes=2,
+        repeated_presentations_since_tracking_started=plan['eligible_rows'],
+        presentations_by_shard=[2*n for n in report['eligible_by_shard']],
+        untruncated_tokens=state['untruncated_tokens'])
+    result=verify(record,config,plan,parent)
+    assert result['planned_passes_complete']
+    assert result['unique_rows']==result['repeats']==11834223
+    assert result['presentations']==23668446
+
+
+@pytest.mark.parametrize('mutation',[
+    lambda r:r['report'].__setitem__('repeated_presentations_since_tracking_started',0),
+    lambda r:r['state'].__setitem__('cursor',[2,10,0]),
+    lambda r:r['report']['presentations_by_shard'].__setitem__(0,0),
+])
+def test_second_pass_rejects_missing_repeats_and_invalid_cursor(mutation):
+    record,config,plan,parent=second_pass_evidence();mutation(record)
+    with pytest.raises(ValueError):verify(record,config,plan,parent)

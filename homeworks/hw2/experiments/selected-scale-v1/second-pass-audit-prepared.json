@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "name": "verify_coverage_checkpoint.py",
+      "file_id": "1QMOa0S1epK5TQvafeW4IrEo1I_2R3um-",
+      "sha256": "672144e0387340e006dbb434a57015f7ff96c6184a79a631d4c829accb10143f",
+      "download_byte_verified": true
+    },
+    {
+      "name": "test_verify_coverage_checkpoint.py",
+      "file_id": "1ubYfsaBqY4P94fzE9lOnTWwx20uVy82D",
+      "sha256": "a25f4feaaa1e25618774f33e245fea052abc5882cb6e603de5b8c1b801e17eaa",
+      "download_byte_verified": true
+    }
+  ],
+  "coverage_verifier_tests_passed": 14,
+  "unchanged_row_replay_tests_passed": 5,
+  "gpu_training_code_changed": false,
+  "scope": "Cursor and ledger consistency including deliberate repeats; not independent row-order replay.",
+  "observed_at": "2026-10-17T02:07:13.191167+00:00"
+}

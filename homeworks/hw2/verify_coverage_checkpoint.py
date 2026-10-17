@@ -1,4 +1,4 @@
-"""Check a saved one-pass ledger against its stream cursor without GPU work."""
+"""Check a saved full-coverage ledger against its stream cursor without GPU work."""
 import argparse
 import hashlib
 import json
@@ -26,18 +26,23 @@ def verify(record, config, plan, parent):
     round_rows = [sum(max(0, min(chunk, n-i*chunk)) for n in counts)
                   for i in range(math.ceil(max(counts)/chunk))]
     round_steps = [math.ceil(n/batch_size) for n in round_rows]
-    require(sum(round_steps) == plan['final_step'] == config['steps'], 'Wrong full-pass budget')
+    steps_per_pass = sum(round_steps)
+    planned_passes, remainder = divmod(plan['final_step'], steps_per_pass)
+    require(planned_passes >= 1 and remainder == 0 and
+            plan['final_step'] == config['steps'], 'Wrong full-pass budget')
     epoch, round_id, batch = state['cursor']
-    require(epoch in (0, 1) and 0 <= round_id < len(round_rows) and
+    require(0 <= epoch <= planned_passes and 0 <= round_id < len(round_rows) and
             0 <= batch < round_steps[round_id], 'Invalid normalized cursor')
-    require(epoch == 0 or (round_id == batch == 0), 'Started a repeated pass')
+    require(epoch < planned_passes or (round_id == batch == 0), 'Exceeded planned passes')
     expected_step = epoch*sum(round_steps)+sum(round_steps[:round_id])+batch
     expected_rows = epoch*sum(counts)+sum(round_rows[:round_id])+batch*batch_size
     require(record['optimizer_step'] == expected_step, 'Cursor and update count disagree')
-    require(expected_rows == state['presentations'] == report['presentations'] ==
-            report['unique_rows_since_tracking_started'], 'Row count or repetition mismatch')
+    unique_rows = min(expected_rows, sum(counts))
+    repeats = expected_rows - unique_rows
+    require(expected_rows == state['presentations'] == report['presentations'] and
+            unique_rows == report['unique_rows_since_tracking_started'], 'Row count or repetition mismatch')
     require(report['completed_full_passes'] == epoch and
-            report['repeated_presentations_since_tracking_started'] == 0, 'Repeated rows')
+            report['repeated_presentations_since_tracking_started'] == repeats, 'Repeated rows')
     seen = state['counts']
     require(len(seen) == len(counts) and all(0 <= a <= b for a,b in zip(seen,counts)),
             'Invalid per-shard counts')
@@ -46,17 +51,20 @@ def verify(record, config, plan, parent):
     require(report['visited_current_epoch_by_shard'] == seen and
             report['unique_visited_by_shard'] == visited and
             report['presentations_by_shard'] == presented and
-            sum(visited) == sum(presented) == expected_rows, 'Per-shard accounting disagrees')
+            sum(visited) == unique_rows and sum(presented) == expected_rows,
+            'Per-shard accounting disagrees')
     require(report['source_length'] is None and report['target_length'] is None,
             'Truncated sequences')
     tokens = state['untruncated_tokens']
     require(tokens == report['untruncated_tokens'] and set(tokens) == {'question','code'}
             and all(isinstance(v,int) and v >= expected_rows for v in tokens.values()),
             'Missing full-token accounting')
-    return dict(step=expected_step, unique_rows=expected_rows, repeats=0,
+    return dict(step=expected_step, unique_rows=unique_rows, repeats=repeats,
+        presentations=expected_rows, completed_full_passes=epoch, planned_passes=planned_passes,
         cursor=state['cursor'], coverage_percent=100*expected_rows/sum(counts),
         partial_batch_shortfall=expected_step*batch_size-expected_rows,
-        complete_pass=epoch == 1, full_sequences=True, stream_identity=state['identity'],
+        complete_pass=epoch >= 1, planned_passes_complete=epoch == planned_passes,
+        full_sequences=True, stream_identity=state['identity'],
         scope='Saved-ledger and cursor consistency, not an independent replay of every row ID.')
 
 
@@ -81,7 +89,11 @@ def main():
     config=read_verified(args.checkpoint,'run_config.json')
     step=read_verified(args.checkpoint,'step.json')['step']
     require(step == record['optimizer_step'], 'Checkpoint step mismatch')
-    result=verify(record,config,json.loads(args.ready.read_text())['plan'],
+    ready=json.loads(args.ready.read_text())
+    plan=dict(ready['plan'])
+    if 'eligible_rows' not in plan:
+        plan['eligible_rows']=ready['fresh_preparation']['new_eligible_rows']
+    result=verify(record,config,plan,
                   read_verified(args.parent,'coverage.json'))
     if args.row_replay:
         from .replay_coverage_order import compare
