@@ -1,0 +1,53 @@
+{
+  "options": {
+    "steps": 92456,
+    "batch_size": 128,
+    "accumulation": 1,
+    "seed": 42,
+    "warmup": 500,
+    "learning_rate": 0.0003,
+    "save_every": 92456,
+    "eval_every": 92456,
+    "max_training_seconds": 600.0,
+    "checkpoint_training_seconds": 300.0,
+    "precision": "bf16",
+    "group_window": 32,
+    "input_pipeline": "encoded",
+    "prefetch_batches": 2,
+    "encoder_layers": 6,
+    "decoder_layers": 4,
+    "initialization_vocab_size": 16384,
+    "coverage_index": "/content/matched-curve-inputs/index",
+    "coverage_rows_per_shard": 4096,
+    "untruncated_training": true,
+    "microbatch_token_budget": 40960,
+    "microbatch_attention_budget": 9961472,
+    "numeric_token_weight": 1.0,
+    "prediction_batch_size": 64,
+    "prediction_max_input_tokens": 0,
+    "prediction_max_new_tokens": 1280
+  },
+  "arms": {
+    "adamw78": {
+      "d_model": 704,
+      "d_ff": 2112,
+      "num_heads": 11,
+      "optimizer": "adamw"
+    }
+  },
+  "training_timeout_seconds": 1050,
+  "outer_timeout_seconds": 2100,
+  "hypothesis": "Complete the missing AdamW size comparison: width704 versus width512 with the optimizer held fixed.",
+  "training_budget": "One fresh AdamW78 arm: 600 measured training seconds, checkpoints at 300 and 600 seconds. Reuse the verified AdamW42 600-second reference to save ten GPU minutes.",
+  "selection": "Require strict gains on both fixed held-out subsets without added total execution failures. A winner requires a subsequent paired second-seed AdamW42/AdamW78 run before long training.",
+  "reference": "Archived AdamW42 step6018 from matched-curve-v1, same original tokenizer, fresh exclusion index, runtime versions, GPU model and 600-second budget. Validate stage identities before comparison.",
+  "schedule": "Warmup500updates then cosine to10% of peak over the calculated92456-update full pass. Pilots do not restart a short decay cycle. Resume with optimizer, scheduler, random state and consumed-row cursor.",
+  "validation": "2048 fixed original question groups balanced acrossshards1..59. Every copy is excluded from training, as are old validation groups. Shard0 question texts excluded to avoid tokenizer-question overlap; embedded program text was not audited. v1single-shard set retired before model evaluation.",
+  "decoding": "Strict greedy with complete questions and max1280 generated tokens, above audited1208-token longest original target. Record generation-cap hits; no repairs, external data or teacher targets.",
+  "limitations": "The reference was measured in a previous runtime. Equal nominal GPU and software do not guarantee identical host load or throughput. Report examples processed and timing separately; confirm any winner in a paired fresh run. Early results do not prove the best long-run size.",
+  "long_run_started": false,
+  "public_test_used_for_selection": false,
+  "second_seed_required_for_promotion": true,
+  "reuse_reference": true,
+  "prerequisite": "Finish and preserve the active CPU averaging screen before any GPU allocation."
+}

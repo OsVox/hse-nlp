@@ -1,0 +1,10 @@
+{
+  "adamw78": {
+    "parameters": 78146112,
+    "loss": 10.986842155456543,
+    "gradient_norm": 26.717924118041992,
+    "finite_after_update": true,
+    "cached_greedy_equal": true,
+    "seconds": 2.609148625022499
+  }
+}

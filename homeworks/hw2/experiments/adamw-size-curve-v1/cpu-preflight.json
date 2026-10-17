@@ -1,0 +1,24 @@
+{
+  "cpu_verified": true,
+  "arms": {
+    "adamw78": {
+      "parameters": 78146112,
+      "loss": 10.986842155456543,
+      "gradient_norm": 26.717924118041992,
+      "finite_after_update": true,
+      "cached_greedy_equal": true,
+      "seconds": 2.609148625022499
+    }
+  },
+  "initial_model_hashes": {
+    "adamw78": "7b8e73c79583507fad6f148c7f33b898add893303f44b993b66e4a63b1d48e6f"
+  },
+  "gpu_initialization_verified": false,
+  "fresh_index_sha256": "99382ab8b633d2ba9c178c8a2d77d2f55e3c20d43cc7b15aeaaa830c7af266ed",
+  "eligible_rows": 11834223,
+  "first_batch_complete_tokens": true,
+  "first_batch_microbatches": 1,
+  "full_pass_updates": 92456,
+  "original_targets_unchanged": true,
+  "training_started": false
+}

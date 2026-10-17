@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-10-17T01:29:15.724359+00:00",
+  "user_instruction": "After all the tests, scale up the best model with best practices.",
+  "additional_approval_required": false,
+  "screening_scope": [
+    "Complete the two fixed CPU checkpoint averages",
+    "One 600-second AdamW78 comparison against the verified AdamW42 reference",
+    "A fresh paired second-seed comparison only if AdamW78 improves both held-out subsets"
+  ],
+  "screen_closes_after_these_tests": true,
+  "selection": "Use fixed held-out executed-answer agreement and failure counts. Keep public test answers out of training and recipe selection. Retain the best verified public checkpoint separately.",
+  "scale_up": "After closing the screen, freeze the winning recipe and undertake a longer run with periodic held-out evaluation, complete original-row coverage and preserved checkpoints. A larger parameter count is adopted only if the size test is confirmed.",
+  "engineering": [
+    "Prepare code, dependencies and Drive inputs before GPU allocation",
+    "Use mixed precision for training and measured microbatch budgets",
+    "Use complete input and target sequences and record every consumed row",
+    "Retain optimizer, scheduler, random state and data cursor on resume",
+    "Save every checkpoint and generated output to Drive before exporting and bot scoring",
+    "Track GPU utilization, training time, examples and tokens processed",
+    "Use greedy decoding and preserve official test question order",
+    "Release GPU after completion or failure"
+  ],
+  "budget": "Set an explicit training-time bound and validation stopping rule for the selected run after the size result is known. Do not start an unbounded extension.",
+  "combined_recipe_validation": "If more than one new technique wins independently, test their combination briefly before the longer run.",
+  "current_best": "selected-full-pass-v2/step-092456: AdamW42, 592/960 public, one complete eligible-data pass",
+  "long_run_started": false
+}

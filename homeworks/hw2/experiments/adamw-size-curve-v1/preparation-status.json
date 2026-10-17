@@ -1,0 +1,9 @@
+{
+  "gpu_started": false,
+  "cpu_model_preflight_completed": true,
+  "driver_unit_tests_passed": 7,
+  "reference_identity_verified": true,
+  "prerequisite_cpu_averaging_completed": false,
+  "ready_for_gpu": false,
+  "cpu_model_preflight_file": "cpu-preflight.json"
+}
