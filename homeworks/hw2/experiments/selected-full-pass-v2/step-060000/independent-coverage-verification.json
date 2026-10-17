@@ -1,0 +1,19 @@
+{
+  "step": 60000,
+  "unique_rows": 7679950,
+  "repeats": 0,
+  "cursor": [
+    0,
+    31,
+    1175
+  ],
+  "coverage_percent": 64.89610682509532,
+  "partial_batch_shortfall": 50,
+  "complete_pass": false,
+  "full_sequences": true,
+  "stream_identity": "fe8bd4c1a1d5c4dc3799e3284e1ddd92ef96e53517e083b1fef1ef1120fc72ba",
+  "scope": "Saved consumption hash chain, per-shard counts and full-token totals match an independent CPU reconstruction from verified row IDs and cached token lengths.",
+  "independent_row_order_verified": true,
+  "row_order_sha256": "4d569431c9a120837584fce7e69c0cf461690e074e77920da0420ffe0ae79e91",
+  "replay_sha256": "7899415dcec0b617bf683e4f8d08f38973de7238689915ba78977d6ff3cb77c9"
+}

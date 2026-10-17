@@ -1079,7 +1079,9 @@ def build():
             case=json.loads(triangle.read_text())
             story += [p(f"Individual regression: the user-identified triangle question returned {case['bot_reported_answer']} at step 40,000, while the correct height is {case['bot_reported_correct']}; step 20,000 returned {case['earlier_step_20000_answer']}. The overall score improved, but individual answers are not monotonic. This observation is retained without output repairs or training-target changes.",'SmallText')]
         if (full/'step-050000/user-triangle-case.json').exists():
-            story += [p('At step 50,000 the unchanged generated triangle program again uses (2 * area) / base, which gives 9 for area 54 and base 12. This is a source/arithmetic inspection, not an additional execution benchmark.','SmallText')]
+            later=(' At step 60,000 the bot again reports 4.5 instead of 9.'
+                   if (full/'step-060000/user-triangle-case.json').exists() else '')
+            story += [p('At step 50,000 the unchanged generated triangle program again uses (2 * area) / base, which gives 9 for area 54 and base 12. This is a source/arithmetic inspection, not an additional execution benchmark.'+later,'SmallText')]
         story += [p('Each checkpoint is saved to Drive before its exact token IDs, CSV and 1,919-row JSONL are downloaded and checked. Bot receipts remain separate from training and held-out measurements. Saving and inference overhead are excluded from training-time estimates. The runtime has a hard timeout and automatic GPU release on completion or failure.','SmallText'),
             p(f"Frozen training source {ready['source_commit'][:7]}; evidence: experiments/selected-full-pass-v1 (failed launch) and selected-full-pass-v2. Historical public best remains a separate artifact; neither one completed pass nor a green execution receipt alone proves first place or T4 timing compliance.",'SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
