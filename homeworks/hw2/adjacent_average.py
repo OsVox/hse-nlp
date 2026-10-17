@@ -4,8 +4,10 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import time
 
 from .average_pilot import average_checkpoints
+from .checkpoint_io import sha256
 
 
 def run(root, output, cache_dir, phase):
@@ -22,6 +24,10 @@ def run(root, output, cache_dir, phase):
     # Evaluate only the model archive restored and byte-verified from Drive.
     receipt = json.loads((output/'models-drive-verification.json').read_text())
     assert receipt['download_verified'] and receipt['restored_models_verified']
+    examples = root/'questions.jsonl' if 'examples_file_sha256' in plan else None
+    if examples is not None:
+        assert sha256(examples) == plan['examples_file_sha256']
+    deadline = time.monotonic()+plan.get('cpu_timeout_seconds',7200)
     models = {'baseline': root/'parents'/f"step-{plan['baseline']:06d}"}
     models.update({name:root/'restored-models'/name for name in plan['candidates']})
     def evaluate(name, stage):
@@ -31,10 +37,23 @@ def run(root, output, cache_dir, phase):
         command = [sys.executable, '-u', '-m', 'homeworks.hw2.numeric_eval',
                    '--model-dir', str(models[name]), '--cache-dir', str(cache_dir),
                    '--output', str(result), '--offset', str(plan[stage]['offset']),
-                   '--rows', str(plan[stage]['rows']), '--beams', '1', '--cpu-threads', '4']
+                   '--rows', str(plan[stage]['rows']), '--beams', '1', '--cpu-threads', '4',
+                   '--max-input-tokens',str(plan.get('max_input_tokens',128)),
+                   '--max-new-tokens',str(plan.get('max_new_tokens',192))]
+        if examples is not None:
+            command += ['--examples-file',str(examples)]
+        manifest = json.loads((models[name]/'checkpoint.complete.json').read_text())
+        assert manifest['status'] == 'checkpoint_verified'
+        for asset, digest in manifest['files'].items():
+            assert Path(asset).name == asset
+            if asset != 'training_state.pt':
+                assert sha256(models[name]/asset) == digest
+        remaining = deadline-time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError('CPU experiment budget exhausted')
         with result.with_suffix('.log').open('w') as log:
             subprocess.run(command, stdout=log, stderr=subprocess.STDOUT,
-                           check=True, timeout=1200)
+                           check=True, timeout=min(1200,remaining))
         value = json.loads(result.read_text())
         assert value['device'] == 'cpu' and value['beams'] == 1
         print(stage, name, value['numeric_correct'], value['prediction_failures'], flush=True)
