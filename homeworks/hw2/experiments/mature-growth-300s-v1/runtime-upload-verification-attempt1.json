@@ -1,0 +1,22 @@
+{
+  "source.tar": {
+    "id": "1s_9t6uzCldekeXxparW3018ynXnxKgl5",
+    "sha256": "2176cbe163c656bb26bfb37ef62affa0fe76ea9174f263a420e732d5ac298772",
+    "download_verified": true
+  },
+  "launch.py": {
+    "id": "17yq8X863RKWkL9fgVpoQds35rLOPIPv8",
+    "sha256": "17d2ef32e1fdfb1fb4de126c2280f236c7e226a014542b55c67645b8c5f56351",
+    "download_verified": true
+  },
+  "ready.json": {
+    "id": "1codvx6hxJchFpVwO7uKfGDdJ1Uwgo_-7",
+    "sha256": "4f7f7a26105c9c21162ec0fef97dc90c6aa361d3f031bf13894b818ba7df6a2a",
+    "download_verified": true
+  },
+  "cpu-preflight.py": {
+    "id": "1dF6sWadmgrNQ7WhpIV0YQW2bt7bFErkQ",
+    "sha256": "601552c74703a5a100d46c6835614f8cf659285c084073250f3d59b81b769853",
+    "download_verified": true
+  }
+}

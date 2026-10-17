@@ -24,7 +24,7 @@ def check_decoding(provenance):
             raise ValueError('Unexpected generation setting: '+key)
 
 
-def collect(folder, destination, evidence, ready_path, parent, attachment):
+def collect(folder, destination, evidence, ready_path, parent, attachment, *, coverage_plan=None):
     if evidence.exists() or attachment.exists():
         raise ValueError('Inspect existing evidence/attachment before collecting again')
     download(folder, destination)
@@ -43,7 +43,8 @@ def collect(folder, destination, evidence, ready_path, parent, attachment):
     provenance=json.loads((destination/'predictions.provenance.json').read_text())
     check_decoding(provenance)
     verification=verify_export(destination,destination,ready['source_commit'])
-    plan=dict(ready['plan'],eligible_rows=ready['fresh_preparation']['new_eligible_rows'])
+    plan=dict(ready['plan'] if coverage_plan is None else coverage_plan,
+              eligible_rows=ready['fresh_preparation']['new_eligible_rows'])
     coverage=verify_coverage(read_verified(destination,'coverage.json'),
         read_verified(destination,'run_config.json'),plan,read_verified(parent,'coverage.json'))
     if coverage['step']!=verification['step']:
