@@ -25,3 +25,16 @@ def test_replay_rejects_corruption_even_when_total_rows_agree(field,value):
     record['state'][field]=value
     with pytest.raises(ValueError,match='replay mismatch'):
         compare(replay['checkpoints']['40000'],record)
+
+
+def test_second_pass_replay_matches_actual_consumption():
+    root=ROOT.parent/'selected-scale-v1'
+    replay=json.loads((root/'independent-row-replay.json').read_text())
+    record=json.loads((root/'segment-01/step-102563/coverage.json').read_text())
+    assert compare(replay['checkpoints']['102563'],record)
+    assert replay['planned_passes']==2
+    assert 184912 not in replay['compared_checkpoint_steps']
+    assert replay['checkpoints']['102563']['cursor'][0]==1
+    record['state']['row_order_sha256']='0'*64
+    with pytest.raises(ValueError,match='row_order_sha256'):
+        compare(replay['checkpoints']['102563'],record)

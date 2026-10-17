@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "name": "independent-row-replay.json",
+      "id": "1uJ89HAaOpW8BmznoB5JiTljq8pH64u60",
+      "sha256": "33a2f427954915eee504e37a8da9b6ca68697c65963e74d1018a78f73de9ab51",
+      "download_byte_verified": true
+    },
+    {
+      "name": "replay_coverage_order.py",
+      "id": "1VfOrXFcOKiUNlfXLCGpqfig1PnwV5FAc",
+      "sha256": "b2610de445c0f2f1ab35a2956da12d6c16771a710b288d799e413c3b13260d23",
+      "download_byte_verified": true
+    },
+    {
+      "name": "independent-coverage-verification.json",
+      "id": "1_ZOlO12XaUXoeCJOB7PGGWUiU3pnX5LF",
+      "sha256": "5f1e8136db9cc23b08c75ae58df63ce677f64b9d51d1a73337dd0b95f7c6558f",
+      "download_byte_verified": true
+    }
+  ],
+  "tests_passed": 20,
+  "one_pass_regression_matched_all_original_checkpoints": true,
+  "actual_compared_steps": [
+    92456,
+    102563
+  ],
+  "future_steps_are_predictions": true,
+  "gpu_training_changed": false
+}
