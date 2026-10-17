@@ -1,0 +1,20 @@
+{
+  "step": 143376,
+  "unique_rows": 11834223,
+  "repeats": 6517710,
+  "presentations": 18351933,
+  "completed_full_passes": 1,
+  "planned_passes": 2,
+  "cursor": [
+    1,
+    26,
+    1535
+  ],
+  "coverage_percent": 155.07509872004272,
+  "partial_batch_shortfall": 195,
+  "complete_pass": true,
+  "planned_passes_complete": false,
+  "full_sequences": true,
+  "stream_identity": "fe8bd4c1a1d5c4dc3799e3284e1ddd92ef96e53517e083b1fef1ef1120fc72ba",
+  "scope": "Saved-ledger and cursor consistency, not an independent replay of every row ID."
+}

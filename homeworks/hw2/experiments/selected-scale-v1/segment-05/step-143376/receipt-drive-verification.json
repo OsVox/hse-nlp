@@ -1,0 +1,44 @@
+[
+  {
+    "name": "bot_receipt.json",
+    "file_id": "1kjKTuUSW6CyPW9F-iHNwulZVOGqguQSL",
+    "sha256": "9c8aa847215798d0a414e38ed8cb5cfdb55ca1ed9b8f9a8a37d6a7c6b3375f2b",
+    "download_verified": true
+  },
+  {
+    "name": "verification.json",
+    "file_id": "1FA6SeNND1vAH6BBt1yeWofN2EaMsZDJ6",
+    "sha256": "a54e07967883b821834f935c06828a1859ab7af718b028e8ead28a324b7c2932",
+    "download_verified": true
+  },
+  {
+    "name": "coverage-verification.json",
+    "file_id": "1d_52CBTOJL_7oLLfQ42MW47Of9gqvhLj",
+    "sha256": "43817d7cd8af6491b2d310b3082d2f28f3cc1cc409dd8f5ab7f2217964e500ce",
+    "download_verified": true
+  },
+  {
+    "name": "independent-coverage-verification.json",
+    "file_id": "1E9kPgL_iD1F_Tl5Lgqbc2QmpYnyPcamS",
+    "sha256": "92c9bc9e21c691067e740017cf96b81e64a270140788fa2f36809afc5775458b",
+    "download_verified": true
+  },
+  {
+    "name": "collection.json",
+    "file_id": "1fVDyiXFBgHNGdFRAptfmZfZCcblNc_Ya",
+    "sha256": "b6f0794ffcd38330a0f5c0785e050589825248dbf123b56214d46342de577122",
+    "download_verified": true
+  },
+  {
+    "name": "inference_candidate.ipynb",
+    "file_id": "139blHK9tdDR7tL99DCajI5g6as3BGvW1",
+    "sha256": "be4ed486370aaf71bbf9bfe86a78dd10c8c02c4bf585e99d4cfa36adf86173ee",
+    "download_verified": true
+  },
+  {
+    "name": "independent-row-replay-143376.json",
+    "file_id": "1Gs-MlOML1k2akNYOeOuqw3AhYikMQ4yY",
+    "sha256": "d0ec6d428a19aa4193b4773d326ad8c53b836cab8b6189dfae3bd4c190f405c4",
+    "download_verified": true
+  }
+]

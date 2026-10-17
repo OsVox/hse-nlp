@@ -1,11 +1,11 @@
 {
   "file_id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
-  "sha256": "61b40f7b8e5f3ca35266f6c937031e220f69cf996bb9705715c0bba55027162e",
+  "sha256": "9935d948d8dcb914320decbfdc054028acffdd9e74862a5263760e51b2124232",
   "download_byte_verified": true,
   "pages": 63,
   "rendered_pages_reviewed": [
-    61,
-    63
+    1,
+    61
   ],
-  "latest_scored_checkpoint": 133177
+  "latest_scored_checkpoint": 143376
 }
