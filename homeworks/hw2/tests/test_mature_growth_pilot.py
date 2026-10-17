@@ -18,11 +18,12 @@ def test_resume_preserves_parent_architecture_and_schedule():
     assert options['untruncated_training'] and options['prediction_max_input_tokens'] == 0
 
 
-def test_launcher_has_bounded_release_and_no_gpu_package_install():
+def test_launcher_has_bounded_release_and_offline_package_install():
     compile(LAUNCH, 'launch.py', 'exec')
     assert 'timeout=1800' in LAUNCH and 'runtime.unassign' in LAUNCH
     assert 'os.killpg' in LAUNCH and "ready['gpu_launch_ready']" in LAUNCH
-    assert "'pip'" not in LAUNCH
+    assert "'--no-index'" in LAUNCH and "'--find-links'" in LAUNCH
+    assert "wheel_record['archive_sha256']" in LAUNCH and 'timeout=60' in LAUNCH
     assert 'homeworks.hw2.mature_growth_pilot' in LAUNCH
 
 

@@ -31,7 +31,17 @@ LAUNCH = (BASE_LAUNCH.replace('matched-curve-v1', NAME)
     .replace('full_task', 'growth_task').replace('finish_full', 'finish_growth')
     .replace('/content/broad-screen-source', '/content/mature-growth-source')
     .replace("assert ready['cpu_verified']", "assert ready['cpu_verified'] and ready['gpu_launch_ready']")
-    .replace("    subprocess.run([sys.executable,'-m','pip','-q','install','transformers==4.57.6','pyarrow>=18','requests>=2.31'],check=True,timeout=180)\n", ''))
+    .replace("    subprocess.run([sys.executable,'-m','pip','-q','install','transformers==4.57.6','pyarrow>=18','requests>=2.31'],check=True,timeout=180)\n", '''    wheel_record=ready['runtime_wheels']
+    wheel_bytes=(prepared/'runtime-wheels.tar').read_bytes()
+    assert hashlib.sha256(wheel_bytes).hexdigest()==wheel_record['archive_sha256']
+    wheel_archive=work/'runtime-wheels.tar';wheel_archive.write_bytes(wheel_bytes)
+    wheels=work/'runtime-wheels';wheels.mkdir()
+    with tarfile.open(wheel_archive) as z:z.extractall(wheels,filter='data')
+    for name,digest in wheel_record['files'].items():
+        assert Path(name).name==name and hashlib.sha256((wheels/name).read_bytes()).hexdigest()==digest
+    subprocess.run([sys.executable,'-m','pip','-q','install','--no-index','--find-links',str(wheels),
+        'transformers==4.57.6','tokenizers==0.22.2','numpy==2.1.3'],check=True,timeout=60)
+'''))
 
 
 def options_for(plan, parent, arm, local):

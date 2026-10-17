@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/content/mature-growth-source/homeworks/hw2/mature_growth_pilot.py", line 217, in <module>
+    p.parse_args(); run()
+                    ~~~^^
+  File "/content/mature-growth-source/homeworks/hw2/mature_growth_pilot.py", line 154, in run
+    verify_runtime_versions(ready['runtime_versions'])
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/mature-growth-source/homeworks/hw2/runtime_guard.py", line 19, in verify_runtime_versions
+    raise RuntimeError('Training environment changed; prepare matching versions on CPU: '+json.dumps(changed))
+RuntimeError: Training environment changed; prepare matching versions on CPU: {"transformers": {"expected": "4.57.6", "actual": "5.18.0"}, "tokenizers": {"expected": "0.22.2", "actual": "0.23.2"}}
