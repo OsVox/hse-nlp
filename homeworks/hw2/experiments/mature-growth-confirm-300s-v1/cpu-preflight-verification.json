@@ -1,0 +1,11 @@
+{
+  "returncode": 0,
+  "ready_sha256": "bc4bc121fdfea34f3a183c50244c45844c8499b0456e78e293fd156239ed861c",
+  "runtime_cpu_preflight": {
+    "completed": true,
+    "torch_version": "2.11.0+cpu",
+    "timestamp": 1792212769.7956846,
+    "all_input_hashes_verified": true
+  },
+  "source_commit": "332420ac1286ee2a7edb6a26763c05076ef95b1d"
+}

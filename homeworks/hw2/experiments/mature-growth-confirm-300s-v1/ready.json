@@ -235,7 +235,7 @@
     "pyarrow": "23.0.1"
   },
   "cpu_verified": true,
-  "gpu_launch_ready": false,
+  "gpu_launch_ready": true,
   "source_commit": "332420ac1286ee2a7edb6a26763c05076ef95b1d",
   "source_sha256": "5c26ebd14d286a3974b949be6b48de98f37962d4fa0ddeda34087f507a254fd8",
   "launcher_sha256": "3be9b59e9585ec29525fd7908dbda65907567b62dfca63208ff0a482bacdbea9",
@@ -389,5 +389,11 @@
     },
     "linux_cp313_offline_resolution_verified": true
   },
-  "prior_selection_sha256": "a6d528a723fced9ce9a4fdc622b651709da26dc06d678694b865752ccb8e2f34"
+  "prior_selection_sha256": "a6d528a723fced9ce9a4fdc622b651709da26dc06d678694b865752ccb8e2f34",
+  "runtime_cpu_preflight": {
+    "completed": true,
+    "torch_version": "2.11.0+cpu",
+    "timestamp": 1792212769.7956846,
+    "all_input_hashes_verified": true
+  }
 }
