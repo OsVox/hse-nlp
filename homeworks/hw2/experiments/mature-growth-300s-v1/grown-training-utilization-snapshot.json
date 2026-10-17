@@ -1,0 +1,10 @@
+{
+  "samples": 60,
+  "first_timestamp_utc": "2026-10-17T04:31:10.219Z",
+  "last_timestamp_utc": "2026-10-17T04:32:09.239Z",
+  "mean_utilization_percent": 92.58333333333333,
+  "median_utilization_percent": 96,
+  "peak_memory_mib": 35109,
+  "mean_power_w": 349.6311666666667,
+  "scope": "Last 60 recorded telemetry samples during grown66 training; not whole-run statistics."
+}

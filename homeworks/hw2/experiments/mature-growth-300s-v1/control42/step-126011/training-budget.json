@@ -1,0 +1,10 @@
+{
+  "optimizer_step": 126011,
+  "training_seconds": 300.05612634700947,
+  "completed_updates": 3049,
+  "examples_processed": 390272,
+  "max_training_seconds": 300.0,
+  "planned_final_step": 184912,
+  "time_limit_reached": true,
+  "timing_scope": "Completed updates including input waits; checkpoint/evaluation work excluded"
+}

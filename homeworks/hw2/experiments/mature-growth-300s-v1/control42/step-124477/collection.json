@@ -1,0 +1,13 @@
+{
+  "folder_id": "1rlcmtZdzn5cNvl0ZXCrOy_tS9fluqwxB",
+  "model_file_id": "1z0HZeahtM-QqP7O77We2pULAj1C4_VCa",
+  "downloaded_model_verified": true,
+  "attachment": "/Users/andrejvorsin/Downloads/hw2-mature-growth-control42-124477.jsonl",
+  "attachment_sha256": "fa6d35bdfad21298903c4ea2ec3e88b0eaa8195e492f8cf3b1c437fce9017e93",
+  "bot_submission_pending": true,
+  "step": 124477,
+  "arm": "control42",
+  "parent_model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
+  "source_commit": "4586fc23ae12b88a02380cb9ce05b22a68b296c0",
+  "matched_training_seconds": 150.0243729610056
+}
