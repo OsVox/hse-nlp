@@ -1,0 +1,55 @@
+[
+  {
+    "name": "bot_receipt.json",
+    "file_id": "1N2axzxcGsEoul0r2epFjlmBTyl8_QZl-",
+    "sha256": "5ccb2ba9c46113c020003fceb424f968a51e0dce6db4727b080f688637a8eee8",
+    "download_verified": true
+  },
+  {
+    "name": "verification.json",
+    "file_id": "1WryBO1woY9RjkS5ZdsihRC-cIqMAwngw",
+    "sha256": "b4d5ab61dfad688b1837dbefbe212898d647c2701f5d949448e858c0381bf957",
+    "download_verified": true
+  },
+  {
+    "name": "coverage-verification.json",
+    "file_id": "100sno4ln2ZZIdtmM3AJrHRd5BfMoeYYq",
+    "sha256": "18acd4fdfd37466feaec566d18336dd89280cd5deff8d9f318abfc92ae211f07",
+    "download_verified": true
+  },
+  {
+    "name": "independent-coverage-verification.json",
+    "file_id": "175Y2IjH5at8QtLm2WB3Fy8hObCL3J2nU",
+    "sha256": "9ab1b5862b5c5451c26c4c7c9e226413646b0f7159616c26da2f285fd09c50eb",
+    "download_verified": true
+  },
+  {
+    "name": "collection.json",
+    "file_id": "1f-KYiZnGs-Xobo3UXCuF1Gb1UQINLWZ4",
+    "sha256": "90329923bde23c776e29164537acf72b9d2954724e945edd05ac016e3f8be923",
+    "download_verified": true
+  },
+  {
+    "name": "inference_candidate.ipynb",
+    "file_id": "1v6g8L3x3t7T1Oz75BAWF2jjVR-_yj_-c",
+    "sha256": "a9c3781dba503567f90071c55881762f77371543b7fc799a8a7f9c66e1b50860",
+    "download_verified": true
+  },
+  {
+    "name": "independent-row-replay-122962.json",
+    "file_id": "10d1w4KxHD4hiUYMTcummR87CWamKIuQN",
+    "download_verified": true
+  },
+  {
+    "name": "hw2_inference_colab.ipynb",
+    "file_id": "1V23YAkw3ISuu0qJH2-TfE3UC7CYaOktb",
+    "sha256": "bc908207af78f1c4e20e96424c7aa36150e78a616ef73f8418c073e85acf54e7",
+    "download_verified": true
+  },
+  {
+    "name": "report.pdf",
+    "file_id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "sha256": "9b743c269728695c5c05e667b90a06ae5c6bcb02e1ec33b5d73d2129abf7dcea",
+    "download_verified": true
+  }
+]

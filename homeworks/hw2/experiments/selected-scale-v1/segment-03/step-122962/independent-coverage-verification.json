@@ -1,0 +1,23 @@
+{
+  "step": 122962,
+  "unique_rows": 11834223,
+  "repeats": 3904718,
+  "presentations": 15738941,
+  "completed_full_passes": 1,
+  "planned_passes": 2,
+  "cursor": [
+    1,
+    16,
+    1
+  ],
+  "coverage_percent": 132.99513622482863,
+  "partial_batch_shortfall": 195,
+  "complete_pass": true,
+  "planned_passes_complete": false,
+  "full_sequences": true,
+  "stream_identity": "fe8bd4c1a1d5c4dc3799e3284e1ddd92ef96e53517e083b1fef1ef1120fc72ba",
+  "scope": "Saved consumption hash chain, per-shard counts and full-token totals match an independent CPU reconstruction from verified row IDs and cached token lengths.",
+  "independent_row_order_verified": true,
+  "row_order_sha256": "9ec6d5622b101d0a5b049e11a8c2825c249424ef2c20b2757f95923005dec91c",
+  "replay_sha256": "dd632be1aa17f189212dce6be4be9f679483e17cc8cf17de432ae531844f391b"
+}
