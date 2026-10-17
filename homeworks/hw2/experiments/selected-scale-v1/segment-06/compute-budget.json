@@ -1,0 +1,18 @@
+{
+  "examples_processed": 1301120,
+  "source_tokens": 60466559,
+  "target_tokens": 95741217,
+  "updates": 10165,
+  "final_step": 153541,
+  "planned_final_step": 184912,
+  "stop_reason": "training_time_budget",
+  "training_seconds": 1000.0178050469694,
+  "max_training_seconds": 1000.0,
+  "checkpoint_steps": [
+    153541
+  ],
+  "loop_seconds_including_checkpoint_evaluation": 1025.1805480330004,
+  "process_seconds_including_setup": 1027.0136024430003,
+  "torch_version": "2.11.0+cu130",
+  "optimizer": "adamw"
+}

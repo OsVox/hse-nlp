@@ -1,0 +1,12 @@
+{
+  "samples": 6574,
+  "sampling_interval_seconds": 1,
+  "first_sample": "2026/10/17 02:02:53.552",
+  "last_sample": "2026/10/17 03:52:36.353",
+  "scope": "Whole run including preparation, saving, generation and evaluation; not training-only utilization.",
+  "mean_gpu_utilization_percent": 83.92439914815941,
+  "median_gpu_utilization_percent": 93.0,
+  "peak_memory_mib": 60203.0,
+  "mean_power_watts": 325.84241861880133,
+  "source_sha256": "bde8b23d88fa504acbcabb0f151d87bdd625c732066e670e17edb27ce9c47277"
+}

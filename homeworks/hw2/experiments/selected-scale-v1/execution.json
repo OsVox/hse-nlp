@@ -1,0 +1,10 @@
+{
+  "completed": true,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "stop_reason": "validation_patience",
+  "final_step": 153541,
+  "training_seconds": 6004.8036816689,
+  "planned_pass_completed": false,
+  "best_model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
+  "elapsed_seconds": 6583.828899706
+}

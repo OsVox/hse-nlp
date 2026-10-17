@@ -1,0 +1,62 @@
+[
+  {
+    "name": "bot_receipt.json",
+    "file_id": "1lkcsnYA-MRpz37cdV9MPUCV-cJvm7DZ4",
+    "sha256": "4679da1990e15f70bc63617a870562bb9e3c6bdc880741daa38c749c43c36259",
+    "download_verified": true
+  },
+  {
+    "name": "verification.json",
+    "file_id": "1Sv_ygSSgOcyJ93YDkKc3ViywmutjcJU_",
+    "sha256": "8e41d9a2ef6a7b9641e9ab806e59a240aa1e8dd9c075257175c39d6c86a5a0c8",
+    "download_verified": true
+  },
+  {
+    "name": "coverage-verification.json",
+    "file_id": "1SKxxdK0o4xxgmWyvvJWilZ08i8vJxOSb",
+    "sha256": "8c29ea15766014972cee7e2e03fd363b849f904d5b64813cf201dcee4dd4a46f",
+    "download_verified": true
+  },
+  {
+    "name": "independent-coverage-verification.json",
+    "file_id": "1f3wu9clQrWqURzs5JpSHRucbRYXcZWGH",
+    "sha256": "eb361cbfc594ea7c53849d2233d414694dd1473588933f5757c3f209df3e55e8",
+    "download_verified": true
+  },
+  {
+    "name": "collection.json",
+    "file_id": "1AW0TIjf-NhyQvnSj9auOHeC13tOWzi2V",
+    "sha256": "b168de02eb93b30fbc1361c1ddd80cad2933dd94dd06f19602ba41942e6a45c0",
+    "download_verified": true
+  },
+  {
+    "name": "inference_candidate.ipynb",
+    "file_id": "1fWrR-9paRY4xkVOq7aBlR18aYE3JTeEw",
+    "sha256": "cf8745784266c3c484a2c54ffd5178e85e9ae29c4e6f4a8349979b7c997db1d3",
+    "download_verified": true
+  },
+  {
+    "name": "independent-row-replay-153541.json",
+    "file_id": "1rfvvmANOyXtmQzsU9pV2FYKOtrBy0ncH",
+    "sha256": "699f8d530d69b675d0b3ef4caf0f9a2283e86340590ba78b0a645490709f6d14",
+    "download_verified": true
+  },
+  {
+    "name": "completion-verification.json",
+    "file_id": "1aYofc7qui3aRTEeGpQnoSvWoGge0BpOr",
+    "sha256": "0ccffda48823b52ad248f14c1b4e0183f2dcd6b6e55a438ab4061017d55e41de",
+    "download_verified": true
+  },
+  {
+    "name": "exports-verification.json",
+    "file_id": "1Bso3U94KtsNa2JT5wSthNBh8BB1xNt1h",
+    "sha256": "76dfbc9d32bf4282dd95017a49b2880bc175955580e806ebffe1c8a57e8c2c5f",
+    "download_verified": true
+  },
+  {
+    "name": "telemetry-summary.json",
+    "file_id": "1b57_hHXMJy9wyYFKQ5jzovus_gfzRb_8",
+    "sha256": "165459715e4ac15a16f7b34a9cda36b6afee6c2aa7a8daeb7822330de0cfef35",
+    "download_verified": true
+  }
+]

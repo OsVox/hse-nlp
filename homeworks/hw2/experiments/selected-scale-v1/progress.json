@@ -459,6 +459,98 @@
         },
         "stop": false
       }
+    },
+    {
+      "segment": "segment-06",
+      "step": 153541,
+      "budget": {
+        "examples_processed": 1301120,
+        "source_tokens": 60466559,
+        "target_tokens": 95741217,
+        "updates": 10165,
+        "final_step": 153541,
+        "planned_final_step": 184912,
+        "stop_reason": "training_time_budget",
+        "training_seconds": 1000.0178050469694,
+        "max_training_seconds": 1000.0,
+        "checkpoint_steps": [
+          153541
+        ],
+        "loop_seconds_including_checkpoint_evaluation": 1025.1805480330004,
+        "process_seconds_including_setup": 1027.0136024430003,
+        "torch_version": "2.11.0+cu130",
+        "optimizer": "adamw"
+      },
+      "heldout": {
+        "pilot": {
+          "rows": 1024,
+          "usable_references": 982,
+          "numeric_correct": 638,
+          "numeric_agreement_on_usable": 0.6496945010183299,
+          "prediction_failures": 42,
+          "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+          "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/selected-scale-v1/segment-06/step-153541",
+          "offset": 0,
+          "beams": 1,
+          "device": "cuda",
+          "precision": "torch.float32",
+          "cpu_threads": 24,
+          "generation_seconds": 18.83030487399992,
+          "batch_size": 64,
+          "max_input_tokens": null,
+          "max_new_tokens": 1280,
+          "generation_limit_hits": 4,
+          "model_sha256": "02a2211d50542d11ffa8a79112af56d715cc4b68737929709aeb3198d357d72e",
+          "evaluator_sha256": "50a1cde83685fa2b315dbaa0f7ea6bd55b9956dc0ae2fda91bdcc76612660cbb",
+          "questions_sha256": "962c989cc675a162fedc75b0496e0f5f1edb08d4e43b86a3dd4af72efe8ba1f7",
+          "handwritten_repairs": 0,
+          "evaluation_examples_sha256": "199db41781bbf23ce52086d3a08f49ba500991ffb6c79c38e6c28bb5e740f57c",
+          "predictions_sha256": "f63bf3bdfea2d43a3cf3e051fa4b26b53aa96db1d664151813bb6e5239394012",
+          "scoring_seconds": 14.718326504999823,
+          "scoring_started_utc": 1792209119.4800165,
+          "scoring_finished_utc": 1792209134.198344
+        },
+        "confirmation": {
+          "rows": 1024,
+          "usable_references": 988,
+          "numeric_correct": 611,
+          "numeric_agreement_on_usable": 0.618421052631579,
+          "prediction_failures": 50,
+          "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+          "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/selected-scale-v1/segment-06/step-153541",
+          "offset": 1024,
+          "beams": 1,
+          "device": "cuda",
+          "precision": "torch.float32",
+          "cpu_threads": 24,
+          "generation_seconds": 18.586172690999774,
+          "batch_size": 64,
+          "max_input_tokens": null,
+          "max_new_tokens": 1280,
+          "generation_limit_hits": 5,
+          "model_sha256": "02a2211d50542d11ffa8a79112af56d715cc4b68737929709aeb3198d357d72e",
+          "evaluator_sha256": "50a1cde83685fa2b315dbaa0f7ea6bd55b9956dc0ae2fda91bdcc76612660cbb",
+          "questions_sha256": "384ef9cddb3abcd73c19760d12baa52325352254a4bfe56d73acb43bc2a1c617",
+          "handwritten_repairs": 0,
+          "evaluation_examples_sha256": "199db41781bbf23ce52086d3a08f49ba500991ffb6c79c38e6c28bb5e740f57c",
+          "predictions_sha256": "c61755c19d6f6d3829a01c004b03f891f20ba182ffe0843bbb979cfe2d55c2a4",
+          "scoring_seconds": 14.596719013999973,
+          "scoring_started_utc": 1792209141.739121,
+          "scoring_finished_utc": 1792209156.335841
+        }
+      },
+      "decision": {
+        "improved": false,
+        "comparison": {
+          "gains": {
+            "pilot": 17,
+            "confirmation": -1
+          },
+          "failure_delta": 8,
+          "passes": false
+        },
+        "stop": true
+      }
     }
   ],
   "state": {
@@ -521,8 +613,8 @@
       }
     },
     "best_model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
-    "stale_intervals": 2
+    "stale_intervals": 3
   },
-  "training_seconds": 5004.785876621931,
-  "step": 143376
+  "training_seconds": 6004.8036816689,
+  "step": 153541
 }
