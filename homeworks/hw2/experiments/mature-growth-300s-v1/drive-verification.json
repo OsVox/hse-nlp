@@ -1,0 +1,48 @@
+{
+  "folder_id": "13bElSI21N1d3PyCyyiGroUOEiuNQRS0T",
+  "files": [
+    {
+      "name": "paired-parents.tar",
+      "file_id": "1gkyXMjdzyO1LeHN3fpkpvzC0e3_Yi7vM",
+      "download_verified": true,
+      "sha256": "263387beecd8e8e7e8cb5fcce819aa981cb54c2aa27ac0d5cd9b4d9007a4b59a",
+      "bytes": 1304135680
+    },
+    {
+      "name": "plan.json",
+      "file_id": "1LK5HR9qGwZsfA1_c11ArBiWqgR_52DTk",
+      "download_verified": true,
+      "sha256": "dca5e35de040f554186e484ea9c879b6e60b27554b5123d79b237a5a25497f7e",
+      "bytes": 1558
+    },
+    {
+      "name": "parents-verification.json",
+      "file_id": "1giRZrxMMCPOUipRzckKGFouJ5RRr8eMl",
+      "download_verified": true,
+      "sha256": "f9e786610366ac4e0fb505f3e6f27547b2263326ef0515e262981ef91e334247",
+      "bytes": 1631
+    },
+    {
+      "name": "tests.txt",
+      "file_id": "1JnOFRMrNT6wHC_dSiKpR-YxKpFWohm4w",
+      "download_verified": true,
+      "sha256": "a31a307dc0d8c73240dde7dae82200003ec58a481bc446a58e17c8501473e6a3",
+      "bytes": 759
+    },
+    {
+      "name": "preparation.log",
+      "file_id": "1oKp_nVjEfkvXxseZnYWP-RLRTyJhTVKv",
+      "download_verified": true,
+      "sha256": "f9e786610366ac4e0fb505f3e6f27547b2263326ef0515e262981ef91e334247",
+      "bytes": 1631
+    },
+    {
+      "name": "prepare_mature_growth.py",
+      "file_id": "1vhwYY861HHb41TLQ0VCV0jLVPwkeUMk5",
+      "download_verified": true,
+      "sha256": "21ff5fdfa08dd4c891c9089ac3b6eca5c345f92cf15bfbed180ed3a685efb455",
+      "bytes": 9376
+    }
+  ],
+  "gpu_launch_ready": false
+}

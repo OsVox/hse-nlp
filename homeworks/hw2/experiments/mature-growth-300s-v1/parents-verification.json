@@ -1,0 +1,32 @@
+{
+  "status": "paired_parents_prepared",
+  "parent_step": 122962,
+  "parent_model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
+  "parent_unchanged": true,
+  "arm_checkpoints": {
+    "control42": {
+      "model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
+      "training_state_sha256": "f56bb427843c16dceea79329949ec6ac5eca3aad54597322d07327e3ff976a53",
+      "checkpoint_manifest_sha256": "847da7aca3af684abec63b27c65472f79e435243a0ef45122bcee894750086a3"
+    },
+    "grown66": {
+      "model_sha256": "c2259ea630dec5b30c976d6d73bb3f54ef19bb7c5639715faa9e373dee7c1a90",
+      "training_state_sha256": "be731a46dcfbec6d85479e99cf442f2812a5056ced9e391f60d59b5d045b4580",
+      "checkpoint_manifest_sha256": "870332a4b047634c96998da6bf4312d3cfe4c2f7106738ad68228191d43f8fb6"
+    }
+  },
+  "archive_sha256": "263387beecd8e8e7e8cb5fcce819aa981cb54c2aa27ac0d5cd9b4d9007a4b59a",
+  "archive_bytes": 1304135680,
+  "original_row_probe_count": 4,
+  "max_absolute_logit_difference": 0.0,
+  "probe_parquet_sha256": "5222d657a1af07a531f1b22503f35741a6547f0831509897d0a279bc8f67d068",
+  "cpu_only": true,
+  "training_updates": 0,
+  "public_predictions_generated": false,
+  "gpu_launch_ready": false,
+  "script_sha256": "21ff5fdfa08dd4c891c9089ac3b6eca5c345f92cf15bfbed180ed3a685efb455",
+  "growth_helper_sha256": "9b16946a904ef2b39058b685735de6702d2ea5f92cc2caa9117919fb5fdd43ba",
+  "torch_version": "2.9.0",
+  "elapsed_seconds": 5.352876750024734,
+  "limitation": "Four-row CPU numerical check and immutable parent preparation; no quality result or CUDA/BF16 equivalence claim."
+}

@@ -1,0 +1,32 @@
+{
+  "name": "mature-growth-300s-v1",
+  "parent_step": 122962,
+  "parent_model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
+  "parent_selection": "Best qualifying held-out checkpoint from completed selected-scale-v1",
+  "arms": [
+    "control42",
+    "grown66"
+  ],
+  "measured_training_seconds_per_arm": 300,
+  "checkpoint_training_seconds": 150,
+  "total_measured_training_seconds": 600,
+  "per_arm_timeout_seconds": 750,
+  "outer_timeout_seconds": 1800,
+  "grown_d_ff": 3072,
+  "growth_seed": 42,
+  "growth_parameters": 66074112,
+  "original_parameters": 42481152,
+  "logical_batch": 128,
+  "precision": "bf16",
+  "reset_optimizer": false,
+  "restart_schedule": false,
+  "preserve_data_cursor": true,
+  "full_sequences": true,
+  "unchanged_original_targets": true,
+  "optimizer_migration": "Copy old AdamW moments and steps; zero added coordinates, sharing the mature tensor step counter.",
+  "budget_comparison": "Matched measured GPU training time; report steps, examples and complete elapsed time. Different model throughput means different prefix lengths of the same original stream.",
+  "selection": "Compare final 300-second checkpoints on both fixed held-out subsets. Require strict gains in both and no increase in total prediction failures versus the paired control. Also report changes versus the untrained parent.",
+  "long_training_requires": "A qualifying result and a subsequent independent paired confirmation; no automatic long run.",
+  "public_test_used_for_selection": false,
+  "gpu_launch_ready": false
+}
