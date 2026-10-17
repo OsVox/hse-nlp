@@ -1,0 +1,32 @@
+{
+  "report.pdf": {
+    "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
+    "sha256": "8e6a82817ac1856bc5a44d201992401e3e8127ded440bec84ba1313b619f61bc",
+    "download_verified": true
+  },
+  "hw2_inference_colab.ipynb": {
+    "id": "1V23YAkw3ISuu0qJH2-TfE3UC7CYaOktb",
+    "sha256": "e249ce582b7ae81a4c027e0b8c5ce1ba81de2be6f4462a99da30117b06d65a06",
+    "download_verified": true
+  },
+  "row-order-replay.json": {
+    "id": "1z5D8Ck9oNYsWnIRl4cegVT5-Zub2GZqT",
+    "sha256": "570057cb2c2fb1f1d3a7456498490d23f291d5228e53c200ed697498d082b637",
+    "download_verified": true
+  },
+  "runtime-release-verification.json": {
+    "id": "1UPmgOCoWt4QKvnF4eGCyHDBJn26Zyyem",
+    "sha256": "d6f3876e5b0b650f1f61665e366962ebedb10e43ae4ab68db6a766d82119b798",
+    "download_verified": true
+  },
+  "gpu-released.png": {
+    "id": "1oDITW7Nv7mijKH1zXuO1ah3bl0UVd5UR",
+    "sha256": "83ba999d48179a0cca32291eb5a8f465b57ab536e723cb0fc7db02afcd3efebe",
+    "download_verified": true
+  },
+  "telemetry-summary.json": {
+    "id": "111-1-X8CUaqUwT7D17tB8LX7PY0VXqhU",
+    "sha256": "7e89b2cf323a4c315fef79bbed761f8d59c4833f8d96a63405dfcac9250d7060",
+    "download_verified": true
+  }
+}
