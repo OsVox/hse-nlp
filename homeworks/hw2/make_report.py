@@ -1180,6 +1180,12 @@ def build():
         if independently_verified:
             steps=', '.join(f'{step:,}' for step in independently_verified)
             story += [p(f'Independent CPU reconstruction matches actual saved row-order hash chains, per-shard counts and full-token totals at updates {steps}, including the intentional second-pass repeats. It uses checksum-verified original row IDs and cached lengths without importing the production sampler. Future reconstructed updates are predictions, not evidence of completed training.','SmallText')]
+        stability_path=scaled/'paired-stability-143376.json'
+        if stability_path.exists():
+            stability=json.loads(stability_path.read_text())
+            assert stability['archived_scores_reproduced']
+            pair=next(x for x in stability['pairs'] if x['earlier']==122962 and x['later']==143376)
+            story += [p(f"A CPU-only paired audit reproduced all six archived held-out scores at steps 122,962, 133,177 and 143,376. Relative to 122,962, checkpoint 143,376 gained {pair['total_gained']} correct answers but lost {pair['total_lost']}, a net gain of {pair['total_gained']-pair['total_lost']} across 1,970 usable references. The confirmation subset still regressed. This shows substantial answer turnover relative to the small net gain; it does not prove that averaging, ensembling or a wider model would help. No public labels, new training, GPU generation or answer merging were used. These repeatedly consulted subsets are exploratory diagnostics, not an unbiased final estimate.",'SmallText')]
     growth=ROOT/'experiments/ffn-growth-cpu-v1/verification.json'
     if growth.exists():
         value=json.loads(growth.read_text())

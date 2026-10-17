@@ -1,0 +1,200 @@
+{
+  "steps": [
+    122962,
+    133177,
+    143376
+  ],
+  "device": "CPU",
+  "workers": 4,
+  "python_version": "3.12.7",
+  "unique_programs_executed": 5414,
+  "elapsed_seconds": 47.69730224998784,
+  "scorer_sha256": "50a1cde83685fa2b315dbaa0f7ea6bd55b9956dc0ae2fda91bdcc76612660cbb",
+  "audit_source_sha256": "6e81eb06880380297699894c278056021e8e99f423d2b10d5159277b7d26ed85",
+  "source_sha256": {
+    "122962/pilot": {
+      "generation_sha256": "9f9a4280e5af83a332c15fe780bb3ba77ac776f43257dc4d4e6a021eff1371d1",
+      "predictions_sha256": "a7ce196e880f2a6322b979e338a987b70b52676e8fa457794b66d5cb1641d548",
+      "score_sha256": "eb25b8459dc3b9e5555283bf777d4aa0fdbb61c7bfca74fcf33f5bb202008fe0"
+    },
+    "122962/confirmation": {
+      "generation_sha256": "c071b9f7bd3a9342454e2af7d4d60864c299c0d068e14ae19a1489724cdde248",
+      "predictions_sha256": "192b5001e810a33fcf88cd5d46984c4862a00a7ef891ce75ca9f06bf069a4458",
+      "score_sha256": "3ffd6589bbe5df4e0a910f732871552e22b7fe32a10f38340fca365008d72763"
+    },
+    "133177/pilot": {
+      "generation_sha256": "5e2dab28b91292f10ce17d56c0b92ece435e9c93bb1b3540b075e4374bf1173f",
+      "predictions_sha256": "8df403ed6ec450df3a8d0fedb63b8d975e82e374a5c1037c1500d3c9fe866acc",
+      "score_sha256": "755ef4077009dfcb8446c4a0612d57cf75d57e1037bd3597d19c1fcbf74d640c"
+    },
+    "133177/confirmation": {
+      "generation_sha256": "8496a032c7192d54e847686f020b53439ce758663409cc621e0c0020ca1b857f",
+      "predictions_sha256": "3078fe392dc1fce75b0a05c68c402928158a913ed3895bfb51e834f49862a77a",
+      "score_sha256": "be926b20d0e764251d2154eea9689145809f665ea83be64be1c00b9394afbbe7"
+    },
+    "143376/pilot": {
+      "generation_sha256": "ba23d3b98d7c9ddc2ecbae8421b2ac277ac2efc2aa8c15b5cd76584dcfa7d123",
+      "predictions_sha256": "2ea21f7a6a0a6035aa336ad088b6753aea04ca5492ea39595ad1272e888309aa",
+      "score_sha256": "d04128aebfdf2048523db1be837c7bcb25451ad1c77012924cd50dc91cda6cee"
+    },
+    "143376/confirmation": {
+      "generation_sha256": "990c3e2e9df14fc27d541ede7295f1c8fc7193465b0587eb2c88c883bf3f6791",
+      "predictions_sha256": "7add149cc5549fcc55fcc44ff7f8a6896f93706f4c25aab3f40741a230424bbf",
+      "score_sha256": "1a0a83ba0aee5e83352617dca72e99cd44b1664427e8304c9ef611bb253a9e3a"
+    }
+  },
+  "archived_scores_reproduced": true,
+  "results": {
+    "122962/pilot": {
+      "rows": 1024,
+      "usable_references": 982,
+      "numeric_correct": 621,
+      "prediction_failures": 38,
+      "prediction_statuses": {
+        "ok": 986,
+        "NameError": 16,
+        "ValueError": 21,
+        "UnboundLocalError": 1
+      }
+    },
+    "122962/confirmation": {
+      "rows": 1024,
+      "usable_references": 988,
+      "numeric_correct": 612,
+      "prediction_failures": 46,
+      "prediction_statuses": {
+        "ok": 978,
+        "NameError": 19,
+        "ValueError": 25,
+        "UnboundLocalError": 1,
+        "IndentationError": 1
+      }
+    },
+    "133177/pilot": {
+      "rows": 1024,
+      "usable_references": 982,
+      "numeric_correct": 633,
+      "prediction_failures": 40,
+      "prediction_statuses": {
+        "ok": 984,
+        "NameError": 17,
+        "ValueError": 22,
+        "UnboundLocalError": 1
+      }
+    },
+    "133177/confirmation": {
+      "rows": 1024,
+      "usable_references": 988,
+      "numeric_correct": 605,
+      "prediction_failures": 44,
+      "prediction_statuses": {
+        "ok": 980,
+        "NameError": 19,
+        "ValueError": 22,
+        "UnboundLocalError": 2,
+        "IndentationError": 1
+      }
+    },
+    "143376/pilot": {
+      "rows": 1024,
+      "usable_references": 982,
+      "numeric_correct": 637,
+      "prediction_failures": 45,
+      "prediction_statuses": {
+        "ok": 979,
+        "NameError": 17,
+        "ValueError": 26,
+        "UnboundLocalError": 2
+      }
+    },
+    "143376/confirmation": {
+      "rows": 1024,
+      "usable_references": 988,
+      "numeric_correct": 608,
+      "prediction_failures": 46,
+      "prediction_statuses": {
+        "ok": 978,
+        "NameError": 19,
+        "ValueError": 24,
+        "IndentationError": 1,
+        "UnboundLocalError": 2
+      }
+    }
+  },
+  "pairs": [
+    {
+      "earlier": 122962,
+      "later": 133177,
+      "splits": {
+        "pilot": {
+          "gained": 33,
+          "lost": 21,
+          "net_gain": 12,
+          "both_correct": 600,
+          "neither_correct": 328
+        },
+        "confirmation": {
+          "gained": 28,
+          "lost": 35,
+          "net_gain": -7,
+          "both_correct": 577,
+          "neither_correct": 348
+        }
+      },
+      "total_gained": 61,
+      "total_lost": 56
+    },
+    {
+      "earlier": 122962,
+      "later": 143376,
+      "splits": {
+        "pilot": {
+          "gained": 36,
+          "lost": 20,
+          "net_gain": 16,
+          "both_correct": 601,
+          "neither_correct": 325
+        },
+        "confirmation": {
+          "gained": 30,
+          "lost": 34,
+          "net_gain": -4,
+          "both_correct": 578,
+          "neither_correct": 346
+        }
+      },
+      "total_gained": 66,
+      "total_lost": 54
+    },
+    {
+      "earlier": 133177,
+      "later": 143376,
+      "splits": {
+        "pilot": {
+          "gained": 22,
+          "lost": 18,
+          "net_gain": 4,
+          "both_correct": 615,
+          "neither_correct": 327
+        },
+        "confirmation": {
+          "gained": 29,
+          "lost": 26,
+          "net_gain": 3,
+          "both_correct": 579,
+          "neither_correct": 354
+        }
+      },
+      "total_gained": 51,
+      "total_lost": 44
+    }
+  ],
+  "training_updates": 0,
+  "public_test_used": false,
+  "answers_merged": false,
+  "limitations": [
+    "Agreement with supplied train references is not verified mathematical correctness.",
+    "These repeatedly used held-out subsets support exploratory diagnosis, not an unbiased final estimate.",
+    "Paired turnover does not establish that ensembling, averaging, or wider models improve accuracy."
+  ]
+}
