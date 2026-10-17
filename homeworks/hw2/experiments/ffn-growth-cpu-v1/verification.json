@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "model_sha256": "c758cd0d3ba81806098867b63fcae44789b0e1ad8e9d8b8a3dcecb9f50a27441",
+  "parent_parameters": 42481152,
+  "grown_parameters": 66074112,
+  "original_d_ff": 1536,
+  "grown_d_ff": 3072,
+  "examples": 4,
+  "data_sha256": "5222d657a1af07a531f1b22503f35741a6547f0831509897d0a279bc8f67d068",
+  "original_row_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "input_shape": [
+    4,
+    31
+  ],
+  "target_shape": [
+    4,
+    54
+  ],
+  "max_absolute_logit_difference": 0.0,
+  "cached_and_uncached_greedy_ids_equal": true,
+  "greedy_test_max_new_tokens": 32,
+  "elapsed_seconds": 2.383746500010602,
+  "torch_version": "2.9.0",
+  "training": false,
+  "gpu": false,
+  "quality_gain_verified": false,
+  "limitations": [
+    "Four-example numerical check is not whole-corpus equivalence",
+    "No optimizer migration, GPU throughput or quality pilot has been run",
+    "Dropout training masks are not guaranteed identical after widening"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "folder_id": "14rYTns0u3KqPeO8AN9Kl6Hq1pjmfoiLZ",
+  "files": [
+    {
+      "path": "homeworks/hw2/experiments/ffn-growth-cpu-v1/check.py",
+      "file_id": "1A8yLf4jG-FLoQol9QCjGh1tKrUnafVgj",
+      "sha256": "e157c097535da91dea3490a74c3129093403e14ec8d2023d2fd16d08748bf76c",
+      "download_verified": true
+    },
+    {
+      "path": "homeworks/hw2/experiments/ffn-growth-cpu-v1/verification.json",
+      "file_id": "1pXInRB3QZZHJlQXtoKnOC-pzYalc73vZ",
+      "sha256": "2a9abfec3edf5566ef150c9dd7d1fafbf51d9f69a376cc2d02683734d89071fb",
+      "download_verified": true
+    },
+    {
+      "path": "homeworks/hw2/experiments/ffn-growth-cpu-v1/README.md",
+      "file_id": "1jzV-NiyG1yIElD-TqILZ-9FUNZ0bZy8F",
+      "sha256": "8507c556fb815d13ccb55f4789429055d93392c2a61ada70a85257e6dbe86a27",
+      "download_verified": true
+    },
+    {
+      "path": "homeworks/hw2/grow_ffn.py",
+      "file_id": "1IY-RRxITwkYTsLoGfsv6Uf8_-3ADQTGU",
+      "sha256": "3e8d24a34ccdfadb84a0ff396ca28875abf7873f84f1b0cbf3422bd3afbba947",
+      "download_verified": true
+    },
+    {
+      "path": "homeworks/hw2/tests/test_grow_ffn.py",
+      "file_id": "1jwWG1JtDeChHgnZ0zSOkCmA_v8otn2iI",
+      "sha256": "51097636cb8bde69cc568850c17dd03448062e2593d1b1b408e654c91eb195f1",
+      "download_verified": true
+    }
+  ]
+}
