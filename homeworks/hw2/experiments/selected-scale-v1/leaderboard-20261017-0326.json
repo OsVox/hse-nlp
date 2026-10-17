@@ -1,0 +1,13 @@
+{
+  "recorded_utc": "2026-10-17T03:26:22.203104+00:00",
+  "source_url": "https://docs.google.com/spreadsheets/d/1KcaREcQbUSfocz-Zv4gH7aHok_BO8bh9ECxVGQQfq18/export?format=csv",
+  "export_sha256": "9ca46420124cadcf5c8d73e771cf92ede64604e7cf8e82d8a2a422e1f541af2c",
+  "leader_public_percent": 78.33,
+  "our_username": "AndrejVorsin",
+  "our_public_percent": 63.12,
+  "our_rank": 9,
+  "participants": 16,
+  "gap_percentage_points": 15.21,
+  "first_place_verified": false,
+  "evidence": "Fresh public CSV export; rank from sorted nonblank participant rows"
+}

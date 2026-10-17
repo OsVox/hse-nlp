@@ -42,7 +42,8 @@
   "latest_leaderboard_observation": {
     "rank": 9,
     "participants": 16,
-    "observed_at": "2026-10-17T06:17:00+03:00",
-    "evidence": "selected-scale-v1/segment-04/step-133177/bot_receipt.json"
+    "observed_at": "2026-10-17T03:26:22.203104+00:00",
+    "evidence": "selected-scale-v1/leaderboard-20261017-0326.json",
+    "leader_public_percent": 78.33
   }
 }
