@@ -42,7 +42,7 @@
   "latest_leaderboard_observation": {
     "rank": 9,
     "participants": 16,
-    "observed_at": "2026-10-17T05:22:00+03:00",
-    "evidence": "selected-scale-v1/segment-01/step-102563/bot_receipt.json"
+    "observed_at": "2026-10-17T05:40:00+03:00",
+    "evidence": "selected-scale-v1/segment-02/step-112738/bot_receipt.json"
   }
 }

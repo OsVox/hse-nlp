@@ -1,0 +1,38 @@
+[
+  {
+    "name": "bot_receipt.json",
+    "id": "11The-zyq7_82C8LdQfU-vkhiuZ3CF0tq",
+    "sha256": "7f36c5a65f478e667113e5c1ab4817bb5805895ce3d171d865127033ac4cc93b",
+    "download_byte_verified": true
+  },
+  {
+    "name": "verification.json",
+    "id": "1kSSv9R-DnNzd961L7M-iJrRkEJFOuGex",
+    "sha256": "c05a650aacba1e5a1df5884f0cfcc14a8e2515acf807b117778b8c7025dfc862",
+    "download_byte_verified": true
+  },
+  {
+    "name": "coverage-verification.json",
+    "id": "1BIpl4IKXScGmVZwOcghMQVCu1iBYg14x",
+    "sha256": "0f322fd276d1f2042e7ad07aa7ed0c07d1ded2dc216a38c1a0950eb144635d63",
+    "download_byte_verified": true
+  },
+  {
+    "name": "independent-coverage-verification.json",
+    "id": "1XqPeHb9ZqhbACoEvkD1yJ9HTnHKhs4pN",
+    "sha256": "7c651da3b4984ae040e051f67221056f6cb16c689edb2a801da19b0176741c8d",
+    "download_byte_verified": true
+  },
+  {
+    "name": "collection.json",
+    "id": "1VNcFo1xs6ZMPIoKHAVoHiSM2-44B7Tho",
+    "sha256": "ce3d4d0fc8bb5a3d88c1ac858d83843f466da34e7fcbacac7f13c9d1367bcd64",
+    "download_byte_verified": true
+  },
+  {
+    "name": "independent-row-replay-112738.json",
+    "id": "1BfLqeNA473QEPDPujdUtAVv2DFKgzpkk",
+    "sha256": "4e5dfdc80a6d7c55f186ad98feb38f90351d48e1db2eb1c48a90039d14f8c7eb",
+    "download_byte_verified": true
+  }
+]

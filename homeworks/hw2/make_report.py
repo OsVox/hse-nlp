@@ -1172,6 +1172,14 @@ def build():
             p('Each interval uses at most 1,000 measured training seconds. Training minutes exclude loading, checkpoint saving, generation and evaluation. Stop after three consecutive intervals without improved agreement on both fixed held-out subsets and no increase in total execution failures, or after the planned pass or time budget. Public answers do not determine this stopping rule.'),
             p('Every checkpoint and its exact greedy predictions are saved to Drive before download and bot submission. The local collector verifies downloaded model hashes, original question order, decoded token IDs, CSV/JSONL equality, generation settings and the saved coverage ledger. Intentional second-pass repetitions are counted separately from unique original rows. Ledger consistency is not an independent replay of every row ID.'),
             p(f"Frozen training source {ready['source_commit'][:7]}. The runtime automatically releases its GPU on completion or failure. These results do not establish first place or the one-T4 180-second inference requirement. Evidence: experiments/selected-scale-v1.",'SmallText')]
+        independently_verified=[]
+        for proof_path in sorted(scaled.glob('segment-*/step-*/independent-coverage-verification.json')):
+            proof=json.loads(proof_path.read_text())
+            if proof.get('independent_row_order_verified'):
+                independently_verified.append(proof['step'])
+        if independently_verified:
+            steps=', '.join(f'{step:,}' for step in independently_verified)
+            story += [p(f'Independent CPU reconstruction matches actual saved row-order hash chains, per-shard counts and full-token totals at updates {steps}, including the intentional second-pass repeats. It uses checksum-verified original row IDs and cached lengths without importing the production sampler. Future reconstructed updates are predictions, not evidence of completed training.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
