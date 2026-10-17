@@ -1,7 +1,7 @@
 {
   "id": "1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
-  "sha256": "d1ce75ba8cd31b16d6c5a964942f359b1715cba24af00a5a13b19eb9aa8bea16",
+  "sha256": "900db47ff8cf654b8aba4f7e3b9588266f40ae680b40ef907e03db9d43384ad4",
   "cells": 177,
   "download_verified": true,
-  "experiment_status": "CPU evaluation running"
+  "experiment_status": "CPU baseline complete; last2 pilot running"
 }

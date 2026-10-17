@@ -1,10 +1,16 @@
 {
-  "observed_at": "2026-10-17T01:11:18.514934+00:00",
-  "phase": "CPU evaluation",
+  "observed_at": "2026-10-17T01:19:13.251663+00:00",
+  "phase": "pilot last2 average",
   "parent_pid": 36145,
   "exec_session": 1773,
-  "process_observation": "36145 01:46 S",
+  "process_observation": "36145 09:41 S",
   "completed": false,
   "gpu_allocated": false,
-  "source_commit": "1b436ffbed9307a9297b612b7e8ed8cdb78ab002"
+  "source_commit": "1b436ffbed9307a9297b612b7e8ed8cdb78ab002",
+  "completed_stages": [
+    "pilot baseline"
+  ],
+  "baseline_correct": 311,
+  "baseline_usable_references": 489,
+  "baseline_prediction_failures": 27
 }

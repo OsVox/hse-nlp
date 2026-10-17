@@ -1,0 +1,63 @@
+{
+  "observed_at": "2026-10-17T01:17:55.892926+00:00",
+  "question": "Has the larger 78M architecture been tested with the optimizer that won the corrected full-sequence comparison?",
+  "answer": "No AdamW78 arm exists in the matched-curve-v1 three-arm experiment. Its size comparison isolates width within Muon, but not within the winning AdamW recipe.",
+  "arms": [
+    {
+      "arm": "adamw42",
+      "optimizer": "adamw",
+      "d_model": 512,
+      "d_ff": 1536,
+      "num_heads": 8,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "full_sequences": true,
+      "checkpoint_step": 6018,
+      "evidence": "matched-curve-v1/adamw42/step-006018/run_config.json",
+      "pilot_correct": 122,
+      "confirmation_correct": 136
+    },
+    {
+      "arm": "muon42",
+      "optimizer": "muon",
+      "d_model": 512,
+      "d_ff": 1536,
+      "num_heads": 8,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "full_sequences": true,
+      "checkpoint_step": 5422,
+      "evidence": "matched-curve-v1/muon42/step-005422/run_config.json",
+      "pilot_correct": 107,
+      "confirmation_correct": 129
+    },
+    {
+      "arm": "muon78",
+      "optimizer": "muon",
+      "d_model": 704,
+      "d_ff": 2112,
+      "num_heads": 11,
+      "encoder_layers": 6,
+      "decoder_layers": 4,
+      "full_sequences": true,
+      "checkpoint_step": 3871,
+      "evidence": "matched-curve-v1/muon78/step-003871/run_config.json",
+      "pilot_correct": 40,
+      "confirmation_correct": 38
+    }
+  ],
+  "scope": "This is an audit of the saved controlled comparison and the width704 checkpoints, not a claim that every earlier experiment is comparable.",
+  "inference": "The completed 42M full pass validates data coverage and improves the public score; it does not rule out AdamW78 or establish the optimal model size.",
+  "next_hypothesis": "At the same bounded training-time checkpoints and with AdamW held fixed, increasing width512/FF1536/heads8 to width704/FF2112/heads11 may improve the held-out learning curve.",
+  "controls": [
+    "Same fresh exclusion index and original tokenizer/targets",
+    "Same 6-encoder/4-decoder depth",
+    "Same AdamW learning rate and full-pass schedule",
+    "Same logical batch, full-sequence budgets, greedy evaluation and runtime versions",
+    "Report both actual rows processed and total GPU time; do not infer a size effect by comparing different optimizers"
+  ],
+  "decision_gate": "First finish the active CPU averaging screen. Any new size run requires CPU preparation, Drive verification and a fixed short time budget; promote only after both held-out subsets improve without added total execution failures, followed by a second-seed check.",
+  "gpu_run_started": false,
+  "training_started": false,
+  "public_answers_used": false
+}

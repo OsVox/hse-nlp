@@ -1,0 +1,7 @@
+{
+  "rows": 512,
+  "identical_programs": 512,
+  "cpu_sha256": "e6211f287ba979bc206fc492ea26b6fa1abbc5e97dd46b7dfb34418c8c21344a",
+  "gpu_source_sha256": "bd65d5c6071635b33de4325bb70ff096264cd40610b0d9b2f8871f6d2c0f524d",
+  "purpose": "Observe hardware/software output differences; candidate selection still uses the matched CPU baseline."
+}
