@@ -1,0 +1,12 @@
+{
+  "controller_pid": 19423,
+  "controller_returncode": null,
+  "observed_step": 123400,
+  "training_elapsed_seconds": 66.4,
+  "telemetry_recent_samples": 60,
+  "telemetry_recent_mean_utilization": 95.78333333333333,
+  "telemetry_recent_peak_memory_mib": 35121,
+  "observed_at": "2026-10-17T07:58:48.759212+03:00",
+  "proof": "training-running.png",
+  "quality_results_pending": true
+}

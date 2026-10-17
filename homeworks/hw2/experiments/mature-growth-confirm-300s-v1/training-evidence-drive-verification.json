@@ -1,0 +1,17 @@
+{
+  "training-start-verification.json": {
+    "id": "1cwL3JUzWLpcvSgXzUWGIbZ2QK5_nocY7",
+    "sha256": "5fe7c50d0c24ec9826de84bbc06b08845cac6c1eb35d567beeebfab070305858",
+    "download_verified": true
+  },
+  "training-running.png": {
+    "id": "1XZ0UzsxhCWvDvQGXgPJdpm4zMVHvpUMB",
+    "sha256": "b9d35a054b89bf13e082e7859d1e341c1acaf7b0ee5a83fbdcb1fd31ac5ddca1",
+    "download_verified": true
+  },
+  "notebook-save-verification.json": {
+    "id": "1q0qmPn-h8AYs-CTNL-xMUGtl0JGREklz",
+    "sha256": "1c361480649d85d6b7c5377714df9c6ab0aeff75d2464119416e20acaa162f3f",
+    "download_verified": true
+  }
+}

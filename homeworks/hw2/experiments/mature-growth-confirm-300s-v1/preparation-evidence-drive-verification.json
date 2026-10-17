@@ -1,0 +1,22 @@
+{
+  "conditional-scale-plan.json": {
+    "id": "1f7QVPNpi7v6YfVfUIL3e7OXziMSMEvbd",
+    "sha256": "4b635e1caec8ada3ed0ccd262a5fe4d7b8463228c9e0975573718e1c19598b2a",
+    "download_verified": true
+  },
+  "started.json": {
+    "id": "10ZK85K6rpMKcNe00AXNk3US6cg19_7g9",
+    "sha256": "9f7e95d1c949537c1ba280863813a822cf175d7e3a14faa5aa0dbc98e553b109",
+    "download_verified": true
+  },
+  "cpu-preflight-verification.json": {
+    "id": "1brE-FdjvkOzAJpx5OuCxkXV1ALjX0TZK",
+    "sha256": "01c78d570338b4bd9c2854da110a414193ef026912bff8f7bba01cf880d97009",
+    "download_verified": true
+  },
+  "runtime-upload-verification.json": {
+    "id": "1jAmHYdUk4SawyXB5Nu5O6R4YcpZyWIeO",
+    "sha256": "075c2d8093c53552e7e1a7ffb01654acf7a88cf093cd809172da99902883c7b8",
+    "download_verified": true
+  }
+}
