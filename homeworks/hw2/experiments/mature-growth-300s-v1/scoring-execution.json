@@ -1,0 +1,50 @@
+[
+  {
+    "arm": "checkpoint",
+    "stage": "pilot",
+    "started_utc": 1792211362.8820398,
+    "collected_utc": 1792211389.8434324
+  },
+  {
+    "arm": "checkpoint",
+    "stage": "confirmation",
+    "started_utc": 1792211389.8429606,
+    "collected_utc": 1792211404.6310654
+  },
+  {
+    "arm": "checkpoint",
+    "stage": "pilot",
+    "started_utc": 1792211421.1716485,
+    "collected_utc": 1792211446.6332374
+  },
+  {
+    "arm": "checkpoint",
+    "stage": "confirmation",
+    "started_utc": 1792211446.632694,
+    "collected_utc": 1792211461.4203374
+  },
+  {
+    "arm": "checkpoint",
+    "stage": "pilot",
+    "started_utc": 1792211849.2080364,
+    "collected_utc": 1792211872.1216981
+  },
+  {
+    "arm": "checkpoint",
+    "stage": "confirmation",
+    "started_utc": 1792211872.1212761,
+    "collected_utc": 1792211886.7586021
+  },
+  {
+    "arm": "checkpoint",
+    "stage": "pilot",
+    "started_utc": 1792211897.493638,
+    "collected_utc": 1792211920.6023974
+  },
+  {
+    "arm": "checkpoint",
+    "stage": "confirmation",
+    "started_utc": 1792211920.6018643,
+    "collected_utc": 1792211935.2895744
+  }
+]

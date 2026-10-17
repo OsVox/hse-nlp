@@ -34,7 +34,15 @@ def compare(expected,record):
 
 
 def replay(run,index,old_index,lengths,output):
-    began=time.monotonic();ready=read(run/'ready.json');plan=ready['plan'];opts=plan['options']
+    began=time.monotonic();ready=read(run/'ready.json');plan=ready['plan']
+    mature = run.name == 'mature-growth-300s-v1'
+    mature_parent = run.parent/'selected-scale-v1/segment-03/step-122962'
+    if mature:
+        config = read(mature_parent/'run_config.json')
+        assert plan['parent_step'] == 122962 and config['steps'] == 184912
+        assert read(mature_parent/'checkpoint.complete.json')['files']['model.safetensors'] == plan['parent_model_sha256']
+        plan = dict(plan, options=config, final_step=config['steps'], final_completed_passes=2)
+    opts=plan['options']
     parent=read(run.parent/'matched-curve-v1/adamw42/step-006018/run_config.json')
     assert np.__version__==ready['runtime_versions']['numpy']
     assert opts['untruncated_training'] and not parent['shuffle_batch_order']
@@ -42,7 +50,7 @@ def replay(run,index,old_index,lengths,output):
     assert sha(index/'manifest.json')==ready['fresh_preparation']['index_manifest_sha256']
     manifest=read(index/'manifest.json');old_manifest=read(old_index/'manifest.json')
     scaled=run.name=='selected-scale-v1'
-    anchor=(run.parent/'selected-full-pass-v2/step-010000' if scaled else run/'step-010000')
+    anchor=(run.parent/'selected-full-pass-v2/step-010000' if scaled or mature else run/'step-010000')
     tokenizer_hash=read(anchor/'checkpoint.complete.json')['files']['tokenizer.json']
     assert sha(anchor/'tokenizer.json')==tokenizer_hash
     permutations=[];q_lengths=[];c_lengths=[];eligible=[];seen=[];length_hashes={}
@@ -69,8 +77,12 @@ def replay(run,index,old_index,lengths,output):
     counts=[0]*len(eligible);total=0;tokens={'question':0,'code':0};chain='0'*64;step=0
     chunk=opts['coverage_rows_per_shard'];batch_size=opts['batch_size'];width=batch_size*parent['group_window']
     rounds=(max(map(len,eligible))+chunk-1)//chunk;checks={};compared=[]
-    saved={int(p.name.removeprefix('step-')):p for p in run.glob('segment-*/step-*' if scaled else 'step-*') if (p/'coverage.json').exists()}
-    saved[plan['parent_step']]=(run.parent/'selected-full-pass-v2/step-092456' if scaled else run.parent/'matched-curve-v1/adamw42/step-006018')
+    pattern = '*/step-*' if mature else ('segment-*/step-*' if scaled else 'step-*')
+    paths = [p for p in run.glob(pattern) if (p/'coverage.json').exists()]
+    saved={int(p.name.removeprefix('step-')):p for p in paths}
+    assert len(saved) == len(paths), 'Duplicate steps require comparing each arm explicitly'
+    saved[plan['parent_step']]=(mature_parent if mature else
+        (run.parent/'selected-full-pass-v2/step-092456' if scaled else run.parent/'matched-curve-v1/adamw42/step-006018'))
     reference_tokenizer=read(anchor/'tokenizer.json')
     for key in ('padding','truncation'):reference_tokenizer.pop(key,None)
     for path in saved.values():

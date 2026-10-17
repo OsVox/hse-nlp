@@ -1,0 +1,42 @@
+{
+  "files": {
+    "selection.json": {
+      "id": "1NR0_Bumj13OMlEcydWfQU_YoBTaYqtol",
+      "sha256": "a6d528a723fced9ce9a4fdc622b651709da26dc06d678694b865752ccb8e2f34",
+      "bytes": 6484
+    },
+    "execution.json": {
+      "id": "1x9JzVJ6hK1Z7oIas2y8EPmhH9YxR3isn",
+      "sha256": "2af93c6beb7ed5d28a31db0996edbc64a95315c425b6533c36adabf7017fa6ff",
+      "bytes": 176
+    },
+    "progress.json": {
+      "id": "1xOFYPh7-MtGgo_0-i4FPyKjOqTrHfH5q",
+      "sha256": "57fb75b63d28c06d83212706676a5d73aed9bedbe79bdbcc8ef82bf479cf5e7d",
+      "bytes": 42461
+    },
+    "scoring-execution.json": {
+      "id": "1XlIsMu-ZYJ9aK_xYebftCETYsiWlMhu8",
+      "sha256": "6cfed532c9b18f5eaed133101030d8d28865f056fcbc25c347beedbe36f1b961",
+      "bytes": 1108
+    },
+    "exports.zip": {
+      "id": "1kdsJ4DBGgPi9zbFZXXuoIhzqJTOApKCV",
+      "sha256": "c3411bfe3b01d47170af8ac0b193e6c7828f37066b2bbfe45ee5856b4bf7c7b2",
+      "bytes": 2501775
+    },
+    "gpu-utilization.csv": {
+      "id": "17VQiaUMZScos2YDOutP15z5kQ9EIgEAH",
+      "sha256": "732082adc2b7b38ee64dd3244b7ae548fff2f3e403501826aeca45234a13db5d",
+      "bytes": 42412
+    },
+    "execution.complete.json": {
+      "id": "1UJi2KeW463sIXCfRX9v4EbuqIzHWKvVP",
+      "sha256": "a5c05a282dcefdacb805424e6f809842a4a8e8d2d79080ba1a15cd5ad4a5382c",
+      "bytes": 112
+    }
+  },
+  "controller_returncode": 0,
+  "archive_crc_verified": true,
+  "all_four_public_exports_match": true
+}

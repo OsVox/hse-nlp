@@ -26,7 +26,7 @@ from .checkpoint_io import archive_checkpoint, drive_preflight, package_jsonl, s
 from .input_pipeline import encoded_batches, prefetch_batches, to_device
 from .digit_tokenization import load_training_tokenizer
 from .token_weighting import token_weights, weighted_loss
-from .training_budget import TrainingClock, capture_rng, restore_rng
+from .training_budget import TrainingClock, capture_rng, restore_rng, seed_continuation
 
 SOURCE_LENGTH = 128
 TARGET_LENGTH = 192
@@ -258,6 +258,8 @@ def main() -> None:
     parser.add_argument('--frequency-power', type=float, default=0.0,
                         help='Accept original rows with probability count**(-power); CPU index required')
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument('--continuation-seed', type=int, default=None,
+                        help='Explicit dropout replicate on resume; preserves the data seed and cursor')
     parser.add_argument("--learning-rate", type=float, default=3e-4)
     parser.add_argument('--optimizer', choices=['adamw', 'muon'], default='adamw')
     parser.add_argument('--muon-learning-rate', type=float, default=None)
@@ -351,6 +353,9 @@ def main() -> None:
         parser.error('Prediction limits require nonnegative input and positive output lengths')
     if args.restart_schedule and args.resume_from is None:
         parser.error('--restart-schedule requires --resume-from')
+    if args.continuation_seed is not None and (args.resume_from is None or args.reset_optimizer
+                                             or args.decoder_input_dropout):
+        parser.error('--continuation-seed requires resume with preserved optimizer and no decoder-input dropout')
     if args.reset_optimizer and not (args.resume_from is not None and args.restart_schedule):
         parser.error('--reset-optimizer requires --resume-from and --restart-schedule')
     parent = None
@@ -544,6 +549,9 @@ def main() -> None:
             decoder_generator.set_state(resume_decoder_rng)
     if resume_rng is not None and not args.reset_optimizer:
         restore_rng(resume_rng)
+    if args.continuation_seed is not None:
+        seed_continuation(args.continuation_seed)
+        print(f'continuation_dropout_seed={args.continuation_seed} data_seed={args.seed}', flush=True)
     if start_step >= args.steps:
         raise ValueError('Training budget must exceed the saved step')
     start_time = time.monotonic()

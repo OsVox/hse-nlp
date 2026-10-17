@@ -47,7 +47,7 @@ def plan_from_parent(config, step, model_hash):
         public_test_used_for_selection=False, gpu_launch_ready=False)
 
 
-def prepare(parent, output, evidence, scale_run, probe_parquet):
+def prepare(parent, output, evidence, scale_run, probe_parquet, *, plan_fn=plan_from_parent):
     import pyarrow.parquet as pq
     import torch
     from transformers import PreTrainedTokenizerFast, T5ForConditionalGeneration
@@ -62,7 +62,7 @@ def prepare(parent, output, evidence, scale_run, probe_parquet):
         assert Path(name).name == name and sha256(parent/name) == digest
     config = json.loads((parent/'run_config.json').read_text())
     step = json.loads((parent/'step.json').read_text())['step']
-    plan = plan_from_parent(config, step, manifest['files']['model.safetensors'])
+    plan = plan_fn(config, step, manifest['files']['model.safetensors'])
     completion = json.loads((scale_run/'execution.complete.json').read_text())
     outcome = json.loads((scale_run/'execution.json').read_text())
     progress = json.loads((scale_run/'progress.json').read_text())

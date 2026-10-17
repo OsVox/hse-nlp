@@ -1,0 +1,22 @@
+{
+  "verification.json": {
+    "id": "1zu__huaRU8-B3_I_si0brR4q6dXDTriG",
+    "sha256": "eed9adf6bf8254b1d59b36d17f8279adc33c23dd6f17d96fe51d5f71ed5a8bde",
+    "download_verified": true
+  },
+  "coverage-verification.json": {
+    "id": "1A-ThTR5UOk731867_H719hFCZQ2HPyUu",
+    "sha256": "3f2e2b71d48eac580f4aa7a8752aae74dd4597696847c137da6f0f094899d44e",
+    "download_verified": true
+  },
+  "collection.json": {
+    "id": "1q-LDGo1pLOd2_Ou7KqxXf-mTC0RfxdqN",
+    "sha256": "e2f65043c7ab147ec16f50b83d58d6fb253ab27b1cbaff42b69bcb138026ba61",
+    "download_verified": true
+  },
+  "bot-receipt.json": {
+    "id": "19NAQiDcE-e3-zaBO3uy1WNaZRVsnnGDp",
+    "sha256": "fa2ab4ddc9ce959aec6720db56070c038fa5d74f3aaf0befdf82789ae46c4dd8",
+    "download_verified": true
+  }
+}

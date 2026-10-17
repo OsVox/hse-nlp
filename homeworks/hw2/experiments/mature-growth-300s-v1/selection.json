@@ -1,0 +1,150 @@
+{
+  "results": {
+    "control42": {
+      "pilot": {
+        "rows": 1024,
+        "usable_references": 982,
+        "numeric_correct": 627,
+        "numeric_agreement_on_usable": 0.6384928716904277,
+        "prediction_failures": 36,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/mature-growth-300s-v1/control42/step-126011",
+        "offset": 0,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 12.5689430059997,
+        "batch_size": 64,
+        "max_input_tokens": null,
+        "max_new_tokens": 1280,
+        "generation_limit_hits": 2,
+        "model_sha256": "f907f706ac5c7106e23f1ea423a9e733ef2b72a0619f176c3f0424d299386bac",
+        "evaluator_sha256": "50a1cde83685fa2b315dbaa0f7ea6bd55b9956dc0ae2fda91bdcc76612660cbb",
+        "questions_sha256": "962c989cc675a162fedc75b0496e0f5f1edb08d4e43b86a3dd4af72efe8ba1f7",
+        "handwritten_repairs": 0,
+        "evaluation_examples_sha256": "199db41781bbf23ce52086d3a08f49ba500991ffb6c79c38e6c28bb5e740f57c",
+        "predictions_sha256": "b1a4b39c09f6248c4e469fc65f05ec41b5bf531c4071024766f7303257c41309",
+        "scoring_seconds": 14.673804939000092,
+        "scoring_started_utc": 1792211421.204236,
+        "scoring_finished_utc": 1792211435.8780427
+      },
+      "confirmation": {
+        "rows": 1024,
+        "usable_references": 988,
+        "numeric_correct": 608,
+        "numeric_agreement_on_usable": 0.6153846153846154,
+        "prediction_failures": 52,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/mature-growth-300s-v1/control42/step-126011",
+        "offset": 1024,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 21.797482616000252,
+        "batch_size": 64,
+        "max_input_tokens": null,
+        "max_new_tokens": 1280,
+        "generation_limit_hits": 6,
+        "model_sha256": "f907f706ac5c7106e23f1ea423a9e733ef2b72a0619f176c3f0424d299386bac",
+        "evaluator_sha256": "50a1cde83685fa2b315dbaa0f7ea6bd55b9956dc0ae2fda91bdcc76612660cbb",
+        "questions_sha256": "384ef9cddb3abcd73c19760d12baa52325352254a4bfe56d73acb43bc2a1c617",
+        "handwritten_repairs": 0,
+        "evaluation_examples_sha256": "199db41781bbf23ce52086d3a08f49ba500991ffb6c79c38e6c28bb5e740f57c",
+        "predictions_sha256": "f7e524ff6e953bde84bcd4070a6194d9323c2af58a911b112668b9ee1e584d74",
+        "scoring_seconds": 14.68410794700003,
+        "scoring_started_utc": 1792211446.6652296,
+        "scoring_finished_utc": 1792211461.3493388
+      }
+    },
+    "grown66": {
+      "pilot": {
+        "rows": 1024,
+        "usable_references": 982,
+        "numeric_correct": 633,
+        "numeric_agreement_on_usable": 0.6446028513238289,
+        "prediction_failures": 39,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/mature-growth-300s-v1/grown66/step-125073",
+        "offset": 0,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 6.5306288849997145,
+        "batch_size": 64,
+        "max_input_tokens": null,
+        "max_new_tokens": 1280,
+        "generation_limit_hits": 0,
+        "model_sha256": "42d48790352add1fb03941f4e4ce99a0db9abd91a34875b7d68d7f9f47a35549",
+        "evaluator_sha256": "50a1cde83685fa2b315dbaa0f7ea6bd55b9956dc0ae2fda91bdcc76612660cbb",
+        "questions_sha256": "962c989cc675a162fedc75b0496e0f5f1edb08d4e43b86a3dd4af72efe8ba1f7",
+        "handwritten_repairs": 0,
+        "evaluation_examples_sha256": "199db41781bbf23ce52086d3a08f49ba500991ffb6c79c38e6c28bb5e740f57c",
+        "predictions_sha256": "563528573f71ba3fe16f5ee40728a4415bb417fd7691d7cad0462d69c2cb0a91",
+        "scoring_seconds": 14.68971693399999,
+        "scoring_started_utc": 1792211897.5269678,
+        "scoring_finished_utc": 1792211912.216686
+      },
+      "confirmation": {
+        "rows": 1024,
+        "usable_references": 988,
+        "numeric_correct": 610,
+        "numeric_agreement_on_usable": 0.6174089068825911,
+        "prediction_failures": 46,
+        "note": "Agreement with supplied train references; not public pass@1. Incorrect references and restricted execution may affect this diagnostic.",
+        "model_dir": "/content/drive/MyDrive/HSE_NLP_HW2/runs/mature-growth-300s-v1/grown66/step-125073",
+        "offset": 1024,
+        "beams": 1,
+        "device": "cuda",
+        "precision": "torch.float32",
+        "cpu_threads": 24,
+        "generation_seconds": 19.358641537999574,
+        "batch_size": 64,
+        "max_input_tokens": null,
+        "max_new_tokens": 1280,
+        "generation_limit_hits": 5,
+        "model_sha256": "42d48790352add1fb03941f4e4ce99a0db9abd91a34875b7d68d7f9f47a35549",
+        "evaluator_sha256": "50a1cde83685fa2b315dbaa0f7ea6bd55b9956dc0ae2fda91bdcc76612660cbb",
+        "questions_sha256": "384ef9cddb3abcd73c19760d12baa52325352254a4bfe56d73acb43bc2a1c617",
+        "handwritten_repairs": 0,
+        "evaluation_examples_sha256": "199db41781bbf23ce52086d3a08f49ba500991ffb6c79c38e6c28bb5e740f57c",
+        "predictions_sha256": "18de2735b0111dba6e05cb8b22c48a4d799644e8b5a536cdf5ca9671a8aef18a",
+        "scoring_seconds": 14.592557045999456,
+        "scoring_started_utc": 1792211920.6340194,
+        "scoring_finished_utc": 1792211935.226577
+      }
+    }
+  },
+  "paired_comparison": {
+    "gains": {
+      "pilot": 6,
+      "confirmation": 2
+    },
+    "failure_delta": -3,
+    "passes": true
+  },
+  "changes_from_parent": {
+    "control42": {
+      "gains": {
+        "pilot": 6,
+        "confirmation": -4
+      },
+      "failure_delta": 4,
+      "passes": false
+    },
+    "grown66": {
+      "gains": {
+        "pilot": 12,
+        "confirmation": -2
+      },
+      "failure_delta": 1,
+      "passes": false
+    }
+  },
+  "provisional_winner": "grown66",
+  "confirmation_required": true,
+  "long_run_started": false,
+  "public_test_used_for_selection": false
+}

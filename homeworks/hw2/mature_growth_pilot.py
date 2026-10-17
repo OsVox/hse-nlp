@@ -46,6 +46,7 @@ LAUNCH = (BASE_LAUNCH.replace('matched-curve-v1', NAME)
 
 def options_for(plan, parent, arm, local):
     return dict(steps=184912, batch_size=128, accumulation=1, seed=42,
+        continuation_seed=plan.get('continuation_seed'),
         warmup=0, learning_rate=3e-5, save_every=184912, eval_every=184912,
         max_training_seconds=plan['measured_training_seconds_per_arm'],
         checkpoint_training_seconds=plan['checkpoint_training_seconds'],
@@ -110,8 +111,9 @@ def check_budget(budget, points, parent_step, parent_presentations):
     assert points[-1]['timing']['examples_processed'] == budget['examples_processed']
 
 
-def cpu_preflight():
+def cpu_preflight(*, prepared=PREPARED, run_dir=RUN):
     """Verify mounted inputs and runtime without allocating an accelerator."""
+    PREPARED, RUN = prepared, run_dir
     import torch
     from .runtime_guard import verify_runtime_versions
     assert not torch.cuda.is_available() and not Path('/dev/nvidia0').exists()
@@ -154,7 +156,8 @@ def cpu_preflight():
     print('MATURE_GROWTH_CPU_READY', ready['source_commit'], flush=True)
 
 
-def run():
+def run(*, prepared=PREPARED, run_dir=RUN, plan_fn=plan_from_parent, selection_fn=select):
+    PREPARED, RUN = prepared, run_dir
     import torch
     from .runtime_guard import verify_runtime_versions
     assert torch.cuda.is_available() and torch.cuda.is_bf16_supported()
@@ -182,7 +185,7 @@ def run():
             assert sha256(INPUTS/'questions.jsonl') == ready['fresh_preparation']['questions_sha256']
             assert sha256(INPUTS/'index/manifest.json') == ready['fresh_preparation']['index_manifest_sha256']
             config = json.loads((INPUTS/'control42/run_config.json').read_text())
-            assert plan == plan_from_parent(config, 122962, proof['parent_model_sha256'])
+            assert plan == plan_fn(config, 122962, proof['parent_model_sha256'])
             for arm_name in plan['arms']:
                 parent = INPUTS/arm_name
                 identity = proof['arm_checkpoints'][arm_name]
@@ -209,7 +212,7 @@ def run():
                 initial = json.loads((parent/'coverage.json').read_text())['report']
                 check_budget(budget, curves[arm_name], plan['parent_step'], initial['presentations'])
             final = {arm: points[-1]['results'] for arm, points in curves.items()}
-            (RUN/'selection.json').write_text(json.dumps(select(final, ready['parent_heldout']), indent=2))
+            (RUN/'selection.json').write_text(json.dumps(selection_fn(final, ready['parent_heldout']), indent=2))
             status.update(completed=True, total_measured_training_seconds=sum(b['training_seconds'] for b in budgets.values()))
         finally:
             scoring.close(); monitor.terminate(); monitor.wait(timeout=10)

@@ -1,0 +1,7 @@
+{
+  "samples": 1012,
+  "mean_utilization": 69.15316205533597,
+  "median_utilization": 92.0,
+  "peak_memory_mib": 60203.0,
+  "scope": "Entire controller, including staging, generation and CPU scoring; not training-only utilization"
+}

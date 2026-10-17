@@ -1,0 +1,11 @@
+{
+  "step": 125073,
+  "parameters": 66074112,
+  "source_commit": "4586fc23ae12b88a02380cb9ce05b22a68b296c0",
+  "model_sha256": "42d48790352add1fb03941f4e4ce99a0db9abd91a34875b7d68d7f9f47a35549",
+  "scored_jsonl_sha256": "8fe5461bc88ab2318a7887c26f981e0b936fe6a04e25c927f8fd226bb7b17cce",
+  "notebook_sha256": "e249ce582b7ae81a4c027e0b8c5ce1ba81de2be6f4462a99da30117b06d65a06",
+  "all_code_cells_ast_valid": true,
+  "executed_end_to_end": false,
+  "t4_timing_verified": false
+}

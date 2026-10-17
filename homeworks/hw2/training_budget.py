@@ -51,3 +51,10 @@ def restore_rng(state):
         torch.cuda.set_rng_state_all(cuda)
     random.setstate(state['python'])
     np.random.set_state(state['numpy'])
+
+
+def seed_continuation(seed):
+    """Explicit new dropout replicate; the saved data cursor is independent."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
