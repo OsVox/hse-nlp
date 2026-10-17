@@ -1,0 +1,16 @@
+{
+  "status": "training_started",
+  "completed": false,
+  "controller_pid": 14401,
+  "arm": "control42",
+  "observed_step": 124477,
+  "resumed_step": 122962,
+  "optimizer_reset": false,
+  "parameters": 42481152,
+  "source_commit": "4586fc23ae12b88a02380cb9ce05b22a68b296c0",
+  "launcher_commit": "83e802f",
+  "gpu_quality_result_available": false,
+  "public_best_percent": 63.33,
+  "first_checkpoint_drive_verified": true,
+  "prediction_export_complete": false
+}
