@@ -18,7 +18,8 @@ def run(root, output, cache_dir, phase):
     if phase == 'build':
         for name, steps in plan['candidates'].items():
             average_checkpoints([root/'parents'/f'step-{s:06d}' for s in steps],
-                                root/'models'/name)
+                                root/'models'/name,
+                                allow_runtime_tokenizer_settings=plan.get('allow_runtime_tokenizer_settings',False))
         print('AVERAGES_BUILT', flush=True)
         return
     # Evaluate only the model archive restored and byte-verified from Drive.

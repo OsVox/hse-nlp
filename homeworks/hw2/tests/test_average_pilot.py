@@ -49,6 +49,35 @@ class AverageTests(unittest.TestCase):
         self.assertFalse(passes(dict(baseline,numeric_correct=141,prediction_failures=4),baseline))
         self.assertTrue(passes(dict(baseline,numeric_correct=141),baseline))
 
+    def test_explicit_runtime_settings_exception_preserves_parents(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            parents=[self.parent(root,'a',1.),self.parent(root,'b',3.)]
+            (parents[1]/'tokenizer.json').write_text(json.dumps({'padding':{'strategy':'BatchLongest'},
+                                                              'truncation':{'max_length':192}}))
+            before=[(p/'tokenizer.json').read_bytes() for p in parents]
+            with self.assertRaises(AssertionError):
+                average_checkpoints(parents,root/'strict')
+            average_checkpoints(parents,root/'allowed',allow_runtime_tokenizer_settings=True)
+            self.assertEqual(before,[(p/'tokenizer.json').read_bytes() for p in parents])
+            self.assertEqual((root/'allowed/tokenizer.json').read_bytes(),before[-1])
+
+    def test_runtime_exception_still_rejects_vocabulary_change(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            parents=[self.parent(root,'a',1.),self.parent(root,'b',3.)]
+            (parents[1]/'tokenizer.json').write_text('{"model":{"vocab":{"different":1}}}')
+            with self.assertRaises(AssertionError):
+                average_checkpoints(parents,root/'bad',allow_runtime_tokenizer_settings=True)
+
+    def test_identical_backend_does_not_allow_changed_special_tokens(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            parents=[self.parent(root,'a',1.),self.parent(root,'b',3.)]
+            (parents[1]/'special_tokens_map.json').write_text('{"eos_token":"changed"}')
+            with self.assertRaises(AssertionError):
+                average_checkpoints(parents,root/'bad',allow_runtime_tokenizer_settings=True)
+
 
 if __name__=='__main__':
     unittest.main()

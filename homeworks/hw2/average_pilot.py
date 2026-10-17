@@ -9,18 +9,36 @@ import sys
 from .checkpoint_io import sha256
 
 
-def average_checkpoints(parents, destination):
+def tokenizer_assets_match(left, right, allow_runtime_settings=False):
+    if any(json.loads((left/name).read_text()) != json.loads((right/name).read_text())
+           for name in ['tokenizer_config.json','special_tokens_map.json']):
+        return False
+    if sha256(left/'tokenizer.json') == sha256(right/'tokenizer.json'):
+        return True
+    if not allow_runtime_settings:
+        return False
+    # Fast-tokenizer calls explicitly override these two saved backend settings.
+    # Vocabulary, token IDs, normalization and segmentation must still be equal.
+    a=json.loads((left/'tokenizer.json').read_text())
+    b=json.loads((right/'tokenizer.json').read_text())
+    for record in (a,b):
+        record.pop('padding',None)
+        record.pop('truncation',None)
+    return a == b
+
+
+def average_checkpoints(parents, destination, allow_runtime_tokenizer_settings=False):
     from safetensors.torch import load_file, save_file
     import torch
     assert len(parents) >= 2 and not destination.exists()
     records, tensors = [], None
     base_config = json.loads((parents[-1]/'config.json').read_text())
-    base_tokenizer = sha256(parents[-1]/'tokenizer.json')
     for parent in parents:
         manifest = json.loads((parent/'checkpoint.complete.json').read_text())
         assert manifest['status'] == 'checkpoint_verified'
         assert sha256(parent/'model.safetensors') == manifest['files']['model.safetensors']
-        assert sha256(parent/'tokenizer.json') == base_tokenizer
+        assert tokenizer_assets_match(parent, parents[-1],
+                                      allow_runtime_settings=allow_runtime_tokenizer_settings)
         assert json.loads((parent/'config.json').read_text()) == base_config
         state = load_file(str(parent/'model.safetensors'), device='cpu')
         assert all(t.is_floating_point() and torch.isfinite(t).all() for t in state.values())
@@ -32,6 +50,7 @@ def average_checkpoints(parents, destination):
                 assert tensors[k].shape == t.shape
                 tensors[k].add_(t.float())
         records.append({'path':str(parent), 'model_sha256':manifest['files']['model.safetensors'],
+                        'tokenizer_sha256':sha256(parent/'tokenizer.json'),
                         'coefficient':1/len(parents)})
         del state
     for t in tensors.values():
@@ -42,7 +61,8 @@ def average_checkpoints(parents, destination):
                  'tokenizer_config.json','special_tokens_map.json','step.json']:
         shutil.copyfile(parents[-1]/name, destination/name)
     (destination/'averaging.json').write_text(json.dumps({'method':'arithmetic_mean',
-        'parents':records,'training_updates_added':0,'inference_only':True}, indent=2))
+        'parents':records,'training_updates_added':0,'inference_only':True,
+        'allow_runtime_tokenizer_settings':allow_runtime_tokenizer_settings}, indent=2))
     manifest = {'status':'checkpoint_verified', 'files':{
         p.name:sha256(p) for p in destination.iterdir() if p.is_file()}}
     (destination/'checkpoint.complete.json').write_text(json.dumps(manifest, indent=2))
