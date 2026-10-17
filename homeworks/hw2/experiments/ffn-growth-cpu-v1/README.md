@@ -62,3 +62,21 @@ the helper does not establish an optimal learning rate. Scheduler, random
 state and consumed-row migration are not exercised by this isolated check.
 Evidence is in optimizer-verification.json and check_optimizer.py. The active
 GPU training run remains unchanged.
+
+## Follow-up: real training save and resume
+
+`check_resume.py` creates an independently hashed, temporary grown checkpoint
+from step122962 and uses the actual training entrypoint twice on CPU. Each
+interval completes one update, saves model/optimizer/coverage state, and
+resumes from that save. Both intervals pass: optimizer steps122963/122964,
+unchanged schedule origin92456, expected phase steps30507/30508 and128/256
+additional original-row presentations. All eligible unique-row counts remain
+unchanged during this intentional second-pass continuation. Parent files are
+verified again after the probe; temporary weights are discarded.
+
+The first attempt completed one training update but its post-update audit used
+the wrong coverage-field name. That test-harness error was corrected and the
+two-interval check rerun successfully. No GPU job was restarted. The probe
+uses CPU FP32 and omits CUDA random-state restoration only in its local
+harness, so it does not prove CUDA/BF16 trajectory equality or model quality.
+See resume-verification.json for measured update times and learning rates.

@@ -1,0 +1,108 @@
+{
+  "drive_folder_id": "1R-xfZ3cOcIO3UTEX2WtKpWwGRfiHLk2h",
+  "files": [
+    {
+      "id": "1-SSIktJXA9WeXnm-yEZwip3doxD8pCJL",
+      "name": "pilot.json",
+      "bytes": 1269,
+      "sha256": "755ef4077009dfcb8446c4a0612d57cf75d57e1037bd3597d19c1fcbf74d640c"
+    },
+    {
+      "id": "1Yio2PukjJSA-vX4KEMG70waASCPgcolb",
+      "name": "pilot.generation.json",
+      "bytes": 281714,
+      "sha256": "5e2dab28b91292f10ce17d56c0b92ece435e9c93bb1b3540b075e4374bf1173f"
+    },
+    {
+      "id": "11lLXG3AC-TQYJJyKSJjAuvKQT2Tev4Yg",
+      "name": "pilot.predictions.jsonl",
+      "bytes": 291682,
+      "sha256": "8df403ed6ec450df3a8d0fedb63b8d975e82e374a5c1037c1500d3c9fe866acc"
+    },
+    {
+      "id": "1UjefB1y8KDsmO7N9jYd5r0zJF_tKg8az",
+      "name": "results.complete.json",
+      "bytes": 216,
+      "sha256": "a89bed1f1962327dbc25e0be22ddc2ea4b97969bc032d2cf092d92e40f3e85bf"
+    },
+    {
+      "id": "14iQuCQvX2pMJ8bIlsLPt9yeu9UvfZQvx",
+      "name": "predictions.jsonl",
+      "bytes": 489186,
+      "sha256": "7b256f0f6fb23a03fc100da0f3364648495e0282e2e9529af76a9cb44276b661"
+    },
+    {
+      "id": "1lNF7MrY8STS-S4-NGGulnKcjqtd7Zj9h",
+      "name": "predictions.provenance.json",
+      "bytes": 2245019,
+      "sha256": "b71b379bd7122ed2e0bcd33aa4b5c69c428dce8b1f363c7a32bfd533e9d6034c"
+    },
+    {
+      "id": "1WAEUrapZfbIFW0xdx_GVBJ8dMo3F4-ym",
+      "name": "predictions.csv",
+      "bytes": 456025,
+      "sha256": "ce8a81896fd9261259996a15f5c018d30b4b10c3665e4eb37230666b3ad052d9"
+    },
+    {
+      "id": "1txwkOz0ulH2yZD7-fLgVHIrgbkt4BhCB",
+      "name": "checkpoint.complete.json",
+      "bytes": 1072,
+      "sha256": "5fcb546d439aac8316d7eee7dfc01754dae37458ab6ae4716792f346760e3ba0"
+    },
+    {
+      "id": "1vdP9QcBQ8X4mfKkc5llkI0mKpdfiVOFE",
+      "name": "generation_config.json",
+      "bytes": 142,
+      "sha256": "8145d7eecabff8e16a9876617a6d52728e9b8fbe24c426e6bf9ebbd6bfb87737"
+    },
+    {
+      "id": "1dCLc7Cg18lH4OghKbwLtJqeAjYAqWsgK",
+      "name": "config.json",
+      "bytes": 685,
+      "sha256": "d501cabac9ff4e74216e0de7fdd858d5cae3873d06436a34df1bfddd5959f19e"
+    },
+    {
+      "id": "1YIbe5huF9Xghmny8PZQ0YpLsytqQshaN",
+      "name": "step.json",
+      "bytes": 16,
+      "sha256": "d1a2ff2626d5c5fc8cb93f159cc32f8a6505e8a453d1bbf7f3c1b5d025b938d0"
+    },
+    {
+      "id": "1DeLyuDWjm-Y7Xd9PvvP1Lx-dw8LG4Zwq",
+      "name": "tokenizer_config.json",
+      "bytes": 971,
+      "sha256": "80eb40db7fce330e68a8565c050634eeddcd53f28ca5fd809538bddf0f6204d0"
+    },
+    {
+      "id": "1Y4i0iWZtPf_Y2tRhszTEfTiOU0DLvp0s",
+      "name": "training-budget.json",
+      "bytes": 330,
+      "sha256": "da91244f3255b182094b77cf16b449623da03e4316f9003ef47d681da3bc9984"
+    },
+    {
+      "id": "1_uAd68hiXhrVeeI0euncrKM4xWTAd0mA",
+      "name": "coverage.json",
+      "bytes": 5918,
+      "sha256": "cd6ae09416f770ef79cf2f5aea6d7115f18fce9e251a928800a5906881aeeed8"
+    },
+    {
+      "id": "1ApugF2VS0XgWZcoVKb5XjLvDc_B9W0eT",
+      "name": "run_config.json",
+      "bytes": 41434,
+      "sha256": "6e6a0718417a287a3d8c6495c32d449ed232e5e3212bf8e4ac73246358960b96"
+    },
+    {
+      "id": "1XrPYOPuTiHb4PfGDH062LmVVwh0FyiEK",
+      "name": "special_tokens_map.json",
+      "bytes": 416,
+      "sha256": "80f4c6c5cf3867d7669ff8aa8f6aebb8a7499322e62d7faae06262d6014edd61"
+    },
+    {
+      "id": "1zJ0jMhXUq4ApDsUYtE4QU8w5zVjcayx2",
+      "name": "tokenizer.json",
+      "bytes": 545550,
+      "sha256": "d9fa7b5618323be055ad10ebe760cff2801f251b39dabb7dc62188567c5a6414"
+    }
+  ],
+  "method": "Authenticated local gdrive CLI; exported from Drive"
+}

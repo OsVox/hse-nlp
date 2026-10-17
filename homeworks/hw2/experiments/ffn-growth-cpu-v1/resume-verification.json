@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "actual_training_entrypoint": true,
+  "parent_step": 122962,
+  "parent_model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
+  "grown_parameters": 66074112,
+  "records": [
+    {
+      "step": 122963,
+      "scheduler_phase_step": 30507,
+      "optimizer_moment_step": 122963,
+      "presentations": 15739069,
+      "learning_rate": 2.3373433109067455e-05,
+      "training_seconds": 13.651213667006232
+    },
+    {
+      "step": 122964,
+      "scheduler_phase_step": 30508,
+      "optimizer_moment_step": 122964,
+      "presentations": 15739197,
+      "learning_rate": 2.3373038292344804e-05,
+      "training_seconds": 10.511939959018491
+    }
+  ],
+  "optimizer_history_preserved": true,
+  "schedule_phase_preserved": true,
+  "data_cursor_preserved": true,
+  "production_parent_unchanged": true,
+  "cpu_only": true,
+  "precision": "fp32",
+  "cuda_rng_skipped_for_cpu_only": true,
+  "discarded_probe_weights": true,
+  "gpu_training_launched": false,
+  "quality_improvement_claimed": false,
+  "limitation": "CPU engineering probe; not CUDA/BF16 resume equivalence or a quality pilot"
+}
