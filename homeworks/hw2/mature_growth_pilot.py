@@ -107,7 +107,11 @@ def cpu_preflight():
     assert not torch.cuda.is_available() and not Path('/dev/nvidia0').exists()
     ready = json.loads((PREPARED/'ready.json').read_text())
     assert not ready['gpu_launch_ready'] and not RUN.exists()
-    verify_runtime_versions(ready['runtime_versions'])
+    # Colab CPU images use the CPU wheel of the same PyTorch release.
+    # The GPU runner still requires the exact CUDA build recorded in ready.
+    cpu_versions = dict(ready['runtime_versions'])
+    cpu_versions['torch'] = cpu_versions['torch'].split('+')[0]+'+cpu'
+    verify_runtime_versions(cpu_versions)
     assert Path('source_commit.txt').read_text().strip() == ready['source_commit']
     drive_preflight(ROOT)
     restore_data(ready['dataset'])
