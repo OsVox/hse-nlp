@@ -1,9 +1,9 @@
 {
   "id": "1s08p2p4nWWNRivoMfGN_WyA0HQrkw1tc",
-  "sha256": "a499989c75870794b62db63423df0a29f63938d09916eb97a5484ffd35ba0f8d",
-  "bytes": 161431,
+  "sha256": "8fb68e5499781c5f363d88dddbe990d160824f825d50e214fe374aeb214b2e8b",
+  "bytes": 161480,
   "download_verified": true,
   "pages": 57,
-  "scored_checkpoint_step": 70000,
-  "independent_replay_last_matched_step": 70000
+  "scored_checkpoint_step": 80000,
+  "independent_replay_last_matched_step": 80000
 }

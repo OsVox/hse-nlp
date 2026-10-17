@@ -10,7 +10,7 @@ TEMPLATE_SHA = '66e7fc2bf6eceb680c2b5ce7b839dd1abbdde1c82fb1ff0d8aa43152a308bdb4
 
 
 def build(checkpoint, output):
-    template = (ROOT/'hw2_inference_colab.ipynb').read_bytes()
+    template = (ROOT/'templates/full_pass_inference_base.ipynb').read_bytes()
     assert hashlib.sha256(template).hexdigest() == TEMPLATE_SHA, 'Review changed notebook template'
     receipt = json.loads((checkpoint/'bot_receipt.json').read_text())
     manifest = json.loads((checkpoint/'checkpoint.complete.json').read_text())
