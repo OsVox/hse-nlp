@@ -1,0 +1,21 @@
+{
+  "status": "running",
+  "pid": 81218,
+  "exec_session": 73028,
+  "started_observed_utc": "2026-10-17T02:49:37.738526+00:00",
+  "source_commit": "fdd3fe7412d5e916007e184766a55998162d3b52",
+  "step": 102563,
+  "rows": 1919,
+  "cpu_threads": 4,
+  "max_seconds": 3600,
+  "goal": "Check exact program reproduction from frozen code and downloaded scored weights",
+  "gpu_allocated": false,
+  "training": false,
+  "output": "/Users/andrejvorsin/Downloads/hw2-inference-replay-cpu-v1/step-102563",
+  "completion_evidence": "verification.json from the running process; pending",
+  "limitations": [
+    "Local CPU replay is not an end-to-end Colab notebook run",
+    "PyTorch 2.9.0 CPU versus original 2.11.0 CUDA; equality must be measured",
+    "No T4 timing claim"
+  ]
+}
