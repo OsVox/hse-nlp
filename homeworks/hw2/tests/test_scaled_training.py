@@ -8,7 +8,7 @@ from homeworks.hw2.tests.test_adamw_size_curve import measurement
 
 
 def config(width=512):
-    return dict(optimizer='adamw',d_model=width,seed=42,untruncated_training=True,
+    return dict(optimizer='adamw',d_model=width,d_ff=width*3,num_heads=width//64,seed=42,untruncated_training=True,
         batch_size=128,accumulation=1,encoder_layers=6,decoder_layers=4,
         group_window=32,input_pipeline='encoded',prefetch_batches=2,
         microbatch_token_budget=40960,microbatch_attention_budget=9961472,
@@ -41,6 +41,16 @@ def test_wrong_parent_or_modified_recipe_rejected():
     changed=config();changed['untruncated_training']=False
     with pytest.raises(ValueError,match='Unexpected parent'):
         build_plan(prior(10),None,changed,92456,.1)
+
+
+def test_resumed_parent_uses_actual_model_config():
+    parent=config()
+    parent['model_config']=dict(d_model=512,d_ff=1536,num_heads=8,num_layers=6,num_decoder_layers=4)
+    for key in ('d_model','d_ff','num_heads','encoder_layers','decoder_layers'):parent[key]=None
+    assert build_plan(prior(10),None,parent,92456,.1)['recipe']=='adamw42'
+    parent['model_config']['num_decoder_layers']=6
+    with pytest.raises(ValueError,match='decoder_layers'):
+        build_plan(prior(10),None,parent,92456,.1)
 
 
 def test_patience_counts_only_consecutive_non_improvements():

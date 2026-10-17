@@ -1,0 +1,16 @@
+{
+  "gpu_started": false,
+  "selection_pending": true,
+  "driver_tests_passed": 6,
+  "continuation_and_budget_tests_passed": 6,
+  "cpu_resume_smoke_pending": false,
+  "first_cpu_attempt": "Rejected before training because local NumPy1.26.4 differed from saved stream NumPy2.1.3; rerunning with pinned2.1.3.",
+  "tokenizer_assets_changed": false,
+  "source_commit": "ce07373",
+  "long_run_started": false,
+  "cpu_resume_smoke_passed": true,
+  "production_parent_unchanged": true,
+  "pinned_numpy": "2.1.3",
+  "second_cpu_attempt": "First update passed; test harness had to archive its local checkpoint before testing the second --resume-from call. Production driver already archives every checkpoint.",
+  "final_cpu_attempt": "Two actual resumed updates passed with optimizer moments, LR phase and consumed data cursor preserved."
+}

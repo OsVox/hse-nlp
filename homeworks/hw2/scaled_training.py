@@ -38,13 +38,21 @@ def selected_recipe(prior, confirmation=None):
 def build_plan(prior, confirmation, config, parent_step, seconds_per_update):
     recipe = selected_recipe(prior, confirmation)
     width = 704 if recipe == 'adamw78' else 512
+    # Resume CLI architecture flags are deliberately null; the saved model
+    # configuration is authoritative for those fields.
+    actual = dict(config)
+    for key, model_key in dict(d_model='d_model',d_ff='d_ff',num_heads='num_heads',
+                              encoder_layers='num_layers',decoder_layers='num_decoder_layers').items():
+        if actual.get(key) is None:
+            actual[key] = config.get('model_config',{}).get(model_key)
     required = dict(optimizer='adamw',d_model=width,seed=42,untruncated_training=True,
+        d_ff=width*3,num_heads=width//64,
         batch_size=128,accumulation=1,encoder_layers=6,decoder_layers=4,
         group_window=32,input_pipeline='encoded',prefetch_batches=2,
         microbatch_token_budget=40960,microbatch_attention_budget=9961472,
         learning_rate=.0003,warmup=500,steps=PASS_UPDATES)
     for key, value in required.items():
-        if config.get(key) != value:
+        if actual.get(key) != value:
             raise ValueError(f'Unexpected parent setting: {key}')
     if not 0 < seconds_per_update < 2:
         raise ValueError('Invalid measured training speed')

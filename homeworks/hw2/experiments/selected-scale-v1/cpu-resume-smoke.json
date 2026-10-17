@@ -1,0 +1,34 @@
+{
+  "cpu_verified": true,
+  "actual_training_entrypoint": true,
+  "cpu_only": true,
+  "production_parent_unchanged": true,
+  "precision": "fp32",
+  "cuda_rng_skipped_for_cpu_only": true,
+  "original_checkpoint_step": 92456,
+  "explicit_low_lr_phase": true,
+  "optimizer_moments_preserved": true,
+  "second_interval_restored_same_phase": true,
+  "records": [
+    {
+      "step": 92457,
+      "scheduler_phase_step": 1,
+      "optimizer_moment_step": 92457,
+      "learning_rate": 2.9999999992206488e-05,
+      "presentations": 11834351,
+      "repeated_rows": 128,
+      "training_seconds": 8.264924292016076
+    },
+    {
+      "step": 92458,
+      "scheduler_phase_step": 2,
+      "optimizer_moment_step": 92458,
+      "learning_rate": 2.9999999968825942e-05,
+      "presentations": 11834479,
+      "repeated_rows": 256,
+      "training_seconds": 8.224565415992402
+    }
+  ],
+  "quality_improvement_claimed": false,
+  "note": "Tests only the possible AdamW42 continuation branch. No model selection or GPU allocation follows from this smoke test."
+}
