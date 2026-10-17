@@ -1,0 +1,31 @@
+CPU_REPLAY_STARTED 81218
+Timing is not a T4 result: CUDA is unavailable
+`torch_dtype` is deprecated! Use `dtype` instead!
+You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+generated=1919 seconds=845.51 device=cpu precision=torch.float32 invalid_before_retry=5 beam_repaired=0 handwritten_repairs=0
+{
+  "status": "completed",
+  "rows": 1919,
+  "source_commit": "fdd3fe7412d5e916007e184766a55998162d3b52",
+  "model_sha256": "c758cd0d3ba81806098867b63fcae44789b0e1ad8e9d8b8a3dcecb9f50a27441",
+  "scored_jsonl_sha256": "20498c920ddabf65b1c3510490ae2d1d08c0439f4c71b69742d7b4e1305162a5",
+  "replay_jsonl_sha256": "20498c920ddabf65b1c3510490ae2d1d08c0439f4c71b69742d7b4e1305162a5",
+  "identical_programs": 1919,
+  "differing_row_indices": [],
+  "byte_identical": true,
+  "generation_seconds": 845.5137015829969,
+  "started_utc": 1792205361.6496918,
+  "finished_utc": 1792206211.248967,
+  "cpu_threads": 4,
+  "runtime_versions": {
+    "torch": "2.9.0",
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2",
+    "numpy": "2.1.3",
+    "pyarrow": "23.0.1"
+  },
+  "notebook_end_to_end_verified": false,
+  "t4_timing_verified": false,
+  "training": false,
+  "handwritten_repairs": 0
+}
