@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-17T01:36:12.103695+00:00",
+  "controller_pid": 2143,
+  "controller_returncode": null,
+  "run_exists": true,
+  "training_observed": true,
+  "stage": "training",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "training_seconds_limit": 600,
+  "outer_timeout_seconds": 2100,
+  "launch_cell_id": "rWyHJ1B1e7Fg",
+  "monitor_cell_id": "U0EMNjB9f0VH",
+  "long_run_started": false,
+  "step": 200,
+  "gpu_utilization_recent": [
+    96,
+    99,
+    94,
+    96,
+    96
+  ],
+  "memory_used_mib_recent": 27969
+}

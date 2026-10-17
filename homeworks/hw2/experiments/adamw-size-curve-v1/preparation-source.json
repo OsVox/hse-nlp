@@ -1,0 +1,42 @@
+{
+  "folder": "1VNWnYGR4y0rxE1WfA7ZycLTLI6rXYWWR",
+  "source_commit": "58eb536390d3d4c0351e8a4898437dca57967ac8",
+  "files": [
+    {
+      "name": "source.tar",
+      "id": "1xidhgjmyKK97B1522yz1NskINWaeB9pb",
+      "sha256": "970dbafa0854379c33d4627b3b1537009aa2ce33a2b0ac952c1cb52f8214d91d",
+      "byte_verified": true
+    },
+    {
+      "name": "launch.py",
+      "id": "1zAFzm9RrmhKHj0WrWzRSePq7-DffCvPN",
+      "sha256": "19a6dfea011930850648344849da5e4e0508a9187172e6b97974e36819076ce6",
+      "byte_verified": true
+    },
+    {
+      "name": "reference.json",
+      "id": "1WHmmZR3U8YiN0eztoKGcmsq_4u5ZsPNe",
+      "sha256": "f49a5cf8f04484b8cc72ddd7f0b2f35223f171dab519d064d7a7a9f477f4f6d4",
+      "byte_verified": true
+    },
+    {
+      "name": "cpu-preflight.json",
+      "id": "1MvAaNuMuZ6TVs0eVTVgARJq-iywImbVe",
+      "sha256": "73c39c8c4fba698e4961d2500a746abc8dae53cb30fe033222c31e26227f0e6c",
+      "byte_verified": true
+    },
+    {
+      "name": "scale-up-decision.json",
+      "id": "16ZMGKA_7SP5g-Ym2CgsQ1VkLwmrq0-Wz",
+      "sha256": "c1a9f40916bb6cbe46ff31c61e8af0df7762679dda270702d3674cbcca078f25",
+      "byte_verified": true
+    },
+    {
+      "name": "ready.json",
+      "id": "1vCTg09VP7bvKuRxv7ccfeBJKeZkQXlei",
+      "sha256": "a8710cec7ab25fd63bb3124fe1a714767a979c1c6c4ec41edbc6e1ed2c728d2c",
+      "byte_verified": true
+    }
+  ]
+}

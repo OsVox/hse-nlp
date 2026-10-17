@@ -1103,6 +1103,25 @@ def build():
                 p('The 90,000-step checkpoint scored 591/960; the final checkpoint scored 592/960. The final retained score improves by nine answers over the historical 583/960 best, but one additional answer over 90,000 steps does not establish a benefit from another long run. Public score selects the retained checkpoint; the recipe was selected before this run using held-out comparisons. No public answers were used as training targets.'),
                 p('The user-identified triangle program at step 90,000 returned 9 in independent restricted execution. At the final checkpoint the bot again reported 4.5 instead of 9. The original generated outputs remain unchanged; aggregate improvement does not guarantee every answer improves.'),
                 p('The retained inference notebook now pins the final checkpoint, frozen source, complete questions, output cap 1,280, batch 64, FP32 and strict greedy decoding. Its code passes syntax checks, but the notebook has not yet been executed end to end. Exact output reproduction and the one-T4 180-second requirement remain unverified. Public rank 9/16 is not first place.')]
+    averages=ROOT/'experiments/full-pass-average-cpu-v1'
+    if (averages/'selection.json').exists():
+        result=json.loads((averages/'selection.json').read_text())
+        rows=[['Model','Matches /489','Prediction failures','Generation seconds']]
+        for name in ('baseline','last2','last3'):
+            value=result['pilot'][name]
+            rows.append([name,value['numeric_correct'],value['prediction_failures'],
+                         f"{value['generation_seconds']:.2f}"])
+        story += [PageBreak(),p('Post-pass averaging and final size screen','Title'),
+            p('Test two fixed uniform weight averages without more training: steps 90,000 + 92,456, and steps 80,000 + 90,000 + 92,456. Regenerate the final-checkpoint baseline on the same CPU path. The pilot contains 512 fixed held-out questions, with 489 executable original references.'),
+            table(rows,[40*mm,35*mm,45*mm,50*mm]),
+            p('Both averages lose numeric agreement, so neither reaches confirmation or public submission. Fewer execution failures for the last-two average do not offset its four-answer loss. Retain the original final checkpoint. These reused held-out questions make the screen exploratory; no public answers select the averaging weights.'),
+            p('All paths use complete questions, a 1,280-token output cap, batch 64, FP32 and greedy decoding with four CPU threads. Baseline CPU programs match all 512 previously generated GPU programs exactly. No GPU was allocated for averaging. Model archives, outputs and selection were saved to Drive and downloaded for byte verification.'),
+            p('Parent tokenizer vocabularies and special tokens match. The final checkpoint differs only in persisted backend padding/truncation settings. Full-length token IDs match for all 4,096 held-out question/program strings and a long padded probe. The explicit compatibility exception preserves parent assets and rejects vocabulary changes.'),
+            p('Remaining size question','Head'),
+            p('The corrected matched-time comparison tested AdamW42, Muon42 and Muon78. It did not test AdamW78, leaving optimizer and size incompletely separated. The final short screen adds one scratch AdamW78 arm with 600 measured training seconds and checkpoints at 300 and 600 seconds. Reuse the verified AdamW42 reference to save ten GPU minutes; an earlier runtime remains a host-load limitation.'),
+            p('Require improvement on both 1,024-question held-out subsets without added total prediction failures, with matching question, evaluator, runtime and decoding settings. A provisional larger-model winner needs a fresh paired second-seed confirmation. CPU forward/backward, finite-update, cached-decoding and complete-first-batch checks passed; seven driver tests passed. This preparation does not establish a quality gain.'),
+            p('The user authorized scaling the best recipe after these tests. Close this finite screen, freeze the selected settings, set an explicit longer-run budget and validation stopping rule, preserve complete data traversal and resumable state, save each checkpoint to Drive, and bot-score its unchanged greedy output. Do not claim all possible optimizations have been exhausted.'),
+            p('Evidence: experiments/full-pass-average-cpu-v1 and adamw-size-curve-v1. Size-screen frozen source 58eb536. Current retained public score remains 592/960 (61.67%); first place and one-T4 timing remain unverified.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

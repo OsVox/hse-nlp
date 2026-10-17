@@ -1,16 +1,8 @@
 {
-  "observed_at": "2026-10-17T01:19:13.251663+00:00",
-  "phase": "pilot last2 average",
-  "parent_pid": 36145,
-  "exec_session": 1773,
-  "process_observation": "36145 09:41 S",
-  "completed": false,
+  "observed_at": "2026-10-17T01:32:15.439072+00:00",
+  "completed": true,
+  "returncode": 0,
+  "selected": null,
   "gpu_allocated": false,
-  "source_commit": "1b436ffbed9307a9297b612b7e8ed8cdb78ab002",
-  "completed_stages": [
-    "pilot baseline"
-  ],
-  "baseline_correct": 311,
-  "baseline_usable_references": 489,
-  "baseline_prediction_failures": 27
+  "conclusion": "Both fixed averages failed the pilot. No confirmation, public export or submission."
 }

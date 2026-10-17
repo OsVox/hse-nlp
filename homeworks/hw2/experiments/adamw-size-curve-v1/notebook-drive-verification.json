@@ -1,0 +1,12 @@
+{
+  "file_id": "1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
+  "sha256": "92435ba6ab0386ff382d577415c0c99d96c86ec6c648802bf6e7a3cf7e267cda",
+  "cells": 180,
+  "launch_cell_id": "rWyHJ1B1e7Fg",
+  "monitor_cell_id": "U0EMNjB9f0VH",
+  "launch_executed": true,
+  "controller_pid": 2143,
+  "training_observed": true,
+  "step": 200,
+  "download_verified": true
+}

@@ -1,9 +1,28 @@
 {
-  "gpu_started": false,
+  "gpu_started": true,
   "cpu_model_preflight_completed": true,
   "driver_unit_tests_passed": 7,
   "reference_identity_verified": true,
-  "prerequisite_cpu_averaging_completed": false,
-  "ready_for_gpu": false,
-  "cpu_model_preflight_file": "cpu-preflight.json"
+  "prerequisite_cpu_averaging_completed": true,
+  "ready_for_gpu": true,
+  "cpu_model_preflight_file": "cpu-preflight.json",
+  "source_commit": "58eb536390d3d4c0351e8a4898437dca57967ac8",
+  "drive_folder": "1VNWnYGR4y0rxE1WfA7ZycLTLI6rXYWWR",
+  "drive_inputs_verified": true,
+  "controller_pid": 2143,
+  "launch_observed_at": "2026-10-17T01:34:56.393294+00:00",
+  "training_observed": true,
+  "launch_cell_id": "rWyHJ1B1e7Fg",
+  "monitor_cell_id": "U0EMNjB9f0VH",
+  "step": 200,
+  "observed_at": "2026-10-17T01:36:12.103304+00:00",
+  "gpu_utilization_recent": [
+    96,
+    99,
+    94,
+    96,
+    96
+  ],
+  "memory_used_mib_recent": 27969,
+  "stage": "training"
 }

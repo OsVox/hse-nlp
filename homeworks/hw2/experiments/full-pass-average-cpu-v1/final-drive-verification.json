@@ -1,0 +1,36 @@
+{
+  "folder": "1fYFWj4TWm8CGaF1gF2_W5WeW4ifAGwd8",
+  "download_verified": true,
+  "files": [
+    {
+      "name": "pilot/last3.json",
+      "id": "1Ou7m7lSM19VhvAaC_Pa3ckjjGnh5MDMI",
+      "sha256": "7e3af2562e4f685a4f0d0ee9ac714c29c23ee8aea4971dfffce3d81b3fad962a",
+      "download_verified": true
+    },
+    {
+      "name": "pilot/last3.generation.json",
+      "id": "1l8Y38dLKmqplL-hGopnuXt6_vpHVmeLR",
+      "sha256": "c68cb86f22110958872e3273f5b3d50e196c57c6358bce4be4723f3294831193",
+      "download_verified": true
+    },
+    {
+      "name": "pilot/last3.predictions.jsonl",
+      "id": "1LKSdWXDlqwcfxWKpmLWSdZmLWxhplnMl",
+      "sha256": "5cee4820cc2c7a174412b257724b54f132f81f8ddf215a221917fc224792315f",
+      "download_verified": true
+    },
+    {
+      "name": "pilot/last3.log",
+      "id": "1YrBT7TbCfArgbLwFzIO2ERhyB8eVE3f-",
+      "sha256": "b0d40ff0f36129729132bcd09c60bc748230ff95e8accf1095f58b3a73314025",
+      "download_verified": true
+    },
+    {
+      "name": "selection.json",
+      "id": "1ooGn9rEsvjbDsDvcdx6PjQm3bWJXYk8W",
+      "sha256": "15e0e42b53e9341289bd3ec5c509754f2ecf21eb96ed132ce7382677da1f95b2",
+      "download_verified": true
+    }
+  ]
+}
