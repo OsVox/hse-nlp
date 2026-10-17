@@ -1,0 +1,26 @@
+[
+  {
+    "arm": "adamw78:2109",
+    "stage": "pilot",
+    "started_utc": 1792201851.6517792,
+    "collected_utc": 1792201924.4874887
+  },
+  {
+    "arm": "adamw78:2109",
+    "stage": "confirmation",
+    "started_utc": 1792201924.4805255,
+    "collected_utc": 1792201998.1229217
+  },
+  {
+    "arm": "adamw78:4256",
+    "stage": "pilot",
+    "started_utc": 1792201998.122383,
+    "collected_utc": 1792202070.9503963
+  },
+  {
+    "arm": "adamw78:4256",
+    "stage": "confirmation",
+    "started_utc": 1792202070.949862,
+    "collected_utc": 1792202085.590844
+  }
+]

@@ -1122,6 +1122,32 @@ def build():
             p('Require improvement on both 1,024-question held-out subsets without added total prediction failures, with matching question, evaluator, runtime and decoding settings. A provisional larger-model winner needs a fresh paired second-seed confirmation. CPU forward/backward, finite-update, cached-decoding and complete-first-batch checks passed; seven driver tests passed. This preparation does not establish a quality gain.'),
             p('The user authorized scaling the best recipe after these tests. Close this finite screen, freeze the selected settings, set an explicit longer-run budget and validation stopping rule, preserve complete data traversal and resumable state, save each checkpoint to Drive, and bot-score its unchanged greedy output. Do not claim all possible optimizations have been exhausted.'),
             p('Evidence: experiments/full-pass-average-cpu-v1 and adamw-size-curve-v1. Size-screen frozen source 58eb536. Current retained public score remains 592/960 (61.67%); first place and one-T4 timing remain unverified.','SmallText')]
+    size_curve=ROOT/'experiments/adamw-size-curve-v1'
+    if (size_curve/'adamw78/step-004256/bot_receipt.json').exists():
+        reference=json.loads((size_curve/'reference.json').read_text())
+        selected=json.loads((size_curve/'selection.json').read_text()) if (size_curve/'selection.json').exists() else None
+        rows=[['600-second model','Updates','Pilot /982','Confirm /988','Public /960']]
+        rows.append(['AdamW42 (archived)',6018,122,136,158])
+        candidate=(selected['results']['adamw78'] if selected else {})
+        rows.append(['AdamW78',4256,*[candidate[s]['numeric_correct'] if s in candidate else 'pending'
+                                     for s in ('pilot','confirmation')],119])
+        decision=(f"Final selection: {selected['provisional_winner']}. " +
+                  ('A fresh paired second seed is required before adopting the larger model.'
+                   if selected['second_seed_required'] else
+                   'The larger model fails the fixed gate. Skip the conditional second-seed GPU run and close the size screen.')
+                  if selected else 'Fixed held-out scoring is still pending; no final size decision is claimed.')
+        story += [PageBreak(),p('Final AdamW size comparison','Title'),
+            p('Complete the missing optimizer-controlled size comparison: 78,146,112 versus 42,481,152 parameters, both AdamW. One fresh 78M run saves five- and ten-minute checkpoints. Keep the original tokenizer, 6 encoder / 4 decoder depth, complete sequences, seed 42, BF16, logical batch 128, full-pass schedule and greedy evaluator. Different sizes process different row counts within equal measured training time.'),
+            table(rows,[49*mm,22*mm,33*mm,35*mm,31*mm]),
+            p(decision),
+            p('The five-minute AdamW78 checkpoint (step 2,109) scored 62/960 (6.46%) publicly; its archived AdamW42 counterpart scored 98/960 (10.21%). The ten-minute AdamW78 checkpoint (step 4,256) scored 119/960 (12.40%), versus 158/960 (16.46%) for AdamW42. Public results report checkpoint behavior; held-out agreement determines the recipe. Our retained mature model stays 592/960 (61.67%), rank 9/16, checked again at 04:52 +03 on 17 October.'),
+            p('Both exact 1,919-question exports were downloaded from Drive, checked against downloaded model weights, CSV strings and selected token IDs, then sent once. Strict greedy decoding uses full questions, FP32, batch 64 and output cap 1,280. Generation took 126.34 and 126.11 seconds on RTX PRO 6000; these measurements do not prove the one-T4 limit. Receipts and verification files were uploaded and downloaded byte-for-byte.'),
+            p('The first-seed 42M baseline is reused from an earlier runtime, saving ten GPU minutes. GPU model, software versions, training schedule, question hashes and evaluator settings are checked. Host-load differences remain possible, and this short comparison does not prove which size would win at every longer budget.'),
+            p('Preparing the authorized scale-up','Head'),
+            p('The prepared controller trains in resumable intervals of at most 1,000 measured seconds, saves each checkpoint to Drive, and evaluates both fixed held-out subsets. A qualifying improvement must increase both agreement counts without added total execution failures. Stop after three consecutive non-improving intervals, the complete-pass target, or the explicit training-time bound. Every saved checkpoint remains eligible for unchanged-output bot reporting.'),
+            p('If 42M remains selected, continue the completed first pass toward a second pass with a new cosine phase starting at its final learning rate, 3e-5, decaying to 3e-6. Preserve optimizer moments and random/data state. If 78M wins and confirms, preserve its original schedule while finishing its first pass. No alternative branch is launched merely because its code exists.'),
+            p('Six focused controller tests passed, alongside the existing continuation/budget tests. Two real CPU updates from the mature 42M parent verified optimizer steps 92,457 and 92,458, new schedule phase steps 1 and 2, and data-cursor advances of 128 rows each. Pinning NumPy 2.1.3 resolved the expected stream-fingerprint rejection from local NumPy 1.26.4. Parent files were unchanged. CPU FP32 and skipped CUDA RNG restoration apply only to this smoke test; they are not a GPU quality result.'),
+            p('Evidence: experiments/adamw-size-curve-v1, selected-scale-v1 and the separate bot receipts. Size-run source 58eb536. Completion of the leaderboard goal and T4 timing remain unproven.','SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

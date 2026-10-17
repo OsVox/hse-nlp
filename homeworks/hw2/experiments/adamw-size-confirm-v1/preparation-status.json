@@ -1,8 +1,11 @@
 {
   "gpu_started": false,
-  "first_seed_selection_pending": true,
+  "first_seed_selection_pending": false,
   "driver_tests_passed": 5,
   "source_commit": "ce07373",
   "condition": "Run only if AdamW78 passes both held-out subsets without added total failures.",
-  "long_run_started": false
+  "long_run_started": false,
+  "required": false,
+  "reason": "AdamW78 failed both held-out comparisons and added330execution failures. No confirmation allocation.",
+  "screen_closed": true
 }

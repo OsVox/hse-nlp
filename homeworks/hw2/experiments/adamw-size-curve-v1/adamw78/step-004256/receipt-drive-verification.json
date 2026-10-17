@@ -1,0 +1,23 @@
+{
+  "folder": "1ghvTHPcMuyT0ou4aXY2fUlW2sk6FrL6F",
+  "files": [
+    {
+      "name": "bot_receipt.json",
+      "id": "12JNwZIu1_5qfqILb5J_BBfrtVkc8RlIm",
+      "sha256": "10a0db2726642fa1e7cf1220f9c37f8e02c408f898dacc7b11ac8351510f9b05",
+      "byte_verified": true
+    },
+    {
+      "name": "verification.json",
+      "id": "10vuzXHTBiCZfDHiPi8Ym_KZC58fJi6bx",
+      "sha256": "2930ac08ab5a1afc8e7ef22a8d8cb5ac64d3b8a90669d96916b1b3764f0324f7",
+      "byte_verified": true
+    },
+    {
+      "name": "drive-verification.json",
+      "id": "1VmxnQ9llqgkPfJjPH_VyS3atuAaeBHGe",
+      "sha256": "2d31da5dfa164f96334675d9358e39f7983c5a8bb7dec786753c4613cb86b530",
+      "byte_verified": true
+    }
+  ]
+}

@@ -40,7 +40,7 @@
   "latest_leaderboard_observation": {
     "rank": 9,
     "participants": 16,
-    "observed_at": "2026-10-17T03:58:00+03:00",
-    "evidence": "selected-full-pass-v2/step-092456/bot_receipt.json"
+    "observed_at": "2026-10-17T04:52:00+03:00",
+    "evidence": "adamw-size-curve-v1/adamw78/step-004256/bot_receipt.json"
   }
 }

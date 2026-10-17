@@ -1,23 +1,12 @@
 {
-  "observed_at": "2026-10-17T01:36:12.103695+00:00",
+  "observed_at": "2026-10-17T01:56:50.713922+00:00",
   "controller_pid": 2143,
-  "controller_returncode": null,
-  "run_exists": true,
-  "training_observed": true,
-  "stage": "training",
-  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
-  "training_seconds_limit": 600,
-  "outer_timeout_seconds": 2100,
-  "launch_cell_id": "rWyHJ1B1e7Fg",
-  "monitor_cell_id": "U0EMNjB9f0VH",
-  "long_run_started": false,
-  "step": 200,
-  "gpu_utilization_recent": [
-    96,
-    99,
-    94,
-    96,
-    96
-  ],
-  "memory_used_mib_recent": 27969
+  "returncode": 0,
+  "completed": true,
+  "final_step": 4256,
+  "selection": "adamw42",
+  "second_seed_required": false,
+  "gpu_released": true,
+  "gpu_release_evidence": "Colab Manage Sessions: \u041d\u0435\u0442 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0445 \u0441\u0435\u0430\u043d\u0441\u043e\u0432.",
+  "long_run_started": false
 }

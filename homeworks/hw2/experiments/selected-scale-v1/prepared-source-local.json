@@ -1,7 +1,7 @@
 {
-  "source_commit": "ce0737351a5a472d76cd70ff728b7cdb7cdb0995",
-  "path": "/Users/andrejvorsin/Downloads/hw2-next-stage-source.tar",
-  "sha256": "852358c2b6cf3fe9296664cc792b0e4ecf725205c73bb3eb0cbe4c4966e998a5",
+  "source_commit": "fdd3fe7412d5e916007e184766a55998162d3b52",
+  "path": "/Users/andrejvorsin/Downloads/selected-scale-v1/source.tar",
+  "sha256": "a820d1bfa0ea2dba5f29015513cec22ad0d25cc68247f81aa02f068146bffaac",
   "bytes": 1402880,
   "gpu_started": false,
   "selection_pending": true
