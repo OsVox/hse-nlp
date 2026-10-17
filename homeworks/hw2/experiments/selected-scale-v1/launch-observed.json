@@ -1,0 +1,25 @@
+{
+  "observed_at": "2026-10-17T02:04:29.790847+00:00",
+  "controller_pid": 2296,
+  "controller_returncode": null,
+  "step": 92700,
+  "parameters": 42481152,
+  "resumed_at_step": 92456,
+  "optimizer_reset": false,
+  "schedule_start": 92456,
+  "peak_learning_rate": 3e-05,
+  "precision": "torch.bfloat16",
+  "group_window": 32,
+  "recent_gpu_utilization_percent": [
+    86,
+    93,
+    95,
+    95,
+    95
+  ],
+  "recent_memory_mib": 22073,
+  "run_drive_folder": "1a9WREXg5T6GTnidANAh1CGe4tZmJ9CB2",
+  "segment_01_drive_folder": "1zb5TwvIIVegPqHTXnVvMGFSjRA4vapjA",
+  "source_commit": "fdd3fe7412d5e916007e184766a55998162d3b52",
+  "first_new_checkpoint_pending": true
+}
