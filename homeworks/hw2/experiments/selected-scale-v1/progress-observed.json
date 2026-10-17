@@ -1,0 +1,22 @@
+{
+  "observed_at": "2026-10-17T02:26:53.028711+00:00",
+  "controller_pid": 2296,
+  "controller_returncode": null,
+  "training_active": true,
+  "step": 105300,
+  "segment": "segment-02",
+  "last_completed_checkpoint": 102563,
+  "stale_intervals": 1,
+  "latest_public_score": 62.19,
+  "rank": 9,
+  "participants": 16,
+  "recent_gpu_utilization_percent": [
+    94,
+    89,
+    92,
+    98,
+    90
+  ],
+  "latest_memory_mib": 33119,
+  "planned_second_pass_completed": false
+}

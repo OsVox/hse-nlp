@@ -1,0 +1,32 @@
+[
+  {
+    "name": "bot_receipt.json",
+    "id": "1QhNv3VDuCLoIG85KuaKQ4TMbjt_u6SM0",
+    "sha256": "a3329bc6cf0a2196e1be61ad7771811a6eabb9d1088dec11444870fa91fbf950",
+    "download_byte_verified": true
+  },
+  {
+    "name": "verification.json",
+    "id": "1WsQ7lb6WCrMAgeHDVbsRZgYlx-NFQrhb",
+    "sha256": "c416757af72b304a890aa891dd9748421b69bbf2038ec5a1fa65159ca5e7c041",
+    "download_byte_verified": true
+  },
+  {
+    "name": "coverage-verification.json",
+    "id": "1Hp5pSs2fgV_wD-C7CiOeUmmQKOSr6SWg",
+    "sha256": "b18d0e0bb5c4f7e818b8bee1017f613e3fc1e883e5edf30dd722ce677e1f772a",
+    "download_byte_verified": true
+  },
+  {
+    "name": "collection.json",
+    "id": "1Ds2eLsCJ3wFwAq2ydEtoYfd09EMplhXY",
+    "sha256": "6cdc8d32614ffb4ccca776af95e9484235bff0069ca79aa0d29f1bc26542a78d",
+    "download_byte_verified": true
+  },
+  {
+    "name": "inference-preparation.json",
+    "id": "1yp5a2fVZw3S_iuwWLGzH1fTfgXw-Vapf",
+    "sha256": "e4376f9a7eb806224a2ccc2e2ee32bb47e9a84ee5e7739ce65fb5d0a21aefb43",
+    "download_byte_verified": true
+  }
+]

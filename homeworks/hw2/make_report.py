@@ -76,10 +76,10 @@ def build():
         p('Task and rules','Head'),
         p('Train an encoder-decoder Transformer from random weights using only the supplied SlavaYus/tinysms_qa_12m training split. Generate one Python program per test question. All 1,919 programs must be generated within 180 seconds on one NVIDIA T4. No pretrained weights, outside examples, model distillation, or agent-written target programs are used.'),
         p('Data and architecture','Head'),
-        p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The initial baseline has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights. The current selected larger model has 42,481,152 parameters, six encoder layers, four decoder layers, width 512 and feed-forward width 1536; the full run stopped at 70k, the matched loss trials each added 2k updates, and subsequent continuation checkpoints are recorded below.'),
-        p('Training uses AdamW, 500 warmup updates, cosine decay to 10% of the initial rate, weight decay 0.01 and gradient clipping at 1.0. The first 20,000 updates used batch 64 and peak learning rate 0.001. The first continuation retained optimizer moments, used batch 128 and restarted the schedule at peak rate 0.0005. The 60k-to-180k continuation retains batch 128 and optimizer moments, with a new schedule peaking at 0.0003. Input and target limits are 128 and 192 tokens. Padding tokens do not contribute to the loss. Model and optimizer states are saved regularly.'),
+        p('The allowed dataset contains 11,838,003 question/code pairs in 60 training files. The test file contains questions only. A byte-level BPE tokenizer with 8,192 tokens was fitted on shard 0 after reserving its first 1,024 rows. The initial baseline has 9,967,360 parameters: four encoder layers, four decoder layers, width 256, feed-forward width 768, four attention heads, gated GELU and dropout 0.1. It uses the T5 architecture with randomly initialized weights. The current selected model has 42,481,152 parameters, six encoder layers, four decoder layers, width 512 and feed-forward width 1536. It was trained from fresh random weights with the corrected full-coverage stream; its first complete pass ended at 92,456 updates. The separate historical runs and later second-pass continuation are recorded below.'),
+        p('The current recipe uses AdamW, BF16, batch 128, length grouping, prefetch and token-budget microbatches. Its first pass used 500 warmup updates, peak learning rate 0.0003 and cosine decay to 0.00003. The second pass preserves optimizer state and starts at 0.00003, decaying toward 0.000003. Inputs and original targets are complete, without truncation. Earlier capped runs used different schedules; their settings are historical. Padding tokens do not contribute to loss. Model, optimizer, schedule and consumed-row state are saved regularly.'),
         p('Validation correction','Head'),
-        p('Earlier runs excluded the first 1,024 row positions but did not exclude copies of their questions. An audit found 24 later rows in shard 0 with the same question text. Historical validation was therefore not fully independent. Future streams exclude every reserved question text across all shards. Rows 0-255 select checkpoints; rows 256-511 provide separate diagnostics. The earlier tokenizer may have seen duplicate question text.'),
+        p('Earlier validation excluded row positions but missed duplicated questions, so historical results were not fully independent. Before the current scratch run, a fresh holdout reserved 2,048 original question groups across shards 1-59. Every matching training row and tokenizer-shard question match is excluded. Two fixed 1,024-question subsets provide executed-answer diagnostics. The resulting stream contains 11,834,223 eligible original rows. Historical splits and their limitations are documented separately below.'),
         PageBreak(),
         p('Quality experiments','Title'),
         p('Historical runs','Head'),
@@ -1148,6 +1148,30 @@ def build():
             p('If 42M remains selected, continue the completed first pass toward a second pass with a new cosine phase starting at its final learning rate, 3e-5, decaying to 3e-6. Preserve optimizer moments and random/data state. If 78M wins and confirms, preserve its original schedule while finishing its first pass. No alternative branch is launched merely because its code exists.'),
             p('Six focused controller tests passed, alongside the existing continuation/budget tests. Two real CPU updates from the mature 42M parent verified optimizer steps 92,457 and 92,458, new schedule phase steps 1 and 2, and data-cursor advances of 128 rows each. Pinning NumPy 2.1.3 resolved the expected stream-fingerprint rejection from local NumPy 1.26.4. Parent files were unchanged. CPU FP32 and skipped CUDA RNG restoration apply only to this smoke test; they are not a GPU quality result.'),
             p('Evidence: experiments/adamw-size-curve-v1, selected-scale-v1 and the separate bot receipts. Size-run source 58eb536. Completion of the leaderboard goal and T4 timing remain unproven.','SmallText')]
+    scaled=ROOT/'experiments/selected-scale-v1'
+    if (scaled/'progress.json').exists():
+        progress=json.loads((scaled/'progress.json').read_text())
+        ready=json.loads((scaled/'ready.json').read_text())
+        execution=json.loads((scaled/'execution.json').read_text()) if (scaled/'execution.json').exists() else None
+        rows=[['Update','Train min total','Pilot /982','Confirm /988','Public /960','Qualifying gain']]
+        rows.append(['92,456','0',615,600,592,'Parent'])
+        seconds=0
+        for record in progress['records']:
+            seconds+=record['budget']['training_seconds']
+            cp=scaled/record['segment']/f"step-{record['step']:06d}"
+            receipt=json.loads((cp/'bot_receipt.json').read_text()) if (cp/'bot_receipt.json').exists() else {}
+            rows.append([f"{record['step']:,}",f'{seconds/60:.1f}',
+                record['heldout']['pilot']['numeric_correct'],record['heldout']['confirmation']['numeric_correct'],
+                receipt.get('public_correct','Pending'),'Yes' if record['decision']['improved'] else 'No'])
+        status=(f"Controller completed: {execution['stop_reason']}. Planned second pass completed: {execution['planned_pass_completed']}."
+                if execution and execution.get('completed') else 'The scale-up is still in progress; the table contains only retained completed evaluations.')
+        story += [PageBreak(),p('Selected 42M model: second data pass','Title'),
+            p('Resume the mature 92,456-step AdamW42 checkpoint toward step 184,912. Preserve optimizer moments, random state and the exact data cursor. Start the predeclared second-pass cosine schedule at 3e-5 and decay to 3e-6. Original targets, tokenizer, architecture, BF16, batch 128 and complete sequences stay fixed.'),
+            table(rows,[25*mm,29*mm,27*mm,30*mm,29*mm,30*mm]),
+            p(status),
+            p('Each interval uses at most 1,000 measured training seconds. Training minutes exclude loading, checkpoint saving, generation and evaluation. Stop after three consecutive intervals without improved agreement on both fixed held-out subsets and no increase in total execution failures, or after the planned pass or time budget. Public answers do not determine this stopping rule.'),
+            p('Every checkpoint and its exact greedy predictions are saved to Drive before download and bot submission. The local collector verifies downloaded model hashes, original question order, decoded token IDs, CSV/JSONL equality, generation settings and the saved coverage ledger. Intentional second-pass repetitions are counted separately from unique original rows. Ledger consistency is not an independent replay of every row ID.'),
+            p(f"Frozen training source {ready['source_commit'][:7]}. The runtime automatically releases its GPU on completion or failure. These results do not establish first place or the one-T4 180-second inference requirement. Evidence: experiments/selected-scale-v1.",'SmallText')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)

@@ -15,8 +15,12 @@ def build(checkpoint, output):
     receipt = json.loads((checkpoint/'bot_receipt.json').read_text())
     manifest = json.loads((checkpoint/'checkpoint.complete.json').read_text())
     provenance = json.loads((checkpoint/'predictions.provenance.json').read_text())
-    ready = json.loads((checkpoint.parent/'ready.json').read_text())
-    assert receipt['status'] == 'scored' and receipt['run'] == 'selected-full-pass-v2'
+    run_name=receipt['run']
+    assert receipt['status'] == 'scored' and run_name in {'selected-full-pass-v2','selected-scale-v1'}
+    run_root=ROOT/'experiments'/run_name
+    checkpoint_relative=checkpoint.resolve().relative_to(run_root.resolve())
+    assert checkpoint_relative.name == f"step-{receipt['step']:06d}"
+    ready = json.loads((run_root/'ready.json').read_text())
     assert receipt['model_sha256'] == manifest['files']['model.safetensors']
     assert receipt['source_commit'] == ready['source_commit'] == provenance['source_commit']
     expected = dict(batch_size=64, max_input_tokens=None, max_new_tokens=1280,
@@ -27,8 +31,8 @@ def build(checkpoint, output):
     step = receipt['step']; name = f'step-{step:06d}'
     replacements = {
         'inference-42m-complete-curve-75776-greedy-v1': f'inference-full-pass-{step:06d}-greedy-v1',
-        "prepared/complete-curve-4k-v1": 'prepared/selected-full-pass-v2',
-        'runs/complete-curve-4k-v1/complete/step-075776': f'runs/selected-full-pass-v2/{name}',
+        "prepared/complete-curve-4k-v1": f'prepared/{run_name}',
+        'runs/complete-curve-4k-v1/complete/step-075776': f'runs/{run_name}/{checkpoint_relative.as_posix()}',
         'd3c8136a68830bca45f26ab4fcad31450d344f81': receipt['source_commit'],
         '472cc28d5b1d877c50a4cabef771cd1c2fe27426787cf0ceb557f552d482204a': receipt['model_sha256'],
         'step-075776': name,
