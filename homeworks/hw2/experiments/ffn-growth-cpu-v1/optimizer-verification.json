@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "parent_step": 122962,
+  "cpu_probe_step": 122963,
+  "parent_model_sha256": "f9e0123f8bc84bd8db3480b3f3943fcc688b2e33fa306d184d2bd8e3c390a190",
+  "parent_training_state_sha256": "f56bb427843c16dceea79329949ec6ac5eca3aad54597322d07327e3ff976a53",
+  "original_state_unchanged": true,
+  "resized_parameter_tensors": 30,
+  "original_moments_equal": true,
+  "added_moments_initially_zero": true,
+  "preserved_parameter_step": true,
+  "learning_rate": 2.3373827917854074e-05,
+  "max_absolute_logit_difference": 0.0,
+  "finite_update": true,
+  "original_examples": 4,
+  "row_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "data_sha256": "5222d657a1af07a531f1b22503f35741a6547f0831509897d0a279bc8f67d068",
+  "elapsed_seconds": 1.4252488339843694,
+  "torch_version": "2.9.0",
+  "gpu": false,
+  "retained_probe_weights": false,
+  "quality_gain_verified": false,
+  "policy": "Keep each tensor step at the parent count; new coordinates share its mature bias correction",
+  "limitations": [
+    "CPU eval-mode finite update only, not a training quality experiment",
+    "Scheduler, RNG and data-cursor migration were not exercised by this helper",
+    "A mature tensor step gives new coordinates different bias correction from fresh AdamW"
+  ]
+}

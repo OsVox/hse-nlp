@@ -2,7 +2,7 @@ import pytest
 import torch
 from transformers import T5Config, T5ForConditionalGeneration
 
-from homeworks.hw2.grow_ffn import grow_feed_forward
+from homeworks.hw2.grow_ffn import grow_feed_forward, grow_adamw_optimizer
 
 
 def example():
@@ -56,3 +56,54 @@ def test_rejects_non_growth(width):
     parent, _ = example()
     with pytest.raises(ValueError):
         grow_feed_forward(parent, width)
+
+
+def test_migrated_adamw_retains_old_updates_and_roundtrips():
+    parent, batch = example()
+    old_optimizer = torch.optim.AdamW(parent.parameters(), lr=.0003, amsgrad=True)
+    parent(**batch).loss.backward()
+    old_optimizer.step()
+    old_optimizer.zero_grad()
+    grown = grow_feed_forward(parent, 96)
+    migrated = grow_adamw_optimizer(parent, grown, old_optimizer)
+    # Check existing moments and zero history in added coordinates.
+    old_named, new_named = dict(parent.named_parameters()), dict(grown.named_parameters())
+    for name, old in old_named.items():
+        new = new_named[name]
+        state, expanded = old_optimizer.state[old], migrated.state[new]
+        assert expanded['step'].item() == state['step'].item() == 1
+        for key in ['exp_avg', 'exp_avg_sq', 'max_exp_avg_sq']:
+            if old.shape == new.shape:
+                assert torch.equal(expanded[key], state[key])
+            else:
+                slices = tuple(slice(0, dim) for dim in old.shape)
+                assert torch.equal(expanded[key][slices], state[key])
+                rest = expanded[key].clone()
+                rest[slices] = 0
+                assert torch.count_nonzero(rest) == 0
+            assert expanded[key].data_ptr() != state[key].data_ptr()
+    # A checkpoint roundtrip must retain the shape-expanded state and options.
+    restored = torch.optim.AdamW(grown.parameters(), lr=1.)
+    restored.load_state_dict(migrated.state_dict())
+    assert restored.param_groups[0]['lr'] == .0003
+    assert restored.param_groups[0]['amsgrad']
+    # With matched old-coordinate gradients, the next old-coordinate updates
+    # should be identical; new coordinates receive zero gradients for this test.
+    parent(**batch).loss.backward()
+    for name, old in old_named.items():
+        new = new_named[name]
+        new.grad = torch.zeros_like(new)
+        new.grad[tuple(slice(0, dim) for dim in old.shape)] = old.grad
+    old_optimizer.step()
+    restored.step()
+    for name, old in old_named.items():
+        new = new_named[name]
+        assert torch.equal(old, new[tuple(slice(0, dim) for dim in old.shape)])
+        assert restored.state[new]['step'].item() == 2
+
+
+def test_rejects_uninitialized_optimizer_history():
+    parent, _ = example()
+    grown = grow_feed_forward(parent, 96)
+    with pytest.raises(ValueError, match='Missing'):
+        grow_adamw_optimizer(parent, grown, torch.optim.AdamW(parent.parameters()))
