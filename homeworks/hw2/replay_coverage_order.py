@@ -35,7 +35,7 @@ def compare(expected,record):
 
 def replay(run,index,old_index,lengths,output):
     began=time.monotonic();ready=read(run/'ready.json');plan=ready['plan']
-    mature = run.name == 'mature-growth-300s-v1'
+    mature = run.name in {'mature-growth-300s-v1', 'mature-growth-confirm-300s-v1'}
     mature_parent = run.parent/'selected-scale-v1/segment-03/step-122962'
     if mature:
         config = read(mature_parent/'run_config.json')
