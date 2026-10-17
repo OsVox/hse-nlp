@@ -1,10 +1,12 @@
 {
   "id": "1a94f9d04LYZ1YV-UF79YeM8rhkCY8S5n",
-  "sha256": "1cd74d5553548b2b48f8d7f05e40be26b449f5be24b82baa3e7a0cabec37cbe3",
-  "cells": 174,
+  "sha256": "5cccff1d06a13c65a5da1f5f1276c567289d8fdacb4e0d18095f78a1bed85ac3",
+  "cells": 176,
   "download_verified": true,
   "worker_pid": 5095,
-  "observed_step": 82800,
-  "scored_checkpoint_step": 80000,
-  "independent_replay_last_matched_step": 80000
+  "worker_returncode": 0,
+  "observed_step": 92456,
+  "scored_checkpoint_step": 92456,
+  "independent_replay_last_matched_step": 92456,
+  "full_pass_complete": true
 }

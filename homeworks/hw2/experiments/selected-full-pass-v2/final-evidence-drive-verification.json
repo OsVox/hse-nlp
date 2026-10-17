@@ -1,0 +1,32 @@
+[
+  {
+    "name": "conclusion.json",
+    "id": "1hwjWBp3DqTLbiaeI24BeOlej7yXvJnCT",
+    "sha256": "639340991aa4ff0540bf7d300c3a9c545eded9579f0e4779033ff60ef7ad3e0a",
+    "byte_verified": true
+  },
+  {
+    "name": "runtime-release.json",
+    "id": "1dRmgMZFHU2m36C4EVrXGAQZtddO6JDPN",
+    "sha256": "eb0a946be2581b2e6ff34163900174acfdb1469a3479df29e0a8b8f03e079a7d",
+    "byte_verified": true
+  },
+  {
+    "name": "telemetry-summary.json",
+    "id": "1K3aAYGu-Heqdo3rWuHjFwjioJU40i8UJ",
+    "sha256": "445d4918711f9bfcad71ec4f8c79f5557d0da92d82a9cb745682039bd573e5da",
+    "byte_verified": true
+  },
+  {
+    "name": "best-inference-notebook-verification.json",
+    "id": "1XVspYqgRGfiH-uB6Zq9jrji9eo5QV8tQ",
+    "sha256": "08292e190733670c58425b4bc54f95338c5065a18f9d545925ed98c3b86b89da",
+    "byte_verified": true
+  },
+  {
+    "name": "inference-handoff-audit.json",
+    "id": "12LRodflqqKmBUSpPIpi4HbbyU033_yoI",
+    "sha256": "20a2db93b2c4c6c62f0b835bbe81a5e2ae3ff7b5f80f8c90b972dc2612125e46",
+    "byte_verified": true
+  }
+]

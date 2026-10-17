@@ -1,0 +1,52 @@
+{
+  "decision": "Retain the 92,456-step checkpoint as the highest observed public score, 592/960 (61.67%), rank 9/16. The bounded full pass is complete. Do not automatically extend training based on the one-answer gain over 90k. First place and T4 timing remain unverified.",
+  "full_pass_verified": true,
+  "eligible_rows": 11834223,
+  "repeated_rows": 0,
+  "heldout_comparison": {
+    "pilot": {
+      "final_correct": 615,
+      "usable": 982,
+      "parent_correct": 122,
+      "gain": 493,
+      "final_failures": 44,
+      "parent_failures": 99
+    },
+    "confirmation": {
+      "final_correct": 600,
+      "usable": 988,
+      "parent_correct": 136,
+      "gain": 464,
+      "final_failures": 48,
+      "parent_failures": 110
+    }
+  },
+  "heldout_note": "Fixed unseen question groups with supplied references; agreement is not bot accuracy and reference errors remain possible. Comparison is against the 6,018-step parent, not an equal-compute alternative.",
+  "public_best": {
+    "step": 92456,
+    "correct": 592,
+    "total": 960,
+    "percent": 61.67,
+    "rank": 9,
+    "participants": 16
+  },
+  "previous_best_correct": 583,
+  "public_gain": 9,
+  "checkpoint_steps": [
+    10000,
+    20000,
+    30000,
+    40000,
+    50000,
+    60000,
+    70000,
+    80000,
+    90000,
+    92456
+  ],
+  "all_checkpoints_bot_scored": true,
+  "run_seconds": 8879.414915448999,
+  "gpu_sessions_after_completion": 0,
+  "long_extension_started": false,
+  "t4_timing_verified": false
+}

@@ -1,8 +1,8 @@
 {
-  "status": "promotion requirements audited; current best notebook preserved",
-  "current_best": "472cc28d5b1d877c50a4cabef771cd1c2fe27426787cf0ceb557f552d482204a",
-  "current_best_source": "d3c8136a68830bca45f26ab4fcad31450d344f81",
-  "current_best_notebook_sha256": "66e7fc2bf6eceb680c2b5ce7b839dd1abbdde1c82fb1ff0d8aa43152a308bdb4",
+  "status": "Final full-pass best promoted; end-to-end inference and T4 timing pending",
+  "current_best": "0473efab1f978bc941ffe71474cc5541c52ba628d60077990d81eb635a2efa1b",
+  "current_best_source": "82af82114fbf056a0487cc4fa0f759829c557bd9",
+  "current_best_notebook_sha256": "e25a39bc69ad0153b16bab3f41f65d6bfc25f7edd949b70581fb05de7328193a",
   "candidate_run": "selected-full-pass-v2",
   "candidate_generation_source": "82af82114fbf056a0487cc4fa0f759829c557bd9",
   "candidate_settings": {
@@ -22,9 +22,11 @@
     "Save and verify on Drive before export",
     "Measure the final checkpoint on one T4 and rescore if exact outputs change"
   ],
-  "candidate_promoted": false,
-  "notebook_changed": false,
+  "candidate_promoted": true,
+  "notebook_changed": true,
   "inference_executed": false,
   "candidate_notebook_preparation": "candidate-inference-notebook-verification.json",
-  "candidate_notebook_executed": false
+  "candidate_notebook_executed": false,
+  "previous_best": "472cc28d5b1d877c50a4cabef771cd1c2fe27426787cf0ceb557f552d482204a",
+  "best_notebook_preparation": "best-inference-notebook-verification.json"
 }

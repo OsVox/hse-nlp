@@ -1,0 +1,12 @@
+{
+  "checkpoint_step": 92456,
+  "model_sha256": "0473efab1f978bc941ffe71474cc5541c52ba628d60077990d81eb635a2efa1b",
+  "notebook_sha256": "e25a39bc69ad0153b16bab3f41f65d6bfc25f7edd949b70581fb05de7328193a",
+  "syntax_checked": true,
+  "executed": false,
+  "t4_timing_verified": false,
+  "output_equality_verified": false,
+  "candidate_promoted": true,
+  "drive_id": "1V23YAkw3ISuu0qJH2-TfE3UC7CYaOktb",
+  "download_verified": true
+}

@@ -1,0 +1,11 @@
+{
+  "test_row_zero_based": 1,
+  "code": "def solve() -> int:\n    area = 54\n    base = 12\n    height = area / (base / 2)\n    result = height\n\n    return result\n",
+  "local_restricted_execution": {
+    "status": "ok",
+    "value": 9.0
+  },
+  "output_modified": false,
+  "used_for_training": false,
+  "note": "Independent execution of the unchanged inspected program; not a separate public bot score."
+}

@@ -1053,7 +1053,7 @@ def build():
         story += [PageBreak(),p('Selected recipe: full-data scale-up','Title'),
             p(f"The completed matched-time comparison selected AdamW42. Continue its original seed-42 checkpoint at update {plan['parent_step']:,} to {plan['final_step']:,}, preserving optimizer moments, learning-rate schedule, random states and the consumed-row cursor. The planned pass covers {plan['eligible_rows']:,} eligible original rows; validation groups stay excluded."),
             p('Keep the 42,481,152-parameter encoder-decoder, original tokenizer and targets, BF16 training, effective batch 128, length grouping and two-batch prefetch. Microbatches are bounded by token and attention budgets while preserving complete input and target sequences. Public exports use FP32 greedy decoding, complete questions and a 1,280-token output cap.'),
-            p('The first launch stopped before any training updates because fresh-model flags were passed to checkpoint resume. Its GPU guard released the runtime. The corrected command removes those flags after checking the parent recipe. Ten focused CPU checks passed. A real-checkpoint CPU smoke test advanced 6,018 to 6,019 with no repeated rows; it used FP32 and skipped CUDA random-state restoration only in the test harness. Production resumes the unchanged original GPU checkpoint.'),
+            p('Launch v1 stopped before training because fresh-model flags were passed to checkpoint resume; its GPU guard released the runtime. Removing those flags passed ten CPU checks and a one-update CPU resume smoke test. Production resumed the unchanged GPU checkpoint; FP32 and skipped CUDA RNG restoration applied only to the CPU test.'),
             p(('Full-pass coverage has been verified against the final saved ledger.' if completed else
                f"Full-pass completion is not yet verified. Latest retained monitor observation: update {progress.get('step','pending'):,}." if isinstance(progress.get('step'),int) else 'Full-pass completion is not yet verified.'))]
         rows=[['Update','Unique eligible rows seen','Public correct /960','Public score']]
@@ -1064,7 +1064,10 @@ def build():
             rows.append([f"{receipt['step']:,}",f"{coverage['unique_rows_since_tracking_started']:,}",
                 receipt['public_correct'],f"{receipt['public_percent']:.2f}%"])
         if len(rows)>1:
-            story += [p('Drive-verified checkpoint submissions','Head'),table(rows,[30*mm,65*mm,40*mm,35*mm])]
+            checkpoint_table=table(rows,[30*mm,65*mm,40*mm,35*mm])
+            checkpoint_table.setStyle(TableStyle([
+                ('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),5)]))
+            story += [p('Drive-verified checkpoint submissions','Head'),checkpoint_table]
         replay_path=full/'independent-row-replay.json'
         if replay_path.exists():
             replay=json.loads(replay_path.read_text())
@@ -1084,6 +1087,22 @@ def build():
             story += [p('At step 50,000 the unchanged generated triangle program again uses (2 * area) / base, which gives 9 for area 54 and base 12. This is a source/arithmetic inspection, not an additional execution benchmark.'+later,'SmallText')]
         story += [p('Each checkpoint is saved to Drive before its exact token IDs, CSV and 1,919-row JSONL are downloaded and checked. Bot receipts remain separate from training and held-out measurements. Saving and inference overhead are excluded from training-time estimates. The runtime has a hard timeout and automatic GPU release on completion or failure.','SmallText'),
             p(f"Frozen training source {ready['source_commit'][:7]}; evidence: experiments/selected-full-pass-v1 (failed launch) and selected-full-pass-v2. Historical public best remains a separate artifact; neither one completed pass nor a green execution receipt alone proves first place or T4 timing compliance.",'SmallText')]
+        if (full/'conclusion.json').exists():
+            result=json.loads((full/'conclusion.json').read_text())
+            telemetry=json.loads((full/'telemetry-summary.json').read_text())
+            story += [PageBreak(),p('Full-pass result and retained model','Title'),
+                p(result['decision']),
+                p(f"The final saved checkpoint independently matches all {result['eligible_rows']:,} eligible original rows, zero repetitions, the exact consumed-row order, per-shard counts and full-token totals. Validation question groups remain excluded. All ten scheduled checkpoints were saved to Drive, downloaded for verification and bot-scored."),
+                p('Fixed held-out diagnostics','Head')]
+            heldrows=[['Subset','Parent 6,018','Final 92,456','Usable references','Failures: parent / final']]
+            for name,x in result['heldout_comparison'].items():
+                heldrows.append([name,x['parent_correct'],x['final_correct'],x['usable'],f"{x['parent_failures']} / {x['final_failures']}"])
+            story += [table(heldrows,[28*mm,30*mm,30*mm,35*mm,47*mm]),
+                p(result['heldout_note'],'SmallText'),
+                p(f"The completed driver took {result['run_seconds']/3600:.2f} hours. Across {telemetry['samples']:,} one-second telemetry samples, mean GPU utilization was {telemetry['mean_utilization']:.2f}%, median {telemetry['median_utilization']:.0f}%, and peak sampled memory {telemetry['peak_memory_mib']/1024:.2f} GiB. The controller exited with code zero; Colab Manage Sessions showed no active sessions after automatic release."),
+                p('The 90,000-step checkpoint scored 591/960; the final checkpoint scored 592/960. The final retained score improves by nine answers over the historical 583/960 best, but one additional answer over 90,000 steps does not establish a benefit from another long run. Public score selects the retained checkpoint; the recipe was selected before this run using held-out comparisons. No public answers were used as training targets.'),
+                p('The user-identified triangle program at step 90,000 returned 9 in independent restricted execution. At the final checkpoint the bot again reported 4.5 instead of 9. The original generated outputs remain unchanged; aggregate improvement does not guarantee every answer improves.'),
+                p('The retained inference notebook now pins the final checkpoint, frozen source, complete questions, output cap 1,280, batch 64, FP32 and strict greedy decoding. Its code passes syntax checks, but the notebook has not yet been executed end to end. Exact output reproduction and the one-T4 180-second requirement remain unverified. Public rank 9/16 is not first place.')]
     doc = SimpleDocTemplate(str(OUTPUT),pagesize=A4,leftMargin=20*mm,rightMargin=20*mm,bottomMargin=22*mm,topMargin=20*mm,title='HSE NLP HW2 experiment report',author='Andrei Vorsin')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     print(OUTPUT)
